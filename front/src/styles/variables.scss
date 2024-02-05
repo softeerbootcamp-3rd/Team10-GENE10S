@@ -1,0 +1,123 @@
+$orange_500: #f3ab39;
+$orange_600: #cf8d26;
+$orange_700: #b57b1e;
+$orange_900: #64430f;
+$orange_200: #f7dbb0;
+
+$gray_50: #f8f5ef;
+$gray_100: #efebe5;
+$gray_200: #ddd8d2;
+$gray_300: #b6aca0;
+$gray_400: #968777;
+$gray_500: #7a6956;
+$gray_600: #655644;
+$gray_700: #4e4233;
+$gray_800: #362e25;
+$gray_900: #201b15;
+
+$white: #ffffff;
+
+$font_size_48: 48px;
+$font_size_24: 24px;
+$font_size_20: 20px;
+$font_size_18: 18px;
+$font_size_16: 16px;
+$font_size_14: 14px;
+$font_size_12: 12px;
+
+$line_height_54: 54px;
+$line_height_34: 34px;
+$line_height_28: 28px;
+$line_height_26: 26px;
+$line_height_24: 24px;
+$line_height_22: 22px;
+$line_height_20: 20px;
+
+$font_weight_bold: 700;
+$font_weight_semi_bold: 700;
+$font_weight_medium: 500;
+$font_weight_regular: 400;
+
+%B_48 {
+  font-weight: $font_weight_bold;
+  font-size: $font_size_48;
+  line-height: $line_height_54;
+}
+
+%B_24 {
+  font-weight: $font_weight_bold;
+  font-size: $font_size_24;
+  line-height: $line_height_34;
+}
+
+%B_20 {
+  font-weight: $font_weight_bold;
+  font-size: $font_size_20;
+  line-height: $line_height_28;
+}
+
+%B_18 {
+  font-weight: $font_weight_bold;
+  font-size: $font_size_18;
+  line-height: $line_height_26;
+}
+
+%B_16 {
+  font-weight: $font_weight_bold;
+  font-size: $font_size_16;
+  line-height: $line_height_24;
+}
+
+%SB_18 {
+  font-weight: $font_weight_semi_bold;
+  font-size: $font_size_18;
+  line-height: $line_height_26;
+}
+
+%SB_16 {
+  font-weight: $font_weight_semi_bold;
+  font-size: $font_size_16;
+  line-height: $line_height_24;
+}
+
+%SB_14 {
+  font-weight: $font_weight_semi_bold;
+  font-size: $font_size_14;
+  line-height: $line_height_22;
+}
+
+%M_16 {
+  font-weight: $font_weight_medium;
+  font-size: $font_size_16;
+  line-height: $line_height_24;
+}
+
+%M_14 {
+  font-weight: $font_weight_medium;
+  font-size: $font_size_14;
+  line-height: $line_height_22;
+}
+
+%M_12 {
+  font-weight: $font_weight_medium;
+  font-size: $font_size_12;
+  line-height: $line_height_20;
+}
+
+%R_16 {
+  font-weight: $font_weight_regular;
+  font-size: $font_size_16;
+  line-height: $line_height_24;
+}
+
+%R_14 {
+  font-weight: $font_weight_regular;
+  font-size: $font_size_14;
+  line-height: $line_height_22;
+}
+
+%R_12 {
+  font-weight: $font_weight_regular;
+  font-size: $font_size_12;
+  line-height: $line_height_20;
+}
