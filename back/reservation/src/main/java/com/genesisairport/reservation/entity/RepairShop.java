@@ -37,4 +37,7 @@ public class RepairShop {
 
     @OneToMany(mappedBy = "repairShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservation = new ArrayList<>();
+
+    @OneToMany(mappedBy = "repairShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<AvailableTime> availableTime = new ArrayList<>();
 }

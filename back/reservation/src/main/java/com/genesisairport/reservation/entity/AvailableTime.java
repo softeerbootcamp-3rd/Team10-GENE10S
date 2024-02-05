@@ -1,11 +1,19 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "available_time")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AvailableTime {
 
     @Id
@@ -26,4 +34,8 @@ public class AvailableTime {
 
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updateDatetime;
+
+    @ManyToOne
+    @JoinColumn(name = "repair_shop_id")
+    private RepairShop repairShop;
 }
