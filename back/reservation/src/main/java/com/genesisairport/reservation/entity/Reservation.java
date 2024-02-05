@@ -59,4 +59,8 @@ public class Reservation {
 
     @OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MaintenanceImage> maintenanceImage = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "coupon_id")
+    private Coupon coupon;
 }

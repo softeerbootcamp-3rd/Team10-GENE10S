@@ -1,11 +1,18 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "coupon")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Coupon {
 
     @Id
@@ -26,4 +33,7 @@ public class Coupon {
 
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updateDatetime;
+
+    @OneToOne(mappedBy = "coupon", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Reservation reservation;
 }
