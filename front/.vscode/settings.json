@@ -8,5 +8,8 @@
   },
   "javascript.format.enable": false,
   "eslint.alwaysShowStatus": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "files.autoSave": "onFocusChange"
 }
