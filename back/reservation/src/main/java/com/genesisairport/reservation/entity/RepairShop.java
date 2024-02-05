@@ -1,9 +1,19 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "repair_shop")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RepairShop {
 
     @Id
@@ -24,4 +34,7 @@ public class RepairShop {
 
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updateDatetime;
+
+    @OneToMany(mappedBy = "repairShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Reservation> reservation = new ArrayList<>();
 }
