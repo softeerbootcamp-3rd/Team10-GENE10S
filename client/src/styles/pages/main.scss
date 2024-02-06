@@ -1,37 +1,52 @@
 @import '../variables.scss';
 
-%button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: $gray_200;
+%banner-button {
+  @extend %B_24;
   text-decoration-line: none;
-  background-color: $gray_900;
+  display: flex;
   width: 185px;
   height: 66px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $gray_200;
+  text-align: center;
+  background-color: $black;
 }
 
-.banner-button {
-  display: flex;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin-bottom: 27px;
+.banner {
+  width: 1920px;
+  height: 936px;
+  flex-shrink: 0;
+  background:
+    url('../../assets/home-banner.png'),
+    lightgray 50% / cover no-repeat;
+  flex-direction: column;
+  position: relative;
 
-  &__button-left {
-    @extend %button;
-    margin-right: 81px;
-  }
+  &-button-block {
+    width: 1920px;
+    height: 114px;
+    flex-shrink: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
 
-  &__button-right {
-    @extend %button;
-    margin-left: 81px;
-  }
-}
+    &__inner-block {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 380px;
+    }
 
-.content {
-  > img {
-    width: 100%;
+    &__button-left {
+      @extend %banner-button;
+    }
+
+    &__button-right {
+      @extend %banner-button;
+    }
   }
 }
