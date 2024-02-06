@@ -21,10 +21,10 @@ public class Reservation {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime from;
+    private LocalDateTime departureTime;
 
     @Column(nullable = false)
-    private LocalDateTime to;
+    private LocalDateTime arrivalTime;
 
     @Column(name = "contact_number", nullable = false, length = 20)
     private String contactNumber;
@@ -44,7 +44,7 @@ public class Reservation {
     @Column(name = "progress_stage", nullable = false, length = 20)
     private String progressStage;
 
-    @Column(name = "inspection_result", columnDefinition = "TEXT")
+    @Column(name = "inspection_result", length = 2000)
     private String inspectionResult;
 
     @Column(name = "create_datetime", nullable = false)
