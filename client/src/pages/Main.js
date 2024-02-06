@@ -17,9 +17,9 @@ export default function Main() {
         const { data } = await axios.post('v1/oauth/token', {
           grantType: 'authorization_code',
           code,
-          redirectUri: 'http://localhost:3000',
-          clientId: 'b16331d5-b964-4256-8ac3-95328990653d',
-          clientSecret: 'bFvHIB3OuTYNVzilF5tDTT05dWwrFsQf9iRXClohl0u0oyJ2',
+          redirectUri: process.env.REACT_APP_REDIRECT_URI,
+          clientId: process.env.REACT_APP_CLIENT_ID,
+          clientSecret: process.env.REACT_APP_CLIENT_SECRET,
         });
 
         const sid = data.sid;
