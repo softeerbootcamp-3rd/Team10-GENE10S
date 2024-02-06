@@ -3,8 +3,11 @@ package com.genesisairport.reservation.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,9 +20,11 @@ public class Session {
     @GeneratedValue
     private Long id;
 
+    @Getter
     @Column(name = "sid", length = 100)
     private String sessionId;
 
+    @Getter
     @Column(name = "access_token", length = 2000)
     private String accessToken;
 
@@ -37,8 +42,4 @@ public class Session {
 
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updateDateTime;
-
-    public String getSessionId() {
-        return sessionId;
-    }
 }
