@@ -1,0 +1,37 @@
+@import '../variables.scss';
+
+%button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $gray_200;
+  text-decoration-line: none;
+  background-color: $gray_900;
+  width: 185px;
+  height: 66px;
+}
+
+.banner-button {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-bottom: 27px;
+
+  &__button-left {
+    @extend %button;
+    margin-right: 81px;
+  }
+
+  &__button-right {
+    @extend %button;
+    margin-left: 81px;
+  }
+}
+
+.content {
+  > img {
+    width: 100%;
+  }
+}
