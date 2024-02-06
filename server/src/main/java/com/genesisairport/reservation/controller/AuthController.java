@@ -23,4 +23,9 @@ public class AuthController {
                 authService.tokenRequest(login))
                 .build());
     }
+
+    @PostMapping("/oauth/user")
+    public void getUser(@RequestBody LoginRequest.UserProfile userProfile) {
+        authService.userProfileRequest(userProfile);
+    }
 }
