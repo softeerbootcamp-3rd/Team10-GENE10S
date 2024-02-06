@@ -6,10 +6,7 @@ import com.genesisairport.reservation.respository.SessionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,7 +29,7 @@ public class AuthService {
         // ID, Secret 값을 Base64로 인코딩
         String clientCredentials = requestBody.getClientId() + ":" + requestBody.getClientSecret();
         String encodedCredentials = Base64.encodeBase64String(clientCredentials.getBytes(StandardCharsets.UTF_8));
-        log.info("Encoded Credentials: " + encodedCredentials);
+
         headers.add("Authorization", "Basic " + encodedCredentials); // Authorization 헤더에 인코딩된 ID, Secret 값 추가
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED); // Content-Type 설정
 
@@ -60,10 +57,17 @@ public class AuthService {
         String[] split = response.split(",");
 
         String token_type = split[0].split(":")[1];
+        token_type = token_type.substring(1, token_type.length() - 1);
+
         String expires_in = split[1].split(":")[1];
+
         String refresh_token = split[2].split(":")[1];
+        refresh_token = refresh_token.substring(1, refresh_token.length() - 1);
+
         String success = split[4].split(":")[1];
-        String access_token = split[5].split(":")[1];
+
+        String access_token = split[5].split(":")[1].replace("}", "");
+        access_token = access_token.substring(1, access_token.length() - 1);
 
         Session session = Session.builder()
                 .sessionId(UUID.randomUUID().toString())
@@ -71,9 +75,12 @@ public class AuthService {
                 .tokenType(token_type)
                 .refreshToken(refresh_token)
                 .expiresIn(LocalDateTime.now().plusSeconds(Long.parseLong(expires_in)))
+                .createDateTime(LocalDateTime.now())
+                .updateDateTime(LocalDateTime.now())
                 .build();
 
         sessionRepository.save(session);
         return session.getSessionId();
     }
 }
+
