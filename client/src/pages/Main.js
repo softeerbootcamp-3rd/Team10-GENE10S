@@ -13,13 +13,13 @@ export default function Main() {
           <img src={homeBanner} alt="banner" />
           <div className={classNames('banner-button-block')}>
             <Link
-              to="/bot"
+              to="/reservation"
               className={classNames('banner-button-block__button-left')}
             >
               예약하기
             </Link>
             <Link
-              to="/reservation"
+              to="/bot"
               className={classNames('banner-button-block__button-right')}
             >
               예약봇
