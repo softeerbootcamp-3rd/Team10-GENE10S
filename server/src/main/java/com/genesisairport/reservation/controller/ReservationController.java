@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller;
 
+import com.genesisairport.reservation.Response.ReservationListAbstract;
 import com.genesisairport.reservation.Response.ReservationPostResponse;
 import com.genesisairport.reservation.common.DataResponseDto;
 import com.genesisairport.reservation.service.ReservationService;
@@ -52,5 +53,14 @@ public class ReservationController {
         log.debug("예약 정보 저장");
 
         return new ResponseEntity<>(DataResponseDto.of(reservationService.reserve(requestBody)), HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<DataResponseDto<ReservationListAbstract>> getReservationList() {
+        log.debug("특정 사용자 예약 내역 조회");
+
+        ReservationListAbstract reservationList = reservationService.getReservationList();
+
+        return new ResponseEntity<>(DataResponseDto.of(reservationList), HttpStatus.OK);
     }
 }
