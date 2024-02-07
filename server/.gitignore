@@ -199,3 +199,6 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+.idea
+../.DS_Store
