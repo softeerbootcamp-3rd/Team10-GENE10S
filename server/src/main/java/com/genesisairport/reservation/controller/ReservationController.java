@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller;
 
+import com.genesisairport.reservation.common.DataResponseDto;
 import com.genesisairport.reservation.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class ReservationController {
     @GetMapping("/car-list")
     public ResponseEntity getCarList() {
         return new ResponseEntity(
-                reservationService.getCarList(),
+                DataResponseDto.of(reservationService.getCarList()),
                 HttpStatus.OK
         );
     }

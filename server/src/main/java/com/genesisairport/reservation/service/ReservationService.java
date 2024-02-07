@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 public class ReservationService {
 
-    public DataResponseDto<List<ReservationResponse.CarInfo>> getCarList() {
+    public List<ReservationResponse.CarInfo> getCarList() {
         List<ReservationResponse.CarInfo> carInfoList = new ArrayList<>();
 
 
@@ -30,7 +30,7 @@ public class ReservationService {
         carInfoList.add(carInfo);
         carInfoList.add(carInfo1);
 
-        return DataResponseDto.of(carInfoList);
+        return carInfoList;
     }
 
 }
