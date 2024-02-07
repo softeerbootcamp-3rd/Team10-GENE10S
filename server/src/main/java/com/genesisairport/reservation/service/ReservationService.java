@@ -6,6 +6,10 @@ import com.genesisairport.reservation.response.ReservationDateResponse;
 import com.genesisairport.reservation.respository.CarRepository;
 
 import com.genesisairport.reservation.Response.ReservationListAbstract;
+
+import com.genesisairport.reservation.response.ReservationPostResponse;
+import com.genesisairport.reservation.response.ReservationResponse;
+
 import com.genesisairport.reservation.respository.CouponRepository;
 
 import lombok.RequiredArgsConstructor;
