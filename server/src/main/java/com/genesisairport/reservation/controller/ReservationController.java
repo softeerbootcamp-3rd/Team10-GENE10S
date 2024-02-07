@@ -2,9 +2,7 @@ package com.genesisairport.reservation.controller;
 
 import com.genesisairport.reservation.common.DataResponseDto;
 import com.genesisairport.reservation.service.ReservationService;
-import com.genesisairport.reservation.Response.ReservationDateResponse;
-
-import lombok.Data;
+import com.genesisairport.reservation.response.ReservationDateResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +11,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
