@@ -21,7 +21,7 @@ public class RepairShop {
     private Long id;
 
     @Column(name = "repair_shop", nullable = false, length = 20)
-    private String repairShop;
+    private String shopName;
 
     @Column(name = "capacity_per_time")
     private Integer capacityPerTime;
