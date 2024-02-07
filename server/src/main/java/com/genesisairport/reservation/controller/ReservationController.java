@@ -1,24 +1,17 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.Response.ReservationPostResponse;
+import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.common.DataResponseDto;
+import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.service.ReservationService;
-import com.genesisairport.reservation.Response.ReservationDateResponse;
-
-import lombok.Data;
+import com.genesisairport.reservation.response.ReservationDateResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +23,14 @@ import java.util.Map;
 public class ReservationController {
 
     private final ReservationService reservationService;
+
+    @GetMapping("/coupon/valid")
+    public ResponseEntity<DataResponseDto<ReservationResponse.CouponValid>> couponValidation(
+            @RequestParam(value = "couponNumber") String serialNumber) {
+        return new ResponseEntity<>(DataResponseDto.of(ReservationResponse.CouponValid.builder()
+                .valid(reservationService.validateCoupon(serialNumber))
+                .build()), HttpStatus.OK);
+    }
 
     @GetMapping("/car-list")
     public ResponseEntity getCarList() {

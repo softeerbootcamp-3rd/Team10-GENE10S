@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.Response;
+package com.genesisairport.reservation.response;
 
 import lombok.Builder;
 import lombok.Getter;
