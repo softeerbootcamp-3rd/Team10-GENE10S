@@ -1,10 +1,7 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.nio.charset.StandardCharsets;
@@ -14,17 +11,20 @@ import java.time.LocalDateTime;
 @Table(name = "session")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class Session {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Getter
     @Column(name = "sid", length = 100)
     private String sessionId;
 
-    @Getter
+    @Column(name = "customer_id")
+    private Long customerId;
+
     @Column(name = "access_token", length = 2000)
     private String accessToken;
 
