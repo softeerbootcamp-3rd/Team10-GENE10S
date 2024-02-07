@@ -50,7 +50,7 @@ public class ReservationController {
     }
 
     @GetMapping("/available")
-    public ResponseEntity getAvailableDate(@RequestParam(required = true) String repairShop) {
+    public ResponseEntity getAvailableDates(@RequestParam(required = true) String repairShop) {
         log.debug("예약 가능 날짜 확인 API");
 
         return new ResponseEntity(
