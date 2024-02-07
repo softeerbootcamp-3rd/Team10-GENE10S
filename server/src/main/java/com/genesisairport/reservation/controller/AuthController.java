@@ -1,7 +1,7 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.Request.LoginRequest;
-import com.genesisairport.reservation.Response.LoginResponse;
+import com.genesisairport.reservation.request.LoginRequest;
+import com.genesisairport.reservation.response.UserResponse;
 import com.genesisairport.reservation.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/oauth/token")
     public ResponseEntity<Object> login(@RequestBody LoginRequest.Login login) {
-        return ResponseEntity.ok(LoginResponse.Login.builder().sid(
+        return ResponseEntity.ok(UserResponse.Login.builder().sid(
                 authService.tokenRequest(login))
                 .build());
     }

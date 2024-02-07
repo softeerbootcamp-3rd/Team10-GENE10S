@@ -2,7 +2,7 @@ package com.genesisairport.reservation.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.genesisairport.reservation.Request.LoginRequest;
+import com.genesisairport.reservation.request.LoginRequest;
 import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.entity.Session;
 import com.genesisairport.reservation.respository.CustomerRepository;
