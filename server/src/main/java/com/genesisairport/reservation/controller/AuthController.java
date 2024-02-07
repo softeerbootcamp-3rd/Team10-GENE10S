@@ -2,6 +2,7 @@ package com.genesisairport.reservation.controller;
 
 import com.genesisairport.reservation.Request.LoginRequest;
 import com.genesisairport.reservation.Response.LoginResponse;
+import com.genesisairport.reservation.entity.Session;
 import com.genesisairport.reservation.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,10 @@ public class AuthController {
 
     @PostMapping("/oauth/token")
     public ResponseEntity<Object> login(@RequestBody LoginRequest.Login login) {
-        return ResponseEntity.ok(LoginResponse.Login.builder().sid(
-                authService.tokenRequest(login))
+        Session session = authService.tokenRequest(login);
+        authService.userProfileRequest(session);
+        return ResponseEntity.ok(LoginResponse.Login.builder()
+                .sid(session.getSessionId())
                 .build());
-    }
-
-    @PostMapping("/oauth/user")
-    public void getUser(@RequestBody LoginRequest.UserProfile userProfile) {
-        authService.userProfileRequest(userProfile);
     }
 }

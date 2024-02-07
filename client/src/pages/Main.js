@@ -27,10 +27,7 @@ export default function Main() {
 
         Cookies.set('sid', sid, { expires });
 
-        const userInfoResponse = await axios.post('v1/oauth/user', { sid });
-        console.log('Resource server response:', userInfoResponse.data);
-
-        //window.location.href = 'http://localhost:3000';
+        window.location.href = 'http://localhost:3000';
       } catch (error) {
         console.error(
           'Error during authentication or fetching user data:',
@@ -44,6 +41,8 @@ export default function Main() {
     const state = queryParams.get('state');
 
     if (code && state) {
+      console.log(code);
+      console.log(state);
       fetchTokenAndUserData(code, state);
     }
   }, [location]);

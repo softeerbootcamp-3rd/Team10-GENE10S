@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,7 @@ public class AuthService {
     private final ObjectMapper objectMapper;
 
     // 토큰 요청
-    public String tokenRequest(LoginRequest.Login requestBody) {
+    public Session tokenRequest(LoginRequest.Login requestBody) {
         final String tokenEndpoint = "https://accounts.genesis.com/api/account/ccsp/user/oauth2/token";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -51,7 +52,7 @@ public class AuthService {
 
         ResponseEntity<String> response = restTemplate.postForEntity(tokenEndpoint, request, String.class); // POST 요청
 
-        return saveSession(response.getBody());
+        return buildSession(response.getBody());
     }
 
     // 요청 DTO를 이용하여 쿼리 파라미터 생성
@@ -68,7 +69,7 @@ public class AuthService {
     }
 
     // 세션 저장
-    public String saveSession(String response) {
+    public Session buildSession(String response) {
         try {
             JsonNode rootNode = objectMapper.readTree(response); // 문자열을 JsonNode로 변환
 
@@ -78,7 +79,7 @@ public class AuthService {
             boolean success = rootNode.path("success").asBoolean();
             String access_token = rootNode.path("access_token").asText();
 
-            Session session = Session.builder()
+            return Session.builder()
                     .sessionId(UUID.randomUUID().toString())
                     .accessToken(access_token)
                     .tokenType(token_type)
@@ -87,21 +88,17 @@ public class AuthService {
                     .createDateTime(LocalDateTime.now())
                     .updateDateTime(LocalDateTime.now())
                     .build();
-
-            sessionRepository.save(session);
-            return session.getSessionId();
         } catch (IOException e) {
             throw new RuntimeException("세션 저장에 실패했습니다.");
         }
     }
 
     // 사용자 프로필을 현대자동차 인증 서버에 요청
-    public void userProfileRequest(LoginRequest.UserProfile requestBody) {
+    public void userProfileRequest(Session session) {
         final String tokenEndpoint = "https://prd-kr-ccapi.genesis.com:8081/api/v1/user/profile";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 
-        Session session = sessionRepository.findBySessionId(requestBody.getSid()).get();
         String accessToken = session.getAccessToken();
 
         headers.add("Authorization", "Bearer " + accessToken); // Authorization 헤더에 Access Token 추가
@@ -110,10 +107,12 @@ public class AuthService {
         ResponseEntity<String> response = restTemplate.exchange(
                 tokenEndpoint, HttpMethod.GET, request, String.class); // GET 요청을 위해 exchange 메소드 사용
         log.info(response.getBody());
-        saveCustomer(response.getBody());
+        Customer customer = saveCustomer(response.getBody());
+        session.setCustomerId(customer.getId());
+        sessionRepository.save(session);
     }
 
-    public void saveCustomer(String response) {
+    public Customer saveCustomer(String response) {
         try {
             JsonNode rootNode = objectMapper.readTree(response);
 
@@ -125,10 +124,11 @@ public class AuthService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd"); // 날짜 형식 지정
             LocalDate birthdate = LocalDate.parse(birthdateStr, formatter);
 
-            if (customerRepository.existsByEmail(email).isEmpty()) {
-                return;
-            }
+            Optional<Customer> existCustomer = customerRepository.findByEmail(email);
+            if (existCustomer.isPresent())
+                return existCustomer.get();
 
+            System.out.println("customer does not exist!!");
             Customer customer = Customer.builder()
                     .email(email)
                     .name(name)
@@ -137,9 +137,9 @@ public class AuthService {
                     .createDateTime(LocalDateTime.now())
                     .updateDateTime(LocalDateTime.now())
                     .build();
-
-            customerRepository.save(customer);
+            return customerRepository.save(customer);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("고객 정보 저장에 실패했습니다.");
         }
     }
