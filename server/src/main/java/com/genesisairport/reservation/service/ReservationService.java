@@ -8,12 +8,14 @@ import com.genesisairport.reservation.respository.CarRepository;
 import com.genesisairport.reservation.Response.ReservationListAbstract;
 import com.genesisairport.reservation.respository.CouponRepository;
 
+import com.genesisairport.reservation.respository.RepairShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,7 @@ public class ReservationService {
 
     private final CarRepository carRepository;
     private final CouponRepository couponRepository;
+    private final RepairShopRepository repairShopRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         return couponRepository.existsBySerialNumber(serialNumber);
@@ -38,24 +41,9 @@ public class ReservationService {
         return carInfoList.isEmpty() ? null : carInfoList;
     }
 
-    public Map<String, List<ReservationDateResponse>> getAvailableDates() {
-        List<ReservationDateResponse> availableDates = new ArrayList<>();
-
-        // 예시로 임의의 데이터를 생성
-        LocalDate currentDate = LocalDate.now();
-        for (int i = 0; i < 5; i++) {
-            LocalDate date = currentDate.plusDays(i);
-            ReservationDateResponse availableDate = ReservationDateResponse.builder()
-                    .date(date.toString())
-                    .timeSlots(generateTimeSlots())
-                    .build();
-            availableDates.add(availableDate);
-        }
-
-        Map<String, List<ReservationDateResponse>> map = new HashMap<>();
-        map.put("available_reservation_lsit", availableDates);
-
-        return map;
+    public List<ReservationResponse.AvailableDate> getAvailableDates(String shopName) {
+        List<ReservationResponse.AvailableDate> availableDates = repairShopRepository.findAvailableTimes(shopName);
+        return availableDates.isEmpty() ? null : availableDates;
     }
 
     private List<ReservationDateResponse.TimeSlot> generateTimeSlots() {
