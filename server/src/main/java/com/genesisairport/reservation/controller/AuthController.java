@@ -6,7 +6,9 @@ import com.genesisairport.reservation.entity.Session;
 
 import com.genesisairport.reservation.request.LoginRequest;
 import com.genesisairport.reservation.response.UserResponse;
-
+import com.genesisairport.reservation.entity.Session;
+import com.genesisairport.reservation.request.LoginRequest;
+import com.genesisairport.reservation.response.UserResponse;
 import com.genesisairport.reservation.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +29,7 @@ public class AuthController {
 
         Session session = authService.tokenRequest(login);
         authService.userProfileRequest(session);
-        return ResponseEntity.ok(LoginResponse.Login.builder()
+        return ResponseEntity.ok(UserResponse.Login.builder()
                 .sid(session.getSessionId())
                 .build());
     }
