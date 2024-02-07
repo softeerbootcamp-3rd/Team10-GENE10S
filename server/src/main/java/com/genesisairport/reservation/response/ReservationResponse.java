@@ -12,4 +12,9 @@ public class ReservationResponse {
         private String plateNumber;
     }
 
+    @Getter
+    @Builder
+    public static class CouponValid {
+        public boolean valid;
+    }
 }

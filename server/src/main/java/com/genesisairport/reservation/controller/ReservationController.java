@@ -1,7 +1,7 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.response.CouponValidResponse;
 import com.genesisairport.reservation.common.DataResponseDto;
+import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.service.ReservationService;
 import com.genesisairport.reservation.response.ReservationDateResponse;
 
@@ -24,9 +24,9 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping("/coupon/valid")
-    public ResponseEntity<DataResponseDto<CouponValidResponse.Dto>> couponValidation(
+    public ResponseEntity<DataResponseDto<ReservationResponse.CouponValid>> couponValidation(
             @RequestParam(value = "couponNumber") String serialNumber) {
-        return new ResponseEntity<>(DataResponseDto.of(CouponValidResponse.Dto.builder()
+        return new ResponseEntity<>(DataResponseDto.of(ReservationResponse.CouponValid.builder()
                 .valid(reservationService.validateCoupon(serialNumber))
                 .build()), HttpStatus.OK);
     }
