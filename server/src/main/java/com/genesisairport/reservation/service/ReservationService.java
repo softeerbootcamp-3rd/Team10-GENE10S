@@ -1,8 +1,10 @@
 package com.genesisairport.reservation.service;
 
 
+import com.genesisairport.reservation.entity.Car;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.response.ReservationDateResponse;
+import com.genesisairport.reservation.respository.CarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,23 +20,11 @@ import java.util.Map;
 @Slf4j
 public class ReservationService {
 
-    public List<ReservationResponse.CarInfo> getCarList() {
-        List<ReservationResponse.CarInfo> carInfoList = new ArrayList<>();
+    private final CarRepository carRepository;
 
-
-        ReservationResponse.CarInfo carInfo = ReservationResponse.CarInfo.builder()
-                .sellName("Sonata")
-                .plateNumber("222라 2222")
-                .build();
-        ReservationResponse.CarInfo carInfo1 = ReservationResponse.CarInfo.builder()
-                .sellName("Sonata")
-                .plateNumber("111마 1111")
-                .build();
-
-        carInfoList.add(carInfo);
-        carInfoList.add(carInfo1);
-
-        return carInfoList;
+    public List<ReservationResponse.CarInfo> getCarList(Long userId) {
+        List<ReservationResponse.CarInfo> carInfoList = carRepository.findCarsByCustomer(userId);
+        return carInfoList.isEmpty() ? null : carInfoList;
     }
 
     public Map<String, List<ReservationDateResponse>> getAvailableDates() {
