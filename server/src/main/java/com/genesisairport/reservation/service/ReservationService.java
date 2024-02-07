@@ -89,7 +89,7 @@ public class ReservationService {
         String plateNumber = (String) requestBody.get("car_plate_number");
         String serviceType = requestBody.get("service_type").toString();
         String customerRequest = (String) requestBody.get("customer_request");
-        Integer customerId = (Integer) requestBody.get("customer_id");
+        Long customerId = (Long) requestBody.get("customer_id");
         String couponSerialNumber = (String) requestBody.get("coupon_serial_number");
         String repairShop = (String) requestBody.get("repair_shop");
 
@@ -137,49 +137,15 @@ public class ReservationService {
                 .build();
     }
 
-    public ReservationListAbstract getReservationList() {
-        // 예약 내역 리스트 생성 (임의로 데이터 생성)
-        List<ReservationListAbstract.ReservationAbstract> reservationList = new ArrayList<>();
+    public List<ReservationListAbstract> getReservationList(Long customerId) {
+        List<Reservation> reservationList = reservationRepository.findReservationsByCustomerId(customerId);
+        List<ReservationListAbstract> reservationDTOs = new ArrayList<>();
 
-        // 첫 번째 예약 내역
-        ReservationListAbstract.ReservationAbstract reservation1 = ReservationListAbstract.ReservationAbstract.builder()
-                .reservationId(1)
-                .from("2024-03-01 14:00:00")
-                .to("2024-03-07 20:00:00")
-                .progressStage("예약")
-                .carSellName("Genesis G90")
-                .carPlateNumber("00ㅁ 0000")
-                .repairShop("블루핸즈 인천공항점")
-                .repairShopAddress("인천 중구 용유서로172번길 56 블루핸즈 인천공항점")
-                .build();
-        reservationList.add(reservation1);
+        for (Reservation r : reservationList) {
+            ReservationListAbstract reservationDTO = new ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getRepairShop());
+            reservationDTOs.add(reservationDTO);
+        }
 
-        // 두 번째 예약 내역
-        ReservationListAbstract.ReservationAbstract reservation2 = ReservationListAbstract.ReservationAbstract.builder()
-                .reservationId(2)
-                .from("2024-03-10 09:00:00")
-                .to("2024-03-15 18:00:00")
-                .progressStage("접수")
-                .carSellName("Genesis G90")
-                .carPlateNumber("00ㅂ 1111")
-                .repairShop("블루핸즈 인천공항점")
-                .repairShopAddress("인천 중구 용유서로172번길 56 블루핸즈 인천공항점")
-                .build();
-        reservationList.add(reservation2);
-
-        // 세 번째 예약 내역
-        ReservationListAbstract.ReservationAbstract reservation3 = ReservationListAbstract.ReservationAbstract.builder()
-                .reservationId(3)
-                .from("2024-03-20 13:30:00")
-                .to("2024-03-25 16:00:00")
-                .progressStage("점검중")
-                .carSellName("Genesis G90")
-                .carPlateNumber("00ㅇ 2222")
-                .repairShop("블루핸즈 인천공항점")
-                .repairShopAddress("인천 중구 용유서로172번길 56 블루핸즈 인천공항점")
-                .build();
-        reservationList.add(reservation3);
-
-        return ReservationListAbstract.builder().reservationList(reservationList).build();
+        return reservationDTOs;
     }
 }
