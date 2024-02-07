@@ -97,6 +97,14 @@ public class ReservationService {
         // 요청 바디에서 필요한 정보 추출
         String from = (String) requestBody.get("from");
         String to = (String) requestBody.get("to");
+        String contactNumber = (String) requestBody.get("contact_number");
+        String sellName = (String) requestBody.get("car_sell_name");
+        String plateNumber = (String) requestBody.get("car_plate_number");
+        String serviceType = requestBody.get("service_type").toString();
+        String customerRequest = (String) requestBody.get("customer_request");
+        Integer customerId = (Integer) requestBody.get("customer_id");
+        String couponSerialNumber = (String) requestBody.get("coupon_serial_number");
+        String repairShop = (String) requestBody.get("repair_shop");
 
         // 예약 상태 확인 (임의로 true로 설정)
         boolean reservationStatus = false;
@@ -109,34 +117,34 @@ public class ReservationService {
         Reservation reservation = Reservation.builder()
                 .departureTime(fromDateTime)
                 .arrivalTime(toDateTime)
-                .contactNumber((String) requestBody.get("contact_number"))
-                .sellName((String) requestBody.get("car_sell_name"))
-                .plateNumber((String) requestBody.get("car_plate_number"))
-                .serviceType(requestBody.get("service_type").toString())
-                .customerRequest((String) requestBody.get("customer_request"))
+                .contactNumber(contactNumber)
+                .sellName(sellName)
+                .plateNumber(plateNumber)
+                .serviceType(serviceType)
+                .customerRequest(customerRequest)
                 .progressStage("예약중")
-                .customer(customerRepository.findCustomerById((Integer) requestBody.get("customer_id")))
-                .coupon(couponRepository.findCouponBySerialNumber((String) requestBody.get("coupon_serial_number")))
-                .repairShop(repairShopRepository.findRepairShopByRepairShop((String) requestBody.get("repair_shop")))
+                .customer(customerRepository.findCustomerById(customerId))
+                .coupon(couponRepository.findCouponBySerialNumber(couponSerialNumber))
+                .repairShop(repairShopRepository.findRepairShopByRepairShop(repairShop))
                 .createDateTime(LocalDateTime.now())
                 .updateDateTime(LocalDateTime.now())
                 .build();
 
 
 
-        if (!couponRepository.findCouponBySerialNumber((String) requestBody.get("coupon_serial_number")).getIsUsed()) {
+        if (!couponRepository.findCouponBySerialNumber(couponSerialNumber).getIsUsed()) {
             reservationRepository.save(reservation);
 
             reservationStatus = true;
-            Coupon c = couponRepository.findCouponBySerialNumber((String) requestBody.get("coupon_serial_number"));
+            Coupon c = couponRepository.findCouponBySerialNumber(couponSerialNumber);
             c.setIsUsed(reservationStatus);
             couponRepository.save(c);
         }
 
         return ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
-                .reservationId(reservationRepository.findReservationByCustomerId((Integer) requestBody.get("customer_id")))
-                .repairShopAddress(repairShopRepository.findRepairShopByRepairShop((String) requestBody.get("repair_shop")).getAddress())
+                .reservationId(reservationRepository.findReservationByCustomerId(customerId))
+                .repairShopAddress(repairShopRepository.findRepairShopByRepairShop(repairShop).getAddress())
                 .from(fromDateTime)
                 .to(toDateTime)
                 .build();
