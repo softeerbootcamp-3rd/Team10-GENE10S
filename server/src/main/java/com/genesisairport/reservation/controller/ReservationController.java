@@ -3,6 +3,7 @@ package com.genesisairport.reservation.controller;
 import com.genesisairport.reservation.Response.ReservationDateResponse;
 import com.genesisairport.reservation.common.DataResponseDto;
 import com.genesisairport.reservation.service.ReservationService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,9 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping("/available/{repair_shop}")
-    public ResponseEntity<List<ReservationDateResponse>> getAvailableDate() {
+    public ResponseEntity<DataResponseDto<Map<String, List<ReservationDateResponse>>>> getAvailableDate() {
         log.debug("예약 가능 날짜 확인 API");
 
-        return new ResponseEntity(reservationService.getAvailableDates(), HttpStatus.OK);
+        return new ResponseEntity<>(DataResponseDto.of(reservationService.getAvailableDates()), HttpStatus.OK);
     }
 }

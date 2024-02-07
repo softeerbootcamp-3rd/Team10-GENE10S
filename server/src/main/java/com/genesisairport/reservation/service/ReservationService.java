@@ -17,7 +17,7 @@ import java.util.Map;
 @Slf4j
 public class ReservationService {
 
-    public DataResponseDto<Map> getAvailableDates() {
+    public Map<String, List<ReservationDateResponse>> getAvailableDates() {
         List<ReservationDateResponse> availableDates = new ArrayList<>();
 
         // 예시로 임의의 데이터를 생성
@@ -34,7 +34,7 @@ public class ReservationService {
         Map<String, List<ReservationDateResponse>> map = new HashMap<>();
         map.put("available_reservation_lsit", availableDates);
 
-        return DataResponseDto.of(map);
+        return map;
     }
 
     private List<ReservationDateResponse.TimeSlot> generateTimeSlots() {
