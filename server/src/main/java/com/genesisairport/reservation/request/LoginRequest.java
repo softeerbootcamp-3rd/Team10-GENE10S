@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.Request;
+package com.genesisairport.reservation.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
