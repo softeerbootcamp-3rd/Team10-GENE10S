@@ -6,7 +6,7 @@ export default function Footer() {
       <div className={classNames('share')}>
         <div className={classNames('share-group')}>
           <div className={classNames('share-left')}>
-            <div className={classNames('share-left__text')}>예약하기</div>
+            <div className={classNames('share-left__text')}>공유하기</div>
             <div className={classNames('share-left__facebook')} />
             <div className={classNames('share-left__x')} />
             <div className={classNames('share-left__url')} />
