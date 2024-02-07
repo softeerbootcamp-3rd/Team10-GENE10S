@@ -1,9 +1,9 @@
 package com.genesisairport.reservation.controller;
 
 import com.genesisairport.reservation.Response.ReservationListAbstract;
-import com.genesisairport.reservation.Response.ReservationPostResponse;
 
 import com.genesisairport.reservation.common.DataResponseDto;
+import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.service.ReservationService;
 import com.genesisairport.reservation.response.ReservationDateResponse;

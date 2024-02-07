@@ -1,12 +1,7 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.Request.LoginRequest;
-import com.genesisairport.reservation.Response.LoginResponse;
 import com.genesisairport.reservation.entity.Session;
 
-import com.genesisairport.reservation.request.LoginRequest;
-import com.genesisairport.reservation.response.UserResponse;
-import com.genesisairport.reservation.entity.Session;
 import com.genesisairport.reservation.request.LoginRequest;
 import com.genesisairport.reservation.response.UserResponse;
 import com.genesisairport.reservation.service.AuthService;
