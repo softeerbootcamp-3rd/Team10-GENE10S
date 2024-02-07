@@ -50,7 +50,7 @@ export default function ReservationComplete() {
           </div>
         </div>
 
-        <div className={classNames('reservation-complete__line')}> - </div>
+        <div className={classNames('row--seperator')} />
 
         <div className={classNames('row')}>
           <div className={classNames('row--title')}>에약 차량</div>
@@ -66,7 +66,7 @@ export default function ReservationComplete() {
           </div>
         </div>
 
-        <div className={classNames('reservation-complete__line')}> - </div>
+        <div className={classNames('row--seperator')} />
 
         <div className={classNames('row')}>
           <div className={classNames('row--title')}>방문 센터</div>
@@ -86,7 +86,7 @@ export default function ReservationComplete() {
           </div>
         </div>
 
-        <div className={classNames('reservation-complete__line')}> - </div>
+        <div className={classNames('row--seperator')} />
 
         <div className={classNames('row')}>
           <div className={classNames('row--title')}>선택 서비스</div>

@@ -71,6 +71,13 @@
       text-align: center;
     }
 
+    &--seperator {
+      width: 12px;
+      height: 4px;
+      background-image: url('../../assets/row-separator.svg');
+      fill: $gray_200;
+    }
+
     &__content {
       display: flex;
       flex-direction: column;
