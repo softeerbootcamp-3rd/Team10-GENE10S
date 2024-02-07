@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 @RequiredArgsConstructor
 public enum ResponseCode {
 
-    OK(0, HttpStatus.OK, "Ok"),
+    OK(200, HttpStatus.OK, "Ok"),
 
     BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "Bad request"),
 
