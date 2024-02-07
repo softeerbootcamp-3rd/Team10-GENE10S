@@ -2,13 +2,12 @@ package com.genesisairport.reservation.service;
 
 
 
-import com.genesisairport.reservation.Response.ReservationListAbstract;
-import com.genesisairport.reservation.Response.ReservationPostResponse;
-import com.genesisairport.reservation.Response.ReservationResponse;
-import com.genesisairport.reservation.Response.ReservationDateResponse;
+import com.genesisairport.reservation.response.ReservationListAbstract;
+import com.genesisairport.reservation.response.ReservationPostResponse;
+import com.genesisairport.reservation.response.ReservationResponse;
+import com.genesisairport.reservation.response.ReservationDateResponse;
 import com.genesisairport.reservation.respository.CouponRepository;
 
-import com.genesisairport.reservation.common.DataResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
