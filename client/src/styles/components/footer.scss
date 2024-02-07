@@ -1,5 +1,111 @@
 @import '../variables.scss';
 
+%footer-share-logo {
+  width: 50px;
+  height: 50px;
+  margin: 8px;
+}
+
 .footer {
-  background-color: $white;
+  width: 1920px;
+  height: 262px;
+  flex-shrink: 0;
+}
+
+.share {
+  width: 1920px;
+  height: 100px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &-group {
+    width: 1839px;
+    height: 66px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-left {
+    display: inline-flex;
+    align-items: flex-start;
+    background-color: $gray_900;
+
+    &__text {
+      @extend %B_24;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $gray_200;
+      width: 185px;
+      height: 66px;
+    }
+
+    &__facebook {
+      background: no-repeat center/70% url('../../assets/logo-facebook.png');
+      @extend %footer-share-logo;
+    }
+
+    &__x {
+      background: no-repeat center/70% url('../../assets/logo-x.png');
+      @extend %footer-share-logo;
+    }
+
+    &__url {
+      background: no-repeat center/70% url('../../assets/logo-url.png');
+      @extend %footer-share-logo;
+    }
+  }
+
+  &-right {
+    display: inline-flex;
+    height: 66px;
+    align-items: flex-start;
+    flex-shrink: 0;
+    background-color: $gray_900;
+
+    &__text {
+      @extend %B_24;
+      color: $gray_200;
+      display: flex;
+      width: 185px;
+      height: 66px;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    &__arrow {
+      @extend %B_24;
+      color: $gray_200;
+      width: 66px;
+      height: 66px;
+      transform: rotate(-90deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.copyright {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__image {
+    background: no-repeat center url('../../assets/logo-footer.png');
+    width: 270px;
+    height: 99px;
+    flex-shrink: 0;
+  }
+
+  &__phrase {
+    @extend %B_24;
+    color: $gray_200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
