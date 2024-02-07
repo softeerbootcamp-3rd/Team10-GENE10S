@@ -43,7 +43,6 @@ public class ReservationController {
     public ResponseEntity getCarList(HttpServletRequest request) {
         Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
         // TODO: customer emtpy일 때 response 추가
-        log.info("customer = " + customer.get().getName());
         return new ResponseEntity(
                 DataResponseDto.of(reservationService.getCarList(customer.get().getId())),
                 HttpStatus.OK
