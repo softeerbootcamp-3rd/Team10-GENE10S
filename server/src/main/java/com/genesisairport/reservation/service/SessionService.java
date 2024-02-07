@@ -4,9 +4,9 @@ import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.entity.Session;
 import com.genesisairport.reservation.respository.CustomerRepository;
 import com.genesisairport.reservation.respository.SessionRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

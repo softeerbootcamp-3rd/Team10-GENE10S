@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller;
 
+import com.genesisairport.reservation.entity.Session;
 import com.genesisairport.reservation.request.LoginRequest;
 import com.genesisairport.reservation.response.UserResponse;
 import com.genesisairport.reservation.service.AuthService;
@@ -19,13 +20,10 @@ public class AuthController {
 
     @PostMapping("/oauth/token")
     public ResponseEntity<Object> login(@RequestBody LoginRequest.Login login) {
-        return ResponseEntity.ok(UserResponse.Login.builder().sid(
-                authService.tokenRequest(login))
+        Session session = authService.tokenRequest(login);
+        authService.userProfileRequest(session);
+        return ResponseEntity.ok(UserResponse.Login.builder()
+                .sid(session.getSessionId())
                 .build());
-    }
-
-    @PostMapping("/oauth/user")
-    public void getUser(@RequestBody LoginRequest.UserProfile userProfile) {
-        authService.userProfileRequest(userProfile);
     }
 }
