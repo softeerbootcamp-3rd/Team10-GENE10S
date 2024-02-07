@@ -201,4 +201,3 @@ gradle-app.setting
 *.hprof
 
 .idea
-../.DS_Store
