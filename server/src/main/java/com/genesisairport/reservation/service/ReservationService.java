@@ -1,18 +1,17 @@
 package com.genesisairport.reservation.service;
 
-
-
-import com.genesisairport.reservation.entity.Coupon;
-import com.genesisairport.reservation.entity.Reservation;
-import com.genesisairport.reservation.response.ReservationListAbstract;
 import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.response.ReservationDateResponse;
+import com.genesisairport.reservation.respository.CarRepository;
+import com.genesisairport.reservation.entity.Coupon;
+import com.genesisairport.reservation.entity.Reservation;
+import com.genesisairport.reservation.response.ReservationListAbstract;
 import com.genesisairport.reservation.respository.CouponRepository;
-
 import com.genesisairport.reservation.respository.CustomerRepository;
 import com.genesisairport.reservation.respository.RepairShopRepository;
 import com.genesisairport.reservation.respository.ReservationRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,29 +32,17 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final CustomerRepository customerRepository;
     private final RepairShopRepository repairShopRepository;
+    private final CarRepository carRepository;
     private final CouponRepository couponRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         return couponRepository.existsBySerialNumber(serialNumber);
     }
 
-    public List<ReservationResponse.CarInfo> getCarList() {
-        List<ReservationResponse.CarInfo> carInfoList = new ArrayList<>();
 
-
-        ReservationResponse.CarInfo carInfo = ReservationResponse.CarInfo.builder()
-                .sellName("Sonata")
-                .plateNumber("222라 2222")
-                .build();
-        ReservationResponse.CarInfo carInfo1 = ReservationResponse.CarInfo.builder()
-                .sellName("Sonata")
-                .plateNumber("111마 1111")
-                .build();
-
-        carInfoList.add(carInfo);
-        carInfoList.add(carInfo1);
-
-        return carInfoList;
+    public List<ReservationResponse.CarInfo> getCarList(Long userId) {
+        List<ReservationResponse.CarInfo> carInfoList = carRepository.findCarsByCustomer(userId);
+        return carInfoList.isEmpty() ? null : carInfoList;
     }
 
     public Map<String, List<ReservationDateResponse>> getAvailableDates() {

@@ -5,11 +5,9 @@ import lombok.Getter;
 
 public class ReservationResponse {
 
-    @Getter
-    @Builder
-    public static class CarInfo {
-        private String sellName;
-        private String plateNumber;
+    public interface CarInfo {
+        String getSellName();
+        String getPlateNumber();
     }
 
     @Getter
@@ -17,4 +15,5 @@ public class ReservationResponse {
     public static class CouponValid {
         public boolean valid;
     }
+
 }
