@@ -1,9 +1,9 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.Response.CouponValidResponse;
+import com.genesisairport.reservation.response.CouponValidResponse;
 import com.genesisairport.reservation.common.DataResponseDto;
 import com.genesisairport.reservation.service.ReservationService;
-import com.genesisairport.reservation.Response.ReservationDateResponse;
+import com.genesisairport.reservation.response.ReservationDateResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
