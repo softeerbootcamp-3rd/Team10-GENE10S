@@ -128,7 +128,6 @@ public class AuthService {
             if (existCustomer.isPresent())
                 return existCustomer.get();
 
-            System.out.println("customer does not exist!!");
             Customer customer = Customer.builder()
                     .email(email)
                     .name(name)
@@ -139,7 +138,6 @@ public class AuthService {
                     .build();
             return customerRepository.save(customer);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("고객 정보 저장에 실패했습니다.");
         }
     }
