@@ -3,11 +3,13 @@ package com.genesisairport.reservation.controller;
 import com.genesisairport.reservation.common.DataResponseDto;
 import com.genesisairport.reservation.Response.ReservationListAbstract;
 
+import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.service.ReservationService;
 import com.genesisairport.reservation.response.ReservationDateResponse;
 
+import com.genesisairport.reservation.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ import java.util.Map;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final SessionService sessionService;
 
     @GetMapping("/coupon/valid")
     public ResponseEntity<DataResponseDto<ReservationResponse.CouponValid>> couponValidation(
@@ -37,14 +41,14 @@ public class ReservationController {
 
     @GetMapping("/car-list")
     public ResponseEntity getCarList(HttpServletRequest request) {
-        // request에서 SID 값 가져오기
-        // SID 값으로 userId 값 가져오기
+        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
+        // TODO: customer emtpy일 때 response 추가
+        log.info("customer = " + customer.get().getName());
         return new ResponseEntity(
-                DataResponseDto.of(reservationService.getCarList(9L)),
+                DataResponseDto.of(reservationService.getCarList(customer.get().getId())),
                 HttpStatus.OK
         );
     }
-
 
     @GetMapping("/available/{repair_shop}")
     public ResponseEntity<DataResponseDto<Map<String, List<ReservationDateResponse>>>> getAvailableDate() {
