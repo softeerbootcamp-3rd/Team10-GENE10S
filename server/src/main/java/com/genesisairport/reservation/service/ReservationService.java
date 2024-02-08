@@ -117,10 +117,8 @@ public class ReservationService {
 
         return ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
-                .reservationId(reservationRepository.findReservationByCustomerId((long) customerId).getCustomer().getId())
                 .repairShopAddress(repairShopRepository.findRepairShopByShopName(repairShop).getAddress())
-                .from(fromDateTime)
-                .to(toDateTime)
+                .customerName(customerRepository.findCustomerById(customerId).getName())
                 .build();
     }
 
