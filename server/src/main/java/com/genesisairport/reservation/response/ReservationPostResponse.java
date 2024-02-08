@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ReservationPostResponse {
     private boolean reservationStatus;
-    private long reservationId;
+    private Long reservationId;
     private String repairShopAddress;
     private LocalDateTime from;
     private LocalDateTime to;
