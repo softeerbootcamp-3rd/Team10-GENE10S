@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.service;
 
+import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.response.ReservationDateResponse;
@@ -68,17 +69,17 @@ public class ReservationService {
         return timeSlots;
     }
 
-    public ReservationPostResponse reserve(Long customerId, Map<String, Object> requestBody) {
+    public ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
         // 요청 바디에서 필요한 정보 추출
-        String from = (String) requestBody.get("from");
-        String to = (String) requestBody.get("to");
-        String contactNumber = (String) requestBody.get("contact_number");
-        String sellName = (String) requestBody.get("car_sell_name");
-        String plateNumber = (String) requestBody.get("car_plate_number");
-        String serviceType = requestBody.get("service_type").toString();
-        String customerRequest = (String) requestBody.get("customer_request");
-        String couponSerialNumber = (String) requestBody.get("coupon_serial_number");
-        String repairShop = (String) requestBody.get("repair_shop");
+        String from = requestBody.getDepartureTime();
+        String to = requestBody.getArrivalTime();
+        String contactNumber = requestBody.getContactNumber();
+        String sellName = requestBody.getCarSellName();
+        String plateNumber = requestBody.getCarPlateNumber();
+        String serviceType = requestBody.getServiceType().toString();
+        String customerRequest = requestBody.getCustomerRequest();
+        String couponSerialNumber = requestBody.getCouponSerialNumber();
+        String repairShop = requestBody.getShopName();
 
         // 예약 상태 확인 (임의로 true로 설정)
         boolean reservationStatus = false;
