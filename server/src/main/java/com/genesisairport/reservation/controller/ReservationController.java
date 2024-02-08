@@ -15,10 +15,14 @@ import com.genesisairport.reservation.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,7 +56,7 @@ public class ReservationController {
     }
 
     @GetMapping("/date")
-    public ResponseEntity getAvailableDates(@RequestParam(required = true) String repairShop) {
+    public ResponseEntity getAvailableDates(@RequestParam String repairShop) {
         log.debug("예약 가능 날짜 확인 API");
 
         return new ResponseEntity(
@@ -60,6 +64,18 @@ public class ReservationController {
                 HttpStatus.OK
         );
     }
+
+    @GetMapping("/time")
+    public ResponseEntity getAvailableTimes(
+            @RequestParam String repairShop,
+            @RequestParam @DateTimeFormat(pattern = "yyyyMMdd") LocalDate date) {
+
+        return new ResponseEntity(
+                DataResponseDto.of(reservationService.getAvailableTimes(repairShop, date)),
+                HttpStatus.OK
+        );
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<DataResponseDto<ReservationPostResponse>> saveReservation(@RequestBody Map<String, Object> requestBody) {
