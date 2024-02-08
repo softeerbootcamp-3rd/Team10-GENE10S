@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 @Builder
 public class ReservationPostResponse {
     private boolean reservationStatus;
-    private Long reservationId;
     private String repairShopAddress;
-    private LocalDateTime from;
-    private LocalDateTime to;
+    private String customerName;
 }
