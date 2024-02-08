@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller;
 
+import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationListAbstract;
 import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.common.DataResponseDto;
@@ -78,8 +79,7 @@ public class ReservationController {
 
 
     @PostMapping
-    public ResponseEntity<DataResponseDto<ReservationPostResponse>> saveReservation(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) {
-
+    public ResponseEntity<DataResponseDto<ReservationPostResponse>> saveReservation(HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody) {
         log.debug("예약 정보 저장");
 
         Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
