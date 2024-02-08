@@ -37,7 +37,7 @@ public class Reservation {
     @Column(name = "plate_number", nullable = false, length = 20)
     private String plateNumber;
 
-    @Column(name = "service_type", nullable = false, length = 200)
+    @Column(name = "service_type", nullable = false, length = 500)
     private String serviceType;
 
     @Column(name = "customer_request", columnDefinition = "TEXT")
