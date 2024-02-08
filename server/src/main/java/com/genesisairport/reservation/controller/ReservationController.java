@@ -61,7 +61,7 @@ public class ReservationController {
         );
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<DataResponseDto<ReservationPostResponse>> saveReservation(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) {
         log.debug("예약 정보 저장");
 
