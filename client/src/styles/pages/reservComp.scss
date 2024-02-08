@@ -107,8 +107,8 @@
         flex-wrap: wrap;
         color: $gray_200;
 
-        .notSelected {
-          color: $gray_200;
+        .selected {
+          color: $gray_900;
         }
       }
     }
