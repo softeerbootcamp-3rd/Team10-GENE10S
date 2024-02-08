@@ -105,6 +105,7 @@
         gap: 24px 36px;
         align-self: stretch;
         flex-wrap: wrap;
+        color: $gray_200;
 
         .notSelected {
           color: $gray_200;
@@ -115,6 +116,7 @@
 
   .button {
     @extend %SB_18;
+    color: $black;
     width: 400px;
     height: 48px;
     flex-shrink: 0;
@@ -123,5 +125,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration-line: none;
   }
 }

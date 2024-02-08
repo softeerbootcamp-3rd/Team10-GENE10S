@@ -39,85 +39,101 @@ $font_weight_semi_bold: 600;
 $font_weight_medium: 500;
 $font_weight_regular: 400;
 
+$font_family_apple_SD_GN: 'Apple SD Gothic Neo';
+
 %B_48 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_bold;
   font-size: $font_size_48;
   line-height: $line_height_54;
 }
 
 %B_24 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_bold;
   font-size: $font_size_24;
   line-height: $line_height_34;
 }
 
 %B_20 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_bold;
   font-size: $font_size_20;
   line-height: $line_height_28;
 }
 
 %B_18 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_bold;
   font-size: $font_size_18;
   line-height: $line_height_26;
 }
 
 %B_16 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_bold;
   font-size: $font_size_16;
   line-height: $line_height_24;
 }
 
 %SB_18 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_semi_bold;
   font-size: $font_size_18;
   line-height: $line_height_26;
 }
 
 %SB_16 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_semi_bold;
   font-size: $font_size_16;
   line-height: $line_height_24;
 }
 
 %SB_14 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_semi_bold;
   font-size: $font_size_14;
   line-height: $line_height_22;
 }
 
 %M_16 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_medium;
   font-size: $font_size_16;
   line-height: $line_height_24;
 }
 
 %M_14 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_medium;
   font-size: $font_size_14;
   line-height: $line_height_22;
 }
 
 %M_12 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_medium;
   font-size: $font_size_12;
   line-height: $line_height_20;
 }
 
 %R_16 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_regular;
   font-size: $font_size_16;
   line-height: $line_height_24;
 }
 
 %R_14 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_regular;
   font-size: $font_size_14;
   line-height: $line_height_22;
 }
 
 %R_12 {
+  font-family: $font_family_apple_SD_GN;
   font-weight: $font_weight_regular;
   font-size: $font_size_12;
   line-height: $line_height_20;
