@@ -24,6 +24,7 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
     @Override
     public List<ReservationResponse.AvailableDate> findAvailableTimes(String shopName) {
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+        LocalDate twoWeeksLater = today.plusWeeks(2);
         LocalDate twoMonthsLater = today.plusMonths(2);
 
         List<Tuple> tuples = jpaQueryFactory
@@ -37,7 +38,7 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
                 .innerJoin(availableTime).on(availableTime.repairShop.eq(repairShop))
                 .where(repairShop.shopName.eq(shopName)
                         .and(availableTime.reservationDate
-                                .between(Date.valueOf(today), Date.valueOf(twoMonthsLater))))
+                                .between(Date.valueOf(twoWeeksLater), Date.valueOf(twoMonthsLater))))
                 .orderBy(availableTime.reservationTime.asc())
                 .fetch();
 
