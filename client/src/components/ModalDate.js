@@ -15,7 +15,7 @@ export default function ModalDate() {
           <span>1. 센터 방문</span>
           <span>{`${date} / ${time}`}</span>
         </div>
-        <div className={classNames('category_row_hover')}>
+        <div className={classNames('category_row')}>
           <span>2. 픽업 시간</span>
           <span>픽업 시간을 선택해주세요</span>
         </div>
