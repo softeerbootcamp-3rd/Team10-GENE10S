@@ -12,7 +12,6 @@ import com.genesisairport.reservation.respository.CustomerRepository;
 import com.genesisairport.reservation.respository.RepairShopRepository;
 import com.genesisairport.reservation.respository.ReservationRepository;
 
-import com.genesisairport.reservation.respository.RepairShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,10 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +32,6 @@ public class ReservationService {
     private final RepairShopRepository repairShopRepository;
     private final CarRepository carRepository;
     private final CouponRepository couponRepository;
-//    private final RepairShopRepository repairShopRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         return couponRepository.existsBySerialNumber(serialNumber);
@@ -48,9 +43,16 @@ public class ReservationService {
         return carInfoList.isEmpty() ? null : carInfoList;
     }
 
-    public List<ReservationResponse.AvailableDate> getAvailableDates(String shopName) {
-        List<ReservationResponse.AvailableDate> availableDates = repairShopRepository.findAvailableTimes(shopName);
-        return availableDates.isEmpty() ? null : availableDates;
+    public ReservationResponse.DateInfo getAvailableDates(String shopName) {
+        ReservationResponse.DateInfo dateInfo = repairShopRepository.findAvailableDates(shopName);
+        return dateInfo.getAvailableDates().isEmpty() ? null : dateInfo;
+    }
+
+    public ReservationResponse.TimeList getAvailableTimes(String shopName, LocalDate date) {
+        ReservationResponse.TimeList timeList = ReservationResponse.TimeList.builder()
+                .timeSlots(repairShopRepository.findAvailableTimes(shopName, date))
+                .build();
+        return timeList.getTimeSlots().isEmpty() ? null : timeList;
     }
 
     private List<ReservationDateResponse.TimeSlot> generateTimeSlots() {
