@@ -4,6 +4,7 @@ import com.genesisairport.reservation.common.DataResponseDto;
 import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.response.UserResponse;
 import com.genesisairport.reservation.service.SessionService;
+import com.genesisairport.reservation.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,18 +20,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final SessionService sessionService;
+    private final UserService userService;
 
     @GetMapping("/profile")
     public ResponseEntity<DataResponseDto<UserResponse.Profile>> getResult(
             HttpServletRequest request
     ) {
-        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
-        UserResponse.Profile result = UserResponse.Profile.builder()
-                .name("김희진")
-                .carSellName("Genesis G80")
-                .imageUrl("https://test.test/")
-                .build();
-        return new ResponseEntity<>(DataResponseDto.of(result), HttpStatus.OK);
+        return new ResponseEntity<>(
+                DataResponseDto.of(userService.getUserProfile(request)),
+                HttpStatus.OK
+        );
     }
 }

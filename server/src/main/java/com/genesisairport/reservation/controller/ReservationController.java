@@ -1,7 +1,9 @@
 package com.genesisairport.reservation.controller;
 
+import com.genesisairport.reservation.response.ReservationListAbstract;
+import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.common.DataResponseDto;
-import com.genesisairport.reservation.Response.ReservationListAbstract;
+
 
 import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.response.ReservationPostResponse;
@@ -67,10 +69,12 @@ public class ReservationController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<DataResponseDto<ReservationListAbstract>> getReservationList() {
+    public ResponseEntity<DataResponseDto<List<ReservationListAbstract>>> getReservationList(HttpServletRequest request) {
         log.debug("특정 사용자 예약 내역 조회");
 
-        ReservationListAbstract reservationList = reservationService.getReservationList();
+        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
+
+        List<ReservationListAbstract> reservationList = reservationService.getReservationList(customer.get().getId());
 
         return new ResponseEntity<>(DataResponseDto.of(reservationList), HttpStatus.OK);
     }
