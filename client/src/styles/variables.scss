@@ -19,6 +19,7 @@ $white: #ffffff;
 $black: #121110;
 
 $font_size_48: 48px;
+$font_size_40: 40px;
 $font_size_24: 24px;
 $font_size_20: 20px;
 $font_size_18: 18px;
@@ -27,6 +28,7 @@ $font_size_14: 14px;
 $font_size_12: 12px;
 
 $line_height_54: 54px;
+$line_height_48: 48px;
 $line_height_34: 34px;
 $line_height_28: 28px;
 $line_height_26: 26px;
@@ -43,6 +45,12 @@ $font_weight_regular: 400;
   font-weight: $font_weight_bold;
   font-size: $font_size_48;
   line-height: $line_height_54;
+}
+
+%B_40 {
+  font-weight: $font_weight_bold;
+  font-style: $font_size_40;
+  font-size: $line_height_48;
 }
 
 %B_24 {
