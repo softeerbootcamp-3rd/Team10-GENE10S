@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 public interface RepairShopRepository extends JpaRepository<RepairShop, Long>, RepairShopRepositoryCustom {
     RepairShop findRepairShopByShopName(String shopName);
-
 }

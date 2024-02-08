@@ -70,7 +70,7 @@ public class ReservationService {
         return timeSlots;
     }
 
-    public ReservationPostResponse reserve(Map<String, Object> requestBody) {
+    public ReservationPostResponse reserve(Long customerId, Map<String, Object> requestBody) {
         // 요청 바디에서 필요한 정보 추출
         String from = (String) requestBody.get("from");
         String to = (String) requestBody.get("to");
@@ -79,7 +79,6 @@ public class ReservationService {
         String plateNumber = (String) requestBody.get("car_plate_number");
         String serviceType = requestBody.get("service_type").toString();
         String customerRequest = (String) requestBody.get("customer_request");
-        Long customerId = (Long) requestBody.get("customer_id");
         String couponSerialNumber = (String) requestBody.get("coupon_serial_number");
         String repairShop = (String) requestBody.get("repair_shop");
 
@@ -100,7 +99,7 @@ public class ReservationService {
                 .serviceType(serviceType)
                 .customerRequest(customerRequest)
                 .progressStage("예약중")
-                .customer(customerRepository.findCustomerById(customerId))
+                .customer(customerRepository.findCustomerById((long) customerId))
                 .coupon(couponRepository.findCouponBySerialNumber(couponSerialNumber))
                 .repairShop(repairShopRepository.findRepairShopByShopName(repairShop))
                 .createDateTime(LocalDateTime.now())
@@ -120,10 +119,8 @@ public class ReservationService {
 
         return ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
-                .reservationId(reservationRepository.findReservationByCustomerId(customerId))
                 .repairShopAddress(repairShopRepository.findRepairShopByShopName(repairShop).getAddress())
-                .from(fromDateTime)
-                .to(toDateTime)
+                .customerName(customerRepository.findCustomerById(customerId).getName())
                 .build();
     }
 

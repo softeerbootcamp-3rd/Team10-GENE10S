@@ -37,9 +37,14 @@ export default function Header() {
       </div>
       <div className={classNames('header-button')}>
         {isLogin ? (
-          <Link to="/logout" className={classNames('header-button__button')}>
-            로그아웃
-          </Link>
+          <>
+            <Link to="/logout" className={classNames('header-button__button')}>
+              로그아웃
+            </Link>
+            <Link to="/mypage" className={classNames('header-button__button')}>
+              마이페이지
+            </Link>
+          </>
         ) : (
           <>
             <a

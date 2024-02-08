@@ -77,11 +77,14 @@ public class ReservationController {
     }
 
 
-    @PostMapping("/")
-    public ResponseEntity<DataResponseDto<ReservationPostResponse>> saveReservation(@RequestBody Map<String, Object> requestBody) {
+    @PostMapping
+    public ResponseEntity<DataResponseDto<ReservationPostResponse>> saveReservation(HttpServletRequest request, @RequestBody Map<String, Object> requestBody) {
+
         log.debug("예약 정보 저장");
 
-        return new ResponseEntity<>(DataResponseDto.of(reservationService.reserve(requestBody)), HttpStatus.OK);
+        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
+
+        return new ResponseEntity<>(DataResponseDto.of(reservationService.reserve(customer.get().getId(), requestBody)), HttpStatus.OK);
     }
 
     @GetMapping("/list")

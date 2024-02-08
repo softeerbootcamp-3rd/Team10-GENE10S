@@ -4,16 +4,17 @@
 @import './components/header.scss';
 @import './pages/main.scss';
 @import './pages/reservComp.scss';
+@import './pages/myPage.scss';
 
 body {
   background-color: $black;
+}
+
+.content {
+  background-color: $white;
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.content {
-  background-color: $white;
 }
