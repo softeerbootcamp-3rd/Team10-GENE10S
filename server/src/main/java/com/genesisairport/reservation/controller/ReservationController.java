@@ -51,7 +51,7 @@ public class ReservationController {
         );
     }
 
-    @GetMapping("/available")
+    @GetMapping("/date")
     public ResponseEntity getAvailableDates(@RequestParam(required = true) String repairShop) {
         log.debug("예약 가능 날짜 확인 API");
 

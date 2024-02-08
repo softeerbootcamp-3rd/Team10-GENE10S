@@ -22,9 +22,8 @@ public class ReservationResponse {
 
     @Getter
     @Builder
-    public static class AvailableDate {
-        private String date;
-        private List<TimeInfo> timeSlots;
+    public static class DateInfo {
+        private List<String> availableDates;
     }
 
     @Getter

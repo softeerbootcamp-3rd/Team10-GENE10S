@@ -36,7 +36,6 @@ public class ReservationService {
     private final RepairShopRepository repairShopRepository;
     private final CarRepository carRepository;
     private final CouponRepository couponRepository;
-    private final RepairShopRepository repairShopRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         return couponRepository.existsBySerialNumber(serialNumber);
@@ -48,9 +47,9 @@ public class ReservationService {
         return carInfoList.isEmpty() ? null : carInfoList;
     }
 
-    public List<ReservationResponse.AvailableDate> getAvailableDates(String shopName) {
-        List<ReservationResponse.AvailableDate> availableDates = repairShopRepository.findAvailableTimes(shopName);
-        return availableDates.isEmpty() ? null : availableDates;
+    public ReservationResponse.DateInfo getAvailableDates(String shopName) {
+        ReservationResponse.DateInfo dateInfo = repairShopRepository.findAvailableTimes(shopName);
+        return dateInfo.getAvailableDates().isEmpty() ? null : dateInfo;
     }
 
     private List<ReservationDateResponse.TimeSlot> generateTimeSlots() {
@@ -100,7 +99,7 @@ public class ReservationService {
                 .progressStage("예약중")
                 .customer(customerRepository.findCustomerById(customerId))
                 .coupon(couponRepository.findCouponBySerialNumber(couponSerialNumber))
-                .repairShop(repairShopRepository.findRepairShopByRepairShop(repairShop))
+                .repairShop(repairShopRepository.findRepairShopByShopName(repairShop))
                 .createDateTime(LocalDateTime.now())
                 .updateDateTime(LocalDateTime.now())
                 .build();
@@ -119,7 +118,7 @@ public class ReservationService {
         return ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
                 .reservationId(reservationRepository.findReservationByCustomerId(customerId))
-                .repairShopAddress(repairShopRepository.findRepairShopByRepairShop(repairShop).getAddress())
+                .repairShopAddress(repairShopRepository.findRepairShopByShopName(repairShop).getAddress())
                 .from(fromDateTime)
                 .to(toDateTime)
                 .build();
@@ -130,7 +129,7 @@ public class ReservationService {
         List<ReservationListAbstract> reservationDTOs = new ArrayList<>();
 
         for (Reservation r : reservationList) {
-            ReservationListAbstract reservationDTO = new ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getRepairShop());
+            ReservationListAbstract reservationDTO = new ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
             reservationDTOs.add(reservationDTO);
         }
 
