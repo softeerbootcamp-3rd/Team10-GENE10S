@@ -36,7 +36,7 @@ public class ReservationService {
     private final RepairShopRepository repairShopRepository;
     private final CarRepository carRepository;
     private final CouponRepository couponRepository;
-    private final RepairShopRepository repairShopRepository;
+//    private final RepairShopRepository repairShopRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         return couponRepository.existsBySerialNumber(serialNumber);
@@ -68,7 +68,7 @@ public class ReservationService {
         return timeSlots;
     }
 
-    public ReservationPostResponse reserve(Map<String, Object> requestBody) {
+    public ReservationPostResponse reserve(Long customerId, Map<String, Object> requestBody) {
         // 요청 바디에서 필요한 정보 추출
         String from = (String) requestBody.get("from");
         String to = (String) requestBody.get("to");
@@ -77,7 +77,6 @@ public class ReservationService {
         String plateNumber = (String) requestBody.get("car_plate_number");
         String serviceType = requestBody.get("service_type").toString();
         String customerRequest = (String) requestBody.get("customer_request");
-        Long customerId = (Long) requestBody.get("customer_id");
         String couponSerialNumber = (String) requestBody.get("coupon_serial_number");
         String repairShop = (String) requestBody.get("repair_shop");
 
@@ -98,9 +97,9 @@ public class ReservationService {
                 .serviceType(serviceType)
                 .customerRequest(customerRequest)
                 .progressStage("예약중")
-                .customer(customerRepository.findCustomerById(customerId))
+                .customer(customerRepository.findCustomerById((long) customerId))
                 .coupon(couponRepository.findCouponBySerialNumber(couponSerialNumber))
-                .repairShop(repairShopRepository.findRepairShopByRepairShop(repairShop))
+                .repairShop(repairShopRepository.findRepairShopByShopName(repairShop))
                 .createDateTime(LocalDateTime.now())
                 .updateDateTime(LocalDateTime.now())
                 .build();
@@ -118,10 +117,8 @@ public class ReservationService {
 
         return ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
-                .reservationId(reservationRepository.findReservationByCustomerId(customerId))
-                .repairShopAddress(repairShopRepository.findRepairShopByRepairShop(repairShop).getAddress())
-                .from(fromDateTime)
-                .to(toDateTime)
+                .repairShopAddress(repairShopRepository.findRepairShopByShopName(repairShop).getAddress())
+                .customerName(customerRepository.findCustomerById(customerId).getName())
                 .build();
     }
 
@@ -130,7 +127,7 @@ public class ReservationService {
         List<ReservationListAbstract> reservationDTOs = new ArrayList<>();
 
         for (Reservation r : reservationList) {
-            ReservationListAbstract reservationDTO = new ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getRepairShop());
+            ReservationListAbstract reservationDTO = new ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
             reservationDTOs.add(reservationDTO);
         }
 
