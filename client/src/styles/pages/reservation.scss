@@ -1,0 +1,365 @@
+@import '../variables.scss';
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin input-style {
+  border: none;
+  border-bottom: 2px solid black;
+  text-align: center;
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 16px;
+  margin: 0 5px;
+  display: flex;
+  height: 48px;
+  align-items: flex-start;
+}
+
+.wrapper {
+  width: 1920px;
+  padding-top: 48px;
+  background-color: $white;
+}
+
+.reservation-title {
+  display: flex;
+  width: 1700px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin: 0 auto;
+  border-bottom: $gray_900 2px solid;
+}
+
+.reservation-title__text {
+  display: flex;
+  width: 452px;
+  height: 63px;
+  flex-direction: column;
+  justify-content: center;
+  color: $gray_900;
+  text-align: center;
+
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 54px;
+  margin-bottom: 20px;
+
+  span {
+    height: 103px;
+  }
+}
+
+.reservation-form {
+  display: flex;
+  width: 960px;
+  padding: 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 0 auto;
+}
+
+.form-group__label {
+  display: flex;
+  width: 200px;
+  height: 100px;
+  padding: 23px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.car-title {
+  display: flex;
+  width: 1700px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin: 0 auto;
+}
+
+.car-title__text {
+  color: $gray_900;
+  text-align: center;
+
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 42px;
+}
+
+.form-group {
+  display: flex;
+  width: 912px;
+  padding: 8px 24px;
+  align-items: center;
+  gap: 64px;
+
+  button[type='submit'] {
+    &:hover,
+    &.active {
+      background-color: $gray_900;
+      color: $white;
+    }
+  }
+  option[value='type1'],
+  option[value='type2'] {
+    text-align: center;
+    font-family: 'Apple SD Gothic Neo';
+  }
+}
+
+label {
+  color: $gray_900;
+  text-align: center;
+
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+select {
+  display: flex;
+  height: 42px;
+  width: 273px;
+  padding: 8px 16px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid $gray_900;
+  color: $gray_900;
+}
+
+.active-button {
+  background: var(--orange_900, #64430f);
+  color: $white;
+}
+
+button {
+  display: flex;
+  height: 48px;
+  padding: 12px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+
+  [type='button'] {
+    color: $gray_200;
+    text-align: center;
+
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px;
+  }
+}
+
+button:not(.active-button) {
+  background: $white;
+}
+
+.date-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  input[type='date'] {
+    display: flex;
+    width: 194px;
+    height: 48px;
+    flex-direction: column;
+    align-items: flex-start;
+    color: $gray_900;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px;
+  }
+
+  input[type='time'] {
+    display: flex;
+    width: 150px;
+    height: 48px;
+    flex-direction: column;
+    align-items: flex-start;
+    color: $gray_900;
+    font-family: 'Apple SD Gothic Neo';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px;
+  }
+}
+
+.phone-number-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phone-number-container input,
+.date-input input {
+  border: none;
+  border-bottom: 2px solid black;
+  text-align: center;
+  font-size: 16px;
+  margin: 0 5px;
+  display: flex;
+  width: 90px;
+  height: 48px;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: 'Apple SD Gothic Neo';
+}
+
+.phone-number-container input:focus,
+.car-number-container input:focus,
+.coupon-number-container input:focus,
+.date-input input:focus {
+  outline: none;
+}
+
+.car-number-container input,
+.coupon-number-container input {
+  border: none;
+  border-bottom: 2px solid black;
+  text-align: center;
+  font-size: 16px;
+  margin: 0 5px;
+  display: flex;
+  width: 194px;
+  height: 48px;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: 'Apple SD Gothic Neo';
+}
+
+.car-info {
+  color: $gray_900;
+  text-align: center;
+  padding-top: 48px;
+  padding-bottom: 24px;
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 42px;
+}
+
+.button-container {
+  @include flex-center;
+  padding: 24px;
+  align-content: center;
+  gap: 24px 35px;
+  align-self: stretch;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.button-container button {
+  flex: 0 1 calc(50% - 24px);
+  border: none;
+  color: $gray_200;
+  font-family: 'Apple SD Gothic Neo';
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 26px;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 12px 0;
+
+  &:hover,
+  &.active {
+    background-color: $gray_900;
+    color: $white;
+  }
+}
+
+.submit-button {
+  @include flex-center;
+  padding: 12px;
+  gap: 96px;
+
+  [type='submit'] {
+    &:hover,
+    &.active {
+      background-color: $gray_900;
+      color: $white;
+    }
+  }
+}
+.service-list {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  align-items: center;
+  align-content: center;
+  gap: 24px 35px;
+  align-self: stretch;
+  flex-wrap: wrap;
+  width: 900px;
+}
+
+.list-line {
+  width: 550px;
+  display: flex;
+}
+
+.service-item {
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  color: $gray_200;
+  cursor: pointer;
+  font-family: 'Apple SD Gothic Neo';
+  transition: color 0.3s;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
+  &:hover {
+    color: $gray_900;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.selected {
+    color: $gray_900;
+  }
+}
+
+.service-item-selected {
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  color: $gray_900;
+  cursor: pointer;
+  font-family: 'Apple SD Gothic Neo';
+  transition: color 0.3s;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px;
+
+  &:focus {
+    outline: none;
+  }
+}
