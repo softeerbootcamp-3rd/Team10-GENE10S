@@ -34,12 +34,14 @@ jobs:
         distribution: 'temurin'
 
     # not executable 에러 방지를 위한 권한 부여
-    - name: Run chomod to make gradlew executable
-      run: chmod +x ./gradlew
+    - name: Run chmod to make gradlew executable
+      run: chmod +x gradlew
+      working-directory: ./server
       
     # (3) Gradle build
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@ec92e829475ac0c2315ea8f9eced72db85bb337a # v3.0.0
+    - name: Build with Gradle
+      run: ./gradlew build
+      working-directory: ./server
 
 
     # (4) AWS인증 (IAM사용자, Access Key, Secret Key)
@@ -53,11 +55,12 @@ jobs:
     # (5)빌드 결과물을 S3버킷에 업로드
     - name: Upload to AWS S3
       run: |
-          aws deploy push \\
-            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \\
-            --ignore-hidden-files \\
-            --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \\
-            --source .
+          aws deploy push \
+            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+            --ignore-hidden-files \
+            --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+            --source server/
+
 
     # (6) S3버킷에 있는 파일을 대상으로 CodeDeploy실행
     - name: Deploy to AWS EC2 from S3
