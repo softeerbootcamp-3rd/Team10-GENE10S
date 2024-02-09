@@ -13,11 +13,52 @@ body {
   background-color: $black;
 }
 
-.content {
-  background-color: $white;
+.w-200 {
+  width: 200px;
+}
+
+.w-160 {
+  width: 160px;
+}
+
+.input-area {
   display: flex;
-  position: relative;
-  flex-direction: column;
-  align-items: center;
+  height: 60px;
+  padding: 12px;
   justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 5px;
+  background: $gray_800;
+  box-sizing: border-box;
+}
+
+.input-text {
+  @extend %B_20;
+  color: $uyh;
+  text-align: center;
+}
+
+.btn-black {
+  display: flex;
+  height: 48px;
+  padding: 12px 36px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 5px;
+  border: 2px solid $uyh;
+  background: $gray_900;
+  box-sizing: border-box;
+
+  .btn-text {
+    @extend %SB_18;
+    color: $uyh;
+    text-align: center;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }

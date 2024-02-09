@@ -1,10 +1,13 @@
 import classNames from 'classnames';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ModalHeader from '../components/ModalHeader';
 import ModalDate from '../components/ModalDate';
-import { useState } from 'react';
 import ModalInfo from '../components/ModalInfo';
 
 export default function ReservationModal() {
+  const navigate = useNavigate();
+
   const shopName = '블루핸즈 인천공항점';
   const [currentStep, setCurrentStep] = useState('date');
   const [departureDate, setDepartureDate] = useState('');
@@ -46,11 +49,15 @@ export default function ReservationModal() {
     setCurrentStep('service');
   }
 
+  function toPrev() {
+    navigate('/');
+  }
+
   return (
     <>
       <ModalHeader shopName={shopName} currentStep={currentStep} />
-      <div className={classNames('reservation-modal')}>
-        {currentStep === 'date' ? <ModalDate nextStep={dateToInfo} props={dateProps} /> : null}
+      <div className={classNames('modal-page')}>
+        {currentStep === 'date' ? <ModalDate prevStep={toPrev} nextStep={dateToInfo} props={dateProps} /> : null}
         {currentStep === 'info' ? <ModalInfo prevStep={infoToDate} nextStep={infoToService} props={infoProps} /> : null}
       </div>
     </>
