@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-export default function ModalDate({ setCurrentStep, props }) {
+export default function ModalDate({ nextStep, props }) {
   // const departureDate = props.departureDate;
   // const departureTime = props.departureTime;
   // const pickupDate = props.pickupDate;
@@ -12,7 +12,7 @@ export default function ModalDate({ setCurrentStep, props }) {
 
   function handleNext() {
     if (departureDate === '' || departureTime === '' || pickupDate === '' || pickupTime === '') return;
-    setCurrentStep(departureDate, departureTime, pickupDate, pickupTime);
+    nextStep(departureDate, departureTime, pickupDate, pickupTime);
   }
 
   return (

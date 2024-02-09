@@ -46,6 +46,7 @@
         @extend %B_20;
         color: $white;
         text-align: center;
+        display: flex;
 
         input {
           @extend .row_content;
@@ -56,6 +57,20 @@
           &:focus {
             outline: none;
           }
+        }
+
+        .car-select {
+          @extend .row_content;
+          color: $white;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        .space {
+          display: block;
+          width: 52px;
         }
       }
     }
