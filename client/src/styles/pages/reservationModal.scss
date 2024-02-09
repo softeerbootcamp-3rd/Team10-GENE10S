@@ -37,15 +37,26 @@
       align-self: stretch;
       border-bottom: 1px solid $gray_400;
 
-      :nth-child(1) {
+      .row_title {
         @extend %B_24;
         color: $orange_700;
       }
 
-      :nth-child(2) {
+      .row_content {
         @extend %B_20;
         color: $white;
         text-align: center;
+
+        input {
+          @extend .row_content;
+          background-color: $black;
+          border: none;
+          border-bottom: 4px solid $white;
+
+          &:focus {
+            outline: none;
+          }
+        }
       }
     }
 

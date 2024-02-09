@@ -12,7 +12,6 @@ export default function ReservationModal() {
   const [pickupTime, setPickupTime] = useState('');
 
   function handleDate(departureDate, departureTime, pickupDate, pickupTime) {
-    console.log(departureDate, departureTime, pickupDate, pickupTime);
     setDepartureDate(departureDate);
     setDepartureTime(departureTime);
     setPickupDate(pickupDate);
