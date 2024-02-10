@@ -3,8 +3,6 @@ name: Deploy to Amazon EC2
 on:
   push:
     branches: [ "main", "develop" ]
-  pull_request:
-    branches: [ "main", "develop" ]
 
 #리전, 버킷 이름, CodeDeploy앱 이름, CodeDeploy배포 그룹 이름
 env:
