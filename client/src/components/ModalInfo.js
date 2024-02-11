@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
+import { BtnBlack } from './Button';
 
 export default function ModalInfo({ prevStep, nextStep, props }) {
   const [phone1, setPhone1] = useState(props.phone1);
@@ -7,6 +8,13 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
   const [phone3, setPhone3] = useState(props.phone3);
   const [sellName, setSellName] = useState(props.sellName);
   const [plateNumber, setPlateNumber] = useState(props.plateNumber);
+
+  // 더미 데이터
+  const carListData = [
+    { sellName: 'sample-model', plateNumber: '12가 3456' },
+    { sellName: 'sample-model', plateNumber: '98하 7654' },
+    { sellName: 'sample-model', plateNumber: '64나 3154' },
+  ];
 
   function handleNext() {
     if (phone1 === '' || phone2 === '' || phone3 === '' || sellName === '' || plateNumber === '') return;
@@ -24,7 +32,14 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
     }
   }
 
-  function next(val, len, nextId) {
+  function handleInputCar(event) {
+    const idx = event.currentTarget.id;
+    const carInfo = carListData[idx];
+    setSellName(carInfo.sellName);
+    setPlateNumber(carInfo.plateNumber);
+  }
+
+  function focusNext(val, len, nextId) {
     if (val.length === len) {
       document.getElementById(nextId).focus();
     }
@@ -35,80 +50,106 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
     const phone2 = document.getElementById('phone2');
 
     phone1.addEventListener('keyup', e => {
-      next(e.target.value, 3, 'phone2');
+      focusNext(e.target.value, 3, 'phone2');
     });
 
     phone2.addEventListener('keyup', e => {
-      next(e.target.value, 4, 'phone3');
+      focusNext(e.target.value, 4, 'phone3');
     });
   }, []);
 
+  function GenerateCarButton() {
+    const carButton = carListData.map((carData, index) => (
+      <div
+        id={index}
+        className={classNames('car_info')}
+        onClick={e => {
+          handleInputCar(e);
+        }}
+        key={index}
+      >
+        <div className={classNames('image-area')}>
+          <img className={classNames('image')} src={require(`../assets/${carData.sellName}.png`)} alt="" />
+        </div>
+        <div className={classNames('content-area')}>
+          <span className={classNames('car-name')}>{carData.sellName}</span>
+          <span className={classNames('plate-number')}>{carData.plateNumber}</span>
+        </div>
+      </div>
+    ));
+    return carButton;
+  }
+
   return (
-    <div className={classNames('modal_body')}>
-      <div className={classNames('frame_left')}>
-        <div>내 차 정보 자동입력</div>
-        <div className={classNames('car_list')} />
+    <>
+      <div className={classNames('body')}>
+        <div className={classNames('frame_left')}>
+          <div className={classNames('frame_left_title')}>내 차 정보 자동입력</div>
+          <div id="carList" className={classNames('car_list')}>
+            <GenerateCarButton />
+          </div>
+        </div>
+        <div className={classNames('frame_right')}>
+          <div className={classNames('category_row')}>
+            <span className={classNames('title')}>3. 연락처</span>
+            <div className={classNames('content')}>
+              <input
+                type="text"
+                id="phone1"
+                maxLength="3"
+                value={phone1}
+                className={classNames('input-area', 'w-140', 'input-text')}
+                onChange={e => handlePhoneChange(setPhone1, e)}
+              />
+              <input
+                type="text"
+                id="phone2"
+                maxLength="4"
+                value={phone2}
+                className={classNames('input-area', 'w-180', 'input-text')}
+                onChange={e => handlePhoneChange(setPhone2, e)}
+              />
+              <input
+                type="text"
+                id="phone3"
+                maxLength="4"
+                value={phone3}
+                className={classNames('input-area', 'w-180', 'input-text')}
+                onChange={e => handlePhoneChange(setPhone3, e)}
+              />
+            </div>
+          </div>
+          <div className={classNames('category_row')}>
+            <span className={classNames('title')}>4. 차량 정보</span>
+            <div className={classNames('content')}>
+              <span className={classNames('input-hint')}>차종</span>
+              <input
+                type="text"
+                value={sellName}
+                className={classNames('input-area', 'w-200', 'input-text')}
+                onChange={e => {
+                  setSellName(e.target.value);
+                }}
+              />
+            </div>
+            <div className={classNames('content')}>
+              <span className={classNames('input-hint')}>차량번호</span>
+              <input
+                type="text"
+                value={plateNumber}
+                className={classNames('input-area', 'w-200', 'input-text')}
+                onChange={e => {
+                  setPlateNumber(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      <div className={classNames('frame_right')}>
-        <div className={classNames('category_row')}>
-          <span className={classNames('row_title')}>3. 연락처</span>
-          <span className={classNames('row_content')}>
-            <input
-              type="text"
-              id="phone1"
-              maxLength="3"
-              value={phone1}
-              onChange={e => handlePhoneChange(setPhone1, e)}
-            />
-            <span className={classNames('space')}> - </span>
-            <input
-              type="text"
-              id="phone2"
-              maxLength="4"
-              value={phone2}
-              onChange={e => handlePhoneChange(setPhone2, e)}
-            />
-            <span className={classNames('space')}> - </span>
-            <input
-              type="text"
-              id="phone3"
-              maxLength="4"
-              value={phone3}
-              onChange={e => handlePhoneChange(setPhone3, e)}
-            />
-          </span>
-        </div>
-        <div className={classNames('category_row')}>
-          <span className={classNames('row_title')}>4. 차량 정보</span>
-          <span className={classNames('row_content')}>
-            <select className={classNames('car-select')} value={sellName} onChange={e => setSellName(e.target.value)}>
-              <option value="">차종을 선택해주세요</option>
-              <option value="g90lwb">G90 Long Wheel Base</option>
-              <option value="g90">G90</option>
-              <option value="g80">G80</option>
-              <option value="eg80">Electrified G80</option>
-              <option value="g70">G70</option>
-              <option value="g70sb">G70 Shooting Brake</option>
-              <option value="gv80">GV80</option>
-              <option value="gv80c">GV80 Coupe</option>
-              <option value="gv70">GV70</option>
-              <option value="egv70">Electrified GV70</option>
-              <option value="gv60">GV60</option>
-            </select>
-            <input
-              type="text"
-              value={plateNumber}
-              onChange={e => {
-                setPlateNumber(e.target.value);
-              }}
-            />
-          </span>
-        </div>
-        <div className={classNames('button')}>
-          <span onClick={handlePrev}>이전</span>
-          <span onClick={handleNext}>다음</span>
-        </div>
+      <div className={classNames('btn-group')}>
+        <BtnBlack text="이전" onClick={handlePrev} />
+        <BtnBlack text="다음" onClick={handleNext} />
       </div>
-    </div>
+    </>
   );
 }
