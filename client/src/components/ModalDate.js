@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { BtnBlack } from './Button';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Calendar from './Calendar';
 
 export default function ModalDate({ nextStep, props }) {
   const [departureDate, setDepartureDate] = useState(props.departureDate);
@@ -26,8 +27,33 @@ export default function ModalDate({ nextStep, props }) {
     <>
       <div className={classNames('body')}>
         <div className={classNames('frame_left')}>
-          <div className={classNames('calender')} />
-          <div className={classNames('available-times')} />
+          <Calendar />
+          <div className={classNames('available-times')}>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+            <div className="time">
+              <span className="time_text">8:00</span>
+            </div>
+          </div>
         </div>
         <div className={classNames('frame_right')}>
           <div className={classNames('category_row')}>
