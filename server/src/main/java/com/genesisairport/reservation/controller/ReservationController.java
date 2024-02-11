@@ -57,7 +57,7 @@ public class ReservationController {
     }
 
     @GetMapping("/date")
-    public ResponseEntity getAvailableDates(@RequestParam String repairShop) {
+    public ResponseEntity getAvailableDates(@RequestParam(value = "repairShop") String repairShop) {
         log.debug("예약 가능 날짜 확인 API");
 
         return new ResponseEntity(
@@ -68,8 +68,8 @@ public class ReservationController {
 
     @GetMapping("/time")
     public ResponseEntity getAvailableTimes(
-            @RequestParam String repairShop,
-            @RequestParam @DateTimeFormat(pattern = "yyyyMMdd") LocalDate date) {
+            @RequestParam(value = "repairShop") String repairShop,
+            @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate date) {
 
         return new ResponseEntity(
                 DataResponseDto.of(reservationService.getAvailableTimes(repairShop, date)),
