@@ -56,21 +56,6 @@ public class ReservationService {
         return timeList.getTimeSlots().isEmpty() ? null : timeList;
     }
 
-    private List<ReservationDateResponse.TimeSlot> generateTimeSlots() {
-        List<ReservationDateResponse.TimeSlot> timeSlots = new ArrayList<>();
-
-        // 예시로 임의의 타임슬롯 정보를 생성
-        for (int i = 9; i <= 18; i++) {
-            ReservationDateResponse.TimeSlot timeSlot = ReservationDateResponse.TimeSlot.builder()
-                    .time(i)
-                    .available(i % 2 == 0) // 홀수 시간대는 false로, 짝수 시간대는 true로 설정 (임의의 데이터)
-                    .build();
-            timeSlots.add(timeSlot);
-        }
-
-        return timeSlots;
-    }
-
     public ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
         // 요청 바디에서 필요한 정보 추출
         String from = requestBody.getDepartureTime();
