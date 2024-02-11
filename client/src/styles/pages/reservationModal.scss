@@ -1,105 +1,179 @@
 @import '../variables.scss';
 
-.modal_body {
-  display: flex;
-  // height: 1000px;
-  padding: 64px;
-  justify-content: center;
-  align-items: center;
-  gap: 64px;
-  align-self: stretch;
+.reservation-modal {
+  background-color: $gray_900;
+}
 
-  .frame_left {
+.modal-page {
+  display: flex;
+  width: 1920px;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: $gray_900;
+  height: 100%;
+
+  .body {
     display: flex;
-    width: 600px;
-    padding: 64px;
-    flex-direction: column;
+    flex-direction: row;
+    padding: 40px 64px;
     justify-content: center;
     align-items: center;
-    gap: 48px;
-  }
-
-  .frame_right {
-    display: flex;
-    padding: 24px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
+    gap: 64px;
     flex: 1 0 0;
     align-self: stretch;
 
-    .category_row {
+    .frame_left {
+      display: flex;
+      width: 600px;
+      height: 738px;
+      padding: 64px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+      box-sizing: border-box;
+      overflow: scroll;
+
+      &_title {
+        @extend %B_30;
+        color: $white;
+        text-align: center;
+      }
+
+      .car_list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        align-self: stretch;
+
+        .car_info {
+          display: flex;
+          height: 180px;
+          padding: 24px;
+          align-items: center;
+          gap: 24px;
+          align-self: stretch;
+          border-radius: 5px;
+          background: $gray_800;
+          box-sizing: border-box;
+
+          &:hover {
+            cursor: pointer;
+          }
+
+          .image-area {
+            display: flex;
+            width: 132px;
+            flex-direction: column;
+            align-items: center;
+            align-self: stretch;
+
+            .image {
+              flex: 1 0 0;
+              align-self: stretch;
+            }
+          }
+
+          .content-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            flex: 1 0 0;
+            align-self: stretch;
+
+            .car-name {
+              @extend %B_24;
+              color: $uyh;
+              text-align: center;
+            }
+
+            .plate-number {
+              @extend %B_18;
+              color: $gray_400;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+
+    .frame_right {
       display: flex;
       padding: 24px;
       flex-direction: column;
+      justify-content: center;
       align-items: flex-start;
-      gap: 24px;
-      align-self: stretch;
-      border-bottom: 1px solid $gray_400;
+      gap: 100px;
+      flex: 1 0 0;
 
-      .row_title {
-        @extend %B_24;
-        color: $orange_700;
-      }
-
-      .row_content {
-        @extend %B_20;
-        color: $white;
-        text-align: center;
+      .category_row {
         display: flex;
-
-        input {
-          @extend .row_content;
-          background-color: $black;
-          border: none;
-          border-bottom: 4px solid $white;
-
-          &:focus {
-            outline: none;
-          }
-        }
-
-        .car-select {
-          @extend .row_content;
-          color: $white;
-
-          &:focus {
-            outline: none;
-          }
-        }
-
-        .space {
-          display: block;
-          width: 52px;
-        }
-      }
-    }
-
-    .button {
-      display: flex;
-      align-items: flex-start;
-      gap: 48px;
-      position: absolute;
-      right: 29px;
-      bottom: 28px;
-
-      span {
-        @extend %SB_18;
-        display: flex;
-        // height: 48px;
-        padding: 12px 36px;
+        padding: 24px;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        border-radius: 5px;
-        border: 2px solid $white;
-        color: $white;
-      }
+        align-items: flex-start;
+        gap: 24px;
+        align-self: stretch;
+        border-bottom: 1px solid $gray_400;
 
-      :hover {
-        cursor: pointer;
+        .title {
+          @extend %B_36;
+          color: $orange_700;
+          text-align: center;
+        }
+
+        .content {
+          display: flex;
+          align-items: center;
+          align-content: center;
+          gap: 24px;
+          align-self: stretch;
+          flex-wrap: wrap;
+
+          input {
+            @extend .content;
+            border: none;
+
+            &:focus {
+              outline: none;
+              border-bottom: 2px solid $white;
+            }
+          }
+
+          .input-hint {
+            @extend %B_20;
+            color: $gray_200;
+            text-align: center;
+          }
+
+          .car-select {
+            @extend .content;
+            color: $white;
+
+            &:focus {
+              outline: none;
+            }
+          }
+
+          .space {
+            display: block;
+            width: 52px;
+          }
+        }
       }
     }
   }
+}
+
+.btn-group {
+  display: flex;
+  padding: 0px 100px 60px 100px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 48px;
+  align-self: stretch;
+  background-color: $gray_900;
 }
