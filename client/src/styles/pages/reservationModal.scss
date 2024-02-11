@@ -119,6 +119,10 @@
         align-self: stretch;
         border-bottom: 1px solid $gray_400;
 
+        &:last-child {
+          border-bottom: none;
+        }
+
         .title {
           @extend %B_36;
           color: $orange_700;
@@ -161,6 +165,29 @@
           .space {
             display: block;
             width: 52px;
+          }
+
+          .select {
+            @extend %B_20;
+            text-align: center;
+            color: $uyh;
+            display: flex;
+            height: 60px;
+            padding: 0px 24px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            background: $gray_800;
+
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0px 0px 0px 1px $gray_200;
+            }
+          }
+
+          .active {
+            background: $gray_200;
+            color: $gray_900;
           }
         }
       }
