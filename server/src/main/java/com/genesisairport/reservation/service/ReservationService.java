@@ -1,13 +1,10 @@
 package com.genesisairport.reservation.service;
 
 import com.genesisairport.reservation.request.ReservationRequest;
-import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.response.ReservationResponse;
-import com.genesisairport.reservation.response.ReservationDateResponse;
 import com.genesisairport.reservation.respository.CarRepository;
 import com.genesisairport.reservation.entity.Coupon;
 import com.genesisairport.reservation.entity.Reservation;
-import com.genesisairport.reservation.response.ReservationListAbstract;
 import com.genesisairport.reservation.respository.CouponRepository;
 import com.genesisairport.reservation.respository.CustomerRepository;
 import com.genesisairport.reservation.respository.RepairShopRepository;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -56,7 +52,7 @@ public class ReservationService {
         return timeList.getTimeSlots().isEmpty() ? null : timeList;
     }
 
-    public ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
+    public ReservationResponse.ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
         // 요청 바디에서 필요한 정보 추출
         String from = requestBody.getDepartureTime();
         String to = requestBody.getArrivalTime();
@@ -103,19 +99,19 @@ public class ReservationService {
             couponRepository.save(c);
         }
 
-        return ReservationPostResponse.builder()
+        return ReservationResponse.ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
                 .repairShopAddress(repairShopRepository.findRepairShopByShopName(repairShop).getAddress())
                 .customerName(customerRepository.findCustomerById(customerId).getName())
                 .build();
     }
 
-    public List<ReservationListAbstract> getReservationList(Long customerId) {
+    public List<ReservationResponse.ReservationListAbstract> getReservationList(Long customerId) {
         List<Reservation> reservationList = reservationRepository.findReservationsByCustomerId(customerId);
-        List<ReservationListAbstract> reservationDTOs = new ArrayList<>();
+        List<ReservationResponse.ReservationListAbstract> reservationDTOs = new ArrayList<>();
 
         for (Reservation r : reservationList) {
-            ReservationListAbstract reservationDTO = new ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
+            ReservationResponse.ReservationListAbstract reservationDTO = new ReservationResponse.ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
             reservationDTOs.add(reservationDTO);
         }
 
