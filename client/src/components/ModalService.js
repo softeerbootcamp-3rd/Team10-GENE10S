@@ -10,13 +10,10 @@ export default function ModalService({ props, prevStep }) {
   function handleServiceClick(event) {
     const service = event.currentTarget.id;
     if (services.includes(service)) {
-      console.log(service + ' remove');
       setServices(services.filter(item => item !== service));
     } else {
-      console.log(service + ' add');
       setServices([...services, service]);
     }
-    console.log(services);
   }
 
   function handlePrev() {
@@ -38,7 +35,6 @@ export default function ModalService({ props, prevStep }) {
                 className={classNames('select', { active: services.includes('oil') })}
                 onClick={e => {
                   handleServiceClick(e);
-                  console.log(services);
                 }}
               >
                 각종 오일 및 호스 상태
