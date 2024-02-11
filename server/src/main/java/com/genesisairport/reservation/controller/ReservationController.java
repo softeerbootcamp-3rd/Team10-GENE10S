@@ -81,12 +81,12 @@ public class ReservationController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<DataResponseDto<List<ReservationResponse.ReservationListAbstract>>> getReservationList(HttpServletRequest request) {
+    public ResponseEntity<DataResponseDto<List<ReservationResponse.ReservationInfoAbstract>>> getReservationList(HttpServletRequest request) {
         log.debug("특정 사용자 예약 내역 조회");
 
         Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
 
-        List<ReservationResponse.ReservationListAbstract> reservationList = reservationService.getReservationList(customer.get().getId());
+        List<ReservationResponse.ReservationInfoAbstract> reservationList = reservationService.getReservationList(customer.get().getId());
 
         return new ResponseEntity<>(DataResponseDto.of(reservationList), HttpStatus.OK);
     }

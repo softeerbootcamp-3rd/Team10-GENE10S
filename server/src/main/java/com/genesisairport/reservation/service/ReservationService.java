@@ -106,12 +106,12 @@ public class ReservationService {
                 .build();
     }
 
-    public List<ReservationResponse.ReservationListAbstract> getReservationList(Long customerId) {
+    public List<ReservationResponse.ReservationInfoAbstract> getReservationList(Long customerId) {
         List<Reservation> reservationList = reservationRepository.findReservationsByCustomerId(customerId);
-        List<ReservationResponse.ReservationListAbstract> reservationDTOs = new ArrayList<>();
+        List<ReservationResponse.ReservationInfoAbstract> reservationDTOs = new ArrayList<>();
 
         for (Reservation r : reservationList) {
-            ReservationResponse.ReservationListAbstract reservationDTO = new ReservationResponse.ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
+            ReservationResponse.ReservationInfoAbstract reservationDTO = new ReservationResponse.ReservationInfoAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
             reservationDTOs.add(reservationDTO);
         }
 

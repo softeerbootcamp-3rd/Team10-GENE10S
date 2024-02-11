@@ -52,7 +52,7 @@ public class ReservationResponse {
 
     @Getter
     @Builder
-    public static class ReservationListAbstract{
+    public static class ReservationInfoAbstract{
         private long reservationId;
         private String departureTime;
         private String arrivalTime;
@@ -61,11 +61,11 @@ public class ReservationResponse {
         private String repairShop;
 
         // 기본 생성자를 추가합니다.
-        public ReservationListAbstract() {
+        public ReservationInfoAbstract() {
         }
 
         // 이 생성자를 사용하여 객체를 생성할 수 있도록 합니다.
-        public ReservationListAbstract(long reservationId, String departureTime, String arrivalTime, String progressStage, String carSellName, String repairShop) {
+        public ReservationInfoAbstract(long reservationId, String departureTime, String arrivalTime, String progressStage, String carSellName, String repairShop) {
             this.reservationId = reservationId;
             this.departureTime = departureTime;
             this.arrivalTime = arrivalTime;
