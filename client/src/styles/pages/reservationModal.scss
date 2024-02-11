@@ -99,6 +99,41 @@
           }
         }
       }
+
+      .available-times {
+        display: flex;
+        padding: 10px;
+        justify-content: center;
+        align-items: flex-start;
+        align-content: flex-start;
+        gap: 12px;
+        align-self: stretch;
+        flex-wrap: wrap;
+
+        .time {
+          display: flex;
+          padding: 8px 24px;
+          justify-content: center;
+          align-items: center;
+          border-radius: 5px;
+          border: 1px solid $orange_600;
+          color: $gray_200;
+
+          .time_text {
+            @extend %B_20;
+            text-align: center;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background-color: $orange_600;
+          }
+
+          &.active {
+            color: $gray_900;
+          }
+        }
+      }
     }
 
     .frame_right {
