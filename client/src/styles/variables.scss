@@ -17,132 +17,214 @@ $gray_900: #0f0e0d;
 
 $white: #fffefd;
 $black: #121110;
+$uyh: #fffefd;
 
-$font_size_48: 48px;
-$font_size_40: 40px;
-$font_size_24: 24px;
-$font_size_20: 20px;
-$font_size_18: 18px;
-$font_size_16: 16px;
-$font_size_14: 14px;
-$font_size_12: 12px;
-
-$line_height_54: 54px;
-$line_height_48: 48px;
-$line_height_34: 34px;
-$line_height_28: 28px;
-$line_height_26: 26px;
-$line_height_24: 24px;
-$line_height_22: 22px;
-$line_height_20: 20px;
-
-$font_weight_bold: 700;
-$font_weight_semi_bold: 600;
-$font_weight_medium: 500;
-$font_weight_regular: 400;
-
-$font_family_apple_SD_GN: 'Apple SD Gothic Neo';
-
-%B_48 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_bold;
-  font-size: $font_size_48;
-  line-height: $line_height_54;
+%appple_sd_gn {
+  color: $uyh;
+  font-family: 'Apple SD Gothic Neo';
 }
 
-%B_40 {
-  font-weight: $font_weight_bold;
-  font-style: $font_size_40;
-  font-size: $line_height_48;
+%bold {
+  font-weight: 700;
 }
 
-%B_24 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_bold;
-  font-size: $font_size_24;
-  line-height: $line_height_34;
+%size {
+  &_60 {
+    font-size: 60px;
+    line-height: 72px;
+  }
+
+  &_48 {
+    font-size: 48px;
+    line-height: 54px;
+  }
+
+  &_40 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  &_36 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+
+  &_30 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  &_24 {
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  &_20 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  &_18 {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  &_16 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &_14 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  &_12 {
+    font-size: 12px;
+    line-height: 20px;
+  }
 }
 
-%B_20 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_bold;
-  font-size: $font_size_20;
-  line-height: $line_height_28;
+%B {
+  color: $uyh;
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: 700;
+
+  &_60 {
+    @extend %B;
+    @extend %size_60;
+  }
+
+  &_48 {
+    @extend %B;
+    @extend %size_48;
+  }
+
+  &_40 {
+    @extend %B;
+    @extend %size_40;
+  }
+
+  &_36 {
+    @extend %B;
+    @extend %size_36;
+  }
+
+  &_30 {
+    @extend %B;
+    @extend %size_30;
+  }
+
+  &_24 {
+    @extend %B;
+    @extend %size_24;
+  }
+
+  &_20 {
+    @extend %B;
+    @extend %size_20;
+  }
+
+  &_18 {
+    @extend %B;
+    @extend %size_18;
+  }
+
+  &_16 {
+    @extend %B;
+    @extend %size_16;
+  }
 }
 
-%B_18 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_bold;
-  font-size: $font_size_18;
-  line-height: $line_height_26;
+%SB {
+  color: $uyh;
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: 600;
+
+  &_36 {
+    @extend %SB;
+    @extend %size_36;
+  }
+
+  &_30 {
+    @extend %SB;
+    @extend %size_30;
+  }
+
+  &_24 {
+    @extend %SB;
+    @extend %size_24;
+  }
+
+  &_18 {
+    @extend %SB;
+    @extend %size_18;
+  }
+
+  &_16 {
+    @extend %SB;
+    @extend %size_16;
+  }
+
+  &_14 {
+    @extend %SB;
+    @extend %size_14;
+  }
 }
 
-%B_16 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_bold;
-  font-size: $font_size_16;
-  line-height: $line_height_24;
+%M {
+  color: $uyh;
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: 500;
+
+  &_30 {
+    @extend %M;
+    @extend %size_30;
+  }
+
+  &_24 {
+    @extend %M;
+    @extend %size_24;
+  }
+
+  &_20 {
+    @extend %M;
+    @extend %size_20;
+  }
+
+  &_16 {
+    @extend %M;
+    @extend %size_16;
+  }
+
+  &_14 {
+    @extend %M;
+    @extend %size_14;
+  }
+
+  &_12 {
+    @extend %M;
+    @extend %size_12;
+  }
 }
 
-%SB_18 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_semi_bold;
-  font-size: $font_size_18;
-  line-height: $line_height_26;
-}
+%R {
+  color: $uyh;
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: 400;
 
-%SB_16 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_semi_bold;
-  font-size: $font_size_16;
-  line-height: $line_height_24;
-}
+  &_16 {
+    @extend %R;
+    @extend %size_16;
+  }
 
-%SB_14 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_semi_bold;
-  font-size: $font_size_14;
-  line-height: $line_height_22;
-}
+  &_14 {
+    @extend %R;
+    @extend %size_14;
+  }
 
-%M_16 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_medium;
-  font-size: $font_size_16;
-  line-height: $line_height_24;
-}
-
-%M_14 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_medium;
-  font-size: $font_size_14;
-  line-height: $line_height_22;
-}
-
-%M_12 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_medium;
-  font-size: $font_size_12;
-  line-height: $line_height_20;
-}
-
-%R_16 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_regular;
-  font-size: $font_size_16;
-  line-height: $line_height_24;
-}
-
-%R_14 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_regular;
-  font-size: $font_size_14;
-  line-height: $line_height_22;
-}
-
-%R_12 {
-  font-family: $font_family_apple_SD_GN;
-  font-weight: $font_weight_regular;
-  font-size: $font_size_12;
-  line-height: $line_height_20;
+  &_12 {
+    @extend %R;
+    @extend %size_12;
+  }
 }
