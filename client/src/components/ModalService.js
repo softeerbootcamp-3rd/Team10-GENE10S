@@ -152,7 +152,7 @@ export default function ModalService({ props, prevStep }) {
               />
             </div>
           </div>
-          <div className={classNames('category_row')}>
+          <div className={classNames('category_row', 'last-child')}>
             <span className={classNames('title')}>7. 쿠폰번호 입력</span>
             <div className={classNames('content')}>
               <input

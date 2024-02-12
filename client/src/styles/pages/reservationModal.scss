@@ -154,7 +154,7 @@
         align-self: stretch;
         border-bottom: 1px solid $gray_400;
 
-        &:last-child {
+        &.last-child {
           border-bottom: none;
         }
 
