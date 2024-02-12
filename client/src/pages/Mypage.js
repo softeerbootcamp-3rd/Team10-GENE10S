@@ -1,10 +1,30 @@
 import classNames from 'classnames';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function Mypage() {
   const image_url = "https://genesis-airport.s3.ap-northeast-2.amazonaws.com/car/g80.png"
 
+  const [profileInfo, setProfileInfo] = useState({});
+  const [carList, setCarList] = useState([]);
+
+  useEffect(() => {
+    axios.get('v1/user/profile')
+      .then ((response) => {
+        console.log("Received Profile Data: ", response.data.data);
+        setProfileInfo(response.data.data);
+      })
+      .catch ((error) => console.log("Error message :", error))
+
+    axios.get('v1/reservation/car-list')
+      .then ((response) => {
+        console.log("Received car-list : ", response.data.data);
+        setCarList(response.data.data);
+      })
+  }, [])
+  
   return (
     <>
       <Header />
@@ -41,19 +61,17 @@ export default function Mypage() {
                 <div className={classNames('profile-info')}>
                   <div className={classNames('name')}>
                     <div className={classNames('text')}>
-                      김주환
+                      {profileInfo.name}
                     </div>
                     <div className={classNames('setting')} />
                   </div>
-                  <div className={classNames('email')}>rlawnghks99@gmail.com</div>
+                  <div className={classNames('email')}>{profileInfo.imageUrl}</div>
                   <div className={classNames('cars')}>
-                    {/* 차량 리스트 불러와서 컴포넌트로 출력해야함 */}
-                    <div className={classNames('car-name')}>
-                      <div className={classNames('text')}>Genesis G80</div>
+                    {carList.map((car, index) => (
+                    <div key={index} className={classNames('car-name')}>
+                      <div className={classNames('text')}>{car.sellName}</div>
                     </div>
-                    <div className={classNames('car-name')}>
-                      <div className={classNames('text')}>Genesis GV80</div>
-                    </div>
+                  ))}
                   </div>
                 </div>
               </div>
