@@ -3,8 +3,6 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 export default function Mypage() {
-  const image_url = "https://genesis-airport.s3.ap-northeast-2.amazonaws.com/car/g80.png"
-
   return (
     <>
       <Header />
