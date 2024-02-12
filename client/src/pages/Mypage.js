@@ -3,12 +3,14 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Mypage() {
   const image_url = "https://genesis-airport.s3.ap-northeast-2.amazonaws.com/car/g80.png"
 
   const [profileInfo, setProfileInfo] = useState({});
   const [carList, setCarList] = useState([]);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     axios.get('v1/user/profile')
@@ -45,14 +47,17 @@ export default function Mypage() {
             {/* 마이페이지 메뉴 */}
             <div className={classNames('side-menu')}>
               <div className={classNames('menu-item-active')}>
-                <div className={classNames('menu-name')}>
-                  내 정보
-                </div>
+                <Link to='/mypage' className={classNames('menu-name')}>내 정보</Link>
               </div>
-              <div className={classNames('menu-item-deactive')}>
-                <div className={classNames('menu-name')}>
+              <div className={classNames({'menu-item-deactive': !isHovered, 'menu-item-active': isHovered })}>
+                <Link 
+                  to='/reservation-list' 
+                  className={classNames('menu-name')}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
                   예약 내역
-                </div>
+                </Link>
               </div>
             </div>
             <div className={classNames('content')}>
@@ -63,7 +68,7 @@ export default function Mypage() {
                     <div className={classNames('text')}>
                       {profileInfo.name}
                     </div>
-                    <div className={classNames('setting')} />
+                    <Link to="/profile_edit" className={classNames('setting')} />
                   </div>
                   <div className={classNames('email')}>{profileInfo.imageUrl}</div>
                   <div className={classNames('cars')}>

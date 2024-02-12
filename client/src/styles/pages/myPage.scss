@@ -1,3 +1,7 @@
+a {
+  text-decoration: none;
+}
+
 .page {
   display: flex;
   width: 1920px;
@@ -109,6 +113,11 @@
             font-weight: 700;
             line-height: 34px; /* 141.667% */
           }
+        }
+
+        .menu-item-active .menu-name,
+        .menu-item-deactive .menu-name {
+          transition: color 0.3s ease; /* 트랜지션 효과 추가 */
         }
       }
       
