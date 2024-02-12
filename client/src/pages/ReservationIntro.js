@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import React from 'react';
 import { useState } from 'react';
+import AirportBranch from '../components/AirportBranch';
 
 export default function ReservationIntro() {
 
@@ -117,34 +118,16 @@ export default function ReservationIntro() {
             </div>
           </div>
           <div className={classNames('main-btn')}>
-            <a className={classNames('type')} href="">
-              <div className={classNames('image-1')}/>
-              <div className={classNames('title')}>
-                <div className={classNames('name')}>
-                  블루핸즈 김포공항점
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 30 20" fill="none">
-                  <path d="M1 9.55904H29M29 9.55904L19.102 1.2207M29 9.55904L19.102 18.7812" stroke="#B57B1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div className={classNames('text-content')}>
-              안전과 신뢰를 바탕으로 김포공항에서의 여정을 편안하게 안내합니다.
-              </div>
-            </a>
-            <div className={classNames('type')}>
-            <div className={classNames('image-2')}/>
-              <div className={classNames('title')}>
-                <div className={classNames('name')}>
-                  블루핸즈 인천공항점
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 30 20" fill="none">
-                  <path d="M1 9.55904H29M29 9.55904L19.102 1.2207M29 9.55904L19.102 18.7812" stroke="#B57B1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div className={classNames('text-content')}>
-                최상의 편의성과 서비스로 인천공항 여정을 완벽하게 지원합니다.
-              </div>
-            </div>
+            <AirportBranch
+              name="블루핸즈 김포공항점"
+              description="안전과 신뢰를 바탕으로 김포공항에서의 여정을 편안하게 안내합니다."
+              imageType="image-1"
+            />
+            <AirportBranch
+              name="블루핸즈 인천공항점"
+              description="최상의 편의성과 서비스로 인천공항 여정을 완벽하게 지원합니다."
+              imageType="image-2"
+            />
           </div>
         </div>
 
