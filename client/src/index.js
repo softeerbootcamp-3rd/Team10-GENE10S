@@ -8,6 +8,7 @@ import ReservationDate from './pages/ReservationDate';
 import Bot from './pages/Bot';
 import Mypage from './pages/Mypage';
 import ReservationComplete from './pages/ReservationComplete';
+import ReservationModal from './pages/ReservationModal';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
       <Route path="/" element={<Main />} />
       <Route path="/reservation" element={<ReservationDate />} />
       <Route path="/reservation/complete" element={<ReservationComplete />} />
+      <Route path="/reservation/modal" element={<ReservationModal />} />
       <Route path="/bot" element={<Bot />} />
       <Route path="/mypage" element={<Mypage />} />
       <Route path="*" element={<NotFound />} />
