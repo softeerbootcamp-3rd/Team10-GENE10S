@@ -19,24 +19,23 @@
   align-self: stretch;
 }
 
-.calendar > .month > .arrow-left {
+.calendar > .month > .arrow-left,
+.calendar > .month > .arrow-right {
   display: flex;
   padding: 4px;
   justify-content: center;
   align-items: center;
+}
+
+.calendar > .month > .arrow-left:hover,
+.calendar > .month > .arrow-right:hover {
+  cursor: pointer;
 }
 
 .calendar > .month > .text {
   color: $gray_200;
   text-align: center;
   @extend %B_20;
-}
-
-.calendar > .month > .arrow-right {
-  display: flex;
-  padding: 4px;
-  justify-content: center;
-  align-items: center;
 }
 
 .calendar > .calendar-content {
