@@ -1,0 +1,117 @@
+@import '../variables.scss';
+
+.calendar {
+  display: flex;
+  width: 100%;
+  height: 70%;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+
+  &_header {
+    @extend %B_20;
+    text-align: center;
+    display: flex;
+    padding-bottom: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: stretch;
+    justify-content: space-between;
+    color: $gray_100;
+
+    .year-month {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header_button {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &_grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
+
+    .calendar_line {
+      @extend %B_20;
+      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      align-self: stretch;
+      color: $gray_400;
+
+      &:first-child {
+        color: $gray_200;
+
+        :first-child {
+          color: $orange_500;
+        }
+
+        :last-child {
+          color: $orange_500;
+        }
+      }
+
+      .calendar_day {
+        display: flex;
+        width: 50px;
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+
+        &.current-month {
+          color: $gray_200;
+
+          &:hover {
+            cursor: pointer;
+            box-shadow: 0 0 0 1px $gray_200;
+          }
+
+          &.weekend {
+            color: $orange_500;
+
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0 0 0 1px $orange_500;
+            }
+          }
+        }
+
+        &.other-month {
+          color: $gray_500;
+
+          &:hover {
+            cursor: pointer;
+            box-shadow: 0 0 0 1px $gray_500;
+          }
+
+          &.weekend {
+            color: $orange_500;
+
+            &:hover {
+              cursor: pointer;
+              box-shadow: 0 0 0 1px $orange_500;
+            }
+          }
+        }
+      }
+    }
+  }
+}
