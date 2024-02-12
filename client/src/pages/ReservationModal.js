@@ -59,13 +59,11 @@ export default function ReservationModal() {
   }
 
   return (
-    <div className={classNames('reservation-modal')}>
+    <div className={classNames('modal-page')}>
       <ModalHeader shopName={shopName} currentStep={currentStep} />
-      <div className={classNames('modal-page')}>
-        {currentStep === 'date' ? <ModalDate props={dateProps} nextStep={dateToInfo} /> : null}
-        {currentStep === 'info' ? <ModalInfo props={infoProps} prevStep={infoToDate} nextStep={infoToService} /> : null}
-        {currentStep === 'service' ? <ModalService props={serviceProps} prevStep={serviceToInfo} /> : null}
-      </div>
+      {currentStep === 'date' ? <ModalDate props={dateProps} nextStep={dateToInfo} /> : null}
+      {currentStep === 'info' ? <ModalInfo props={infoProps} prevStep={infoToDate} nextStep={infoToService} /> : null}
+      {currentStep === 'service' ? <ModalService props={serviceProps} prevStep={serviceToInfo} /> : null}
     </div>
   );
 }

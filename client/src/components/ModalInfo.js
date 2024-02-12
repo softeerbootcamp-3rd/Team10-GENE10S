@@ -62,7 +62,7 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
     const carButton = carListData.map((carData, index) => (
       <div
         id={index}
-        className={classNames('car_info')}
+        className={classNames('car-info')}
         onClick={e => {
           handleInputCar(e);
         }}
@@ -83,14 +83,14 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
   return (
     <>
       <div className={classNames('body')}>
-        <div className={classNames('frame_left')}>
-          <div className={classNames('frame_left_title')}>내 차 정보 자동입력</div>
-          <div id="carList" className={classNames('car_list')}>
+        <div className={classNames('frame-left')}>
+          <div className={classNames('frame-type')}>내 차 정보 자동입력</div>
+          <div id="carList" className={classNames('car-list')}>
             <GenerateCarButton />
           </div>
         </div>
-        <div className={classNames('frame_right')}>
-          <div className={classNames('category_row')}>
+        <div className={classNames('frame-right')}>
+          <div className={classNames('category-row')}>
             <span className={classNames('title')}>3. 연락처</span>
             <div className={classNames('content')}>
               <input
@@ -119,7 +119,7 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
               />
             </div>
           </div>
-          <div className={classNames('category_row')}>
+          <div className={classNames('category-row')}>
             <span className={classNames('title')}>4. 차량 정보</span>
             <div className={classNames('content')}>
               <span className={classNames('input-hint')}>차종</span>

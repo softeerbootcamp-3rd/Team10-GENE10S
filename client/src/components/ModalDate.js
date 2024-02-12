@@ -26,37 +26,11 @@ export default function ModalDate({ nextStep, props }) {
   return (
     <>
       <div className={classNames('body')}>
-        <div className={classNames('frame_left')}>
-          <Calendar />
-          <div className={classNames('available-times')}>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-          </div>
+        <div className={classNames('frame-left')}>
+          <Calendar year={2024} month={3} />
         </div>
-        <div className={classNames('frame_right')}>
-          <div className={classNames('category_row')}>
+        <div className={classNames('frame-right')}>
+          <div className={classNames('category-row')}>
             <span className={classNames('title')}>1. 센터 방문</span>
             <span className={classNames('content')}>
               <div className={classNames('input-area', 'w-200')}>
@@ -67,7 +41,7 @@ export default function ModalDate({ nextStep, props }) {
               </div>
             </span>
           </div>
-          <div className={classNames('category_row')}>
+          <div className={classNames('category-row')}>
             <span className={classNames('title')}>2. 픽업 시간</span>
             <span className={classNames('content')}>
               <div className={classNames('input-area', 'w-200')}>
