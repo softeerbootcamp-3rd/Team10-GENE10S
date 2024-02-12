@@ -34,12 +34,12 @@
       left: 84px;
       top: 203px;
 
-      border-bottom: 1px solid var(--uyh, #FFFEFD);
+      border-bottom: 1px solid var(--uyh, $uyh);
 
       .title-text {
-        color: var(--uyh, #FFFEFD);
+        color: var(--uyh, $uyh);
         text-align: center;
-        font-family: "Noto Sans Arabic";
+        font-family: Inter;
         font-size: 60px;
         font-style: normal;
         font-weight: 800;
@@ -56,7 +56,7 @@
     gap: 40px;
     align-self: stretch;
 
-    background: var(--gray_900, #0F0E0D);
+    background: var(--gray_900, $gray_900);
 
     .text-title {
       display: flex;
@@ -66,7 +66,7 @@
 
       .text {
         color: #FFF;
-        font-family: "Noto Sans Arabic";
+        font-family: Inter;
         font-size: 48px;
         font-style: normal;
         font-weight: 800;
@@ -110,9 +110,9 @@
           gap: 12px;
 
           .name {
-            color: var(--uyh, #FFFEFD);
+            color: var(--uyh, $uyh);
             text-align: center;
-            font-family: "Noto Sans Arabic";
+            font-family: Inter;
             font-size: 32px;
             font-style: normal;
             font-weight: 700;
@@ -123,14 +123,14 @@
             width: 28px;
             height: 17.56px;
             stroke-width: 2px;
-            stroke: var(--orange_700, #B57B1E);
+            stroke: var(--orange_700, $orange_700);
           }
         }
 
         .text-content {
           align-self: stretch;
-          color: var(--gray_200, #DDD8D2);
-          font-family: "Noto Sans Arabic";
+          color: var(--gray_200, $gray_200);
+          font-family: Inter;
           font-size: 24px;
           font-style: normal;
           font-weight: 500;
@@ -151,14 +151,14 @@
     gap: 52px;
     align-self: stretch;
 
-    background: var(--uyh, #FFFEFD);
+    background: var(--uyh, $uyh);
 
     .txt-title {
       align-self: stretch;
 
       color: #000;
       text-align: center;
-      font-family: "Noto Sans Arabic";
+      font-family: Inter;
       font-size: 48px;
       font-style: normal;
       font-weight: 800;
@@ -187,7 +187,7 @@
     gap: 180px;
     align-self: stretch;
 
-    background: var(--gray_900, #0F0E0D);
+    background: var(--gray_900, $gray_900);
 
     .service-info {
       display: flex;
@@ -199,7 +199,7 @@
       .title {
         color: #FFF;
         text-align: center;
-        font-family: "Noto Sans Arabic";
+        font-family: Inter;
         font-size: 48px;
         font-style: normal;
         font-weight: 800;
@@ -264,7 +264,7 @@
           justify-content: center;
           flex: 1 0 0;
 
-          color: var(--orange_700, #B57B1E);
+          color: var(--orange_700, $orange_700);
           text-align: center;
           font-family: Inter;
           font-size: 40px;
@@ -300,8 +300,8 @@
             }
         
             &.button-click {
-              border-bottom: 3px solid var(--orange_500, #F3AB39);
-              color: var(--orange_500, var(--color, #F3AB39));
+              border-bottom: 3px solid var(--orange_500, $orange_500);
+              color: var(--orange_500, var(--color, $orange_500));
             }
           }
         }
@@ -320,7 +320,7 @@
           .txt-info {
             flex: 1 0 0;
 
-            color: var(--gray_300, #B6B0A8);
+            color: var(--gray_300, $gray_300);
             font-family: Inter;
             font-size: 30px;
             font-style: normal;
