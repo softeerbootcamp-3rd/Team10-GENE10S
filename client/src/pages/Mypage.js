@@ -14,17 +14,11 @@ export default function Mypage() {
 
   useEffect(() => {
     axios.get('v1/user/profile')
-      .then ((response) => {
-        console.log("Received Profile Data: ", response.data.data);
-        setProfileInfo(response.data.data);
-      })
+      .then ((response) => setProfileInfo(response.data.data))
       .catch ((error) => console.log("Error message :", error))
 
     axios.get('v1/reservation/car-list')
-      .then ((response) => {
-        console.log("Received car-list : ", response.data.data);
-        setCarList(response.data.data);
-      })
+      .then ((response) => setCarList(response.data.data))
   }, [])
   
   return (
