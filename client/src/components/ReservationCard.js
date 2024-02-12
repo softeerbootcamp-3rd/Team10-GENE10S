@@ -1,12 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 import { ProgressArrow200 } from './Arrow';
+import { Link } from 'react-router-dom';
 
 const ReservationCard = ({ reservationInfo }) => {
   return (
     <div className={classNames('content')}>
       { reservationInfo.map((reservation, index) => (
-        <div className={classNames('content-card')}>
+        <Link className={classNames('content-card')}
+          to='/'
+        >
         <div className={classNames('id-area')}>
           <div className={classNames('id-text')}>
             {reservation.reservationId}
@@ -37,7 +40,7 @@ const ReservationCard = ({ reservationInfo }) => {
           </div>
         </div>
         <ProgressArrow200/>
-      </div>
+      </Link>
     ))}
     </div>
   );
