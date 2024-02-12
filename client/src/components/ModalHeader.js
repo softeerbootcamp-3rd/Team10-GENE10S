@@ -1,9 +1,6 @@
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
 
 export default function ModalHeader() {
-  const [isLogin, setIsLogin] = useState(false);
-  const [uuid, setUuid] = useState('');
 
   return (
     <div className={classNames('modal-header')}>
@@ -13,7 +10,9 @@ export default function ModalHeader() {
         </span>
         <div className={classNames('dropdown')}>
           <div className={classNames('progress-arrow-200')}>
-            {/* todo */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12" fill="none">
+              <path d="M1.5 1.66406L10.4048 10.3375L19 1.66406" stroke="#DDD8D2" strokeWidth="2"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -25,7 +24,9 @@ export default function ModalHeader() {
           </span>
         </div>
         <div className={classNames('progress-arrow-500')}>
-          {/* todo */}
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
+            <path d="M1 18.75L9.67346 9.84524L0.999999 1.25" stroke="#726E69" strokeWidth="2"/>
+          </svg>
         </div>
         <div className={classNames('menu')}>
           <span className={classNames('text')}>
@@ -33,7 +34,9 @@ export default function ModalHeader() {
           </span>
         </div>
         <div className={classNames('progress-arrow-500')}>
-          {/* todo */}
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
+            <path d="M1 18.75L9.67346 9.84524L0.999999 1.25" stroke="#726E69" strokeWidth="2"/>
+          </svg>
         </div>
         <div className={classNames('menu')}>
           <span className={classNames('text')}>
