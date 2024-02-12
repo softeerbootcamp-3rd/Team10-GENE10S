@@ -1,8 +1,26 @@
 import classNames from 'classnames';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Mypage() {
+  const image_url = "https://genesis-airport.s3.ap-northeast-2.amazonaws.com/car/g80.png"
+
+  const [profileInfo, setProfileInfo] = useState({});
+  const [carList, setCarList] = useState([]);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    axios.get('v1/user/profile')
+      .then ((response) => setProfileInfo(response.data.data))
+      .catch ((error) => console.log("Error message :", error))
+
+    axios.get('v1/reservation/car-list')
+      .then ((response) => setCarList(response.data.data))
+  }, [])
+  
   return (
     <>
       <Header />
@@ -23,14 +41,17 @@ export default function Mypage() {
             {/* 마이페이지 메뉴 */}
             <div className={classNames('side-menu')}>
               <div className={classNames('menu-item-active')}>
-                <div className={classNames('menu-name')}>
-                  내 정보
-                </div>
+                <Link to='/mypage' className={classNames('menu-name')}>내 정보</Link>
               </div>
-              <div className={classNames('menu-item-deactive')}>
-                <div className={classNames('menu-name')}>
+              <div className={classNames({'menu-item-deactive': !isHovered, 'menu-item-active': isHovered })}>
+                <Link 
+                  to='/reservation-list' 
+                  className={classNames('menu-name')}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
                   예약 내역
-                </div>
+                </Link>
               </div>
             </div>
             <div className={classNames('content')}>
@@ -39,19 +60,17 @@ export default function Mypage() {
                 <div className={classNames('profile-info')}>
                   <div className={classNames('name')}>
                     <div className={classNames('text')}>
-                      김주환
+                      {profileInfo.name}
                     </div>
-                    <div className={classNames('setting')} />
+                    <Link to="/profile_edit" className={classNames('setting')} />
                   </div>
-                  <div className={classNames('email')}>rlawnghks99@gmail.com</div>
+                  <div className={classNames('email')}>{profileInfo.imageUrl}</div>
                   <div className={classNames('cars')}>
-                    {/* 차량 리스트 불러와서 컴포넌트로 출력해야함 */}
-                    <div className={classNames('car-name')}>
-                      <div className={classNames('text')}>Genesis G80</div>
+                    {carList.map((car, index) => (
+                    <div key={index} className={classNames('car-name')}>
+                      <div className={classNames('text')}>{car.sellName}</div>
                     </div>
-                    <div className={classNames('car-name')}>
-                      <div className={classNames('text')}>Genesis GV80</div>
-                    </div>
+                  ))}
                   </div>
                 </div>
               </div>
