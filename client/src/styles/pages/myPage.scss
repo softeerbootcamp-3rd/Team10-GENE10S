@@ -10,18 +10,19 @@ a {
 
   .title-area {
     display: flex;
-    height: 800px;
+    height: 648px;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    flex-shrink: 0;
     align-self: stretch;
 
     .image {
       flex: 1 0 0;
       align-self: stretch;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), url(../../assets/home-banner.png), lightgray 50% / cover no-repeat;
-    }
-    
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), url(../../assets/mypage-banner.png), lightgray 50% / cover no-repeat;    }
+      filter: brightness(150%); 
+
     .title-fixed {
       display: flex;
       padding: 24px;
@@ -30,9 +31,8 @@ a {
       gap: 48px;
     
       position: absolute;
-      left: 56px;
-      // bottom: 32px;
-      top: 766px;
+      left: 139px;
+      top: 237px;
     
 
       .title-text {
@@ -40,10 +40,10 @@ a {
         text-align: center;
 
         /* B_60 */
-        font-family: "Apple SD Gothic Neo";
+        font-family: "Abhaya Libre Medium";
         font-size: 60px;
         font-style: normal;
-        font-weight: 700;
+        font-weight: 500;
         line-height: 72px; /* 120% */
       }
     }
@@ -63,12 +63,11 @@ a {
       display: flex;
       padding: 24px;
       align-items: flex-start;
-      gap: 24px;
+      gap: 120px;
       align-self: stretch;
 
       .side-menu {
         display: flex;
-        width: 360px;
         padding: 0px 12px;
         flex-direction: column;
         align-items: flex-start;
@@ -77,7 +76,7 @@ a {
 
         .menu-item-active {
           display: flex;
-          padding: 24px;
+          padding: 16px 24px;
           align-items: flex-start;
           gap: 10px;
           align-self: stretch;
@@ -85,19 +84,19 @@ a {
           .menu-name {
             color: var(--uyh, #FFFEFD);
             text-align: center;
-
+            
             /* B_24 */
-            font-family: "Apple SD Gothic Neo";
+            font-family: "Abhaya Libre Medium";
             font-size: 24px;
             font-style: normal;
-            font-weight: 700;
+            font-weight: 500;
             line-height: 34px; /* 141.667% */
           }
         }
         
         .menu-item-deactive {
           display: flex;
-          padding: 24px;
+          padding: 16px 24px;
           align-items: flex-start;
           gap: 10px;
           align-self: stretch;
@@ -105,12 +104,12 @@ a {
           .menu-name {
             color: var(--gray_400, #928C86);
             text-align: center;
-
+            
             /* B_24 */
-            font-family: "Apple SD Gothic Neo";
+            font-family: "Abhaya Libre Medium";
             font-size: 24px;
             font-style: normal;
-            font-weight: 700;
+            font-weight: 500;
             line-height: 34px; /* 141.667% */
           }
         }
@@ -127,27 +126,29 @@ a {
     
     
     .content {
-      background-color: #0F0E0D;
       display: flex;
-      padding: 24px;
+      padding: 0px 24px;
       flex-direction: column;
       align-items: flex-start;
       gap: 24px;
       flex: 1 0 0;
       align-self: stretch;
 
+      // 타 css 반영 제거
+      background-color: #0F0E0D;
+
       // ProfileCard
       .profile-view {
         display: flex;
         align-items: flex-start;
-        gap: 24px;
+        gap: 40px;
         align-self: stretch;
 
         .profile-image {
           width: 400px;
           height: 266.56px;
         
-          border: 2px solid var(--uyh, #FFFEFD);
+          border-radius: 4px;
           background: url(../../assets/profile-image.png), lightgray 50% / cover no-repeat;
         }
         
@@ -157,7 +158,7 @@ a {
           flex-direction: column;
           justify-content: center;
           align-items: flex-start;
-          gap: 24px;
+          gap: 36px;
           flex: 1 0 0;
           align-self: stretch;
 
@@ -172,10 +173,10 @@ a {
               text-align: center;
               
               /* B_40 */
-              font-family: "Apple SD Gothic Neo";
+              font-family: "Abhaya Libre Medium";
               font-size: 40px;
               font-style: normal;
-              font-weight: 700;
+              font-weight: 500;
               line-height: 48px; /* 120% */
             }
             
@@ -190,12 +191,10 @@ a {
           .email {
             color: var(--gray_300, #B6B0A8);
             text-align: center;
-          
-            /* SB_24 */
-            font-family: "Apple SD Gothic Neo";
+            font-family: "Abhaya Libre Medium";
             font-size: 24px;
             font-style: normal;
-            font-weight: 600;
+            font-weight: 500;
             line-height: 34px; /* 141.667% */
           }
           
@@ -217,12 +216,12 @@ a {
               .text {
                 color: var(--gray_300, #B6B0A8);
                 text-align: center;
-
+                
                 /* B_24 */
-                font-family: "Apple SD Gothic Neo";
+                font-family: "Abhaya Libre Medium";
                 font-size: 24px;
                 font-style: normal;
-                font-weight: 700;
+                font-weight: 500;
                 line-height: 34px; /* 141.667% */
               }
             }
@@ -320,6 +319,10 @@ a {
             font-style: normal;
             font-weight: 500;
             line-height: 34px; /* 141.667% */
+
+            // 타 css 반영 제거
+            padding-top: 0;
+            padding-bottom: 0;
           }
 
           .shop-info {
