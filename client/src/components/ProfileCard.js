@@ -6,7 +6,9 @@ const ProfileCard = ({ profileInfo, carList }) => {
   return (
     <div className={classNames('content')}>
       <div className={classNames('profile-view')}>
-        <div className={classNames('profile-image')} />
+        { carList && carList.length > 0 && (
+          <img src={carList[0].imageUrl} classNames={classNames('profile-image')} />
+        )}
         <div className={classNames('profile-info')}>
           <div className={classNames('name')}>
             <div className={classNames('text')}>
