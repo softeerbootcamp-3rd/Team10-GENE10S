@@ -3,12 +3,17 @@ package com.genesisairport.reservation.service;
 import com.genesisairport.reservation.common.CommonDateFormat;
 import com.genesisairport.reservation.entity.Car;
 import com.genesisairport.reservation.entity.Customer;
+import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.response.UserResponse;
+import com.genesisairport.reservation.respository.CustomerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +24,7 @@ public class UserService {
 
     private final SessionService sessionService;
     private final CarService carService;
+    private final CustomerRepository customerRepository;
 
     public UserResponse.UserInfo getUserInfo(HttpServletRequest request) {
         Optional<Customer> customerOptional = sessionService.getLoggedInCustomer(request);
@@ -47,6 +53,24 @@ public class UserService {
                 .phoneNumber(customer.getPhoneNumber())
                 .carList(carInfo)
                 .build();
+    }
+
+    public void patchUserInfo(HttpServletRequest request, UserRequest.UserInfo userInfo) {
+        Optional<Customer> customerOptional = sessionService.getLoggedInCustomer(request);
+
+        // TODO: 로그인 유저 없을때
+        if (customerOptional.isEmpty())
+            return;
+
+        Customer customer = customerOptional.get();
+        if (!Strings.isEmpty(userInfo.getName()))
+            customer.setName(userInfo.getName());
+        if (!Strings.isEmpty(userInfo.getBirthdate()))
+            customer.setBirthdate(LocalDate.parse(userInfo.getBirthdate()));
+        if (!Strings.isEmpty(userInfo.getPhoneNumber()))
+            customer.setPhoneNumber(userInfo.getPhoneNumber());
+
+        customerRepository.save(customer);
     }
 
     public UserResponse.Profile getUserProfile(HttpServletRequest request) {
