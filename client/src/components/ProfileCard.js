@@ -16,7 +16,7 @@ const ProfileCard = ({ profileInfo, carList }) => {
             </div>
             <Link to="/profile_edit" className={classNames('setting')} />
           </div>
-          <div className={classNames('email')}>{profileInfo.imageUrl}</div>
+          <div className={classNames('email')}>{profileInfo.email}</div>
           <div className={classNames('cars')}>
             {carList.map((car, index) => (
               <div key={index} className={classNames('car-name')}>
