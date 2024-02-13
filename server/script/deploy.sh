@@ -1,3 +1,4 @@
+source /env.sh
 PROJECT_ROOT="/home/ubuntu/app/server"
 JAR_FILE="$PROJECT_ROOT/reservation-0.0.1-SNAPSHOT.jar"
 
@@ -32,6 +33,8 @@ else
   sleep 5
 fi
 
-DEPLOY_JAR="${DEPLOY_PATH}/${JAR_NAME}"
+DEPLOY_JAR="$DEPLOY_PATH/$JAR_NAME"
 echo "> DEPLOY_JAR 배포" >> "$DEPLOY_LOG"
+echo "DB_USERNAME: $DB_USERNAME" >> "$DEPLOY_LOG"  # 환경 변수 값 로깅
+echo "DB_PASSWORD: $DB_PASSWORD" >> "$DEPLOY_LOG"  # 환경 변수 값 로깅
 nohup java -DDB_USERNAME="$DB_USERNAME" -DDB_PASSWORD="$DB_PASSWORD" -jar "$DEPLOY_JAR" >> "$DEPLOY_LOG" 2>>"$ERROR_LOG" &
