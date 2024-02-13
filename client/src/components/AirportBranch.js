@@ -1,9 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
-const AirportBranch = ({ name, description, imageType }) => {
+const AirportBranch = ({ url, name, description, imageType }) => {
   return (
-    <div className={classNames('type')}>
+    <Link to={url} className={classNames('type')}>
       <div className={classNames(imageType)}/>
       <div className={classNames('title')}>
         <div className={classNames('name')}>
@@ -16,7 +17,7 @@ const AirportBranch = ({ name, description, imageType }) => {
       <div className={classNames('text-content')}>
         {description}
       </div>
-    </div>
+    </Link>
   );
 };
 

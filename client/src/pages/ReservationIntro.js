@@ -119,11 +119,13 @@ export default function ReservationIntro() {
           </div>
           <div className={classNames('main-btn')}>
             <AirportBranch
+              url="/reservation"
               name="블루핸즈 김포공항점"
               description="안전과 신뢰를 바탕으로 김포공항에서의 여정을 편안하게 안내합니다."
               imageType="image-1"
             />
             <AirportBranch
+              url="/reservation"
               name="블루핸즈 인천공항점"
               description="최상의 편의성과 서비스로 인천공항 여정을 완벽하게 지원합니다."
               imageType="image-2"
