@@ -2,8 +2,8 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
-    destination: /home/ubuntu/app
+  - source: /server
+    destination: /home/ubuntu/app/server
     overwrite: yes
 
 permissions:
