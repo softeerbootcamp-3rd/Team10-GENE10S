@@ -112,6 +112,7 @@
 }
 
 .profile-info > .profile-row > .car-list > .add > .text {
+  cursor: pointer;
   color: $orange_600;
   @extend %SB_20;
 }
