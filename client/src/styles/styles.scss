@@ -68,6 +68,18 @@ body {
   color: $uyh;
 }
 
+.text-area {
+  @extend %B_20;
+  color: $uyh;
+
+  display: flex;
+  padding: 7px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+}
+
 .btn {
   &-black {
     display: flex;
