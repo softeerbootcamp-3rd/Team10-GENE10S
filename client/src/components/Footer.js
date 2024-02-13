@@ -1,25 +1,34 @@
-import classNames from 'classnames';
+import { ProgressArrow200 } from './Arrow';
+import logo_facebook from '../assets/logo-facebook.png';
+import logo_x from '../assets/logo-x.png';
+import logo_link from '../assets/logo-link.png';
+import logo_footer from '../assets/logo-footer.png';
 
 export default function Footer() {
   return (
-    <div className={classNames('footer')}>
-      <div className={classNames('share')}>
-        <div className={classNames('share-group')}>
-          <div className={classNames('share-left')}>
-            <div className={classNames('share-left__text')}>공유하기</div>
-            <div className={classNames('share-left__facebook')} />
-            <div className={classNames('share-left__x')} />
-            <div className={classNames('share-left__url')} />
+    <div className="footer">
+      <div className="footer-bar">
+        <div className="footer-btn">
+          <div className="text-area">
+            <span className="footer-text">공유하기</span>
           </div>
-          <div className={classNames('share-right')}>
-            <div className={classNames('share-right__text')}>TOP</div>
-            <div className={classNames('share-right__arrow')}> &gt;</div>
+          <img className="link" src={logo_facebook} alt="" />
+          <img className="link" src={logo_x} alt="" />
+          <img className="link" src={logo_link} alt="" />
+        </div>
+        <div className="footer-btn">
+          <div className="text-area">
+            <span className="footer-text">TOP</span>
+          </div>
+          <div className="arrow-up">
+            <ProgressArrow200 />
           </div>
         </div>
       </div>
-      <div className={classNames('copyright')}>
-        <div className={classNames('copyright__image')} />
-        <div className={classNames('copyright__phrase')}>
+      <div className="footer-copyright">
+        <img className="link" src={logo_footer} alt="" />
+        <div className="image" />
+        <div className="text">
           <span>© Copyright 2024 Softeer Bootcamp Gene10s.</span>
           <span>All Rights Reserved.</span>
         </div>

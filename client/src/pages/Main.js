@@ -43,8 +43,8 @@ export default function Main() {
 
   return (
     <React.Fragment>
+      <Header />
       <div className={classNames('title-area')}>
-        <Header />
         <div className={classNames('image')}>
           <div className={classNames('btn-main')}>
             <div className={classNames('title-text')}>예약하기</div>
