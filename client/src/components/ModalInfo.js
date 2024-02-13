@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { BtnBlack } from './Button';
+import { getCarList } from '../api/ReservationApi';
 
 export default function ModalInfo({ prevStep, nextStep, props }) {
   const [phone1, setPhone1] = useState(props.phone1);
@@ -8,13 +9,7 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
   const [phone3, setPhone3] = useState(props.phone3);
   const [sellName, setSellName] = useState(props.sellName);
   const [plateNumber, setPlateNumber] = useState(props.plateNumber);
-
-  // 더미 데이터
-  const carListData = [
-    { sellName: 'sample-model', plateNumber: '12가 3456' },
-    { sellName: 'sample-model', plateNumber: '98하 7654' },
-    { sellName: 'sample-model', plateNumber: '64나 3154' },
-  ];
+  const [carListData, setCarListData] = useState([]);
 
   function handleNext() {
     if (phone1 === '' || phone2 === '' || phone3 === '' || sellName === '' || plateNumber === '') return;
@@ -56,6 +51,10 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
     phone2.addEventListener('keyup', e => {
       focusNext(e.target.value, 4, 'phone3');
     });
+
+    getCarList().then(result => {
+      setCarListData(result);
+    });
   }, []);
 
   function GenerateCarButton() {
@@ -69,7 +68,7 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
         key={index}
       >
         <div className={classNames('image-area')}>
-          <img className={classNames('image')} src={require(`../assets/${carData.sellName}.png`)} alt="" />
+          <img className={classNames('image')} src={carData.imageUrl} alt="" />
         </div>
         <div className={classNames('content-area')}>
           <span className={classNames('car-name')}>{carData.sellName}</span>
