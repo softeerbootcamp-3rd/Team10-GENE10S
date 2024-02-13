@@ -280,6 +280,16 @@ a {
         border-radius: 5px;
         background: var(--gray_800, #1D1C1B);
 
+        // animation
+        transform: translateX(100%);
+        opacity: 0;
+        transition: transform 1.0s ease, opacity 1.6s ease;
+
+        &.animate {
+          transform: translateX(0);
+          opacity: 1;
+        }
+
         .id-area {
           display: flex;
           width: 96px;
@@ -311,10 +321,13 @@ a {
           border-radius: 5px;
 
           .profile-image {
-            flex: 1 0 0;
-            align-self: stretch;
+            // flex: 1 0 0;
+            // align-self: stretch;
 
-            background: url(../../assets/profile-image.png), lightgray 50% / cover no-repeat;
+            width: 100%; /* image-area의 너비에 맞게 조정 */
+            height: 100%; /* image-area의 높이에 맞게 조정 */
+
+            background: lightgray 50% / cover no-repeat;
           }
         }
 
@@ -330,6 +343,16 @@ a {
             display: flex;
             align-items: center;
             gap: 24px;
+
+            // animation
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 1.0s ease, opacity 1.6s ease;
+
+            &.animate {
+              transform: translateX(0);
+              opacity: 1;
+            }
 
             .text {
               color: var(--gray_300, #B6B0A8);
@@ -363,6 +386,16 @@ a {
             // 타 css 반영 제거
             padding-top: 0;
             padding-bottom: 0;
+
+            // animation
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 1.0s ease, opacity 1.6s ease;
+
+            &.animate {
+              transform: translateX(0);
+              opacity: 1;
+            }
           }
 
           .shop-info {
@@ -373,6 +406,16 @@ a {
             font-style: normal;
             font-weight: 500;
             line-height: 26px; /* 144.444% */
+
+            // animation
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 1.0s ease, opacity 1.6s ease;
+
+            &.animate {
+              transform: translateX(0);
+              opacity: 1;
+            }
           }
         }
 
