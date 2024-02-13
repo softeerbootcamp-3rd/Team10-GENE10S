@@ -38,6 +38,7 @@ public class UserService {
 
         return UserResponse.Profile.builder()
                 .name(customer.getName())
+                .email(customer.getEmail())
                 .carSellName(carSellName)
                 .imageUrl(imageUrl)
                 .build();
