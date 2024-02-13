@@ -33,6 +33,7 @@ export default function Mypage() {
 
   const handleMenuClick = (menu) => {
     setCurrentMenu(menu);
+    window.scrollTo(0, 0); // 메뉴를 선택할 때마다 페이지의 맨 위로 스크롤 이동
   };
   
   return (
