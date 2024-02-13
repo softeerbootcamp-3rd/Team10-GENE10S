@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'genesis-head-light';
+  src: url('../fonts/GenesisSansHeadKRLight.woff2') format('woff2');
+}
+
 $orange_500: #f3ab39;
 $orange_600: #cf8d26;
 $orange_700: #b57b1e;
@@ -77,7 +82,7 @@ $uyh: #fffefd;
 }
 
 %B {
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'genesis-head-light', sans-serif;
   font-weight: 700;
 
   &_60 {
@@ -127,7 +132,7 @@ $uyh: #fffefd;
 }
 
 %SB {
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'genesis-head-light', sans-serif;
   font-weight: 600;
 
   &_36 {
@@ -167,7 +172,7 @@ $uyh: #fffefd;
 }
 
 %M {
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'genesis-head-light', sans-serif;
   font-weight: 500;
 
   &_30 {
