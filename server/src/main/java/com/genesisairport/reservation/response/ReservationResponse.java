@@ -14,6 +14,7 @@ public class ReservationResponse {
     public interface CarInfo {
         String getSellName();
         String getPlateNumber();
+        String getImageUrl();
     }
 
     @Getter
