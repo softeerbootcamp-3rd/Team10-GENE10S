@@ -228,14 +228,14 @@
       }
     }
   }
-}
 
-.btn-group {
-  display: flex;
-  padding: 0px 100px 60px 100px;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 48px;
-  align-self: stretch;
-  background-color: $gray_900;
+  .btn-group {
+    display: flex;
+    padding: 0px 100px 60px 100px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 48px;
+    align-self: stretch;
+    background-color: $gray_900;
+  }
 }
