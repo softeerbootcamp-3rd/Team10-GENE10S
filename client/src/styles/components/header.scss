@@ -1,47 +1,41 @@
 @import '../variables.scss';
 
-%header-button {
-  display: flex;
-  width: 167px;
-  height: 94px;
-  padding: 25px 20px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
 .header {
   display: flex;
   width: 1920px;
-  height: 94px;
-  flex-shrink: 0;
-  background-color: $gray_900;
-  align-items: center;
+  padding: 8px 24px;
   justify-content: space-between;
-}
+  align-items: center;
+  box-sizing: border-box;
+  position: fixed;
+  background-color: $gray_900;
+  transition: background-color 0.3s ease;
 
-.header-logo {
-  width: 131px;
-  height: 51px;
-
-  > img {
-    width: 185px;
-    height: 72px;
+  > .logo {
+    width: 146px;
+    height: 45px;
     flex-shrink: 0;
+  }
+
+  &.on-top {
+    transition: background-color 0.3s ease;
+    background-color: inherit;
   }
 }
 
-.header-button {
-  margin-right: 32px;
+.header > .btn-group {
   display: flex;
+  padding: 3px 0px;
+  align-items: center;
+  gap: 24px;
 
-  &__button {
-    @extend %header-button;
+  > .btn {
+    @extend %B_20;
     color: $gray_200;
-    width: 76px;
-    height: 29px;
-    text-decoration-line: none;
-    margin-left: 33px;
+    text-align: center;
+    display: flex;
+    padding: 12px 40px;
+    justify-content: center;
+    align-items: center;
   }
 }

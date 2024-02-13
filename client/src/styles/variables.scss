@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'genesis-head-light';
+  src: url('../fonts/GenesisSansHeadKRLight.woff2') format('woff2');
+}
+
 $orange_500: #f3ab39;
 $orange_600: #cf8d26;
 $orange_700: #b57b1e;
@@ -18,15 +23,6 @@ $gray_900: #0f0e0d;
 $white: #fffefd;
 $black: #121110;
 $uyh: #fffefd;
-
-%appple_sd_gn {
-  color: $uyh;
-  font-family: 'Apple SD Gothic Neo';
-}
-
-%bold {
-  font-weight: 700;
-}
 
 %size {
   &_60 {
@@ -86,8 +82,7 @@ $uyh: #fffefd;
 }
 
 %B {
-  color: $uyh;
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'genesis-head-light', sans-serif;
   font-weight: 700;
 
   &_60 {
@@ -137,8 +132,7 @@ $uyh: #fffefd;
 }
 
 %SB {
-  color: $uyh;
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'genesis-head-light', sans-serif;
   font-weight: 600;
 
   &_36 {
@@ -154,6 +148,11 @@ $uyh: #fffefd;
   &_24 {
     @extend %SB;
     @extend %size_24;
+  }
+
+  &_20 {
+    @extend %SB;
+    @extend %size_20;
   }
 
   &_18 {
@@ -173,8 +172,7 @@ $uyh: #fffefd;
 }
 
 %M {
-  color: $uyh;
-  font-family: 'Apple SD Gothic Neo';
+  font-family: 'genesis-head-light', sans-serif;
   font-weight: 500;
 
   &_30 {
@@ -209,7 +207,6 @@ $uyh: #fffefd;
 }
 
 %R {
-  color: $uyh;
   font-family: 'Apple SD Gothic Neo';
   font-weight: 400;
 

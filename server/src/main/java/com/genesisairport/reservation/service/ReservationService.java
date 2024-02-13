@@ -1,17 +1,11 @@
 package com.genesisairport.reservation.service;
 
+import com.genesisairport.reservation.entity.CarImage;
 import com.genesisairport.reservation.request.ReservationRequest;
-import com.genesisairport.reservation.response.ReservationPostResponse;
 import com.genesisairport.reservation.response.ReservationResponse;
-import com.genesisairport.reservation.response.ReservationDateResponse;
-import com.genesisairport.reservation.respository.CarRepository;
+import com.genesisairport.reservation.respository.*;
 import com.genesisairport.reservation.entity.Coupon;
 import com.genesisairport.reservation.entity.Reservation;
-import com.genesisairport.reservation.response.ReservationListAbstract;
-import com.genesisairport.reservation.respository.CouponRepository;
-import com.genesisairport.reservation.respository.CustomerRepository;
-import com.genesisairport.reservation.respository.RepairShopRepository;
-import com.genesisairport.reservation.respository.ReservationRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -33,6 +26,7 @@ public class ReservationService {
     private final RepairShopRepository repairShopRepository;
     private final CarRepository carRepository;
     private final CouponRepository couponRepository;
+    private final CarImageRepository carImageRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         return couponRepository.existsBySerialNumber(serialNumber);
@@ -56,22 +50,7 @@ public class ReservationService {
         return timeList.getTimeSlots().isEmpty() ? null : timeList;
     }
 
-    private List<ReservationDateResponse.TimeSlot> generateTimeSlots() {
-        List<ReservationDateResponse.TimeSlot> timeSlots = new ArrayList<>();
-
-        // 예시로 임의의 타임슬롯 정보를 생성
-        for (int i = 9; i <= 18; i++) {
-            ReservationDateResponse.TimeSlot timeSlot = ReservationDateResponse.TimeSlot.builder()
-                    .time(i)
-                    .available(i % 2 == 0) // 홀수 시간대는 false로, 짝수 시간대는 true로 설정 (임의의 데이터)
-                    .build();
-            timeSlots.add(timeSlot);
-        }
-
-        return timeSlots;
-    }
-
-    public ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
+    public ReservationResponse.ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
         // 요청 바디에서 필요한 정보 추출
         String from = requestBody.getDepartureTime();
         String to = requestBody.getArrivalTime();
@@ -118,20 +97,24 @@ public class ReservationService {
             couponRepository.save(c);
         }
 
-        return ReservationPostResponse.builder()
+        return ReservationResponse.ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
                 .repairShopAddress(repairShopRepository.findRepairShopByShopName(repairShop).getAddress())
                 .customerName(customerRepository.findCustomerById(customerId).getName())
                 .build();
     }
 
-    public List<ReservationListAbstract> getReservationList(Long customerId) {
+    public List<ReservationResponse.ReservationInfoAbstract> getReservationList(Long customerId) {
         List<Reservation> reservationList = reservationRepository.findReservationsByCustomerId(customerId);
-        List<ReservationListAbstract> reservationDTOs = new ArrayList<>();
+        List<ReservationResponse.ReservationInfoAbstract> reservationDTOs = new ArrayList<>();
 
         for (Reservation r : reservationList) {
-            ReservationListAbstract reservationDTO = new ReservationListAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
-            reservationDTOs.add(reservationDTO);
+            Optional<CarImage> carImageOptional = carImageRepository.findBySellName(r.getSellName());
+            if (carImageOptional.isPresent()) {
+                CarImage carImage = carImageOptional.get();
+                ReservationResponse.ReservationInfoAbstract reservationDTO = new ReservationResponse.ReservationInfoAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName(), carImage.getImageUrl());
+                reservationDTOs.add(reservationDTO);
+            }
         }
 
         return reservationDTOs;
