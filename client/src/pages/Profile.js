@@ -42,7 +42,7 @@ export default function Profile() {
         }
       });
 
-      window.location.href = '/mypage'; 
+      window.location.href = '/mypage';
 
     } catch (error) {
       console.error('Error updating user information:', error);
@@ -87,7 +87,7 @@ export default function Profile() {
         <div className={classNames('profile-info')}>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이름</span>
-            <input className={classNames('input')} defaultValue={profileInfo.name} value={userName} onChange={handleUserNameChange} />
+            <input className={classNames('input')} placeholder={profileInfo.name} value={userName} onChange={handleUserNameChange} />
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이메일</span>
@@ -95,11 +95,11 @@ export default function Profile() {
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>생년월일</span>
-            <input className={classNames('input')} defaultValue={profileInfo.birthdate} value={birthdate} onChange={handleBirthdateChange} />
+            <input className={classNames('input')} placeholder={profileInfo.birthdate} value={birthdate} onChange={handleBirthdateChange} />
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>연락처</span>
-            <input className={classNames('input')} defaultValue={profileInfo.phoneNumber} value={phoneNumber} onChange={handlePhoneNumberChange} />
+            <input className={classNames('input')} placeholder={profileInfo.phoneNumber} value={phoneNumber} onChange={handlePhoneNumberChange} />
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>보유 차량</span>
