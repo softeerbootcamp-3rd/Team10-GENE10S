@@ -144,6 +144,16 @@ a {
         gap: 40px;
         align-self: stretch;
 
+        // animation
+        transform: translateX(100%);
+        opacity: 0;
+        transition: transform 1.0s ease, opacity 1.6s ease;
+
+        &.animate {
+          transform: translateX(0);
+          opacity: 1;
+        }
+
         .profile-image {
           width: 400px;
           height: 266.56px;
@@ -167,6 +177,16 @@ a {
             justify-content: center;
             align-items: center;
             gap: 24px;
+
+            // animation
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 1.0s ease, opacity 1.6s ease;
+
+            &.animate {
+              transform: translateX(0);
+              opacity: 1;
+            }
 
             .text {
               color: var(--uyh, #FFFEFD);
@@ -196,6 +216,16 @@ a {
             font-style: normal;
             font-weight: 500;
             line-height: 34px; /* 141.667% */
+
+            // animation
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 1.0s ease, opacity 1.6s ease;
+
+            &.animate {
+              transform: translateX(0);
+              opacity: 1;
+            }
           }
           
           .cars {
@@ -203,6 +233,16 @@ a {
             align-items: center;
             gap: 24px;
             align-self: stretch;
+
+            // animation
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 1.0s ease, opacity 1.6s ease;
+
+            &.animate {
+              transform: translateX(0);
+              opacity: 1;
+            }
 
             .car-name {
               display: flex;
