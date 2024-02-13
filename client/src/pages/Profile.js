@@ -112,10 +112,10 @@ export default function Profile() {
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <div className={classNames('btn-white')}>
+          <div className={classNames('btn-black')}>
             <span className={classNames('text')}>취소하기</span>
           </div>
-          <div className={classNames('btn-orange')} onClick={handleUpdateClick}>
+          <div className={classNames('btn-black')} onClick={handleUpdateClick}>
             <span className={classNames('text')}>저장하기</span>
           </div>
         </div>
