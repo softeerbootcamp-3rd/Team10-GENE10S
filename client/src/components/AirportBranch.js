@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import AnimatedComponent from './AnimatedComponent';
 
 const AirportBranch = ({ url, name, description, imageType }) => {
   return (
