@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalHeader from '../components/ModalHeader';
 import ModalDate from '../components/ModalDate';
 import ModalInfo from '../components/ModalInfo';
 import ModalService from '../components/ModalService';
 
 export default function ReservationModal() {
-  const shopName = '블루핸즈 인천공항점';
+  const [shopName, setShopName] = useState('');
   const [currentStep, setCurrentStep] = useState('date');
   const [departureDate, setDepartureDate] = useState('');
   const [departureTime, setDepartureTime] = useState('');
@@ -20,6 +20,11 @@ export default function ReservationModal() {
   const [services, setServices] = useState([]);
   const [request, setRequest] = useState('');
   const [coupon, setCoupon] = useState('');
+
+  //임시 지정
+  useEffect(() => {
+    setShopName('블루핸즈 인천공항점');
+  }, []);
 
   const dateProps = { departureDate, departureTime, pickupDate, pickupTime };
   const infoProps = { phone1, phone2, phone3, sellName, plateNumber };
@@ -58,9 +63,32 @@ export default function ReservationModal() {
     setCurrentStep('info');
   }
 
+  function changeShop() {
+    if (shopName === '블루핸즈 인천공항점') {
+      setShopName('블루핸즈 김포공항점');
+    } else {
+      setShopName('블루핸즈 인천공항점');
+    }
+    setCurrentStep('date');
+    setDepartureDate('');
+    setDepartureTime('');
+    setPickupDate('');
+    setPickupTime('');
+    setPhone1('');
+    setPhone2('');
+    setPhone3('');
+    setSellName('');
+    setPlateNumber('');
+    setServices([]);
+    setRequest('');
+    setCoupon('');
+
+    document.querySelector('.shop-selector').classList.remove('dropped');
+  }
+
   return (
     <div className={classNames('modal-page')}>
-      <ModalHeader shopName={shopName} currentStep={currentStep} />
+      <ModalHeader shopName={shopName} currentStep={currentStep} changeShop={changeShop} />
       {currentStep === 'date' ? <ModalDate props={dateProps} nextStep={dateToInfo} /> : null}
       {currentStep === 'info' ? <ModalInfo props={infoProps} prevStep={infoToDate} nextStep={infoToService} /> : null}
       {currentStep === 'service' ? <ModalService props={serviceProps} prevStep={serviceToInfo} /> : null}

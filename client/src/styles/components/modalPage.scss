@@ -29,8 +29,24 @@
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  z-index: 100;
 
   border-right: 1px solid $gray_400;
+  background-color: $gray_900;
+
+  &.shop-selector {
+    z-index: 1;
+    position: absolute;
+    top: inherit;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.dropped {
+      top: 120px;
+    }
+  }
 }
 
 .modal-page > .modal-header > .shop-name > .text {
