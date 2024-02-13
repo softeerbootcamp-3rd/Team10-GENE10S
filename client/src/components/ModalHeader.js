@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 
-export default function ModalHeader() {
+export default function ModalHeader({shopName, currentStep}) {
 
   return (
     <div className={classNames('modal-header')}>
       <div className={classNames('shop-name')}>
         <span className={classNames('text')}>
-          블루핸즈 인천공항점
+          {shopName}
         </span>
         <div className={classNames('dropdown')}>
           <div className={classNames('progress-arrow-200')}>

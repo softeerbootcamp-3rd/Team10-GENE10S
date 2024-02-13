@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-export default function Calendar({ year, month }) {
+export default function Calendar({ year, month, day, handleDate, handleUnselect }) {
   const [activeAtom, setActiveAtom] = useState(null);
   const [currentYear, setCurrentYear] = useState(year);
   const [currentMonth, setCurrentMonth] = useState(month);
+
+  useEffect(() => {
+    console.log('asdfasfasfdfsaa')
+    setCurrentYear(year);
+    setCurrentMonth(month);
+    setActiveAtom(day);
+  }, [year, month, day])
 
   const getLastDayOfMonth = (year, month) => {
     return new Date(year, month, 0).getDate();
@@ -50,10 +57,10 @@ export default function Calendar({ year, month }) {
                 className={classNames({
                   'atom-nothing': date == null,
                   'atom': date != null && index > 0 && index < 6,
-                  'atom-weekday': date != null && index === 0 || index === 6,
+                  'atom-weekday': date != null && (index === 0 || index === 6),
                   'active': date != null && date === activeAtom
                 })}
-                onClick={() => handleClickAtom(date)}
+                onClick={date != null ? () => handleClickAtom(date) : null}
               >
                 <span className={classNames('text')}>{date}</span>
               </div>
@@ -68,10 +75,15 @@ export default function Calendar({ year, month }) {
 
   const handleClickAtom = (date) => {
     setActiveAtom(date);
+    if (date != null)
+      handleDate(currentYear, currentMonth, date);
+    else
+      handleUnselect();
   };
 
   const handleLastMonth = () => {
     setActiveAtom(null);
+    handleUnselect();
     if (currentMonth === 1) {
       setCurrentMonth(12);
       setCurrentYear(currentYear - 1); // 이전 년도로 설정
@@ -82,6 +94,7 @@ export default function Calendar({ year, month }) {
 
   const handleNextMonth = () => {
     setActiveAtom(null);
+    handleUnselect();
     if (currentMonth === 12) {
       setCurrentMonth(1);
       setCurrentYear(currentYear + 1); // 다음 년도로 설정

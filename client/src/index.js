@@ -5,7 +5,6 @@ import './styles/styles.scss';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 import ReservationIntro from './pages/ReservationIntro';
-import ReservationDate from './pages/ReservationDate';
 import Bot from './pages/Bot';
 import Mypage from './pages/Mypage';
 import ReservationComplete from './pages/ReservationComplete';
@@ -18,7 +17,6 @@ root.render(
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="/reservation-intro" element={<ReservationIntro />} />
-      <Route path="/reservation" element={<ReservationDate />} />
       <Route path="/reservation/complete" element={<ReservationComplete />} />
       <Route path="/reservation/modal" element={<ReservationModal />} />
       <Route path="/bot" element={<Bot />} />

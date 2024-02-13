@@ -3,62 +3,142 @@ import { BtnBlack } from './Button';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Calendar from './Calendar';
+import TimeSlots from './TimeSlots';
 
 export default function ModalDate({ nextStep, props }) {
+
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+
+  let departureYear = null;
+  let departureMonth = null;
+  let departureDay = null;
+  let pickupYear = null;
+  let pickupMonth = null;
+  let pickupDay = null;
+
   const [departureDate, setDepartureDate] = useState(props.departureDate);
   const [departureTime, setDepartureTime] = useState(props.departureTime);
   const [pickupDate, setPickupDate] = useState(props.pickupDate);
   const [pickupTime, setPickupTime] = useState(props.pickupTime);
 
-  // 더미 데이터
-  useEffect(() => {
-    setDepartureDate('2024년 3월 1일');
-    setDepartureTime('8 : 00');
-    setPickupDate('2024년 3월 11일');
-    setPickupTime('9 : 00');
-  }, []);
+  const [showTimes, setShowTimes] = useState(false);
+  const [timeData, setTimeData] = useState(null);
 
-  function handleNext() {
+  const [selectedInput, setSelectedInput] = useState('departure');
+  
+  const [calendarYear, setCalendarYear] = useState(currentYear);
+  const [calendarMonth, setCalendarMonth] = useState(currentMonth);
+  const [calendarDay, setCalendarDay] = useState(null);
+
+  const handleNext = () => {
     if (departureDate === '' || departureTime === '' || pickupDate === '' || pickupTime === '') return;
     nextStep(departureDate, departureTime, pickupDate, pickupTime);
+  }
+
+  const handleDate = (year, month, date) => {
+    if (selectedInput == 'departure') {
+      departureYear = year;
+      departureMonth = month;
+      departureDay = date;
+      setDepartureDate(year + '년 ' + month + '월 ' + date + '일');
+    } else if (selectedInput == 'pickup') {
+      pickupYear = year;
+      pickupMonth = month;
+      pickupDay = date;
+      setPickupDate(year + '년 ' + month + '월 ' + date + '일');
+    }
+    const time_data = {
+      "success": true,
+      "code": 200,
+      "message": "Ok",
+      "data": {
+        "timeSlots": [
+          {
+              "time": 9,
+              "available": true
+          },
+          {
+              "time": 10,
+              "available": true
+          },
+          {
+              "time": 11,
+              "available": true
+          },
+          {
+              "time": 12,
+              "available": false
+          },
+          {
+              "time": 13,
+              "available": false
+          },
+          {
+              "time": 14,
+              "available": false
+          },
+          {
+              "time": 15,
+              "available": true
+          },
+          {
+              "time": 16,
+              "available": true
+          },
+          {
+              "time": 17,
+              "available": true
+          }
+        ]
+      }
+    };
+    setTimeData(time_data.data.timeSlots);
+    setShowTimes(true);
+  }
+
+  const handleTime = (time) => {
+    if (selectedInput == 'departure') {
+      setDepartureTime(time + ' : 00');
+    } else if (selectedInput == 'pickup') {
+      setPickupTime(time + ' : 00');
+    }
+  }
+
+  const handleUnselectDate = () => {
+    setTimeData(null);
+    setShowTimes(false);
+  }
+
+  const handleUnselectTime = () => {
+    setDepartureTime('');
+  }
+
+  const handleClickDeparture = () => {
+    setSelectedInput('departure');
+    setCalendarYear(departureYear != null ? departureYear : currentYear);
+    setCalendarMonth(departureMonth != null ? departureMonth : currentMonth);
+    setCalendarDay(departureDay);
+  }
+
+  const handleClickPickup = () => {
+    setSelectedInput('pickup');
+    setCalendarYear(pickupYear != null ? pickupYear : currentYear);
+    setCalendarMonth(pickupMonth != null ? pickupMonth : currentMonth);
+    setCalendarDay(pickupDay);
   }
 
   return (
     <>
       <div className={classNames('body')}>
         <div className={classNames('frame_left')}>
-          <Calendar />
-          <div className={classNames('available-times')}>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-            <div className="time">
-              <span className="time_text">8:00</span>
-            </div>
-          </div>
+          <Calendar year={calendarYear} month={calendarMonth} day={calendarDay} handleDate={handleDate} handleUnselect={handleUnselectDate}/>
+          {showTimes && <TimeSlots timeSlots={timeData} handleTime={handleTime} handleUnselect={handleUnselectTime} />}
         </div>
         <div className={classNames('frame_right')}>
           <div className={classNames('category_row')}>
             <span className={classNames('title')}>1. 센터 방문</span>
-            <span className={classNames('content')}>
+            <span className={classNames('content', 'hover-pointer', selectedInput == 'departure' ? 'active' : null)} onClick={() => handleClickDeparture()}>
               <div className={classNames('input-area', 'w-200')}>
                 <span className={classNames('input-text')}>{departureDate}</span>
               </div>
@@ -69,7 +149,7 @@ export default function ModalDate({ nextStep, props }) {
           </div>
           <div className={classNames('category_row')}>
             <span className={classNames('title')}>2. 픽업 시간</span>
-            <span className={classNames('content')}>
+            <span className={classNames('content', 'hover-pointer', selectedInput == 'pickup' ? 'active' : null)} onClick={() => handleClickPickup()}>
               <div className={classNames('input-area', 'w-200')}>
                 <span className={classNames('input-text')}>{pickupDate}</span>
               </div>
