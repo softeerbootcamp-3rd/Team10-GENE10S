@@ -17,6 +17,7 @@ public class UserResponse {
     @NoArgsConstructor
     public static class Profile {
         private String name;
+        private String email;
         private String carSellName;
         private String imageUrl;
     }
