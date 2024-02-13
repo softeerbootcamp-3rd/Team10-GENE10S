@@ -90,7 +90,7 @@ export default function Main() {
 
         const sid = data.sid;
         const expires = new Date();
-        expires.setTime(expires.getTime() + 10 * 60 * 1000);
+        expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
 
         Cookies.set('sid', sid, { expires });
 
