@@ -36,15 +36,16 @@ a {
     
 
       .title-text {
-        color: var(--uyh, #FFFEFD);
+        color: $uyh;
         text-align: center;
 
-        /* B_60 */
-        font-family: "Abhaya Libre Medium";
-        font-size: 60px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 72px; /* 120% */
+        // /* B_60 */
+        // font-family: "Abhaya Libre Medium";
+        // font-size: 60px;
+        // font-style: normal;
+        // font-weight: 500;
+        // line-height: 72px; /* 120% */
+        @extend %B_60;
       }
     }
   }
@@ -57,7 +58,7 @@ a {
     gap: 64px;
     align-self: stretch;
   
-    background: var(--gray_900, #0F0E0D);
+    background: $gray_900;
 
     .menu-frame {
       display: flex;
@@ -72,7 +73,7 @@ a {
         flex-direction: column;
         align-items: flex-start;
       
-        border-right: 2px solid var(--gray_300, #B6B0A8);
+        border-right: 2px solid $gray_300;
 
         .menu-item-active {
           display: flex;
@@ -82,15 +83,16 @@ a {
           align-self: stretch;
 
           .menu-name {
-            color: var(--uyh, #FFFEFD);
+            color: $uyh;
             text-align: center;
             
-            /* B_24 */
-            font-family: "Abhaya Libre Medium";
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 34px; /* 141.667% */
+            // /* B_24 */
+            // font-family: "Abhaya Libre Medium";
+            // font-size: 24px;
+            // font-style: normal;
+            // font-weight: 500;
+            // line-height: 34px; /* 141.667% */
+            @extend %B_24;
           }
         }
         
@@ -102,15 +104,16 @@ a {
           align-self: stretch;
         
           .menu-name {
-            color: var(--gray_400, #928C86);
+            color: $gray_400;
             text-align: center;
             
-            /* B_24 */
-            font-family: "Abhaya Libre Medium";
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 34px; /* 141.667% */
+            // /* B_24 */
+            // font-family: "Abhaya Libre Medium";
+            // font-size: 24px;
+            // font-style: normal;
+            // font-weight: 500;
+            // line-height: 34px; /* 141.667% */
+            @extend %B_24;
           }
         }
 
@@ -135,7 +138,7 @@ a {
       align-self: stretch;
 
       // 타 css 반영 제거
-      background-color: #0F0E0D;
+      background-color: $gray_900;
 
       // ProfileCard
       .profile-view {
@@ -189,15 +192,16 @@ a {
             }
 
             .text {
-              color: var(--uyh, #FFFEFD);
+              color: $uyh;
               text-align: center;
               
-              /* B_40 */
-              font-family: "Abhaya Libre Medium";
-              font-size: 40px;
-              font-style: normal;
-              font-weight: 500;
-              line-height: 48px; /* 120% */
+              // /* B_40 */
+              // font-family: "Abhaya Libre Medium";
+              // font-size: 40px;
+              // font-style: normal;
+              // font-weight: 500;
+              // line-height: 48px; /* 120% */
+              @extend %B_40;
             }
             
             .setting {
@@ -209,13 +213,15 @@ a {
           }
           
           .email {
-            color: var(--gray_300, #B6B0A8);
+            color: $gray_300;
             text-align: center;
-            font-family: "Abhaya Libre Medium";
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 34px; /* 141.667% */
+
+            // font-family: "Abhaya Libre Medium";
+            // font-size: 24px;
+            // font-style: normal;
+            // font-weight: 500;
+            // line-height: 34px; /* 141.667% */
+            @extend %M_18;
 
             // animation
             transform: translateX(100%);
@@ -251,18 +257,19 @@ a {
               gap: 10px;
             
               border-radius: 5px;
-              background: var(--gray_800, #1D1C1B);
+              background: $gray_800;
 
               .text {
-                color: var(--gray_300, #B6B0A8);
+                color: $gray_300;
                 text-align: center;
                 
-                /* B_24 */
-                font-family: "Abhaya Libre Medium";
-                font-size: 24px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 34px; /* 141.667% */
+                // /* B_24 */
+                // font-family: "Abhaya Libre Medium";
+                // font-size: 24px;
+                // font-style: normal;
+                // font-weight: 500;
+                // line-height: 34px; /* 141.667% */
+                @extend %B_24;
               }
             }
           }
@@ -278,7 +285,7 @@ a {
         align-self: stretch;
 
         border-radius: 5px;
-        background: var(--gray_800, #1D1C1B);
+        background: $gray_800;
 
         // animation
         transform: translateX(100%);
@@ -299,15 +306,16 @@ a {
           align-self: stretch;
 
           .id-text {
-            color: #FFF;
+            color: $uyh;
             text-align: center;
 
-            /* B_48 */
-            font-family: "Abhaya Libre Medium";
-            font-size: 48px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 54px; /* 112.5% */
+            // /* B_48 */
+            // font-family: "Abhaya Libre Medium";
+            // font-size: 48px;
+            // font-style: normal;
+            // font-weight: 500;
+            // line-height: 54px; /* 112.5% */
+            @extend %B_48;
           }
         }
 
@@ -355,33 +363,36 @@ a {
             }
 
             .text {
-              color: var(--gray_300, #B6B0A8);
+              color: $gray_300;
               text-align: center;
-              font-family: "Abhaya Libre Medium";
-              font-size: 18px;
-              font-style: normal;
-              font-weight: 500;
-              line-height: 26px; /* 144.444% */
+
+              // font-family: "Abhaya Libre Medium";
+              // font-size: 18px;
+              // font-style: normal;
+              // font-weight: 500;
+              // line-height: 26px; /* 144.444% */
+              @extend %M_18;
             }
 
             .separator {
               width: 4px;
               height: 4px;
 
-              fill: var(--gray_300, #B6B0A8);
+              fill: $gray_300;
             }
           }
 
           .car-info {
-            color: var(--uyh, #FFFEFD);
+            color: $uyh;
             text-align: center;
             
-            /* B_24 */
-            font-family: "Abhaya Libre Medium";
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 34px; /* 141.667% */
+            // /* B_24 */
+            // font-family: "Abhaya Libre Medium";
+            // font-size: 24px;
+            // font-style: normal;
+            // font-weight: 500;
+            // line-height: 34px; /* 141.667% */
+            @extend %B_24;
 
             // 타 css 반영 제거
             padding-top: 0;
@@ -399,13 +410,15 @@ a {
           }
 
           .shop-info {
-            color: var(--gray_100, #EFEBE5);
+            color: $gray_100;
             text-align: center;
-            font-family: "Abhaya Libre Medium";
-            font-size: 18px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 26px; /* 144.444% */
+
+            // font-family: "Abhaya Libre Medium";
+            // font-size: 18px;
+            // font-style: normal;
+            // font-weight: 500;
+            // line-height: 26px; /* 144.444% */
+            @extend %M_18;
 
             // animation
             transform: translateX(100%);
