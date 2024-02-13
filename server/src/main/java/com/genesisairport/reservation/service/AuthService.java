@@ -2,7 +2,7 @@ package com.genesisairport.reservation.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.genesisairport.reservation.request.LoginRequest;
+import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.entity.Session;
 import com.genesisairport.reservation.respository.CustomerRepository;
@@ -35,7 +35,7 @@ public class AuthService {
     private final ObjectMapper objectMapper;
 
     // 토큰 요청
-    public Session tokenRequest(LoginRequest.Login requestBody) {
+    public Session tokenRequest(UserRequest.Login requestBody) {
         final String tokenEndpoint = "https://accounts.genesis.com/api/account/ccsp/user/oauth2/token";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -56,7 +56,7 @@ public class AuthService {
     }
 
     // 요청 DTO를 이용하여 쿼리 파라미터 생성
-    private String getParameters(LoginRequest.Login requestBody) {
+    private String getParameters(UserRequest.Login requestBody) {
         String queryParameters = UriComponentsBuilder.newInstance()
                 .queryParam("grant_type", "authorization_code")
                 .queryParam("code", requestBody.getCode())
