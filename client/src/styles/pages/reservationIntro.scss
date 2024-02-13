@@ -94,13 +94,19 @@
         .image-1 {
           height: 384px;
           align-self: stretch;
-          background: url(../../assets/reserv-intro-2.png), lightgray 50% / cover no-repeat;
+          background: url(../../assets/reserv-intro-2.png), lightgray 50%;
+          background-repeat: no-repeat;
+          background-size: cover; 
+          background-position: center;
         }
 
         .image-2 {
           height: 384px;
           align-self: stretch;  
-          background: url(../../assets/reserv-intro-3.png), lightgray 50% / cover no-repeat;
+          background: url(../../assets/reserv-intro-3.png), lightgray 50%;
+          background-repeat: no-repeat;
+          background-size: cover; 
+          background-position: center;
         }
 
         .title {
