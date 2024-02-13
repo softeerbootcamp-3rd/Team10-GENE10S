@@ -88,6 +88,7 @@
 }
 
 .modal-frame > .modal > .bottom > .btn-cancel {
+  cursor: pointer;
   display: flex;
   height: 48px;
   padding: 12px 44px;
@@ -105,6 +106,7 @@
 }
 
 .modal-frame > .modal > .bottom > .btn-submit {
+  cursor: pointer;
   display: flex;
   height: auto;
   padding: 12px 44px;

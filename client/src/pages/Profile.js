@@ -60,10 +60,13 @@ export default function Profile() {
   }, [])
 
   const carElements = carList.map((car, index) => (
-    <div className={classNames('car')} key={index}>
-      <div className={classNames('car-frame')}>
-        <span className={classNames('car-name')}>{car.sellName}</span>
-        <span className={classNames('car-number')}>{car.plateNumber}</span>
+    <div className={classNames('car-frame')} key={index}>
+      <div className={classNames('car')} >
+        <img className={classNames('car-image')} src={car.imageUrl} alt="차 이미지"/>
+        <div className={classNames('car-txt')}>
+          <span className={classNames('car-name')}>{car.sellName}</span>
+          <span className={classNames('car-number')}>{car.plateNumber}</span>
+          </div>
       </div>
     </div>
   ));  
@@ -112,10 +115,10 @@ export default function Profile() {
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <div className={classNames('btn-black', 'custom')}>
+          <div className={classNames('btn', 'custom')}>
             <span className={classNames('text')}>취소하기</span>
           </div>
-          <div className={classNames('btn-black', 'custom')} onClick={handleUpdateClick}>
+          <div className={classNames('btn', 'custom')} onClick={handleUpdateClick}>
             <span className={classNames('text')}>저장하기</span>
           </div>
         </div>

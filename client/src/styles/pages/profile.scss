@@ -68,40 +68,79 @@
 
 .profile-info > .profile-row > .car-list {
   display: flex;
-  padding: 10px 0px;
+  padding: 12px 20px;
   align-items: center;
   gap: 80px;
   align-self: stretch;
 }
 
-.profile-info > .profile-row > .car-list > .car {
+.profile-info > .profile-row > .car-list > .car-frame {
   display: flex;
-  padding: 12px 28px;
+  padding: 12px 12px;
   align-items: center;
-  gap: 10px;
-  border-radius: 12px;
-  border: 1px solid $orange_600;
+  gap: 24px;
+  flex: 1 0 0;
 }
 
-.profile-info > .profile-row > .car-list > .car > .car-frame {
+.profile-info > .profile-row > .car-list > .car-frame > .car {
+  display: flex;
+  width: auto;
+  height: 100px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 4px;
+}
+
+.profile-info > .profile-row > .car-list > .car-frame > .car > .car-image {
+  width: 240px;
+  flex: 1 0 0;
+  align-self: stretch;  
+  background-color: transparent;
+}
+
+.profile-info > .profile-row > .car-list > .car-frame > .car > .car-txt {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 8px;
+
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.2s; 
+
+  > .car-name {
+    color: var(--orange_600, $orange_600);
+    text-align: center;
+    font-family: "Inter";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  > .car-number {
+    color: var(--uyh, $uyh);
+    text-align: center;
+    font-family: "Inter";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
 }
 
-.profile-info > .profile-row > .car-list > .car > .car-frame > .car-name {
-  color: $orange_600;
-  text-align: center;
-  @extend %SB_24;
+.profile-info > .profile-row > .car-list > .car-frame > .car:hover > .car-image {
+  filter: brightness(50%);
 }
 
-.profile-info > .profile-row > .car-list > .car > .car-frame > .car-number {
-  color: $uyh;
-  text-align: center;
-  @extend %M_20;
+.profile-info > .profile-row > .car-list > .car-frame > .car:hover > .car-txt {
+  opacity: 1;
 }
+
 
 .profile-info > .profile-row > .car-list > .add {
   display: flex;
@@ -126,20 +165,22 @@
   align-self: stretch;
 }
 
-.btn-black {
+.btn {
   display: flex;
   height: 48px;
-  padding: 12px 44px;
+  padding: 12px 36px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 12px;
-
   border-radius: 5px;
-  border: 1px solid var(--uyh, $uyh);
+  border: 0.5px solid $uyh;
+  background: $gray_900;
+  box-sizing: border-box;
 }
 
 .custom {
+  height: 54px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
@@ -148,7 +189,7 @@
   }
 }
 
-.btn-black > .text {
+.btn > .text {
   color: $uyh;
   text-align: center;
   @extend %B_18;
