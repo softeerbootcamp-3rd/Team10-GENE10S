@@ -43,5 +43,5 @@ public class Customer {
     private List<Reservation> reservation = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Car> car = new ArrayList<>();
+    private List<Car> cars = new ArrayList<>();
 }

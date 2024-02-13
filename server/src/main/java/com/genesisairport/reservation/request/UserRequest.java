@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class LoginRequest {
+public class UserRequest {
     @Getter
     @Builder
     @NoArgsConstructor
@@ -19,10 +19,9 @@ public class LoginRequest {
     }
 
     @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserProfile {
-        private String sid;
+    public static class UserInfo {
+        private String name;
+        private String birthdate;
+        private String phoneNumber;
     }
 }

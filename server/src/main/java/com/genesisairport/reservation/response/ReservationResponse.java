@@ -14,6 +14,7 @@ public class ReservationResponse {
     public interface CarInfo {
         String getSellName();
         String getPlateNumber();
+        String getImageUrl();
     }
 
     @Getter
@@ -59,19 +60,21 @@ public class ReservationResponse {
         private String progressStage;
         private String carSellName;
         private String repairShop;
+        private String imageUrl;
 
         // 기본 생성자를 추가합니다.
         public ReservationInfoAbstract() {
         }
 
         // 이 생성자를 사용하여 객체를 생성할 수 있도록 합니다.
-        public ReservationInfoAbstract(long reservationId, String departureTime, String arrivalTime, String progressStage, String carSellName, String repairShop) {
+        public ReservationInfoAbstract(long reservationId, String departureTime, String arrivalTime, String progressStage, String carSellName, String repairShop, String imageUrl) {
             this.reservationId = reservationId;
             this.departureTime = departureTime;
             this.arrivalTime = arrivalTime;
             this.progressStage = progressStage;
             this.carSellName = carSellName;
             this.repairShop = repairShop;
+            this.imageUrl = imageUrl;
         }
     }
 }

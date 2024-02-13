@@ -1,14 +1,11 @@
 package com.genesisairport.reservation.service;
 
+import com.genesisairport.reservation.entity.CarImage;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
-import com.genesisairport.reservation.respository.CarRepository;
+import com.genesisairport.reservation.respository.*;
 import com.genesisairport.reservation.entity.Coupon;
 import com.genesisairport.reservation.entity.Reservation;
-import com.genesisairport.reservation.respository.CouponRepository;
-import com.genesisairport.reservation.respository.CustomerRepository;
-import com.genesisairport.reservation.respository.RepairShopRepository;
-import com.genesisairport.reservation.respository.ReservationRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +26,7 @@ public class ReservationService {
     private final RepairShopRepository repairShopRepository;
     private final CarRepository carRepository;
     private final CouponRepository couponRepository;
+    private final CarImageRepository carImageRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         return couponRepository.existsBySerialNumber(serialNumber);
@@ -111,8 +109,12 @@ public class ReservationService {
         List<ReservationResponse.ReservationInfoAbstract> reservationDTOs = new ArrayList<>();
 
         for (Reservation r : reservationList) {
-            ReservationResponse.ReservationInfoAbstract reservationDTO = new ReservationResponse.ReservationInfoAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName());
-            reservationDTOs.add(reservationDTO);
+            Optional<CarImage> carImageOptional = carImageRepository.findBySellName(r.getSellName());
+            if (carImageOptional.isPresent()) {
+                CarImage carImage = carImageOptional.get();
+                ReservationResponse.ReservationInfoAbstract reservationDTO = new ReservationResponse.ReservationInfoAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName(), carImage.getImageUrl());
+                reservationDTOs.add(reservationDTO);
+            }
         }
 
         return reservationDTOs;
