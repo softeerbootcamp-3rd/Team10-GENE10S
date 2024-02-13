@@ -6,7 +6,9 @@ const ProfileCard = ({ profileInfo, carList }) => {
   return (
     <div className={classNames('content')}>
       <div className={classNames('profile-view')}>
-        <div className={classNames('profile-image')} />
+        { carList && carList.length > 0 && (
+          <img src={carList[0].imageUrl} classNames={classNames('profile-image')} />
+        )}
         <div className={classNames('profile-info')}>
           <div className={classNames('name')}>
             <div className={classNames('text')}>
@@ -14,7 +16,7 @@ const ProfileCard = ({ profileInfo, carList }) => {
             </div>
             <Link to="/profile_edit" className={classNames('setting')} />
           </div>
-          <div className={classNames('email')}>{profileInfo.imageUrl}</div>
+          <div className={classNames('email')}>{profileInfo.email}</div>
           <div className={classNames('cars')}>
             {carList.map((car, index) => (
               <div key={index} className={classNames('car-name')}>

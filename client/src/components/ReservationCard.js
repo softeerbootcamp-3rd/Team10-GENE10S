@@ -16,7 +16,7 @@ const ReservationCard = ({ reservationInfo }) => {
           </div>
         </div>
         <div className={classNames('image-area')}>
-          <div className={classNames('profile-image')}/>
+          <img src={reservation.imageUrl} className={classNames('profile-image')}/>
         </div>
         <div className={classNames('info-area')}>
           <div className={classNames('date-info')}>
