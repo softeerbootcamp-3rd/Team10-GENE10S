@@ -48,7 +48,7 @@ export default function Profile() {
         <div className={classNames('profile-info')}>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이름</span>
-            <span className={classNames('value')}>{profileInfo.name}</span>
+            <input className={classNames('input')} defaultValue={profileInfo.name}></input>
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이메일</span>
@@ -56,7 +56,7 @@ export default function Profile() {
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>생년월일</span>
-            <span className={classNames('value')}>{profileInfo.birthdate}</span>
+            <input className={classNames('input')} defaultValue={profileInfo.birthdate}></input>
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>연락처</span>
