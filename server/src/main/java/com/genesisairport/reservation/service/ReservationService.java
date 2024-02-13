@@ -29,7 +29,8 @@ public class ReservationService {
     private final CarImageRepository carImageRepository;
 
     public Boolean validateCoupon(String serialNumber) {
-        return couponRepository.existsBySerialNumber(serialNumber);
+        Coupon coupon = couponRepository.findCouponBySerialNumber(serialNumber);
+        return !coupon.getIsUsed() && !coupon.getExpiredDate().isBefore(LocalDate.now());
     }
 
 

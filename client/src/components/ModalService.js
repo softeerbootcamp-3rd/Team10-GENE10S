@@ -1,11 +1,13 @@
 import classNames from 'classnames';
 import { BtnBlack } from './Button';
 import { useState } from 'react';
+import { validCoupon } from '../api/ReservationApi';
 
 export default function ModalService({ props, prevStep }) {
   const [services, setServices] = useState(props.services);
   const [request, setRequest] = useState(props.request);
   const [coupon, setCoupon] = useState(props.coupon);
+  const [couponValid, setCouponValid] = useState(false);
 
   function handleServiceClick(event) {
     const service = event.currentTarget.id;
@@ -18,6 +20,12 @@ export default function ModalService({ props, prevStep }) {
 
   function handlePrev() {
     prevStep(services, request, coupon);
+  }
+
+  function handleCouponValid() {
+    validCoupon(coupon).then(result => {
+      setCouponValid(result);
+    });
   }
 
   return (
@@ -163,7 +171,7 @@ export default function ModalService({ props, prevStep }) {
                   setCoupon(e.target.value);
                 }}
               />
-              <div className={classNames('btn-check')}>
+              <div className={classNames('btn-check')} onClick={handleCouponValid}>
                 <span className={classNames('btn-text')}>쿠폰번호 확인하기</span>
               </div>
             </div>
