@@ -50,6 +50,27 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
         return convertToDateInfo(tuples);
     }
 
+    private ReservationResponse.DateInfo convertToDateInfo(List<Tuple> tuples) {
+        Set<String> set = new HashSet<>();
+
+        for (Tuple t : tuples) {
+            Date date = t.get(0, Date.class);
+            String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            int cnt = t.get(2, Integer.class);
+            int capacity = t.get(3, Integer.class);
+
+            Boolean available = cnt < capacity ? true : false;
+            if (available)
+                set.add(formattedDate);
+        }
+
+        List<String> availableDates = new ArrayList<>(set);
+        Collections.reverse(availableDates);
+        return ReservationResponse.DateInfo.builder()
+                .availableDates(availableDates)
+                .build();
+    }
+
     @Override
     public List<ReservationResponse.TimeInfo> findAvailableTimes(String shopName, LocalDate date) {
         List<Tuple> list = jpaQueryFactory
@@ -74,34 +95,7 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
                 .collect(Collectors.toList());
     }
 
-    private ReservationResponse.DateInfo convertToDateInfo(List<Tuple> tuples) {
-        Map<String, Boolean> map = new HashMap<>();
 
-        for (Tuple t : tuples) {
-            Date date = t.get(0, Date.class);
-            String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-            int cnt = t.get(2, Integer.class);
-            int capacity = t.get(3, Integer.class);
-
-            Boolean available = cnt < capacity ? true : false;
-
-            map.computeIfAbsent(formattedDate, k -> available);
-        }
-
-
-        List<String> availableDates = new ArrayList<>();
-
-        for (Map.Entry<String, Boolean> entry : map.entrySet()) {
-            if (entry.getValue()) {
-                availableDates.add(entry.getKey());
-            }
-        }
-
-        Collections.reverse(availableDates);
-        return ReservationResponse.DateInfo.builder()
-                .availableDates(availableDates)
-                .build();
-    }
 
 
 
