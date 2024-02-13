@@ -2,11 +2,32 @@ import classNames from 'classnames';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Profile() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({});
+  const [carList, setCarList] = useState([]);
+
+  useEffect(() => {
+    axios.get('v1/user/info')
+      .then ((response) => setProfileInfo(response.data.data))
+      .catch ((error) => console.log("Error message :", error))
+
+    axios.get('v1/reservation/car-list')
+      .then ((response) => setCarList(response.data.data))
+  }, [])
+
+  const carElements = carList.map((car, index) => (
+    <div className={classNames('car')} key={index}>
+      <div className={classNames('car-frame')}>
+        <span className={classNames('car-name')}>{car.sellName}</span>
+        <span className={classNames('car-number')}>{car.plateNumber}</span>
+      </div>
+    </div>
+  ));  
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -27,35 +48,24 @@ export default function Profile() {
         <div className={classNames('profile-info')}>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이름</span>
-            <span className={classNames('value')}>한수아</span>
+            <span className={classNames('value')}>{profileInfo.name}</span>
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이메일</span>
-            <span className={classNames('value')}>s2sooey@gmail.com</span>
+            <span className={classNames('value')}>{profileInfo.email}</span>
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>생년월일</span>
-            <span className={classNames('value')}>1999.05.26</span>
+            <span className={classNames('value')}>{profileInfo.birthdate}</span>
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>연락처</span>
-            <input className={classNames('input')}></input>
+            <input className={classNames('input')} defaultValue={profileInfo.phoneNumber}></input>
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>보유 차량</span>
             <div className={classNames('car-list')}>
-              <div className={classNames('car')}>
-                <div className={classNames('car-frame')}>
-                  <span className={classNames('car-name')}>Genesis G80</span>
-                  <span className={classNames('car-number')}>12가 3456</span>
-                </div>
-              </div>
-              <div className={classNames('car')}>
-                <div className={classNames('car-frame')}>
-                  <span className={classNames('car-name')}>Genesis G80</span>
-                  <span className={classNames('car-number')}>12가 3456</span>
-                </div>
-              </div>
+                {carElements}
               <div className={classNames('add')} onClick={openModal}>
                 <span className={classNames('text')}>차량 추가하기</span>
               </div>
