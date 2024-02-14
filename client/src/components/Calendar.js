@@ -1,20 +1,8 @@
-import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-export default function Calendar({ year, month, day, handleDate, handleUnselect }) {
-  const [activeAtom, setActiveAtom] = useState(null);
-  const [currentYear, setCurrentYear] = useState(year);
-  const [currentMonth, setCurrentMonth] = useState(month);
-
-  useEffect(() => {
-    console.log('asdfasfasfdfsaa')
-    setCurrentYear(year);
-    setCurrentMonth(month);
-    setActiveAtom(day);
-  }, [year, month, day])
-
+export default function Calendar({ year, month, day, handleClickDate, handleLastMonth, handleNextMonth }) {
   const getLastDayOfMonth = (year, month) => {
-    return new Date(year, month, 0).getDate();
+    return new Date(year, month + 1, 0).getDate();
   };
 
   const getAllDates = (year, month) => {
@@ -28,12 +16,12 @@ export default function Calendar({ year, month, day, handleDate, handleUnselect 
     return allDates;
   };
 
-  const allDates = getAllDates(currentYear, currentMonth);
+  const allDates = getAllDates(year, month);
 
-  const renderWeeks = () => {
+  const renderWeeks = (day) => {
     const weeks = [];
 
-    const firstDayOfMonth = new Date(currentYear, currentMonth - 1, 1);
+    const firstDayOfMonth = new Date(year, month, 1);
     const firstDayOfWeek = firstDayOfMonth.getDay();
 
     for (let i = -firstDayOfWeek; i < allDates.length; i += 7) {
@@ -58,9 +46,9 @@ export default function Calendar({ year, month, day, handleDate, handleUnselect 
                   'atom-nothing': date == null,
                   'atom': date != null && index > 0 && index < 6,
                   'atom-weekday': date != null && (index === 0 || index === 6),
-                  'active': date != null && date === activeAtom
+                  'active': date != null && date === day
                 })}
-                onClick={date != null ? () => handleClickAtom(date) : null}
+                onClick={date != null ? () => handleClickDate(year, month, date) : null}
               >
                 <span className={classNames('text')}>{date}</span>
               </div>
@@ -73,36 +61,6 @@ export default function Calendar({ year, month, day, handleDate, handleUnselect 
     return weeks;
   };
 
-  const handleClickAtom = (date) => {
-    setActiveAtom(date);
-    if (date != null)
-      handleDate(currentYear, currentMonth, date);
-    else
-      handleUnselect();
-  };
-
-  const handleLastMonth = () => {
-    setActiveAtom(null);
-    handleUnselect();
-    if (currentMonth === 1) {
-      setCurrentMonth(12);
-      setCurrentYear(currentYear - 1); // 이전 년도로 설정
-    } else {
-      setCurrentMonth(currentMonth - 1);
-    }
-  };
-
-  const handleNextMonth = () => {
-    setActiveAtom(null);
-    handleUnselect();
-    if (currentMonth === 12) {
-      setCurrentMonth(1);
-      setCurrentYear(currentYear + 1); // 다음 년도로 설정
-    } else {
-      setCurrentMonth(currentMonth + 1);
-    }
-  };
-
   return (
     <div className={classNames('calendar')}>
       <div className={classNames('month')}>
@@ -111,7 +69,7 @@ export default function Calendar({ year, month, day, handleDate, handleUnselect 
             <path d="M10.5 1.25L1.82654 10.1548L10.5 18.75" stroke="#DDD8D2" strokeWidth="2"/>
           </svg>
         </div>
-        <span className={classNames('text')}>{currentYear}년 {currentMonth}월</span>
+        <span className={classNames('text')}>{year}년 {month + 1}월</span>
         <div className={classNames('arrow-right')} onClick={handleNextMonth}>
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
             <path d="M1.5 18.75L10.1735 9.84524L1.5 1.25" stroke="#DDD8D2" strokeWidth="2"/>
@@ -142,7 +100,7 @@ export default function Calendar({ year, month, day, handleDate, handleUnselect 
             <span className={classNames('text')}>토</span>
           </div>
         </div>
-        {renderWeeks()}
+        {renderWeeks(day)}
       </div>
     </div>
   );
