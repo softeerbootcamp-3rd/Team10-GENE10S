@@ -175,6 +175,11 @@ $uyh: #fffefd;
   font-family: 'genesis-head-light', sans-serif;
   font-weight: 500;
 
+  &_36 {
+    @extend %M;
+    @extend %size_36;
+  }
+
   &_30 {
     @extend %M;
     @extend %size_30;
