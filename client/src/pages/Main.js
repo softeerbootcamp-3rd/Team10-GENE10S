@@ -43,8 +43,6 @@ function runOnScroll() {
   });
 }
 
-// 페이지 로드 시 함수 실행
-
 function animation() {
   setTimeout(function () {
     let text = document.querySelector('.btn-main');
@@ -75,16 +73,8 @@ export default function Main() {
   const location = useLocation();
 
   useEffect(() => {
-    document.addEventListener('DOMContentLoaded', runOnScroll);
-
-    window.addEventListener('scroll', runOnScroll);
-
-    document.addEventListener('DOMContentLoaded', animation);
-    return () => {
-      document.removeEventListener('DOMContentLoaded', runOnScroll);
-      window.removeEventListener('scroll', runOnScroll);
-      document.removeEventListener('DOMContentLoaded', animation);
-    };
+    animation();
+    runOnScroll();
   }, []);
 
   useEffect(() => {
