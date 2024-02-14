@@ -1,12 +1,11 @@
 package com.genesisairport.reservation.service;
 
 import com.genesisairport.reservation.entity.CarImage;
+import com.genesisairport.reservation.entity.Coupon;
+import com.genesisairport.reservation.entity.Reservation;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.respository.*;
-import com.genesisairport.reservation.entity.Coupon;
-import com.genesisairport.reservation.entity.Reservation;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,20 +36,17 @@ public class ReservationService {
 
 
     public List<ReservationResponse.CarInfo> getCarList(Long userId) {
-        List<ReservationResponse.CarInfo> carInfoList = carRepository.findCarsByCustomer(userId);
-        return carInfoList.isEmpty() ? null : carInfoList;
+        return carRepository.findCarsByCustomer(userId);
     }
 
     public ReservationResponse.DateInfo getAvailableDates(String shopName) {
-        ReservationResponse.DateInfo dateInfo = repairShopRepository.findAvailableDates(shopName);
-        return dateInfo.getAvailableDates().isEmpty() ? null : dateInfo;
+        return repairShopRepository.findAvailableDates(shopName);
     }
 
     public ReservationResponse.TimeList getAvailableTimes(String shopName, LocalDate date) {
-        ReservationResponse.TimeList timeList = ReservationResponse.TimeList.builder()
+        return ReservationResponse.TimeList.builder()
                 .timeSlots(repairShopRepository.findAvailableTimes(shopName, date))
                 .build();
-        return timeList.getTimeSlots().isEmpty() ? null : timeList;
     }
 
     public ReservationResponse.ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
