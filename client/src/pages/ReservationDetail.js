@@ -10,25 +10,10 @@ import ReservationDetailStep from '../components/reservation_detail/ReservationD
 import ReservationDetailResult from '../components/reservation_detail/ReservationDetailResult';
 
 export default function ReservationDetail() {
-  const [profileInfo, setProfileInfo] = useState({});
-  const [carList, setCarList] = useState([]);
-  const [reservationInfo, setReservationList] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    axios.get('/v1/user/profile')
-      .then ((response) => setProfileInfo(response.data.data))
-      .catch ((error) => console.log("Error message :", error))
-
-    axios.get('/v1/reservation/car-list')
-      .then ((response) => setCarList(response.data.data))
-
-    axios.get('/v1/reservation/list')
-      .then ((response) => setReservationList(response.data.data))
-  }, [])
   
   return (
     <>
