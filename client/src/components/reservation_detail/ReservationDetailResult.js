@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useEffect, useState } from 'react';
 
 import { ProgressArrow200 } from '../Arrow';
 
@@ -6,15 +7,71 @@ import { ProgressArrow200 } from '../Arrow';
 import before1 from '../../assets/before-1.png';
 import before2 from '../../assets/before-2.png';
 import before3 from '../../assets/before-3.png';
-import before4 from '../../assets/before-4.png';
+import before4 from '../../assets/sample-model.png'
 
 import after1 from '../../assets/after-1.png';
 import after2 from '../../assets/after-2.png';
 import after3 from '../../assets/after-3.png';
-import after4 from '../../assets/after-4.png';
 
 export default function ReservationDetailResult() {
-  
+  const [currentBeforeIndex, setCurrentBeforeIndex] = useState(0);
+  const [currentAfterIndex, setCurrentAfterIndex] = useState(0);
+
+  const beforeImages = [before1, before4, before3, before2];
+  const afterImages = [after1, after2, after3];
+
+  const [cumBeforeSizes, setCumBeforeSizes] = useState([]);
+  const [cumAfterSizes, setCumAfterSizes] = useState([]);
+
+  useEffect(() => {
+    const loadImageWidths = async () => {
+      const beforeSizes = await Promise.all(beforeImages.map(getImageSize));
+      const afterSizes = await Promise.all(afterImages.map(getImageSize));
+
+      const cumulativeBeforeWidths = beforeSizes.reduce((acc, curr) => {
+        const total = acc.length === 0 ? curr : acc[acc.length - 1] + curr.width + 30;
+        return [...acc, total];
+      }, [0]);
+      const cumulativeAfterWidths = afterSizes.reduce((acc, curr) => {
+        const total = acc.length === 0 ? curr : acc[acc.length - 1] + curr.width + 30;
+        return [...acc, total];
+      }, [0]);
+
+      setCumBeforeSizes(cumulativeBeforeWidths);
+      setCumAfterSizes(cumulativeAfterWidths);
+
+      console.log(cumulativeBeforeWidths);
+      console.log(cumulativeAfterWidths);
+    };
+
+    loadImageWidths();
+  }, []);
+
+  const getImageSize = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve({ width: img.width * (400 / img.height), height: 400 });
+      img.onerror = reject;
+      img.src = src;
+    });
+  };
+
+  const handleBeforePrev = () => {
+    setCurrentBeforeIndex((prevIndex) => (prevIndex === 0 ? 0 : prevIndex - 1));
+  };
+
+  const handleBeforeNext = () => {
+    setCurrentBeforeIndex((prevIndex) => (prevIndex === beforeImages.length - 1 ? beforeImages.length - 1 : prevIndex + 1));
+  };
+
+  const handleAfterPrev = () => {
+    setCurrentAfterIndex((prevIndex) => (prevIndex === 0 ? 0 : prevIndex - 1));
+  };
+
+  const handleAfterNext = () => {
+    setCurrentAfterIndex((prevIndex) => (prevIndex === afterImages.length - 1 ? afterImages.length - 1 : prevIndex + 1));
+  };
+
   return (
     <>
       <div className={classNames('result')}>
@@ -38,16 +95,17 @@ export default function ReservationDetailResult() {
 
           {/* image */}
           <div className={classNames('image')}>
-            <div className={classNames('arrow-left')}>
+            <div className={classNames('arrow-left')} onClick={handleBeforePrev}>
               <ProgressArrow200/>
             </div>
-            <div className={classNames('images')}>
-              <img src={before1}/>
-              <img src={before2}/>
-              <img src={before3}/>
-              <img src={before4}/>
+            <div className={classNames('image-wrapper')}>
+              <div  className={classNames('images')} style={{ width: `${100}%`, transform: `translateX(-${cumBeforeSizes[currentBeforeIndex]}px)`, transition: 'transform 0.5s ease-in-out' }}>
+                {beforeImages.map((image, index) => (
+                  <img key={index} src={image} style={{ height: `400px`}}/>
+                ))}
+              </div>
             </div>
-            <div className={classNames('arrow-right')}>
+            <div className={classNames('arrow-right')} onClick={handleBeforeNext}>
               <ProgressArrow200/>
             </div>
           </div>
@@ -65,16 +123,17 @@ export default function ReservationDetailResult() {
 
           {/* image */}
           <div className={classNames('image')}>
-            <div className={classNames('arrow-left')}>
+            <div className={classNames('arrow-left')} onClick={handleAfterPrev}>
               <ProgressArrow200/>
             </div>
-            <div className={classNames('images')}>
-              <img src={after1}/>
-              <img src={after2}/>
-              <img src={after3}/>
-              <img src={after4}/>
+            <div className={classNames('image-wrapper')}>
+              <div  className={classNames('images')} style={{ width: `${100}%`, transform: `translateX(-${cumAfterSizes[currentAfterIndex]}px)`, transition: 'transform 0.5s ease-in-out' }}>
+                {afterImages.map((image, index) => (
+                  <img key={index} src={image} style={{ height: `400px`}}/>
+                ))}
+              </div>
             </div>
-            <div className={classNames('arrow-right')}>
+            <div className={classNames('arrow-right')} onClick={handleAfterNext}>
               <ProgressArrow200/>
             </div>
           </div>
