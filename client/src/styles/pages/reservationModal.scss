@@ -28,10 +28,9 @@
       height: 738px;
       padding: 64px;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       gap: 48px;
-      box-sizing: border-box;
+      align-self: stretch;
       overflow: scroll;
 
       &_title {
@@ -103,21 +102,23 @@
       .available-times {
         display: flex;
         padding: 10px;
-        justify-content: center;
         align-items: flex-start;
         align-content: flex-start;
         gap: 12px;
         align-self: stretch;
         flex-wrap: wrap;
 
-        .time {
+        > .time-slot.available {
           display: flex;
+          width: 96px;
           padding: 8px 24px;
           justify-content: center;
           align-items: center;
+          flex-shrink: 0;
           border-radius: 5px;
           border: 1px solid $orange_600;
           color: $gray_200;
+          transition: background-color 0.3s ease;
 
           .time_text {
             @extend %B_20;
@@ -126,11 +127,29 @@
 
           &:hover {
             cursor: pointer;
-            background-color: $orange_600;
+            background-color: $orange_900;
           }
 
           &.active {
             color: $gray_900;
+            background-color: $orange_600;
+          }
+        }
+
+        > .time-slot:not(.available) {
+          display: flex;
+          width: 96px;
+          padding: 8px 24px;
+          justify-content: center;
+          align-items: center;
+          flex-shrink: 0;
+          border-radius: 5px;
+          border: 1px solid $gray_700;
+          color: $gray_500;
+
+          .time_text {
+            @extend %B_20;
+            text-align: center;
           }
         }
       }
@@ -229,13 +248,26 @@
     }
   }
 
-  .btn-group {
-    display: flex;
-    padding: 0px 100px 60px 100px;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 48px;
-    align-self: stretch;
-    background-color: $gray_900;
+.hover-pointer:hover {
+  cursor: pointer;
+
+  > .input-area {
+    background-color: lighten($gray_800, 10%);
   }
+}
+
+.content.active {
+  > .input-area {
+    background-color: lighten($gray_800, 10%);
+  }
+}
+
+.btn-group {
+  display: flex;
+  padding: 0px 100px 60px 100px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 48px;
+  align-self: stretch;
+  background-color: $gray_900;
 }
