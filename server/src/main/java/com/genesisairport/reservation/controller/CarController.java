@@ -30,6 +30,7 @@ public class CarController {
         log.info("차량 등록 API");
         Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
 
+        //TODO: 로그인 유저 없을때 예외처리
         if (customer.isEmpty()) {
             return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
