@@ -25,14 +25,13 @@ export default function ReservationModal() {
   const [request, setRequest] = useState('');
   const [coupon, setCoupon] = useState('');
 
-  const dateProps = { departureYear, departureMonth, departureDay, departureTime,
-    pickupYear, pickupMonth, pickupDay, pickupTime };
   //임시 지정
   useEffect(() => {
     setShopName('블루핸즈 인천공항점');
   }, []);
 
-  const dateProps = { departureDate, departureTime, pickupDate, pickupTime };
+  const dateProps = { departureYear, departureMonth, departureDay, departureTime,
+    pickupYear, pickupMonth, pickupDay, pickupTime };
   const infoProps = { phone1, phone2, phone3, sellName, plateNumber };
   const serviceProps = { services, request, coupon };
 
@@ -83,10 +82,14 @@ export default function ReservationModal() {
       setShopName('블루핸즈 인천공항점');
     }
     setCurrentStep('date');
-    setDepartureDate('');
-    setDepartureTime('');
-    setPickupDate('');
-    setPickupTime('');
+    setDepartureYear(null);
+    setDepartureMonth(null);
+    setDepartureDay(null);
+    setDepartureTime(null);
+    setPickupYear(null);
+    setPickupMonth(null);
+    setPickupDay(null);
+    setPickupTime(null);
     setPhone1('');
     setPhone2('');
     setPhone3('');
