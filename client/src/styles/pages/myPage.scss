@@ -52,10 +52,10 @@ a {
   
   .body {
     display: flex;
-    padding: 64px;
+    padding: 80px 140px;
     flex-direction: column;
     align-items: center;
-    gap: 64px;
+    gap: 40px;
     align-self: stretch;
   
     background: $gray_900;
