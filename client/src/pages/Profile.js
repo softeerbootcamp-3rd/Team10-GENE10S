@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
 
 export default function Profile() {
 
