@@ -8,10 +8,14 @@ import ModalService from '../components/ModalService';
 export default function ReservationModal() {
   const [shopName, setShopName] = useState('');
   const [currentStep, setCurrentStep] = useState('date');
-  const [departureDate, setDepartureDate] = useState('');
-  const [departureTime, setDepartureTime] = useState('');
-  const [pickupDate, setPickupDate] = useState('');
-  const [pickupTime, setPickupTime] = useState('');
+  const [departureYear, setDepartureYear] = useState(null);
+  const [departureMonth, setDepartureMonth] = useState(null);
+  const [departureDay, setDepartureDay] = useState(null);
+  const [departureTime, setDepartureTime] = useState(null);
+  const [pickupYear, setPickupYear] = useState(null);
+  const [pickupMonth, setPickupMonth] = useState(null);
+  const [pickupDay, setPickupDay] = useState(null);
+  const [pickupTime, setPickupTime] = useState(null);
   const [phone1, setPhone1] = useState('');
   const [phone2, setPhone2] = useState('');
   const [phone3, setPhone3] = useState('');
@@ -21,6 +25,8 @@ export default function ReservationModal() {
   const [request, setRequest] = useState('');
   const [coupon, setCoupon] = useState('');
 
+  const dateProps = { departureYear, departureMonth, departureDay, departureTime,
+    pickupYear, pickupMonth, pickupDay, pickupTime };
   //임시 지정
   useEffect(() => {
     setShopName('블루핸즈 인천공항점');
@@ -38,11 +44,18 @@ export default function ReservationModal() {
     setPlateNumber(plateNumber);
   }
 
-  function dateToInfo(departureDate, departureTime, pickupDate, pickupTime) {
-    setDepartureDate(departureDate);
+  function dateToInfo(departureYear, departureMonth, departureDay, departureTime,
+    pickupYear, pickupMonth, pickupDay, pickupTime) {
+    setDepartureYear(departureYear);
+    setDepartureMonth(departureMonth);
+    setDepartureDay(departureDay);
     setDepartureTime(departureTime);
-    setPickupDate(pickupDate);
+
+    setPickupYear(pickupYear);
+    setPickupMonth(pickupMonth);
+    setPickupDay(pickupDay);
     setPickupTime(pickupTime);
+
     setCurrentStep('info');
   }
 

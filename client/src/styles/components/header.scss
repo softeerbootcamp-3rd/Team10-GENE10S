@@ -10,6 +10,7 @@
   position: fixed;
   background-color: $gray_900;
   transition: background-color 0.3s ease;
+  z-index: 100;
 
   > .logo {
     width: 146px;
