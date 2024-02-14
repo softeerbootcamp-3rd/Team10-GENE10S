@@ -38,4 +38,19 @@ public class CarController {
 
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{carId}")
+    public ResponseEntity<ResponseDto> deleteVehicle(HttpServletRequest request, @PathVariable Long carId) {
+        log.info("차량 삭제 API");
+
+        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
+
+        //TODO: 로그인 유저 없을때 예외처리
+        if (customer.isEmpty()) {
+            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        carService.deleteCar(customer.get().getId(), carId);
+
+        return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
+    }
 }
