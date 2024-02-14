@@ -40,7 +40,7 @@ const ReservationCard = ({ reservationInfo }) => {
         <Link
           key={reservation.reservationId}
           className={classNames('content-card', { 'animate': animationQueue.includes(index) })}
-          to='/'
+          to='/reservation/detail'
         >
         <div className={classNames('id-area')}>
           <div className={classNames('id-text')}>
