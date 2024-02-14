@@ -7,6 +7,73 @@ import axios from '../api/Settings';
 import Cookies from 'js-cookie';
 import React from 'react';
 
+function runOnScroll() {
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.visibility = 'visible';
+          entry.target.style.transform = 'translateY(0)';
+          entry.target.style.transfrom = 'translateX(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+    },
+  );
+
+  const sectionsToObserve = [
+    '.main .body .info-area-1 .title',
+    '.main .body .info-area-1 .contents',
+    '.main .body .info-area-2 .title',
+    '.main .body .info-area-2 .progress-group',
+    '.main .body .info-area-3 .title',
+    '.main .body .info-area-3 .info-card-1',
+    '.main .body .info-area-3 .info-card-2',
+  ];
+
+  sectionsToObserve.forEach(selector => {
+    const element = document.querySelector(selector);
+    if (element) {
+      observer.observe(element);
+    }
+  });
+}
+
+// 페이지 로드 시 함수 실행
+document.addEventListener('DOMContentLoaded', runOnScroll);
+
+window.addEventListener('scroll', runOnScroll);
+
+document.addEventListener('DOMContentLoaded', function () {
+  setTimeout(function () {
+    let text = document.querySelector('.btn-main');
+    text.style.opacity = 1;
+    text.style.visibility = 'visible';
+  }, 1600);
+
+  setTimeout(function () {
+    let text = document.querySelector('.title-main');
+    text.style.opacity = 1;
+    text.style.visibility = 'visible';
+  }, 600);
+
+  setTimeout(function () {
+    let text = document.querySelector('.title-sub');
+    text.style.opacity = 1;
+    text.style.visibility = 'visible';
+  }, 900);
+
+  setTimeout(function () {
+    let text = document.querySelector('.content');
+    text.style.opacity = 1;
+    text.style.visibility = 'visible';
+  }, 1100);
+});
+
 export default function Main() {
   const location = useLocation();
 
@@ -23,7 +90,7 @@ export default function Main() {
 
         const sid = data.sid;
         const expires = new Date();
-        expires.setTime(expires.getTime() + 10 * 60 * 1000);
+        expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
 
         Cookies.set('sid', sid, { expires });
 
@@ -42,28 +109,55 @@ export default function Main() {
   }, [location]);
 
   return (
-    <React.Fragment>
+    <div className={classNames('main')}>
+      <Header />
       <div className={classNames('title-area')}>
-        <Header />
         <div className={classNames('image')}>
           <div className={classNames('btn-main')}>
-            <div className={classNames('title-text')}>예약하기</div>
-            <div className={classNames('progress-arrow-big')}>
-              <div className={classNames('image')} />
-            </div>
+            <a className={classNames('reservation')} href="/Reservation" style={{ textDecoration: 'none' }}>
+              예약하기
+            </a>
+          </div>
+          <div className={classNames('info-main')}>
+            <span className={classNames('title-main')}>GENESIS</span>
+            <span className={classNames('title-sub')}>AIRPORT SERVICE</span>
+            <span className={classNames('content')}>제네시스가 제공하는 특별한 카라이프</span>
           </div>
         </div>
       </div>
+
       <div className={classNames('body')}>
-        <div className={classNames('info-area')}>
-          <div className={classNames('area-title')}>차별화된 모빌리티 서비스</div>
-          <div className={classNames('image-group')}>
-            <div className={classNames('image-1')} />
-            <div className={classNames('image-2')} />
+        <div className={classNames('info-area-1')}>
+          <div className={classNames('title')}>
+            <span className={classNames('title-main')}>차별화된 모빌리티 서비스</span>
+          </div>
+          <div className={classNames('contents')}>
+            <div className={classNames('image-group')}>
+              <div className={classNames('image-1')} />
+              <div className={classNames('info')}>
+                <span className={classNames('title-sub')}>안심 보관</span>
+                <span className={classNames('content')}>제네시스 고객만을 위한 전용 주차장에 차량 안심 보관</span>
+              </div>
+            </div>
+            <div className={classNames('image-group')}>
+              <div className={classNames('image-2')} />
+              <div className={classNames('info')}>
+                <span className={classNames('title-sub')}>공항 픽업</span>
+                <span className={classNames('content')}>제네시스 에어포트 서비스 고객만을 위한 공항 픽업 서비스</span>
+              </div>
+            </div>
+            <div className={classNames('image-group')}>
+              <div className={classNames('image-3')} />
+              <div className={classNames('info')}>
+                <span className={classNames('title-sub')}>차량 점검</span>
+                <span className={classNames('content')}>기본 점검 15종, 소모품 교환, SW 업데이트 지원</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div className={classNames('info-area')}>
-          <div className={classNames('area-title')}>예약 과정</div>
+
+        <div className={classNames('info-area-2')}>
+          <div className={classNames('title')}>예약 과정</div>
           <div className={classNames('progress-group')}>
             <div className={classNames('progress-step')}>
               <div className={classNames('circle-area')}>
@@ -152,95 +246,49 @@ export default function Main() {
             </div>
           </div>
         </div>
-        <div className={classNames('info-area')}>
-          <div className={classNames('area-title')}>서비스 안내</div>
-          <div className={classNames('info-card')}>
-            <div className={classNames('half-frame-image-1')} />
-            <div className={classNames('half-frame')}>
+
+        <div className={classNames('info-area-3')}>
+          <div className={classNames('title')}>서비스 안내</div>
+          <div className={classNames('info-card-1')}>
+            <div className={classNames('image-1')} />
+            <div className={classNames('info-text-1')}>
               <div className={classNames('title')}>
-                <span className={classNames('head-text')}>김포 에어포트 서비스</span>
+                <span className={classNames('title-text')}>김포공항 에어포트 서비스</span>
               </div>
               <div className={classNames('content')}>
-                <div className={classNames('information')}>
-                  <span className={classNames('head-text')}>서비스 내용</span>
-                  <span className={classNames('content-text')}>
-                    - 김포공항 무상 발레 서비스 <br />
-                    - 제네시스 전용 안심 주차 공간 <br />
-                    - 소모품 교환 서비스 <br />
-                    (엔진오일세트, 에어컨 필터, 와이퍼 블레이드 中 택) <br />
-                    <br />
-                    ※ 안심 주차 비용 <br />
-                    7천 원/일, 6일 째부터 1만 원/일, vat제외 *00시 기준
-                  </span>
-                </div>
-                <div className={classNames('target')}>
-                  <span className={classNames('head-text')}>서비스 대상</span>
-                  <span className={classNames('content-text')}>
-                    김포공항 이용 제네시스 고객 중 <br />
-                    소모품 교환 쿠폰 및 홈투홈 서비스 쿠폰 보유 고객
-                  </span>
-                </div>
-                <div className={classNames('coupon')}>
-                  <span className={classNames('head-text')}>홈투홈 쿠폰 사용 안내</span>
-                  <span className={classNames('content-text')}>
-                    이용기간 내 소모품 교환 쿠폰 및 홈투홈 서비스 쿠폰 사용 가능 <br />※ 서비스 이용 후 쿠폰 차감
-                  </span>
-                </div>
-                <div className={classNames('usage')}>
-                  <span className={classNames('head-text')}>서비스 이용 안내</span>
-                  <span className={classNames('content-text')}>
-                    제네시스 홈페이지에서 최대 두 달~최소 2주일 전에 예약 <br />※ 이용객이 많은 경우 조기 마감될 수
-                    있습니다.
-                  </span>
-                </div>
+                <span className={classNames('content-text')}>
+                  안전과 신뢰를 바탕으로 김포공항에서의 여정을 편안하게 안내합니다.
+                </span>
+              </div>
+              <div className={classNames('btn-info')}>
+                <a className={classNames('detail')} href="/Reservation" style={{ textDecoration: 'none' }}>
+                  자세히 보기
+                </a>
               </div>
             </div>
           </div>
 
-          <div className={classNames('info-card')}>
-            <div className={classNames('half-frame')}>
+          <div className={classNames('info-card-2')}>
+            <div className={classNames('info-text-2')}>
               <div className={classNames('title')}>
-                <span className={classNames('head-text')}>인천 에어포트 서비스</span>
+                <span className={classNames('title-text')}>인천공항 에어포트 서비스</span>
               </div>
               <div className={classNames('content')}>
-                <div className={classNames('information')}>
-                  <span className={classNames('head-text')}>서비스 내용</span>
-                  <span className={classNames('content-text')}>
-                    - 공항 셔틀 서비스 <br />
-                    - 기본 점검 15종 <br />
-                    - 차량 클리닝 서비스 <br />
-                    - 제네시스 전용 안심 주차 공간 <br /> <br />
-                    ※ 서비스 비용 <br />
-                    7만 원(4박 5일 이내 기준), 6일 째부터 1만 원/일 추가, <br />
-                    vat제외 *00시 기준
-                  </span>
-                </div>
-                <div className={classNames('target')}>
-                  <span className={classNames('head-text')}>서비스 대상</span>
-                  <span className={classNames('content-text')}>
-                    인천공항 이용 제네시스 고객 중 홈투홈 서비스 쿠폰 보유 고객
-                  </span>
-                </div>
-                <div className={classNames('coupon')}>
-                  <span className={classNames('head-text')}>홈투홈 쿠폰 사용 안내</span>
-                  <span className={classNames('content-text')}>
-                    이용기간 내 소모품 교환 쿠폰 및 홈투홈 서비스 쿠폰 사용 가능 <br />※ 서비스 이용 후 쿠폰 차감
-                  </span>
-                </div>
-                <div className={classNames('usage')}>
-                  <span className={classNames('head-text')}>서비스 이용 안내</span>
-                  <span className={classNames('content-text')}>
-                    제네시스 홈페이지에서 최대 두 달~최소 2주일 전에 예약 <br />※ 이용객이 많은 경우 조기 마감될 수
-                    있습니다.
-                  </span>
-                </div>
+                <span className={classNames('content-text')}>
+                  최상의 편의성과 서비스로 인천공항 여정을 완벽하게 지원합니다.
+                </span>
+              </div>
+              <div className={classNames('btn-info')}>
+                <a className={classNames('detail')} href="/Reservation" style={{ textDecoration: 'none' }}>
+                  자세히 보기
+                </a>
               </div>
             </div>
-            <div className={classNames('half-frame-image-2')} />
+            <div className={classNames('image-2')} />
           </div>
         </div>
       </div>
       <Footer />
-    </React.Fragment>
+    </div>
   );
 }

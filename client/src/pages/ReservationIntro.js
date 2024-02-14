@@ -4,13 +4,13 @@ import Header from '../components/Header';
 import React from 'react';
 import { useState } from 'react';
 import AirportBranch from '../components/AirportBranch';
+import AnimatedComponent from '../components/AnimatedComponent';
 
 export default function ReservationIntro() {
 
   const [selectedButtonKimpo, setSelectedButtonKimpo] = useState('serviceKimpo');
   const [selectedButtonIncheon, setSelectedButtonIncheon] = useState('serviceIncheon');
 
-  
   const handleButtonClickKimpo = (categoryName) => {
     setSelectedButtonKimpo(categoryName);
   };
@@ -118,16 +118,22 @@ export default function ReservationIntro() {
             </div>
           </div>
           <div className={classNames('main-btn')}>
-            <AirportBranch
-              name="블루핸즈 김포공항점"
-              description="안전과 신뢰를 바탕으로 김포공항에서의 여정을 편안하게 안내합니다."
-              imageType="image-1"
-            />
-            <AirportBranch
-              name="블루핸즈 인천공항점"
-              description="최상의 편의성과 서비스로 인천공항 여정을 완벽하게 지원합니다."
-              imageType="image-2"
-            />
+            <AnimatedComponent name="animation-1" delay={0.1} duration={0.2} scale={1.035} translateY={50}>
+              <AirportBranch
+                url="/reservation"
+                name="블루핸즈 김포공항점"
+                description="안전과 신뢰를 바탕으로 김포공항에서의 여정을 편안하게 안내합니다."
+                imageType="image-1"
+              />
+            </AnimatedComponent>
+            <AnimatedComponent name="animation-2" delay={0.1} duration={0.2} scale={1.035} translateY={50}>
+              <AirportBranch
+                url="/reservation"
+                name="블루핸즈 인천공항점"
+                description="최상의 편의성과 서비스로 인천공항 여정을 완벽하게 지원합니다."
+                imageType="image-2"
+              />
+            </AnimatedComponent>
           </div>
         </div>
 
@@ -157,6 +163,7 @@ export default function ReservationIntro() {
           </p>
         </div>
 
+        <AnimatedComponent name="animation-3" delay={0.15} duration={2} yDuration={2} translateY={50}>
         <div className={classNames('type-info')}>
           <div className={classNames('image-frame-1')}/>
           <div className={classNames('text-frame')}>
@@ -196,7 +203,9 @@ export default function ReservationIntro() {
             </div>
           </div>
         </div>
+        </AnimatedComponent>
 
+        <AnimatedComponent name="animation-4" delay={0.15} duration={2} yDuration={2} translateY={50}>
          <div className={classNames('type-info')}>
           <div className={classNames('text-frame')}>
             <h3 className={classNames('txt-title')}>
@@ -236,6 +245,8 @@ export default function ReservationIntro() {
           </div>
           <div className={classNames('image-frame-2')}/>
         </div>
+        </AnimatedComponent>
+
       </div>
 
       </div>
