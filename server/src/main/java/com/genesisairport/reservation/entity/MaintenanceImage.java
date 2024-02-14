@@ -3,6 +3,7 @@ package com.genesisairport.reservation.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -19,9 +20,11 @@ public class MaintenanceImage {
     private Long id;
 
     @Column(nullable = false)
+    @Getter
     private Integer status;
 
     @Column(name = "image_url", nullable = false, length = 2048)
+    @Getter
     private String imageUrl;
 
     @Column(name = "create_datetime", nullable = false)
