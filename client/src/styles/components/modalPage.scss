@@ -29,8 +29,24 @@
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  z-index: 100;
 
   border-right: 1px solid $gray_400;
+  background-color: $gray_900;
+
+  &.shop-selector {
+    z-index: 1;
+    position: absolute;
+    top: inherit;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.dropped {
+      top: 120px;
+    }
+  }
 }
 
 .modal-page > .modal-header > .shop-name > .text {
@@ -39,14 +55,17 @@
   @extend %B_20;
 }
 
-.modal-page > .modal-header > .shop-name > .text > .dropdown {
+.modal-page > .modal-header > .shop-name > .dropdown {
   display: flex;
   width: 60px;
+  height: 60px;
   transform: rotate(90deg);
-  padding: 21px 0px;
-  justify-content: space-between;
   align-items: center;
-  flex-shrink: 0;
+  justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .modal-page > .modal-header > .steps {
@@ -101,6 +120,7 @@
 
 .modal-page > .body {
   display: flex;
+  flex-direction: row;
   padding: 40px 64px;
   justify-content: center;
   align-items: center;
@@ -117,6 +137,73 @@
   align-items: center;
   gap: 48px;
   align-self: stretch;
+
+  > .frame-type {
+    @extend %B_30;
+    color: $uyh;
+    text-align: center;
+  }
+}
+
+.modal-page > .body > .frame-left > .car-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.modal-page > .body > .frame-left > .car-list > .car-info {
+  display: flex;
+  height: 180px;
+  padding: 24px;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  border-radius: 5px;
+  background-color: $gray_800;
+  box-sizing: border-box;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 0px 1px $gray_200;
+  }
+
+  > .image-area {
+    display: flex;
+    width: 132px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+
+    > img {
+      flex: 1 0 0;
+      align-self: stretch;
+    }
+  }
+
+  > .content-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex: 1 0 0;
+    align-self: stretch;
+
+    > .car-name {
+      @extend %B_24;
+      color: $uyh;
+      text-align: center;
+    }
+
+    > .plate-number {
+      @extend %B_18;
+      color: $gray_400;
+      text-align: center;
+    }
+  }
 }
 
 .modal-page > .body > .frame-right {
@@ -126,4 +213,67 @@
   align-items: flex-start;
   gap: 100px;
   flex: 1 0 0;
+}
+
+.modal-page > .body > .frame-right > .category-row {
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  align-self: stretch;
+  border-bottom: 1px solid $gray_400;
+
+  > .title {
+    @extend %B_36;
+    color: $orange_700;
+    text-align: center;
+  }
+
+  > .content {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: 24px;
+    align-self: stretch;
+    flex-wrap: wrap;
+
+    > .input-hint {
+      @extend %B_20;
+      color: $gray_200;
+      text-align: center;
+    }
+
+    > .select {
+      @extend %B_20;
+      color: $uyh;
+      text-align: center;
+
+      display: flex;
+      height: 60px;
+      padding: 0px 24px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      background: $gray_800;
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 0px 1px $gray_200;
+      }
+
+      &.active {
+        background: $gray_200;
+        color: $gray_900;
+      }
+    }
+  }
+}
+.modal-page > .btn-group {
+  display: flex;
+  padding: 0px 100px 60px 100px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 48px;
+  align-self: stretch;
 }

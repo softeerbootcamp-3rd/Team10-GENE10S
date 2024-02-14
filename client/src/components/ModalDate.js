@@ -222,8 +222,8 @@ export default function ModalDate({ nextStep, props }) {
           />
           {showTimes && <TimeSlots timeSlots={timeData} selectedTime={selectedTime} handleClickTime={handleClickTime} />}
         </div>
-        <div className={classNames('frame_right')}>
-          <div className={classNames('category_row')}>
+        <div className={classNames('frame-right')}>
+          <div className={classNames('category-row')}>
             <span className={classNames('title')}>1. 센터 방문</span>
             <span className={classNames('content', 'hover-pointer', selectedInput === 'departure' ? 'active' : null)} onClick={() => handleClickDeparture()}>
               <div className={classNames('input-area', 'w-200')}>
@@ -234,7 +234,7 @@ export default function ModalDate({ nextStep, props }) {
               </div>
             </span>
           </div>
-          <div className={classNames('category_row')}>
+          <div className={classNames('category-row')}>
             <span className={classNames('title')}>2. 픽업 시간</span>
             <span className={classNames('content', 'hover-pointer', selectedInput === 'pickup' ? 'active' : null)} onClick={() => handleClickPickup()}>
               <div className={classNames('input-area', 'w-200')}>
