@@ -26,7 +26,7 @@ const ProfileCard = ({ profileInfo, carList }) => {
             <div className={classNames('text')}>
               {profileInfo.name}
             </div>
-            <Link to="/profile_edit" className={classNames('setting')} />
+            <Link to="/profile" className={classNames('setting')} />
           </div>
           <div className={classNames('email', {'animate': infoAnimate})}>{profileInfo.email}</div>
           <div className={classNames('cars', {'animate': infoAnimate})}>

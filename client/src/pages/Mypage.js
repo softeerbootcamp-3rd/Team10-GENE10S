@@ -3,13 +3,10 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import ProfileCard from '../components/ProfileCard';
 import ReservationCard from '../components/ReservationCard';
 
 export default function Mypage() {
-  const image_url = "https://genesis-airport.s3.ap-northeast-2.amazonaws.com/car/g80.png"
-
   const [profileInfo, setProfileInfo] = useState({});
   const [carList, setCarList] = useState([]);
   const [reservationInfo, setReservationList] = useState([]);

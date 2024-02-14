@@ -2,12 +2,13 @@
 
 .modal-frame {
   display: flex;
-  width: 1920px;
-  height: 1080px;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   background: rgba(18, 17, 16, 0.60);
+  z-index: 999;
 }
 
 .modal-frame > .modal {
