@@ -113,23 +113,15 @@
   transition: opacity 0.2s; 
 
   > .car-name {
-    color: var(--orange_600, $orange_600);
+    color: $orange_600;
     text-align: center;
-    font-family: "Inter";
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    @extend %M_20;
   }
 
   > .car-number {
-    color: var(--uyh, $uyh);
+    color: $uyh;
     text-align: center;
-    font-family: "Inter";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    @extend %M_16;
   }
 }
 
