@@ -211,7 +211,7 @@ export default function ModalDate({ nextStep, props }) {
   return (
     <>
       <div className={classNames('body')}>
-        <div className={classNames('frame_left')}>
+        <div className={classNames('frame-left')}>
           <Calendar
             year={calendarYear}
             month={calendarMonth}
