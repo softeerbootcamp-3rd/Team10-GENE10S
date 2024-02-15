@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.entity.Customer;
-import com.genesisairport.reservation.entity.Session;
 import com.genesisairport.reservation.respository.CustomerRepository;
-import com.genesisairport.reservation.respository.CustomSessionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -27,8 +25,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthService {
-
-    private final CustomSessionRepository customSessionRepository;
 
     private final CustomerRepository customerRepository;
 
@@ -65,31 +61,6 @@ public class AuthService {
                 .build().encode().toUriString();
 
         return queryParameters.substring(1);
-    }
-
-    // 세션 저장
-    public Session buildSession(String response) {
-        try {
-            JsonNode rootNode = objectMapper.readTree(response); // 문자열을 JsonNode로 변환
-
-            String token_type = rootNode.path("token_type").asText(); // path 메소드를 이용하여 키에 해당하는 값을 가져옴 (없으면 빈 문자열 반환, NullPointer 방지)
-            long expires_in = rootNode.path("expires_in").asLong();
-            String refresh_token = rootNode.path("refresh_token").asText();
-            boolean success = rootNode.path("success").asBoolean();
-            String access_token = rootNode.path("access_token").asText();
-
-            return Session.builder()
-                    .sessionId(UUID.randomUUID().toString())
-                    .accessToken(access_token)
-                    .tokenType(token_type)
-                    .refreshToken(refresh_token)
-                    .expiresIn(LocalDateTime.now().plusSeconds(expires_in))
-                    .createDateTime(LocalDateTime.now())
-                    .updateDateTime(LocalDateTime.now())
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException("세션 저장에 실패했습니다.");
-        }
     }
 
     // 사용자 프로필을 현대자동차 인증 서버에 요청
