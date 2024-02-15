@@ -10,6 +10,13 @@
   top: 74px;
   margin-bottom: 74px;
 
+  opacity: 0; /* 페이지가 처음 로딩될 때 숨깁니다. */
+  transition: opacity 1.5s ease-in-out; /* 페이드 인 효과를 추가합니다. */
+
+  &.fadein {
+    opacity: 1; /* 페이지가 페이드 인될 때 보이게 합니다. */
+  }
+
   .title {
     display: flex;
     padding: 28px 100px 4px 100px;

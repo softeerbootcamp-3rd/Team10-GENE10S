@@ -14,9 +14,11 @@ export default function ReservationDetail() {
   const location = useLocation();
   const [reservationId, setReservationId] = useState(null);
   const [reservationDetail, setReservationDetail] = useState({});
+  const [fadeIn, setFadeIn] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setFadeIn(true);
   }, []);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function ReservationDetail() {
     <>
       <Header />
 
-      <div className={classNames('reservation-detail-page')}>
+      <div className={classNames('reservation-detail-page', { 'fadein': fadeIn })}>
         <div className={classNames('title')}>
           <div className={classNames('text')}>마이페이지 {'>'} 예약 내역</div>
           <div className={classNames('reservation-info')}>
