@@ -1,12 +1,5 @@
 import axios from 'axios';
-
-const formatDate = (date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 해줌
-  const day = String(date.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-}
+import { formatDate } from '../utils/dateUtils';
 
 export async function getAvailableTime(year, month, day) {
   try {
@@ -38,6 +31,16 @@ export async function validCoupon(serialNumber) {
     });
 
     return response.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function postReservation(reservationInfo) {
+  try {
+    const response = await axios.post('/v1/reservation', reservationInfo);
+
+    return response.data;
   } catch (error) {
     console.error(error);
   }

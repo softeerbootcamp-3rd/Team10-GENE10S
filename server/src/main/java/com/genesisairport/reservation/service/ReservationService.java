@@ -6,6 +6,7 @@ import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.respository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -61,7 +62,7 @@ public class ReservationService {
         boolean reservationStatus = false;
 
         // 날짜 형식 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime fromDateTime = LocalDateTime.parse(from, formatter);
         LocalDateTime toDateTime = LocalDateTime.parse(to, formatter);
 
@@ -82,14 +83,16 @@ public class ReservationService {
                 .build();
 
 
-        if (!couponRepository.findCouponBySerialNumber(couponSerialNumber).getIsUsed()) {
-            reservationRepository.save(reservation);
-
-            reservationStatus = true;
+        if (Strings.isEmpty(couponSerialNumber)) {
             Coupon c = couponRepository.findCouponBySerialNumber(couponSerialNumber);
-            c.setIsUsed(reservationStatus);
-            couponRepository.save(c);
+            if (c != null && c.getIsUsed()) {
+                c.setIsUsed(reservationStatus);
+                couponRepository.save(c);
+            }
         }
+
+        reservationStatus = true;
+        reservationRepository.save(reservation);
 
         return ReservationResponse.ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)

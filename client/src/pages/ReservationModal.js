@@ -5,11 +5,14 @@ import ModalDate from '../components/ModalDate';
 import ModalInfo from '../components/ModalInfo';
 import ModalService from '../components/ModalService';
 import AlertModal from '../components/AlertModal';
+import { postReservation } from '../api/ReservationApi';
+import { formatTime } from '../utils/dateUtils';
 
 export default function ReservationModal() {
   const [fadeIn, setFadeIn] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
   const [modalText, setModalText] = useState(null);
+  const [reservationDone, setReservationDone] = useState(false);
 
   const [shopName, setShopName] = useState('');
   const [currentStep, setCurrentStep] = useState('date');
@@ -26,7 +29,23 @@ export default function ReservationModal() {
   const [phone3, setPhone3] = useState('');
   const [sellName, setSellName] = useState('');
   const [plateNumber, setPlateNumber] = useState('');
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState({
+    oil: false,
+    battery: false,
+    engineRun: false,
+    engineCooler: false,
+    airCooler: false,
+    bottom: false,
+    breakpad: false,
+    lamp: false,
+    engineMount: false,
+    suspension: false,
+    shaft: false,
+    scanner: false,
+    heater: false,
+    tire: false,
+    filter: false
+  });
   const [customerRequest, setCustomerRequest] = useState('');
   const [coupon, setCoupon] = useState('');
 
@@ -48,6 +67,9 @@ export default function ReservationModal() {
 
   function closeModal() {
     setAlertVisible(false);
+    // TODO: 해당 예약 상세정보 페이지로 이동하기
+    if (reservationDone)
+      window.location = '/';
   }
 
   function saveInfo(phone1, phone2, phone3, sellName, plateNumber) {
@@ -116,14 +138,30 @@ export default function ReservationModal() {
   }
 
   const submitForm = (services, customerRequest, coupon, couponValid) => {
-    if (coupon != null && coupon != '' && !couponValid) {
+    if (coupon !== null && coupon !== '' && !couponValid) {
       showModal('쿠폰번호를 확인해주세요.');
       return;
     }
     setServices(services);
     setCustomerRequest(customerRequest);
     setCoupon(coupon);
-    
+
+    const reservationInfo = {
+      couponSerialNumber: coupon,
+      shopName: shopName,
+      departureTime: formatTime(new Date(departureYear, departureMonth, departureDay, departureTime, 0, 0)),
+      arrivalTime: formatTime(new Date(pickupYear, pickupMonth, pickupDay, pickupTime, 0, 0)),
+      contactNumber: phone1 + phone2 + phone3,
+      carSellName: sellName,
+      carPlateNumber: plateNumber,
+      serviceType: services,
+      customerRequest: customerRequest
+    }
+
+    postReservation(reservationInfo).then(result => {
+      setReservationDone(true);
+      showModal(result.message);
+    });
   }
 
   function changeShop() {
@@ -146,7 +184,23 @@ export default function ReservationModal() {
     setPhone3('');
     setSellName('');
     setPlateNumber('');
-    setServices([]);
+    setServices({
+      oil: false,
+      battery: false,
+      engineRun: false,
+      engineCooler: false,
+      airCooler: false,
+      bottom: false,
+      breakpad: false,
+      lamp: false,
+      engineMount: false,
+      suspension: false,
+      shaft: false,
+      scanner: false,
+      heater: false,
+      tire: false,
+      filter: false
+    });
     setCustomerRequest('');
     setCoupon('');
 
