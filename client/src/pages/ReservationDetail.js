@@ -39,35 +39,31 @@ export default function ReservationDetail() {
   }, [reservationId]);
 
   return (
-    <>
+    <div className={classNames('reservation-detail-page')}>
       <Header />
-
-      <div className={classNames('reservation-detail-page')}>
-        <div className={classNames('title')}>
-          <div className={classNames('text')}>마이페이지 {'>'} 예약 내역</div>
-          <div className={classNames('reservation-info')}>
-            <div className={classNames('text-1')}>예약 번호</div>
-            <div className={classNames('text-2')}>GEN-20240212-00004364</div>
-          </div>
-        </div>
-
-        {/* body */}
-        <div className={classNames('body')}>
-          {/* info */}
-          <ReservationDetailInfo reservationDetail={reservationDetail} />
-
-          {/* service */}
-          <ReservationDetailService serviceType={reservationDetail.serviceType} />
-
-          {/* step */}
-          <ReservationDetailStep progressStage={reservationDetail.progressStage} />
-
-          {/* result */}
-          <ReservationDetailResult reservationDetail={reservationDetail} />
+      <div className={classNames('title')}>
+        <div className={classNames('text')}>마이페이지 {'>'} 예약 내역</div>
+        <div className={classNames('reservation-info')}>
+          <div className={classNames('text-1')}>예약 번호</div>
+          <div className={classNames('text-2')}>GEN-20240212-00004364</div>
         </div>
       </div>
 
+      {/* body */}
+      <div className={classNames('body')}>
+        {/* info */}
+        <ReservationDetailInfo reservationDetail={reservationDetail} />
+
+        {/* service */}
+        <ReservationDetailService serviceType={reservationDetail.serviceType} />
+
+        {/* step */}
+        <ReservationDetailStep progressStage={reservationDetail.progressStage} />
+
+        {/* result */}
+        <ReservationDetailResult reservationDetail={reservationDetail} />
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
