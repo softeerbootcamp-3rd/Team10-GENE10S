@@ -166,7 +166,7 @@ export default function Reservation() {
 
             <div className="form-group">
               <div className={classNames('form-group__label')}>
-                <label htmlFor="visitTime">픽업 시간</label>
+                <label htmlFor="visitTime">픽업 시각</label>
               </div>
               <div className={classNames('date-input')}>
                 <input type="date" value={pickupDate} onChange={handlePickupDateChange} />

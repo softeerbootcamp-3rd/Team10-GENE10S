@@ -4,8 +4,13 @@ import ModalHeader from '../components/ModalHeader';
 import ModalDate from '../components/ModalDate';
 import ModalInfo from '../components/ModalInfo';
 import ModalService from '../components/ModalService';
+import AlertModal from '../components/AlertModal';
 
 export default function ReservationModal() {
+  const [fadeIn, setFadeIn] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [modalText, setModalText] = useState(null);
+
   const [shopName, setShopName] = useState('');
   const [currentStep, setCurrentStep] = useState('date');
   const [departureYear, setDepartureYear] = useState(null);
@@ -22,18 +27,28 @@ export default function ReservationModal() {
   const [sellName, setSellName] = useState('');
   const [plateNumber, setPlateNumber] = useState('');
   const [services, setServices] = useState([]);
-  const [request, setRequest] = useState('');
+  const [customerRequest, setCustomerRequest] = useState('');
   const [coupon, setCoupon] = useState('');
 
   //임시 지정
   useEffect(() => {
     setShopName('블루핸즈 인천공항점');
+    setFadeIn(true);
   }, []);
 
   const dateProps = { departureYear, departureMonth, departureDay, departureTime,
     pickupYear, pickupMonth, pickupDay, pickupTime };
   const infoProps = { phone1, phone2, phone3, sellName, plateNumber };
-  const serviceProps = { services, request, coupon };
+  const serviceProps = { services, customerRequest, coupon };
+
+  function showModal(showText) {
+    setModalText(showText);
+    setAlertVisible(true);
+  }
+
+  function closeModal() {
+    setAlertVisible(false);
+  }
 
   function saveInfo(phone1, phone2, phone3, sellName, plateNumber) {
     setPhone1(phone1);
@@ -45,6 +60,16 @@ export default function ReservationModal() {
 
   function dateToInfo(departureYear, departureMonth, departureDay, departureTime,
     pickupYear, pickupMonth, pickupDay, pickupTime) {
+
+    if (departureTime === null) {
+      showModal('센터 방문 시각을 입력해주세요.');
+      return;
+    }
+    if (pickupTime === null) {
+      showModal('픽업 시각을 입력해주세요.');
+      return;
+    }
+
     setDepartureYear(departureYear);
     setDepartureMonth(departureMonth);
     setDepartureDay(departureDay);
@@ -54,25 +79,47 @@ export default function ReservationModal() {
     setPickupMonth(pickupMonth);
     setPickupDay(pickupDay);
     setPickupTime(pickupTime);
-
-    setCurrentStep('info');
+    
+    handleStepChange('info');
   }
 
   function infoToDate(phone1, phone2, phone3, sellName, plateNumber) {
     saveInfo(phone1, phone2, phone3, sellName, plateNumber);
-    setCurrentStep('date');
+    handleStepChange('date');
   }
 
   function infoToService(phone1, phone2, phone3, sellName, plateNumber) {
+
+    if (phone1 === null || phone1 === ''
+      || phone2 === null || phone2 === ''
+      || phone3 === null || phone3 === '') {
+      showModal('전화번호를 입력해주세요.');
+      return;
+    }
+    if (sellName === null || sellName === '') {
+      showModal('차종을 입력해주세요.');
+      return;
+    }
+    if (plateNumber === null | plateNumber === '') {
+      showModal('차량 번호를 입력해주세요.');
+      return;
+    }
     saveInfo(phone1, phone2, phone3, sellName, plateNumber);
-    setCurrentStep('service');
+    handleStepChange('service');
   }
 
-  function serviceToInfo(services, request, coupon) {
+  function serviceToInfo(services, customerRequest, coupon) {
     setServices(services);
-    setRequest(request);
+    setCustomerRequest(customerRequest);
     setCoupon(coupon);
-    setCurrentStep('info');
+    handleStepChange('info');
+  }
+
+  const submitForm = (services, customerRequest, coupon, couponValid) => {
+    setServices(services);
+    setCustomerRequest(customerRequest);
+    setCoupon(coupon);
+
   }
 
   function changeShop() {
@@ -96,18 +143,31 @@ export default function ReservationModal() {
     setSellName('');
     setPlateNumber('');
     setServices([]);
-    setRequest('');
+    setCustomerRequest('');
     setCoupon('');
 
     document.querySelector('.shop-selector').classList.remove('dropped');
   }
 
+  const handleStepChange = (nextStep) => {
+    setFadeIn(false);
+    setTimeout(() => {
+      setCurrentStep(nextStep);
+      setFadeIn(true);
+    }, 300);
+  };
+
   return (
-    <div className={classNames('modal-page')}>
-      <ModalHeader shopName={shopName} currentStep={currentStep} changeShop={changeShop} />
-      {currentStep === 'date' ? <ModalDate props={dateProps} nextStep={dateToInfo} /> : null}
-      {currentStep === 'info' ? <ModalInfo props={infoProps} prevStep={infoToDate} nextStep={infoToService} /> : null}
-      {currentStep === 'service' ? <ModalService props={serviceProps} prevStep={serviceToInfo} /> : null}
-    </div>
+    <>
+      <div className={classNames('modal-page')}>
+        <ModalHeader shopName={shopName} currentStep={currentStep} changeShop={changeShop} />
+        <div className={classNames('modal-content', {'fade-in': fadeIn})}>
+          {currentStep === 'date' ? <ModalDate props={dateProps} nextStep={dateToInfo} /> : null}
+          {currentStep === 'info' ? <ModalInfo props={infoProps} prevStep={infoToDate} nextStep={infoToService} /> : null}
+          {currentStep === 'service' ? <ModalService props={serviceProps} prevStep={serviceToInfo} submit={submitForm} /> : null}
+        </div>
+      </div>
+      <AlertModal onClose={closeModal} showText={modalText} visible={alertVisible}/>
+    </>
   );
 }

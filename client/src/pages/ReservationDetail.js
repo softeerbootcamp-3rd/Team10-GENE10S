@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import ReservationDetailInfo from '../components/reservation_detail/ReservationDetailInfo';
 import ReservationDetailService from '../components/reservation_detail/ReservationDetailService';
