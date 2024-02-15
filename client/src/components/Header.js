@@ -1,14 +1,17 @@
-import { Link, Route } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import logo_header from '../assets/logo-header.png';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const [uuid, setUuid] = useState('');
   const clientId = process.env.REACT_APP_CLIENT_ID;
   const host = process.env.REACT_APP_REDIRECT_URI;
+
+  const navigate = useNavigate();
 
   // RFC4122 version 4 UUID
   useEffect(() => {
@@ -43,6 +46,16 @@ export default function Header() {
     window.location.href = `https://accounts.genesis.com/api/authorize/ccsp/oauth?clientId=${clientId}&host=${host}&state=${uuid}`;
   };
 
+  // TODO 로그아웃 클릭 시 윈도우 재로딩 필요
+  const handleLogoutClick = async () => {
+    try {
+      const response = await axios.post('/v1/logout');
+      
+    } catch (error) {
+      console.error('Error calling logout API:', error);
+    }
+  }
+
   return (
     <div className={classNames('header', 'on-top')}>
       <Link to="/">
@@ -51,7 +64,7 @@ export default function Header() {
       <div className="btn-group">
         {isLogin ? (
           <>
-            <Link to="/logout" className={classNames('btn')}>
+            <Link to="/" className={classNames('btn')} onClick={handleLogoutClick}>
               로그아웃
             </Link>
             <Link to="/mypage" className={classNames('btn')}>

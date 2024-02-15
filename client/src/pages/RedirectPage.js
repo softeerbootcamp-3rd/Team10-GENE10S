@@ -17,7 +17,7 @@ const RedirectPage = () => {
           console.log('Authorization Code:', authorizationCode);
           console.log('State:', state);
 
-          const response = await axios.post('/v1/oauth/token', {
+          const response = await axios.post('/v1/login', {
             grantType: 'authorization_code',
             code: authorizationCode,
             redirectUri: process.env.REACT_APP_REDIRECT_URI + "/oauth/redirect",
