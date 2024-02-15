@@ -74,7 +74,7 @@ export default function ReservationDetailInfo({ reservationDetail }) {
             </div>
           </div>
           <div className={classNames('map')}>
-            <img className={classNames('basemap-image')} />
+            <img className={classNames('basemap-image')} alt='정비소 위치' />
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function ReservationDetailInfo({ reservationDetail }) {
               <div className={classNames('text-1')}>{reservationDetail.carSellName}</div>
               <div className={classNames('text-2')}>{reservationDetail.carPlateNumber}</div>
             </div>
-            <img className={classNames('image-7')} />
+            <img src={reservationDetail.imageUrl} className={classNames('image-7')} alt='차량 대표 이미지' />
           </div>
         </div>
         {/* coupon-info */}

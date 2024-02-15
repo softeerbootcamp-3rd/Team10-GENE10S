@@ -14,3 +14,25 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
         show_sql: false
+
+  session:
+    store-type: redis # 세션 저장소 지정
+    redis:
+      namespace: gene10s:session # 세션을 저장하는 데 사용되는 키의 namespace
+      cleanup-cron: "0 * * * * *"
+      repository-type: indexed
+  data:
+    redis:
+      host: 43.203.119.163
+      port: 6379
+      password: ${REDIS_PASSWORD}
+
+server:
+  servlet:
+    session:
+      cookie:
+        name: SID
+        domain:
+        path: /
+        http-only: false
+        secure: false
