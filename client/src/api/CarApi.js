@@ -16,3 +16,15 @@ export async function registerCar({ sellName, plateNumber }) {
     console.error(error);
   }
 }
+
+export async function deleteCar(carId) {
+  try {
+    axios.delete(`v2/car/${carId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
