@@ -26,14 +26,12 @@ public class UserService {
     private final CarService carService;
     private final CustomerRepository customerRepository;
 
-    public UserResponse.UserInfo getUserInfo(HttpServletRequest request) {
-        Optional<Customer> customerOptional = sessionService.getLoggedInCustomer(request);
-
+    public UserResponse.UserInfo getUserInfo(Long userId) {
         // TODO: 로그인 유저 없을때
-        if (customerOptional.isEmpty())
+        if (userId == null)
             return UserResponse.UserInfo.builder().build();
 
-        Customer customer = customerOptional.get();
+        Customer customer = customerRepository.findCustomerById(userId); //TODO 빌더 사용으로 변경
         List<Car> carList = customer.getCars();
         List<UserResponse.UserInfo.CarInfo> carInfo = carList.stream()
                 .map(car -> UserResponse.UserInfo.CarInfo.builder()
@@ -55,14 +53,12 @@ public class UserService {
                 .build();
     }
 
-    public void patchUserInfo(HttpServletRequest request, UserRequest.UserInfo userInfo) {
-        Optional<Customer> customerOptional = sessionService.getLoggedInCustomer(request);
-
+    public void patchUserInfo(Long userId, UserRequest.UserInfo userInfo) {
         // TODO: 로그인 유저 없을때
-        if (customerOptional.isEmpty())
+        if (userId == null)
             return;
 
-        Customer customer = customerOptional.get();
+        Customer customer = customerRepository.findCustomerById(userId); //TODO 빌더 사용으로 변경
         if (!Strings.isEmpty(userInfo.getName()))
             customer.setName(userInfo.getName());
         if (!Strings.isEmpty(userInfo.getBirthdate()))
@@ -73,14 +69,12 @@ public class UserService {
         customerRepository.save(customer);
     }
 
-    public UserResponse.Profile getUserProfile(HttpServletRequest request) {
-        Optional<Customer> customerOptional = sessionService.getLoggedInCustomer(request);
-
+    public UserResponse.Profile getUserProfile(Long userId) {
         // TODO: 로그인 유저 없을때
-        if (customerOptional.isEmpty())
+        if (userId == null)
             return UserResponse.Profile.builder().build();
 
-        Customer customer = customerOptional.get();
+        Customer customer = customerRepository.findCustomerById(userId); //TODO 빌더 사용으로 변경
         List<Car> carList = customer.getCars();
         String carSellName = null;
         String imageUrl = carService.getDefaultImage();

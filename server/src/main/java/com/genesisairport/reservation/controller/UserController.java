@@ -5,6 +5,7 @@ import com.genesisairport.reservation.common.ResponseCode;
 import com.genesisairport.reservation.common.ResponseDto;
 import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.response.UserResponse;
+import com.genesisairport.reservation.service.SessionService;
 import com.genesisairport.reservation.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,29 +27,33 @@ public class UserController {
 
     @GetMapping("/info")
     public ResponseEntity<DataResponseDto<UserResponse.UserInfo>> getUserInfo(
-            HttpServletRequest request
+            final HttpServletRequest request
     ) {
+        Long userId = SessionService.getUserIdFromSession(request);
+
         return new ResponseEntity<>(
-                DataResponseDto.of(userService.getUserInfo(request)),
+                DataResponseDto.of(userService.getUserInfo(userId)),
                 HttpStatus.OK
         );
     }
 
     @PatchMapping("/info")
     public ResponseEntity<ResponseDto> patchUserInfo(
-            HttpServletRequest request,
+            final HttpServletRequest request,
             @RequestBody UserRequest.UserInfo userInfo
     ) {
-        userService.patchUserInfo(request, userInfo);
+        Long userId = SessionService.getUserIdFromSession(request);
+        userService.patchUserInfo(userId, userInfo);
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 
     @GetMapping("/profile")
     public ResponseEntity<DataResponseDto<UserResponse.Profile>> getResult(
-            HttpServletRequest request
+            final HttpServletRequest request
     ) {
+        Long userId = SessionService.getUserIdFromSession(request);
         return new ResponseEntity<>(
-                DataResponseDto.of(userService.getUserProfile(request)),
+                DataResponseDto.of(userService.getUserProfile(userId)),
                 HttpStatus.OK
         );
     }
