@@ -3,6 +3,7 @@ import { BtnBlack } from './Button';
 import { useState } from 'react';
 import Calendar from './Calendar';
 import TimeSlots from './TimeSlots';
+import { getAvailableTime } from '../api/ReservationApi';
 
 export default function ModalDate({ nextStep, props, fadeIn }) {
 
@@ -125,53 +126,11 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
       setSelectedTime(null);
       setPickupTime(null);
     }
-    const time_data = {
-      "success": true,
-      "code": 200,
-      "message": "Ok",
-      "data": {
-        "timeSlots": [
-          {
-              "time": 9,
-              "available": true
-          },
-          {
-              "time": 10,
-              "available": true
-          },
-          {
-              "time": 11,
-              "available": true
-          },
-          {
-              "time": 12,
-              "available": false
-          },
-          {
-              "time": 13,
-              "available": false
-          },
-          {
-              "time": 14,
-              "available": false
-          },
-          {
-              "time": 15,
-              "available": true
-          },
-          {
-              "time": 16,
-              "available": true
-          },
-          {
-              "time": 17,
-              "available": true
-          }
-        ]
-      }
-    };
-    setTimeData(time_data.data.timeSlots);
-    setShowTimes(true);
+
+    getAvailableTime(year, month, day).then(result => {
+      setTimeData(result.timeSlots);
+      setShowTimes(true);
+    });
   }
 
   const handleClickTime = (time) => {
@@ -192,18 +151,24 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
   }
 
   const handleClickDeparture = () => {
+    if (selectedInput === 'departure')
+      return;
     setSelectedInput('departure');
     setCalendarYear(departureYear != null ? departureYear : currentYear);
     setCalendarMonth(departureMonth != null ? departureMonth : currentMonth);
     setCalendarDay(departureDay);
+    setShowTimes(false);
     setSelectedTime(departureTime);
   }
 
   const handleClickPickup = () => {
+    if (selectedInput === 'pickup')
+      return;
     setSelectedInput('pickup');
     setCalendarYear(pickupYear != null ? pickupYear : currentYear);
     setCalendarMonth(pickupMonth != null ? pickupMonth : currentMonth);
     setCalendarDay(pickupDay);
+    setShowTimes(false);
     setSelectedTime(pickupTime);
   }
 
