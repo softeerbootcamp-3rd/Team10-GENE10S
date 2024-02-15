@@ -783,6 +783,8 @@
           gap: 30px;
           align-self: stretch;
 
+          justify-content: space-between;
+
           .arrow-left {
             display: flex;
             padding: 4px;
@@ -851,6 +853,8 @@
           align-items: center;
           gap: 30px;
           align-self: stretch;
+
+          justify-content: space-between;
 
           .arrow-left {
             display: flex;
