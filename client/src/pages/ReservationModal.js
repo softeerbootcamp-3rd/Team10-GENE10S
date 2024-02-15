@@ -7,14 +7,17 @@ import ModalService from '../components/reservation_modal/ModalService';
 import AlertModal from '../components/AlertModal';
 import { postReservation } from '../api/ReservationApi';
 import { formatTime } from '../utils/dateUtils';
+import { useLocation } from 'react-router-dom';
 
 export default function ReservationModal() {
+  const location = useLocation();
+
   const [fadeIn, setFadeIn] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
   const [modalText, setModalText] = useState(null);
   const [reservationDone, setReservationDone] = useState(false);
 
-  const [shopName, setShopName] = useState('');
+  const [shopName, setShopName] = useState(location.state.name);
   const [currentStep, setCurrentStep] = useState('date');
   const [departureYear, setDepartureYear] = useState(null);
   const [departureMonth, setDepartureMonth] = useState(null);
@@ -49,9 +52,7 @@ export default function ReservationModal() {
   const [customerRequest, setCustomerRequest] = useState('');
   const [coupon, setCoupon] = useState('');
 
-  //임시 지정
   useEffect(() => {
-    setShopName('블루핸즈 인천공항점');
     setFadeIn(true);
   }, []);
 
