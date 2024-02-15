@@ -40,7 +40,7 @@ export default function ModalHeader({ shopName, currentStep, changeShop }) {
         </div>
       </div>
 
-      <Link to="/" className={classNames('exit')}>
+      <Link to="/reservation/intro" className={classNames('exit')}>
         <span className={classNames('text')}>X</span>
       </Link>
     </div>

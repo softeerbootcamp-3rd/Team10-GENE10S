@@ -1,5 +1,7 @@
 package com.genesisairport.reservation.controller;
 
+import com.genesisairport.reservation.common.ResponseCode;
+import com.genesisairport.reservation.common.ResponseDto;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.common.DataResponseDto;
 
@@ -89,5 +91,17 @@ public class ReservationController {
         List<ReservationResponse.ReservationInfoAbstract> reservationList = reservationService.getReservationList(customer.get().getId());
 
         return new ResponseEntity<>(DataResponseDto.of(reservationList), HttpStatus.OK);
+    }
+
+    @GetMapping("{reservationId}/detail")
+    public ResponseEntity<ResponseDto> getReservationDetail(@PathVariable(value = "reservationId") long reservationId) {
+        log.debug("예약 내역 상세 조회");
+
+        Optional<ReservationResponse.ReservationDetail> reservationDetail = reservationService.getReservationDetail(reservationId);
+        if (reservationDetail.isEmpty()) {
+            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(DataResponseDto.of(reservationDetail.get()), HttpStatus.OK);
     }
 }

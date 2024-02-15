@@ -9,6 +9,7 @@
 @import './pages/profile.scss';
 @import './pages/reservationIntro.scss';
 @import './pages/reservationDetail.scss';
+@import './pages/reservationModal.scss';
 
 body {
   background-color: $black;
@@ -107,7 +108,6 @@ body {
 
   &-check {
     display: flex;
-    width: 200px;
     height: 60px;
     padding: 12px 24px;
     justify-content: center;

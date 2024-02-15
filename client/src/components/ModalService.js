@@ -3,9 +3,9 @@ import { BtnBlack } from './Button';
 import { useState } from 'react';
 import { validCoupon } from '../api/ReservationApi';
 
-export default function ModalService({ props, prevStep }) {
+export default function ModalService({ props, prevStep, submit }) {
   const [services, setServices] = useState(props.services);
-  const [request, setRequest] = useState(props.request);
+  const [customerRequest, setCustomerRequest] = useState(props.customerRequest);
   const [coupon, setCoupon] = useState(props.coupon);
   const [couponValid, setCouponValid] = useState(false);
 
@@ -19,7 +19,11 @@ export default function ModalService({ props, prevStep }) {
   }
 
   function handlePrev() {
-    prevStep(services, request, coupon);
+    prevStep(services, customerRequest, coupon);
+  }
+
+  function handleSubmit() {
+    submit(services, customerRequest, coupon, couponValid);
   }
 
   function handleCouponValid() {
@@ -152,10 +156,10 @@ export default function ModalService({ props, prevStep }) {
             <div className={classNames('content')}>
               <input
                 type="text"
-                value={request}
+                value={customerRequest}
                 className={classNames('input-left', 'w-max', 'input-text')}
                 onChange={e => {
-                  setRequest(e.target.value);
+                  setCustomerRequest(e.target.value);
                 }}
               />
             </div>
@@ -180,7 +184,7 @@ export default function ModalService({ props, prevStep }) {
       </div>
       <div className={classNames('btn-group')}>
         <BtnBlack text="이전" onClick={handlePrev} />
-        <BtnBlack text="예약하기" />
+        <BtnBlack text="예약하기" onClick={handleSubmit} />
       </div>
     </>
   );

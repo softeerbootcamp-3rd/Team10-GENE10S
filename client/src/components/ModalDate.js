@@ -1,11 +1,10 @@
 import classNames from 'classnames';
 import { BtnBlack } from './Button';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Calendar from './Calendar';
 import TimeSlots from './TimeSlots';
 
-export default function ModalDate({ nextStep, props }) {
+export default function ModalDate({ nextStep, props, fadeIn }) {
 
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
@@ -210,8 +209,8 @@ export default function ModalDate({ nextStep, props }) {
 
   return (
     <>
-      <div className={classNames('body')}>
-        <div className={classNames('frame_left')}>
+      <div className={classNames('body', {'fade-in': fadeIn})}>
+        <div className={classNames('frame-left')}>
           <Calendar
             year={calendarYear}
             month={calendarMonth}
@@ -235,7 +234,7 @@ export default function ModalDate({ nextStep, props }) {
             </span>
           </div>
           <div className={classNames('category-row')}>
-            <span className={classNames('title')}>2. 픽업 시간</span>
+            <span className={classNames('title')}>2. 픽업 시각</span>
             <span className={classNames('content', 'hover-pointer', selectedInput === 'pickup' ? 'active' : null)} onClick={() => handleClickPickup()}>
               <div className={classNames('input-area', 'w-200')}>
                 <span className={classNames('input-text')}>{pickupDay != null ? pickupYear + '년 ' + (pickupMonth + 1) + '월 ' + pickupDay + '일' : null}</span>
@@ -248,9 +247,6 @@ export default function ModalDate({ nextStep, props }) {
         </div>
       </div>
       <div className={classNames('btn-group')}>
-        <Link to="/" replace={true}>
-          <BtnBlack text="이전" />
-        </Link>
         <BtnBlack text="다음" onClick={handleNext} />
       </div>
     </>

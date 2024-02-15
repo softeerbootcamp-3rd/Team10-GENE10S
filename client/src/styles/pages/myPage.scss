@@ -20,7 +20,7 @@ a {
     .image {
       flex: 1 0 0;
       align-self: stretch;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), url(../../assets/mypage-banner.png), lightgray 50% / cover no-repeat;    }
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.48) 0.01%, rgba(0, 0, 0, 0.47) 0.02%, rgba(0, 0, 0, 0.00) 32.5%), url(../../assets/mypage-banner.png), lightgray 50% / cover no-repeat;    }
       filter: brightness(150%); 
 
     .title-fixed {
