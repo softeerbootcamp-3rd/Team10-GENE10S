@@ -18,30 +18,6 @@ import java.util.Optional;
 @Slf4j
 public class SessionService {
 
-    private final CustomSessionRepository customSessionRepository;
-    private final CustomerRepository customerRepository;
-
-    public Optional<Customer> getLoggedInCustomer(HttpServletRequest request) {
-        if (request == null)
-            return Optional.empty();
-
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null)
-            return Optional.empty();
-
-        for (Cookie cookie : cookies) {
-            if ("sid".equals(cookie.getName())) {
-                String sid = cookie.getValue();
-                Optional<Session> session = customSessionRepository.findBySessionId(sid);
-                if (session.isPresent()) {
-                    Long customerId = session.get().getCustomerId();
-                    return customerRepository.findById(customerId);
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
     public static Long getUserIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {

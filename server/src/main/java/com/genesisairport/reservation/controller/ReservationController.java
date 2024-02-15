@@ -40,13 +40,11 @@ public class ReservationController {
     }
 
     @GetMapping("/car-list")
-    public ResponseEntity getCarList(HttpServletRequest request) {
-        Long userId = SessionService.getUserIdFromSession(request);
-        System.out.println("userId ===== " + userId);
-        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
+    public ResponseEntity getCarList(final HttpServletRequest request) {
         // TODO: customer emtpy일 때 response 추가
+        Long userId = SessionService.getUserIdFromSession(request);
         return new ResponseEntity(
-                DataResponseDto.of(reservationService.getCarList(customer.get().getId())),
+                DataResponseDto.of(reservationService.getCarList(userId)),
                 HttpStatus.OK
         );
     }
@@ -74,21 +72,19 @@ public class ReservationController {
 
 
     @PostMapping
-    public ResponseEntity<DataResponseDto<ReservationResponse.ReservationPostResponse>> saveReservation(HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody) {
+    public ResponseEntity saveReservation(final HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody) {
         log.debug("예약 정보 저장");
 
-        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
-
-        return new ResponseEntity<>(DataResponseDto.of(reservationService.reserve(customer.get().getId(), requestBody)), HttpStatus.OK);
+        Long userId = SessionService.getUserIdFromSession(request);
+        return new ResponseEntity<>(DataResponseDto.of(reservationService.reserve(userId, requestBody)), HttpStatus.OK);
     }
 
     @GetMapping("/list")
-    public ResponseEntity<DataResponseDto<List<ReservationResponse.ReservationInfoAbstract>>> getReservationList(HttpServletRequest request) {
+    public ResponseEntity getReservationList(final HttpServletRequest request) {
         log.debug("특정 사용자 예약 내역 조회");
 
-        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
-
-        List<ReservationResponse.ReservationInfoAbstract> reservationList = reservationService.getReservationList(customer.get().getId());
+        Long userId = SessionService.getUserIdFromSession(request);
+        List<ReservationResponse.ReservationInfoAbstract> reservationList = reservationService.getReservationList(userId);
 
         return new ResponseEntity<>(DataResponseDto.of(reservationList), HttpStatus.OK);
     }
