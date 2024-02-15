@@ -41,6 +41,7 @@ const ReservationCard = ({ reservationInfo }) => {
           key={reservation.reservationId}
           className={classNames('content-card', { 'animate': animationQueue.includes(index) })}
           to='/reservation/detail'
+          state={{reservationId: reservation.reservationId}}
         >
         <div className={classNames('id-area')}>
           <div className={classNames('id-text')}>
