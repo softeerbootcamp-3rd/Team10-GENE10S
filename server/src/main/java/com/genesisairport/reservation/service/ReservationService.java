@@ -1,8 +1,6 @@
 package com.genesisairport.reservation.service;
 
-import com.genesisairport.reservation.entity.CarImage;
-import com.genesisairport.reservation.entity.Coupon;
-import com.genesisairport.reservation.entity.Reservation;
+import com.genesisairport.reservation.entity.*;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.respository.*;
@@ -13,9 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
