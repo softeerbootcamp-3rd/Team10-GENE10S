@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import { registerCar } from '../api/CarApi';
 
-export default function Modal({ onClose }) {
+export default function Modal({ onClose, visible }) {
   const [sellName, setSellName] = useState('');
   const [plateNumber, setPlateNumber] = useState('');
 
@@ -13,6 +13,12 @@ export default function Modal({ onClose }) {
   const handlePlateNumberChange = event => {
     setPlateNumber(event.target.value);
   };
+
+  const closeModal = () => {
+    setSellName('');
+    setPlateNumber('');
+    onClose();
+  }
 
   const handleRegisterClick = () => {
     const requestBody = {
@@ -28,12 +34,11 @@ export default function Modal({ onClose }) {
       .catch(error => {
         console.error('Error registering car:', error);
       });
-
-    onClose();
+    closeModal();
   };
 
   return (
-    <div className={classNames('modal-frame')}>
+    <div className={classNames('modal-frame', {'visible': visible})}>
       <div className={classNames('modal')}>
         <div className={classNames('modal-header')}>
           <span>차량 등록하기</span>
@@ -49,7 +54,7 @@ export default function Modal({ onClose }) {
           </div>
         </div>
         <div className={classNames('bottom')}>
-          <div className={classNames('btn-cancel')} onClick={onClose}>
+          <div className={classNames('btn-cancel')} onClick={closeModal}>
             <span>취소하기</span>
           </div>
           <div className={classNames('btn-submit')} onClick={handleRegisterClick}>

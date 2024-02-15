@@ -5,7 +5,6 @@ import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import image from '../assets/image.png';
-import { deleteCar } from '../api/CarApi';
 
 export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +36,7 @@ export default function Profile() {
     };
 
     try {
-      const response = axios.patch('v1/user/info', requestBody, {
+      axios.patch('v1/user/info', requestBody, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -82,6 +81,7 @@ export default function Profile() {
   };
 
   return (
+    <>
     <div className={classNames('page')}>
       <Header />
       <div className={classNames('body')}>
@@ -142,7 +142,8 @@ export default function Profile() {
       </div>
       <Footer />
 
-      {isModalOpen && <Modal onClose={closeModal} />}
     </div>
+    <Modal onClose={closeModal} visible={isModalOpen} />
+    </>
   );
 }
