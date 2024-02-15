@@ -63,7 +63,7 @@ export default function ReservationDetail() {
           <ReservationDetailInfo reservationDetail={reservationDetail} />
 
           {/* service */}
-          <ReservationDetailService />
+          <ReservationDetailService serviceType={reservationDetail.serviceType} />
 
           {/* step */}
           <ReservationDetailStep />
