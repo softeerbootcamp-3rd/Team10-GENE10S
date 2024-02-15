@@ -810,6 +810,11 @@
           .image-wrapper {
             // 추가
             overflow: hidden;
+
+            .no-image {
+              color: $gray_200;
+              @extend %M_24;
+            }
           }
 
           .images {
@@ -905,6 +910,11 @@
           .image-wrapper {
             // 추가
             overflow: hidden;
+
+            .no-image {
+              color: $gray_200;
+              @extend %M_24;
+            }
           }
 
           .images {

@@ -83,7 +83,10 @@ export default function ReservationDetailResult({ reservationDetail }) {
             <ProgressArrow200 />
           </div>
           <div className={classNames('image-wrapper')}>
-            <div
+            { beforeImages.length === 0 ? (
+              <div className="no-image">점검 전 이미지가 없습니다.</div>
+            ) : (
+              <div
               className={classNames('images')}
               style={{
                 width: `${100}%`,
@@ -95,6 +98,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
                 <img key={index} src={image} style={{ height: `400px` }} />
               ))}
             </div>
+            )}
           </div>
           <div className={classNames('arrow-right', { 'disabled': currentBeforeIndex === beforeImages.length - 1 || beforeImages.length === 0 })} onClick={handleBeforeNext}>
             <ProgressArrow200 />
@@ -113,7 +117,10 @@ export default function ReservationDetailResult({ reservationDetail }) {
             <ProgressArrow200 />
           </div>
           <div className={classNames('image-wrapper')}>
-            <div
+            { afterImages.length === 0 ? (
+              <div className="no-image">점검 후 이미지가 없습니다.</div>
+            ) : (
+              <div
               className={classNames('images')}
               style={{
                 width: `${100}%`,
@@ -125,6 +132,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
                 <img key={index} src={image} style={{ height: `400px` }} />
               ))}
             </div>
+            )}
           </div>
           <div className={classNames('arrow-right', { 'disabled': currentAfterIndex === afterImages.length - 1 || afterImages.length === 0 })} onClick={handleAfterNext}>
             <ProgressArrow200 />
