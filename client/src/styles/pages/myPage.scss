@@ -4,7 +4,7 @@ a {
 
 .page {
   display: flex;
-  width: 1920px;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
 
@@ -38,13 +38,6 @@ a {
       .title-text {
         color: $uyh;
         text-align: center;
-
-        // /* B_60 */
-        // font-family: "Abhaya Libre Medium";
-        // font-size: 60px;
-        // font-style: normal;
-        // font-weight: 500;
-        // line-height: 72px; /* 120% */
         @extend %B_60;
       }
     }
@@ -85,13 +78,6 @@ a {
           .menu-name {
             color: $uyh;
             text-align: center;
-            
-            // /* B_24 */
-            // font-family: "Abhaya Libre Medium";
-            // font-size: 24px;
-            // font-style: normal;
-            // font-weight: 500;
-            // line-height: 34px; /* 141.667% */
             @extend %B_24;
           }
         }
@@ -106,13 +92,6 @@ a {
           .menu-name {
             color: $gray_400;
             text-align: center;
-            
-            // /* B_24 */
-            // font-family: "Abhaya Libre Medium";
-            // font-size: 24px;
-            // font-style: normal;
-            // font-weight: 500;
-            // line-height: 34px; /* 141.667% */
             @extend %B_24;
           }
         }
@@ -194,13 +173,6 @@ a {
             .text {
               color: $uyh;
               text-align: center;
-              
-              // /* B_40 */
-              // font-family: "Abhaya Libre Medium";
-              // font-size: 40px;
-              // font-style: normal;
-              // font-weight: 500;
-              // line-height: 48px; /* 120% */
               @extend %B_40;
             }
             
@@ -215,12 +187,6 @@ a {
           .email {
             color: $gray_300;
             text-align: center;
-
-            // font-family: "Abhaya Libre Medium";
-            // font-size: 24px;
-            // font-style: normal;
-            // font-weight: 500;
-            // line-height: 34px; /* 141.667% */
             @extend %M_18;
 
             // animation
@@ -262,13 +228,6 @@ a {
               .text {
                 color: $gray_300;
                 text-align: center;
-                
-                // /* B_24 */
-                // font-family: "Abhaya Libre Medium";
-                // font-size: 24px;
-                // font-style: normal;
-                // font-weight: 500;
-                // line-height: 34px; /* 141.667% */
                 @extend %B_24;
               }
             }
@@ -308,13 +267,6 @@ a {
           .id-text {
             color: $uyh;
             text-align: center;
-
-            // /* B_48 */
-            // font-family: "Abhaya Libre Medium";
-            // font-size: 48px;
-            // font-style: normal;
-            // font-weight: 500;
-            // line-height: 54px; /* 112.5% */
             @extend %B_48;
           }
         }
@@ -365,12 +317,6 @@ a {
             .text {
               color: $gray_300;
               text-align: center;
-
-              // font-family: "Abhaya Libre Medium";
-              // font-size: 18px;
-              // font-style: normal;
-              // font-weight: 500;
-              // line-height: 26px; /* 144.444% */
               @extend %M_18;
             }
 
@@ -385,13 +331,6 @@ a {
           .car-info {
             color: $uyh;
             text-align: center;
-            
-            // /* B_24 */
-            // font-family: "Abhaya Libre Medium";
-            // font-size: 24px;
-            // font-style: normal;
-            // font-weight: 500;
-            // line-height: 34px; /* 141.667% */
             @extend %B_24;
 
             // 타 css 반영 제거
@@ -412,12 +351,6 @@ a {
           .shop-info {
             color: $gray_100;
             text-align: center;
-
-            // font-family: "Abhaya Libre Medium";
-            // font-size: 18px;
-            // font-style: normal;
-            // font-weight: 500;
-            // line-height: 26px; /* 144.444% */
             @extend %M_18;
 
             // animation

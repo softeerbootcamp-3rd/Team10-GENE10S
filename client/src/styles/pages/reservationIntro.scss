@@ -2,7 +2,7 @@
 
 .reserv-intro-page {
   display: flex;
-  width: 1920px;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
 
@@ -34,16 +34,12 @@
       left: 84px;
       top: 203px;
 
-      border-bottom: 1px solid var(--uyh, $uyh);
+      border-bottom: 1px solid $uyh;
 
       .title-text {
-        color: var(--uyh, $uyh);
+        color: $uyh;
         text-align: center;
-        font-family: Inter;
-        font-size: 60px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 72px; /* 120% */
+        @extend %B_60;
       }
     }
   }
@@ -56,7 +52,7 @@
     gap: 40px;
     align-self: stretch;
 
-    background: var(--gray_900, $gray_900);
+    background: $gray_900;
 
     .text-title {
       display: flex;
@@ -65,12 +61,8 @@
       gap: 10px;
 
       .text {
-        color: #FFF;
-        font-family: Inter;
-        font-size: 48px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 54px; /* 112.5% */
+        color: $uyh;
+        @extend %B_48;
       }
     }
 
@@ -116,31 +108,23 @@
           gap: 12px;
 
           .name {
-            color: var(--uyh, $uyh);
+            color: $uyh;
             text-align: center;
-            font-family: Inter;
-            font-size: 32px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 42px; /* 131.25% */
+            @extend %SB_36;
           }
 
           .arrow {
             width: 28px;
             height: 17.56px;
             stroke-width: 2px;
-            stroke: var(--orange_700, $orange_700);
+            stroke: $orange_700;
           }
         }
 
         .text-content {
           align-self: stretch;
-          color: var(--gray_200, $gray_200);
-          font-family: Inter;
-          font-size: 24px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 34px; /* 141.667% */
+          color: $gray_200;
+          @extend %M_24;
         }
 
       }
@@ -157,30 +141,22 @@
     gap: 52px;
     align-self: stretch;
 
-    background: var(--uyh, $uyh);
+    background: $uyh;
 
     .txt-title {
       align-self: stretch;
 
-      color: #000;
+      color: $gray_900;
       text-align: center;
-      font-family: Inter;
-      font-size: 48px;
-      font-style: normal;
-      font-weight: 800;
-      line-height: 54px; /* 112.5% */
+      @extend %B_48;
     }
 
     .txt-info {
       align-self: stretch;
 
-      color: #000;
+      color: $gray_900;
       text-align: center;
-      font-family: Inter;
-      font-size: 28px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
+      @extend %SB_24
     }
   }
 
@@ -193,7 +169,7 @@
     gap: 180px;
     align-self: stretch;
 
-    background: var(--gray_900, $gray_900);
+    background: $gray_900;
 
     .service-info {
       display: flex;
@@ -203,23 +179,15 @@
       gap: 40px;
 
       .title {
-        color: #FFF;
+        color: $uyh;
         text-align: center;
-        font-family: Inter;
-        font-size: 48px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 54px; /* 112.5% */
+        @extend %B_48;
       }
 
       .content {
-        color: #FFF;
+        color: $uyh;
         text-align: center;
-        font-family: Inter;
-        font-size: 32px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 54px; /* 168.75% */
+        @extend %SB_30;
       }
     }
 
@@ -270,13 +238,13 @@
           justify-content: center;
           flex: 1 0 0;
 
-          color: var(--orange_700, $orange_700);
+          color: $orange_700;
           text-align: center;
+          @extend %B_40;
           font-family: Inter;
           font-size: 40px;
           font-style: normal;
           font-weight: 700;
-          line-height: 48px; /* 120% */
         }
 
         .category {
@@ -295,19 +263,15 @@
             gap: 10px;
         
             text-align: center;
-            font-family: Inter;
-            font-size: 32px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
+            @extend %SB_30;
         
             &.button-unclick {
-              color: var(--uyh, #FFFEFD);
+              color: $uyh;
             }
         
             &.button-click {
-              border-bottom: 3px solid var(--orange_500, $orange_500);
-              color: var(--orange_500, var(--color, $orange_500));
+              border-bottom: 3px solid $orange_500;
+              color: $orange_500;
             }
           }
         }
@@ -326,12 +290,8 @@
           .txt-info {
             flex: 1 0 0;
 
-            color: var(--gray_300, $gray_300);
-            font-family: Inter;
-            font-size: 30px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 52px; /* 126.667% */
+            color: $gray_300;
+            @extend %M_30;
           }
         }
         

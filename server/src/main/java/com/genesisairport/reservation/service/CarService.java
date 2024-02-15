@@ -45,4 +45,15 @@ public class CarService {
                 .updateDatetime(LocalDateTime.now())
                 .build());
     }
+
+    public void deleteCar(Long customerId, Long carId) {
+        Optional<Car> car = carRepository.findById(carId);
+
+        //TODO: 차량 레코드가 가진 고객 정보와 로그인한 고객 정보가 일치하지 않을 때 예외처리
+        if (car.isEmpty() || !car.get().getCustomer().getId().equals(customerId)) {
+            log.error("차량 삭제 실패");
+            return;
+        }
+        carRepository.deleteById(carId);
+    }
 }
