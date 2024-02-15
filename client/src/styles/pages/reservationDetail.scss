@@ -576,10 +576,12 @@
 
             .text {
               display: flex;
-              padding: 4px 0px;
+              padding: 20px 0px;
               flex-direction: column;
+              justify-content: center;
               align-items: flex-start;
-              gap: 15px;
+              gap: 12px;
+              flex: 1 0 0;
 
               .text-1 {
                 width: 683px;
