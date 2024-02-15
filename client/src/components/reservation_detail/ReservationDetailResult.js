@@ -95,7 +95,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
               }}
             >
               {beforeImages.map((image, index) => (
-                <img key={index} src={image} style={{ height: `400px` }} />
+                <img key={index} src={image} alt={'before-'+index} style={{ height: `400px` }} />
               ))}
             </div>
             )}
@@ -129,7 +129,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
               }}
             >
               {afterImages.map((image, index) => (
-                <img key={index} src={image} style={{ height: `400px` }} />
+                <img key={index} src={image} alt={'after-'+index} style={{ height: `400px` }} />
               ))}
             </div>
             )}
