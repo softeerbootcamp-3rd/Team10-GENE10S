@@ -96,6 +96,7 @@ public class ReservationResponse {
         private List<String> beforeImages;
         private List<String> afterImages;
         private String managerPhoneNumber;
+        private String imageUrl;
 
         @Getter
         @Builder

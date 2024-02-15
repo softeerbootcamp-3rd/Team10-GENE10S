@@ -162,6 +162,15 @@ public class ReservationService {
                     .build());
         }
 
+        // car image
+        Optional<CarImage> carImage = carImageRepository.findBySellName(reservation.getSellName());
+        String imageUrl;
+        if (carImage.isEmpty()) {
+            return Optional.empty();
+        } else {
+            imageUrl = carImage.get().getImageUrl();
+        }
+
         return Optional.of(ReservationResponse.ReservationDetail.builder()
                 .reservationId(reservation.getId())
                 .customerId(customer.getId())
@@ -180,6 +189,7 @@ public class ReservationService {
                 .beforeImages(beforeImages)
                 .afterImages(afterImages)
                 .managerPhoneNumber(reservation.getContactNumber())
+                .imageUrl(imageUrl)
                 .build());
     }
 }
