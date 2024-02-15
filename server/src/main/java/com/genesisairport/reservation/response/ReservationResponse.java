@@ -13,6 +13,7 @@ public class ReservationResponse {
         String getSellName();
         String getPlateNumber();
         String getImageUrl();
+        String getCarId();
     }
 
     @Getter
