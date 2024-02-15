@@ -263,6 +263,7 @@
 
   > .time-slot:not(.available) {
     display: flex;
+    width: 64px;
     padding: 8px 24px;
     justify-content: center;
     align-items: center;

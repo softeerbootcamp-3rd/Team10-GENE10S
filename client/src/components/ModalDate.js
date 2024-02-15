@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import { BtnBlack } from './Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Calendar from './Calendar';
 import TimeSlots from './TimeSlots';
-import { getAvailableTime } from '../api/ReservationApi';
+import { getAvailableDate, getAvailableTime } from '../api/ReservationApi';
 
 export default function ModalDate({ nextStep, props, fadeIn }) {
 
@@ -20,6 +20,7 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
   const [pickupDay, setPickupDay] = useState(props.pickupDay);
   const [pickupTime, setPickupTime] = useState(props.pickupTime);
 
+  const [availableDates, setAvailableDates] = useState([]);
   const [showTimes, setShowTimes] = useState(false);
   const [timeData, setTimeData] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -29,6 +30,12 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
   const [calendarYear, setCalendarYear] = useState(currentYear);
   const [calendarMonth, setCalendarMonth] = useState(currentMonth);
   const [calendarDay, setCalendarDay] = useState(null);
+
+  useEffect(() => {
+    getAvailableDate().then((result) => {
+      setAvailableDates(result.availableDates);
+    });
+  });
 
   const handleNext = () => {
     if (departureTime === '' || pickupTime === '') return;
@@ -157,7 +164,12 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
     setCalendarYear(departureYear != null ? departureYear : currentYear);
     setCalendarMonth(departureMonth != null ? departureMonth : currentMonth);
     setCalendarDay(departureDay);
-    setShowTimes(false);
+    if (departureDay != null) {
+      getAvailableTime(departureYear, departureMonth, departureDay).then(result => {
+        setTimeData(result.timeSlots);
+        setShowTimes(true);
+      });
+    }
     setSelectedTime(departureTime);
   }
 
@@ -168,7 +180,12 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
     setCalendarYear(pickupYear != null ? pickupYear : currentYear);
     setCalendarMonth(pickupMonth != null ? pickupMonth : currentMonth);
     setCalendarDay(pickupDay);
-    setShowTimes(false);
+    if (pickupDay != null) {
+      getAvailableTime(pickupYear, pickupMonth, pickupDay).then(result => {
+        setTimeData(result.timeSlots);
+        setShowTimes(true);
+      });
+    }
     setSelectedTime(pickupTime);
   }
 
@@ -180,6 +197,7 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
             year={calendarYear}
             month={calendarMonth}
             day={calendarDay}
+            availableDates={availableDates}
             handleClickDate={handleClickDate}
             handleLastMonth={handleLastMonth}
             handleNextMonth={handleNextMonth}
