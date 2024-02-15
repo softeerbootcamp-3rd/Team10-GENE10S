@@ -20,7 +20,6 @@ export default function ReservationDetail() {
   }, []);
 
   useEffect(() => {
-    console.log('location: ', location);
     if (location.state && location.state.reservationId) {
       setReservationId(location.state.reservationId);
     }
@@ -31,7 +30,6 @@ export default function ReservationDetail() {
       axios
         .get(`/v1/reservation/${reservationId}/detail`)
         .then(response => {
-          console.log('response: ', response.data.data);
           setReservationDetail(response.data.data);
         })
         .catch(error => console.log(error));
