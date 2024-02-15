@@ -15,6 +15,7 @@ public enum ResponseCode {
     OK(200, HttpStatus.OK, "Ok"),
 
     BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "Bad request"),
+    UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED, "Unauthorized"),
 
     INTERNAL_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "Internal error");
 
