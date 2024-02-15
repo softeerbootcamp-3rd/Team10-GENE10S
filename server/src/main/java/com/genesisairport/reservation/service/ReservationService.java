@@ -27,7 +27,7 @@ public class ReservationService {
 
     public Boolean validateCoupon(String serialNumber) {
         Coupon coupon = couponRepository.findCouponBySerialNumber(serialNumber);
-        return !coupon.getIsUsed() && !coupon.getExpiredDate().isBefore(LocalDate.now());
+        return coupon != null && !coupon.getIsUsed() && !coupon.getExpiredDate().isBefore(LocalDate.now());
     }
 
 

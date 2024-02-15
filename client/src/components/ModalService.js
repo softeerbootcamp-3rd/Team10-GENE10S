@@ -8,6 +8,7 @@ export default function ModalService({ props, prevStep, submit }) {
   const [customerRequest, setCustomerRequest] = useState(props.customerRequest);
   const [coupon, setCoupon] = useState(props.coupon);
   const [couponValid, setCouponValid] = useState(false);
+  const [couponInvalid, setCouponInvalid] = useState(false);
 
   function handleServiceClick(event) {
     const service = event.currentTarget.id;
@@ -28,7 +29,8 @@ export default function ModalService({ props, prevStep, submit }) {
 
   function handleCouponValid() {
     validCoupon(coupon).then(result => {
-      setCouponValid(result);
+      setCouponValid(result.valid);
+      setCouponInvalid(!result.valid);
     });
   }
 
@@ -170,9 +172,12 @@ export default function ModalService({ props, prevStep, submit }) {
               <input
                 type="text"
                 value={coupon}
-                className={classNames('input-left', 'w-400', 'input-text')}
+                className={classNames('input-left', 'w-400', 'input-text',
+                  {'coupon-valid': couponValid, 'coupon-invalid': couponInvalid})}
                 onChange={e => {
                   setCoupon(e.target.value);
+                  setCouponValid(false);
+                  setCouponInvalid(false);
                 }}
               />
               <div className={classNames('btn-check')} onClick={handleCouponValid}>

@@ -326,6 +326,14 @@
         outline: none;
         border-bottom: 2px solid $white;
       }
+
+      &.coupon-valid {
+        border: 1px solid $green;
+      }
+
+      &.coupon-invalid {
+        border: 1px solid $red;
+      }
     }
 
     > .input-hint {

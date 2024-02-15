@@ -116,10 +116,14 @@ export default function ReservationModal() {
   }
 
   const submitForm = (services, customerRequest, coupon, couponValid) => {
+    if (coupon != null && coupon != '' && !couponValid) {
+      showModal('쿠폰번호를 확인해주세요.');
+      return;
+    }
     setServices(services);
     setCustomerRequest(customerRequest);
     setCoupon(coupon);
-
+    
   }
 
   function changeShop() {
