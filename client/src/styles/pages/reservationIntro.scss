@@ -3,8 +3,11 @@
 .reserv-intro-page {
   display: flex;
   width: 100%;
+  height: 1080px;
   flex-direction: column;
   align-items: flex-start;
+  overflow-x: hidden;
+  word-break: keep-all;
 
   .main-board {
     display: flex;
@@ -12,12 +15,20 @@
     align-items: flex-start;
     gap: 10px;
     align-self: stretch;
+    position: relative;
 
     .image-car {
       height: 1020px;
       align-self: stretch;
 
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.48) 0.01%, rgba(0, 0, 0, 0.47) 0.02%, rgba(0, 0, 0, 0.00) 32.5%), url(../../assets/reserv-intro-1.png), lightgray;
+      background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.48) 0.01%,
+          rgba(0, 0, 0, 0.47) 0.02%,
+          rgba(0, 0, 0, 0) 32.5%
+        ),
+        url(../../assets/reserv-intro-1.png), lightgray;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -43,7 +54,7 @@
       }
     }
   }
-  
+
   .button-area {
     display: flex;
     padding: 144px 64px;
@@ -86,18 +97,22 @@
         .image-1 {
           height: 384px;
           align-self: stretch;
-          background: url(../../assets/reserv-intro-2.png), lightgray 50%;
+          background:
+            url(../../assets/reserv-intro-2.png),
+            lightgray 50%;
           background-repeat: no-repeat;
-          background-size: cover; 
+          background-size: cover;
           background-position: center;
         }
 
         .image-2 {
           height: 384px;
-          align-self: stretch;  
-          background: url(../../assets/reserv-intro-3.png), lightgray 50%;
+          align-self: stretch;
+          background:
+            url(../../assets/reserv-intro-3.png),
+            lightgray 50%;
           background-repeat: no-repeat;
-          background-size: cover; 
+          background-size: cover;
           background-position: center;
         }
 
@@ -126,10 +141,8 @@
           color: $gray_200;
           @extend %M_24;
         }
-
       }
     }
-
   }
 
   .txt-area {
@@ -156,7 +169,7 @@
 
       color: $gray_900;
       text-align: center;
-      @extend %SB_24
+      @extend %SB_24;
     }
   }
 
@@ -208,14 +221,18 @@
       }
 
       .image-frame-1 {
-        background: url(../../assets/reserv-intro-4.png), lightgray 50%;
+        background:
+          url(../../assets/reserv-intro-4.png),
+          lightgray 50%;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
       }
 
       .image-frame-2 {
-        background: url(../../assets/reserv-intro-5.png), lightgray 50%;
+        background:
+          url(../../assets/reserv-intro-5.png),
+          lightgray 50%;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -250,17 +267,17 @@
           align-items: center;
           gap: 80px;
           align-self: stretch;
-        
+
           .button {
             display: flex;
             padding: 12px;
             justify-content: center;
             align-items: center;
             gap: 10px;
-        
+
             text-align: center;
             @extend %SB_30;
-        
+
             &.button-unclick {
               color: $uyh;
 
@@ -268,14 +285,13 @@
                 cursor: pointer;
               }
             }
-        
+
             &.button-click {
               border-bottom: 3px solid $orange_500;
               color: $orange_500;
             }
           }
         }
-        
 
         .text-content {
           display: flex;
@@ -294,10 +310,7 @@
             @extend %M_30;
           }
         }
-        
       }
     }
-
   }
-
 }
