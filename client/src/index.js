@@ -17,7 +17,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="/reservation-intro" element={<ReservationIntro />} />
+      <Route path="/reservation/intro" element={<ReservationIntro />} />
       <Route path="/reservation/complete" element={<ReservationComplete />} />
       <Route path="/reservation/modal" element={<ReservationModal />} />
       <Route path="/reservation/detail" element={<ReservationDetail />} />
