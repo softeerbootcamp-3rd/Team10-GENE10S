@@ -39,9 +39,6 @@ export default function ReservationDetailResult() {
 
       setCumBeforeSizes(cumulativeBeforeWidths);
       setCumAfterSizes(cumulativeAfterWidths);
-
-      console.log(cumulativeBeforeWidths);
-      console.log(cumulativeAfterWidths);
     };
 
     loadImageWidths();
