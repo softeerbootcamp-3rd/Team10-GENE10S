@@ -1,5 +1,6 @@
 @import '../variables.scss';
 
+
 .page > .body > .title {
   display: flex;
   padding: 16px 28px;
@@ -66,87 +67,128 @@
   @extend %SB_24;
 }
 
-.profile-info > .profile-row > .car-list {
+.profile-info > .car-list {
   display: flex;
-  padding: 12px 20px;
+  padding: 4px 80px;
+  height: auto;
   align-items: center;
   gap: 80px;
-  align-self: stretch;
 }
 
-.profile-info > .profile-row > .car-list > .car-frame {
+.profile-info > .car-list > .key {
+  width: 100px;
+  color: $gray_300;
+  @extend %M_24;
+}
+
+.profile-info > .car-list > .car-frame {
   display: flex;
-  padding: 12px 12px;
   align-items: center;
-  gap: 24px;
+  gap: 15px;
+  min-width: 1920px;
   flex: 1 0 0;
 }
 
-.profile-info > .profile-row > .car-list > .car-frame > .car {
+.profile-info > .car-list > .car-frame > .car-sub-frame {
   display: flex;
-  width: auto;
-  height: 100px;
+  width: 161px;
+  height: 96px;
+  padding: 0px 4px;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  border-radius: 4px;
-}
-
-.profile-info > .profile-row > .car-list > .car-frame > .car > .car-image {
-  width: 240px;
-  flex: 1 0 0;
-  align-self: stretch;  
-  background-color: transparent;
-}
-
-.profile-info > .profile-row > .car-list > .car-frame > .car > .car-txt {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  position: absolute;
-  opacity: 0;
-  transition: opacity 0.2s; 
-
-  > .car-name {
-    color: $orange_600;
-    text-align: center;
-    @extend %M_20;
-  }
-
-  > .car-number {
-    color: $uyh;
-    text-align: center;
-    @extend %M_16;
-  }
-}
-
-.profile-info > .profile-row > .car-list > .car-frame > .car:hover > .car-image {
-  filter: brightness(50%);
-}
-
-.profile-info > .profile-row > .car-list > .car-frame > .car:hover > .car-txt {
-  opacity: 1;
-}
-
-
-.profile-info > .profile-row > .car-list > .add {
-  display: flex;
-  padding: 12px 28px;
   align-items: center;
   gap: 10px;
+}
+
+.profile-info > .car-list > .car-frame > .car-sub-frame > .car {
+  width: 157px;
+  height: 96px;
+  padding: 0px 2px;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  justify-content: center;
+}
+  
+.profile-info > .car-list > .car-frame > .car-sub-frame > .car > .car-image {
+  width: 157px;
+  flex: 1 0 0;
+  margin-bottom: -52px;
+  z-index: 1;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.70) 0%, rgba(0, 0, 0, 0.70) 100%), url(../../assets/image.png), lightgray 50% / cover no-repeat;
+}
+
+.profile-info > .car-list > .car-frame > .car-sub-frame > .car > .car-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: -24px;
+  z-index: 2;
+}
+  
+.profile-info > .car-list > .car-frame > .car-sub-frame > .car > .car-info > .car-name {
+  color: $orange_600;
+  text-align: center;
+  font-family: inherit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.profile-info > .car-list > .car-frame > .car-sub-frame > .car > .car-info > .car-number {
+  color: $uyh;
+  text-align: center;
+  font-family: inherit;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.profile-info > .car-list > .car-frame > .car-sub-frame .icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.5px;
+  position: relative;
+  top: -68px;
+  right: -136px;
+  stroke: $uyh;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  z-index: 2;
+  background: url(../../assets/icon-delete.png) no-repeat center / contain;
+  cursor: pointer;
+
+  border: none;
+}
+
+.profile-info > .car-list > .car-frame > .add {
+  display: flex;
+  padding: 12px 28px;
+  justify-content: center;
+  align-items: center;
   border-radius: 12px;
 }
 
-.profile-info > .profile-row > .car-list > .add > .text {
+.profile-info > .car-list > .car-frame > .add > .text {
+  color: $orange_600;
+  text-align: center;
+  font-family: "Abhaya Libre Medium";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+
   cursor: pointer;
   color: $orange_600;
   @extend %SB_20;
 }
+
+
+/*---------------------------------*/
 
 .page > .body > .buttons {
   display: flex;
@@ -186,4 +228,3 @@
   text-align: center;
   @extend %B_18;
 }
-
