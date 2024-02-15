@@ -248,9 +248,6 @@ export default function ModalDate({ nextStep, props }) {
         </div>
       </div>
       <div className={classNames('btn-group')}>
-        <Link to="/" replace={true}>
-          <BtnBlack text="이전" />
-        </Link>
         <BtnBlack text="다음" onClick={handleNext} />
       </div>
     </>
