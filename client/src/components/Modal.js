@@ -23,6 +23,7 @@ export default function Modal({ onClose }) {
     registerCar(requestBody)
       .then(result => {
         alert('차량이 성공적으로 등록되었습니다.');
+        window.location.reload();
       })
       .catch(error => {
         console.error('Error registering car:', error);

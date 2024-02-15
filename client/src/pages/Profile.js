@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import image from '../assets/image.png';
+import { deleteCar } from '../api/CarApi';
 
 export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +28,7 @@ export default function Profile() {
     setPhoneNumber(event.target.value);
   };
 
+  const handleDeleteCarClick = carId => {};
   const handleUpdateClick = () => {
     const requestBody = {
       name: userName,
@@ -56,13 +59,16 @@ export default function Profile() {
   }, []);
 
   const carElements = carList.map((car, index) => (
-    <div className={classNames('car-frame')} key={index}>
+    <div className={classNames('car-sub-frame')} key={index}>
       <div className={classNames('car')}>
-        <img className={classNames('car-image')} src={car.imageUrl} alt="차 이미지" />
-        <div className={classNames('car-txt')}>
+        <img className={classNames('car-image')} src={image} alt="차량 이미지" />
+        <div className={classNames('car-info')}>
           <span className={classNames('car-name')}>{car.sellName}</span>
           <span className={classNames('car-number')}>{car.plateNumber}</span>
         </div>
+        <button className={classNames('icon')} onClick={() => handleDeleteCarClick(car.carId)}>
+          {' '}
+        </button>
       </div>
     </div>
   ));
@@ -115,9 +121,9 @@ export default function Profile() {
               onChange={handlePhoneNumberChange}
             />
           </div>
-          <div className={classNames('profile-row')}>
+          <div className={classNames('car-list')}>
             <span className={classNames('key')}>보유 차량</span>
-            <div className={classNames('car-list')}>
+            <div className={classNames('car-frame')}>
               {carElements}
               <div className={classNames('add')} onClick={openModal}>
                 <span className={classNames('text')}>차량 추가하기</span>
