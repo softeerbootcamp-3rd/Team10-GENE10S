@@ -1,6 +1,8 @@
 import classNames from 'classnames';
+import { formatDate } from '../utils/dateUtils';
 
-export default function Calendar({ year, month, day, handleClickDate, handleLastMonth, handleNextMonth }) {
+export default function Calendar({ year, month, day, availableDates,
+  handleClickDate, handleLastMonth, handleNextMonth }) {
   const getLastDayOfMonth = (year, month) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -39,6 +41,7 @@ export default function Calendar({ year, month, day, handleClickDate, handleLast
       weeks.push(
         <div key={i} className={classNames('week')}>
           {weekDates.map((date, index) => {
+            const formattedDate = formatDate(new Date(year, month, date));
             return (
               <div
                 key={index}
@@ -46,9 +49,10 @@ export default function Calendar({ year, month, day, handleClickDate, handleLast
                   'atom-nothing': date == null,
                   'atom': date != null && index > 0 && index < 6,
                   'atom-weekday': date != null && (index === 0 || index === 6),
-                  'active': date != null && date === day
+                  'active': date != null && date === day,
+                  'disabled': !availableDates.includes(formattedDate)
                 })}
-                onClick={date != null ? () => handleClickDate(year, month, date) : null}
+                onClick={date != null && availableDates.includes(formattedDate) ? () => handleClickDate(year, month, date) : null}
               >
                 <span className={classNames('text')}>{date}</span>
               </div>
