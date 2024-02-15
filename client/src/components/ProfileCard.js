@@ -19,7 +19,7 @@ const ProfileCard = ({ profileInfo, carList }) => {
     <div className={classNames('content')}>
       <div className={classNames('profile-view', {'animate': animate})}>
         { carList && carList.length > 0 && (
-          <img src={carList[0].imageUrl} className={classNames('profile-image')} />
+          <img alt='car' src={carList[0].imageUrl} className={classNames('profile-image')} />
         )}
         <div className={classNames('profile-info')}>
           <div className={classNames('name', {'animate': infoAnimate})}>

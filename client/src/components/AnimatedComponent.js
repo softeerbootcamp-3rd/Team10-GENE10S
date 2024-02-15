@@ -29,7 +29,7 @@ const AnimatedComponent = ({
     };
 
     page.addEventListener('scroll', handleScroll);
-  }, []);
+  });
 
   const containerStyle = {
     opacity: 0,

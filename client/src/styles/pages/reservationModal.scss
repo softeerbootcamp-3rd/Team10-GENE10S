@@ -113,7 +113,23 @@
   @extend %B_30;
 }
 
-.modal-page > .body {
+.modal-page > .modal-content {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 80px);
+  flex-direction: column;
+  align-items: flex-start;
+  background: $gray_900;
+  
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-page > .modal-content.fade-in {
+  opacity: 1;
+}
+
+.modal-page > .modal-content > .body {
   display: flex;
   flex-direction: row;
   padding: 12px 64px;
@@ -123,10 +139,11 @@
   gap: 32px;
   flex: 1 0 0;
   align-self: stretch;
-  max-height: calc(100vh - 196px - 24px); /* 내용이 .frame을 넘어갈 때 최대 높이 설정 */
+  max-height: calc(100vh - 196px - 24px);
 }
 
-.modal-page > .body > .frame-left {
+
+.modal-page > .modal-content > .body > .frame-left {
   display: flex;
   padding: 24px;
   flex-direction: column;
@@ -146,7 +163,7 @@
   }
 }
 
-.modal-page > .body > .frame-left > .car-list {
+.modal-page > .modal-content > .body > .frame-left > .car-list {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -155,7 +172,7 @@
   align-self: stretch;
 }
 
-.modal-page > .body > .frame-left > .car-list > .car-info {
+.modal-page > .modal-content > .body > .frame-left > .car-list > .car-info {
   display: flex;
   height: 180px;
   padding: 24px;
@@ -207,7 +224,7 @@
   }
 }
 
-.modal-page > .body > .frame-left > .available-times {
+.modal-page > .modal-content > .body > .frame-left > .available-times {
   display: flex;
   padding: 10px;
   align-items: flex-start;
@@ -261,7 +278,7 @@
   }
 }
 
-.modal-page > .body > .frame-right {
+.modal-page > .modal-content > .body > .frame-right {
   display: flex;
   padding: 24px;
   flex-direction: column;
@@ -274,7 +291,7 @@
   overflow-y: auto;
 }
 
-.modal-page > .body > .frame-right > .category-row {
+.modal-page > .modal-content > .body > .frame-right > .category-row {
   display: flex;
   padding: 24px;
   flex-direction: column;
@@ -371,7 +388,7 @@
   }
 }
 
-.modal-page > .btn-group {
+.modal-page > .modal-content > .btn-group {
   display: flex;
   padding: 0px 100px 60px 100px;
   justify-content: flex-end;
