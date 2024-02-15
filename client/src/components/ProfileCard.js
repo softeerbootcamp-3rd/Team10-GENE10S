@@ -18,11 +18,11 @@ const ProfileCard = ({ profileInfo, carList }) => {
   return (
     <div className={classNames('content')}>
       <div className={classNames('profile-view', { animate: animate })}>
-        {carList && carList.length > 0 && <img src={carList[0].imageUrl} className={classNames('profile-image')} />}
+        {carList && carList.length > 0 && <img alt='profile' src={carList[0].imageUrl} className={classNames('profile-image')} />}
         <div className={classNames('profile-info')}>
           <div className={classNames('name', { animate: infoAnimate })}>
             <div className={classNames('text')}>{profileInfo.name}</div>
-            <Link to="/Profile" className={classNames('setting')} />
+            <Link to="/profile" className={classNames('setting')} />
           </div>
           <div className={classNames('email', { animate: infoAnimate })}>{profileInfo.email}</div>
           <div className={classNames('cars', { animate: infoAnimate })}>
