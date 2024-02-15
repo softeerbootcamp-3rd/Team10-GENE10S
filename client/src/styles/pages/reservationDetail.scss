@@ -3,12 +3,15 @@
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
+  height: 1080px;
+  overflow-y: scroll;
+  word-break: keep-all;
 
   background: $gray_900;
 
   position: relative;
-  top: 74px;
-  margin-bottom: 74px;
+  // top: 74px;
+  // margin-bottom: 74px;
 
   opacity: 0; /* 페이지가 처음 로딩될 때 숨깁니다. */
   transition: opacity 1.5s ease-in-out; /* 페이드 인 효과를 추가합니다. */
@@ -19,7 +22,7 @@
 
   .title {
     display: flex;
-    padding: 28px 100px 4px 100px;
+    padding: 120px 100px 4px 100px;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
@@ -29,7 +32,7 @@
       color: $uyh;
       @extend %M_24;
     }
-    
+
     .reservation-info {
       display: flex;
       align-items: center;
@@ -244,7 +247,9 @@
               flex: 1 0 0;
               align-self: stretch;
 
-              background: url(../../assets/basemap-image.png), lightgray 50% / cover no-repeat;
+              background:
+                url(../../assets/basemap-image.png),
+                lightgray 50% / cover no-repeat;
             }
           }
         }
@@ -378,7 +383,7 @@
               color: $uyh;
               @extend %M_24;
             }
-            
+
             .text-2 {
               color: $gray_600;
               @extend %M_20;
@@ -403,7 +408,7 @@
             .text {
               color: $gray_300;
               @extend %M_30;
-            } 
+            }
           }
 
           .detail {

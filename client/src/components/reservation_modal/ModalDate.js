@@ -1,12 +1,11 @@
 import classNames from 'classnames';
-import { BtnBlack } from './Button';
+import { BtnBlack } from '../Button';
 import { useEffect, useState } from 'react';
-import Calendar from './Calendar';
-import TimeSlots from './TimeSlots';
-import { getAvailableDate, getAvailableTime } from '../api/ReservationApi';
+import Calendar from '../Calendar';
+import TimeSlots from '../TimeSlots';
+import { getAvailableDate, getAvailableTime } from '../../api/ReservationApi';
 
 export default function ModalDate({ nextStep, props, fadeIn }) {
-
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
@@ -26,36 +25,39 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
   const [selectedTime, setSelectedTime] = useState(null);
 
   const [selectedInput, setSelectedInput] = useState('departure');
-  
+
   const [calendarYear, setCalendarYear] = useState(currentYear);
   const [calendarMonth, setCalendarMonth] = useState(currentMonth);
   const [calendarDay, setCalendarDay] = useState(null);
 
   useEffect(() => {
-    getAvailableDate().then((result) => {
+    getAvailableDate().then(result => {
       setAvailableDates(result.availableDates);
     });
   });
 
   const handleNext = () => {
     if (departureTime === '' || pickupTime === '') return;
-    nextStep(departureYear, departureMonth, departureDay, departureTime,
-      pickupYear, pickupMonth, pickupDay, pickupTime);
-  }
+    nextStep(
+      departureYear,
+      departureMonth,
+      departureDay,
+      departureTime,
+      pickupYear,
+      pickupMonth,
+      pickupDay,
+      pickupTime,
+    );
+  };
 
   const handleLastMonth = () => {
     setShowTimes(false);
     setCalendarDay(null);
     if (currentMonth === 0) {
-
-      if (selectedInput === 'departure'
-        && calendarYear - 1 === departureYear
-        && 11 === departureMonth) {
+      if (selectedInput === 'departure' && calendarYear - 1 === departureYear && 11 === departureMonth) {
         setCalendarDay(departureDay);
         setShowTimes(true);
-      } else if (selectedInput === 'pickup'
-        && calendarYear - 1 === pickupYear
-        && 11 === pickupMonth) {
+      } else if (selectedInput === 'pickup' && calendarYear - 1 === pickupYear && 11 === pickupMonth) {
         setCalendarDay(pickupDay);
         setShowTimes(true);
       }
@@ -63,15 +65,10 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
       setCalendarMonth(11);
       setCalendarYear(calendarYear - 1);
     } else {
-      
-      if (selectedInput === 'departure'
-        && calendarYear === departureYear
-        && calendarMonth - 1 === departureMonth) {
+      if (selectedInput === 'departure' && calendarYear === departureYear && calendarMonth - 1 === departureMonth) {
         setCalendarDay(departureDay);
         setShowTimes(true);
-      } else if (selectedInput === 'pickup'
-        && calendarYear === pickupYear
-        && calendarMonth - 1 === pickupMonth) {
+      } else if (selectedInput === 'pickup' && calendarYear === pickupYear && calendarMonth - 1 === pickupMonth) {
         setCalendarDay(pickupDay);
         setShowTimes(true);
       }
@@ -85,15 +82,10 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
     setCalendarDay(null);
 
     if (currentMonth === 11) {
-
-      if (selectedInput === 'departure'
-        && calendarYear + 1 === departureYear
-        && 0 === departureMonth) {
+      if (selectedInput === 'departure' && calendarYear + 1 === departureYear && 0 === departureMonth) {
         setCalendarDay(departureDay);
         setShowTimes(true);
-      } else if (selectedInput === 'pickup'
-        && calendarYear + 1 === pickupYear
-        && 0 === pickupMonth) {
+      } else if (selectedInput === 'pickup' && calendarYear + 1 === pickupYear && 0 === pickupMonth) {
         setCalendarDay(pickupDay);
         setShowTimes(true);
       }
@@ -101,15 +93,10 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
       setCalendarMonth(0);
       setCalendarYear(calendarYear + 1);
     } else {
-
-      if (selectedInput === 'departure'
-        && calendarYear === departureYear
-        && calendarMonth + 1 === departureMonth) {
+      if (selectedInput === 'departure' && calendarYear === departureYear && calendarMonth + 1 === departureMonth) {
         setCalendarDay(departureDay);
         setShowTimes(true);
-      } else if (selectedInput === 'pickup'
-        && calendarYear === pickupYear
-        && calendarMonth + 1 === pickupMonth) {
+      } else if (selectedInput === 'pickup' && calendarYear === pickupYear && calendarMonth + 1 === pickupMonth) {
         setCalendarDay(pickupDay);
         setShowTimes(true);
       }
@@ -138,28 +125,22 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
       setTimeData(result.timeSlots);
       setShowTimes(true);
     });
-  }
+  };
 
-  const handleClickTime = (time) => {
+  const handleClickTime = time => {
     if (selectedTime === time) {
       setSelectedTime(null);
-      if (selectedInput === 'departure')
-        setDepartureTime(null);
-      else
-        setPickupTime(null);
-    }
-    else {
+      if (selectedInput === 'departure') setDepartureTime(null);
+      else setPickupTime(null);
+    } else {
       setSelectedTime(time);
-      if (selectedInput === 'departure')
-        setDepartureTime(time);
-      else
-        setPickupTime(time);
+      if (selectedInput === 'departure') setDepartureTime(time);
+      else setPickupTime(time);
     }
-  }
+  };
 
   const handleClickDeparture = () => {
-    if (selectedInput === 'departure')
-      return;
+    if (selectedInput === 'departure') return;
     setSelectedInput('departure');
     setCalendarYear(departureYear != null ? departureYear : currentYear);
     setCalendarMonth(departureMonth != null ? departureMonth : currentMonth);
@@ -171,11 +152,10 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
       });
     }
     setSelectedTime(departureTime);
-  }
+  };
 
   const handleClickPickup = () => {
-    if (selectedInput === 'pickup')
-      return;
+    if (selectedInput === 'pickup') return;
     setSelectedInput('pickup');
     setCalendarYear(pickupYear != null ? pickupYear : currentYear);
     setCalendarMonth(pickupMonth != null ? pickupMonth : currentMonth);
@@ -187,11 +167,11 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
       });
     }
     setSelectedTime(pickupTime);
-  }
+  };
 
   return (
     <>
-      <div className={classNames('body', {'fade-in': fadeIn})}>
+      <div className={classNames('body', { 'fade-in': fadeIn })}>
         <div className={classNames('frame-left')}>
           <Calendar
             year={calendarYear}
@@ -202,25 +182,41 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
             handleLastMonth={handleLastMonth}
             handleNextMonth={handleNextMonth}
           />
-          {showTimes && <TimeSlots timeSlots={timeData} selectedTime={selectedTime} handleClickTime={handleClickTime} />}
+          {showTimes && (
+            <TimeSlots timeSlots={timeData} selectedTime={selectedTime} handleClickTime={handleClickTime} />
+          )}
         </div>
         <div className={classNames('frame-right')}>
           <div className={classNames('category-row')}>
             <span className={classNames('title')}>1. 센터 방문</span>
-            <span className={classNames('content', 'hover-pointer', selectedInput === 'departure' ? 'active' : null)} onClick={() => handleClickDeparture()}>
+            <span
+              className={classNames('content', 'hover-pointer', selectedInput === 'departure' ? 'active' : null)}
+              onClick={() => handleClickDeparture()}
+            >
               <div className={classNames('input-area', 'w-200')}>
-                <span className={classNames('input-text')}>{departureDay != null ? departureYear + '년 ' + (departureMonth + 1) + '월 ' + departureDay + '일' : null}</span>
+                <span className={classNames('input-text')}>
+                  {departureDay != null
+                    ? departureYear + '년 ' + (departureMonth + 1) + '월 ' + departureDay + '일'
+                    : null}
+                </span>
               </div>
               <div className={classNames('input-area', 'w-160')}>
-                <span className={classNames('input-text')}>{departureTime != null ? departureTime + ' : 00' : null}</span>
+                <span className={classNames('input-text')}>
+                  {departureTime != null ? departureTime + ' : 00' : null}
+                </span>
               </div>
             </span>
           </div>
           <div className={classNames('category-row')}>
             <span className={classNames('title')}>2. 픽업 시각</span>
-            <span className={classNames('content', 'hover-pointer', selectedInput === 'pickup' ? 'active' : null)} onClick={() => handleClickPickup()}>
+            <span
+              className={classNames('content', 'hover-pointer', selectedInput === 'pickup' ? 'active' : null)}
+              onClick={() => handleClickPickup()}
+            >
               <div className={classNames('input-area', 'w-200')}>
-                <span className={classNames('input-text')}>{pickupDay != null ? pickupYear + '년 ' + (pickupMonth + 1) + '월 ' + pickupDay + '일' : null}</span>
+                <span className={classNames('input-text')}>
+                  {pickupDay != null ? pickupYear + '년 ' + (pickupMonth + 1) + '월 ' + pickupDay + '일' : null}
+                </span>
               </div>
               <div className={classNames('input-area', 'w-160')}>
                 <span className={classNames('input-text')}>{pickupTime != null ? pickupTime + ' : 00' : null}</span>

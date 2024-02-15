@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { ProgressArrow200, ProgressArrow500 } from './Arrow';
+import { ProgressArrow200, ProgressArrow500 } from '../Arrow';
 import { Link } from 'react-router-dom';
 
 export default function ModalHeader({ shopName, currentStep, changeShop }) {

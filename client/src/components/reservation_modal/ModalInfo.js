@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-import { BtnBlack } from './Button';
-import { getCarList } from '../api/ReservationApi';
+import { BtnBlack } from '../Button';
+import { getCarList } from '../../api/ReservationApi';
 
 export default function ModalInfo({ prevStep, nextStep, props }) {
   const [phone1, setPhone1] = useState(props.phone1);
@@ -57,6 +57,7 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
   }, []);
 
   function GenerateCarButton() {
+    if (!carListData) return;
     const carButton = carListData.map((carData, index) => (
       <div
         id={index}

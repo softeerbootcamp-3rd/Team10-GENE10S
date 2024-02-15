@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { BtnBlack } from './Button';
+import { BtnBlack } from '../Button';
 import { useState } from 'react';
-import { validCoupon } from '../api/ReservationApi';
+import { validCoupon } from '../../api/ReservationApi';
 
 export default function ModalService({ props, prevStep, submit }) {
   const [services, setServices] = useState(props.services);
@@ -14,7 +14,7 @@ export default function ModalService({ props, prevStep, submit }) {
     const target = event.currentTarget.id;
     setServices(prevServices => ({
       ...prevServices,
-      [target]: !prevServices[target]
+      [target]: !prevServices[target],
     }));
   }
 
@@ -37,7 +37,7 @@ export default function ModalService({ props, prevStep, submit }) {
     <>
       <div className={classNames('body')}>
         <div className={classNames('frame-left')}>
-          <img className={classNames('image')} src={require(`../assets/sample-service.png`)} alt="" key="image" />
+          <img className={classNames('image')} src={require(`../../assets/sample-service.png`)} alt="" key="image" />
         </div>
         <div className={classNames('frame-right')}>
           <div className={classNames('category-row')}>
@@ -171,8 +171,10 @@ export default function ModalService({ props, prevStep, submit }) {
               <input
                 type="text"
                 value={coupon}
-                className={classNames('input-left', 'w-400', 'input-text',
-                  {'coupon-valid': couponValid, 'coupon-invalid': couponInvalid})}
+                className={classNames('input-left', 'w-400', 'input-text', {
+                  'coupon-valid': couponValid,
+                  'coupon-invalid': couponInvalid,
+                })}
                 onChange={e => {
                   setCoupon(e.target.value);
                   setCouponValid(false);
