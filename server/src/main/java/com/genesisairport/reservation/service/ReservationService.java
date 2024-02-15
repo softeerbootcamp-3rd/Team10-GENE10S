@@ -91,6 +91,7 @@ public class ReservationService {
                 c.setIsUsed(true);
                 couponRepository.save(c);
             }
+        }
 
         return ReservationResponse.ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
