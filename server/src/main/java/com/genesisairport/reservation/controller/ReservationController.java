@@ -41,6 +41,8 @@ public class ReservationController {
 
     @GetMapping("/car-list")
     public ResponseEntity getCarList(HttpServletRequest request) {
+        Long userId = SessionService.getUserIdFromSession(request);
+        System.out.println("userId ===== " + userId);
         Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
         // TODO: customer emtpy일 때 response 추가
         return new ResponseEntity(
