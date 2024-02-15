@@ -11,12 +11,14 @@ import Mypage from './pages/Mypage';
 import ReservationComplete from './pages/ReservationComplete';
 import ReservationModal from './pages/ReservationModal';
 import Profile from './pages/Profile';
+import RedirectPage from './pages/RedirectPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Main />} />
+      <Route path="/oauth/redirect" element={<RedirectPage />} />
       <Route path="/reservation-intro" element={<ReservationIntro />} />
       <Route path="/reservation" element={<ReservationDate />} />
       <Route path="/reservation/complete" element={<ReservationComplete />} />

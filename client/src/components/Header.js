@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import classNames from 'classnames';
 import logo_header from '../assets/logo-header.png';
 import Cookies from 'js-cookie';
@@ -12,8 +12,13 @@ export default function Header() {
 
   // RFC4122 version 4 UUID
   useEffect(() => {
+  
     setUuid(createUUID());
-    setIsLogin(!!Cookies.get('sid'));
+
+    const sid = Cookies.get('SID');
+    if (sid) {
+      setIsLogin(true);
+    }
 
     const header = document.querySelector('.header');
     window.addEventListener('scroll', () => {
@@ -33,6 +38,11 @@ export default function Header() {
     });
   }
 
+  const handleLoginClick = () => {
+    // '로그인' 버튼 클릭 시 OAuth 요청을 보냄
+    window.location.href = `https://accounts.genesis.com/api/authorize/ccsp/oauth?clientId=${clientId}&host=${host}&state=${uuid}`;
+  };
+
   return (
     <div className={classNames('header', 'on-top')}>
       <Link to="/">
@@ -51,13 +61,14 @@ export default function Header() {
         ) : (
           <>
             <a
-              href={`https://accounts.genesis.com/api/authorize/ccsp/oauth?clientId=${clientId}&host=${host}&state=${uuid}`}
+              href="#"
               className={classNames('btn')}
+              onClick={handleLoginClick}
             >
               로그인
             </a>
 
-            <Link to="/join" className={classNames('btn')}>
+            <Link to="/join" className={classNames('btn')} >
               회원가입
             </Link>
           </>
