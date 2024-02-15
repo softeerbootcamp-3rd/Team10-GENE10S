@@ -50,18 +50,12 @@ export default function Header() {
             </Link>
           </>
         ) : (
-          <>
-            <a
-              href={`https://accounts.genesis.com/api/authorize/ccsp/oauth?clientId=${clientId}&host=${host}&state=${uuid}`}
-              className={classNames('btn')}
-            >
-              로그인
-            </a>
-
-            <Link to="/join" className={classNames('btn')}>
-              회원가입
-            </Link>
-          </>
+          <a
+            href={`https://accounts.genesis.com/api/authorize/ccsp/oauth?clientId=${clientId}&host=${host}&state=${uuid}`}
+            className={classNames('btn')}
+          >
+            로그인
+          </a>
         )}
       </div>
     </div>
