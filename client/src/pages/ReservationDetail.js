@@ -66,7 +66,7 @@ export default function ReservationDetail() {
           <ReservationDetailService serviceType={reservationDetail.serviceType} />
 
           {/* step */}
-          <ReservationDetailStep />
+          <ReservationDetailStep progressStage={reservationDetail.progressStage} />
 
           {/* result */}
           <ReservationDetailResult />
