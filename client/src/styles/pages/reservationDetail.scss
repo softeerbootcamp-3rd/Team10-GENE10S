@@ -850,6 +850,12 @@
             align-items: center;
 
             transform: rotate(180deg);
+            z-index: 99;
+          }
+
+          .image-wrapper {
+            // 추가
+            overflow: hidden;
           }
 
           .images {
@@ -858,6 +864,9 @@
             gap: 30px;
             flex: 1 0 0;
             align-self: stretch;
+
+            // 추가
+            height: 400px;
           }
 
           .arrow-right {
@@ -865,6 +874,9 @@
             padding: 4px;
             justify-content: center;
             align-items: center;
+
+            // 추가
+            z-index: 99;
           }
         }
       }
@@ -907,6 +919,12 @@
             align-items: center;
 
             transform: rotate(180deg);
+            z-index: 99;
+          }
+
+          .image-wrapper {
+            // 추가
+            overflow: hidden;
           }
 
           .images {
@@ -915,6 +933,9 @@
             gap: 30px;
             flex: 1 0 0;
             align-self: stretch;
+
+            // 추가
+            height: 400px;
           }
 
           .arrow-right {
@@ -922,6 +943,9 @@
             padding: 4px;
             justify-content: center;
             align-items: center;
+
+            // 추가
+            z-index: 99;
           }
         }
       }
