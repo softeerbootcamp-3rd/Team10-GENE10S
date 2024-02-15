@@ -57,6 +57,7 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
   }, []);
 
   function GenerateCarButton() {
+    if (!carListData) return;
     const carButton = carListData.map((carData, index) => (
       <div
         id={index}
