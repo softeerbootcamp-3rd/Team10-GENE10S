@@ -3,25 +3,28 @@ import { useEffect, useState } from 'react';
 
 import { ProgressArrow200 } from '../Arrow';
 
-
-import before1 from '../../assets/before-1.png';
-import before2 from '../../assets/before-2.png';
-import before3 from '../../assets/before-3.png';
-import before4 from '../../assets/sample-model.png'
-
-import after1 from '../../assets/after-1.png';
-import after2 from '../../assets/after-2.png';
-import after3 from '../../assets/after-3.png';
-
-export default function ReservationDetailResult() {
+export default function ReservationDetailResult({ reservationDetail }) {
   const [currentBeforeIndex, setCurrentBeforeIndex] = useState(0);
   const [currentAfterIndex, setCurrentAfterIndex] = useState(0);
 
-  const beforeImages = [before1, before4, before3, before2];
-  const afterImages = [after1, after2, after3];
+  const [beforeImages, setBeforeImages] = useState([]);
+  const [afterImages, setAfterImages] = useState([]);
 
   const [cumBeforeSizes, setCumBeforeSizes] = useState([]);
   const [cumAfterSizes, setCumAfterSizes] = useState([]);
+
+  useEffect(() => {
+    if (reservationDetail && reservationDetail.beforeImages) {
+      setBeforeImages(reservationDetail.beforeImages);
+    } else {
+      setBeforeImages([]);
+    }
+    if (reservationDetail && reservationDetail.afterImages) {
+      setAfterImages(reservationDetail.afterImages);
+    } else {
+      setAfterImages([]);
+    }
+  }, [reservationDetail]);
 
   useEffect(() => {
     const loadImageWidths = async () => {
@@ -42,7 +45,7 @@ export default function ReservationDetailResult() {
     };
 
     loadImageWidths();
-  }, []);
+  }, [beforeImages, afterImages]);
 
   const getImageSize = (src) => {
     return new Promise((resolve, reject) => {
@@ -149,11 +152,7 @@ export default function ReservationDetailResult() {
           {/* content */}
           <div className={classNames('content')}>
             <div className={classNames('text')}>
-              에어컨 안 망가졌네요.<br/>
-              다음 방문은 2026년 2월 1일 이전에 하시면 되겠습니다.<br/>
-              근데 차가 정말 멋있네요. 저도 타고 싶습니다 G80.<br/>
-              정비만 몇 년째 하고 있는데 내 차는 못 사네...<br/>
-              감사합니다.
+              {reservationDetail.checkupResult}
             </div>
           </div>
         </div>

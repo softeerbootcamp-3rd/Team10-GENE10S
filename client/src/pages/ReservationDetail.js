@@ -69,7 +69,7 @@ export default function ReservationDetail() {
           <ReservationDetailStep progressStage={reservationDetail.progressStage} />
 
           {/* result */}
-          <ReservationDetailResult />
+          <ReservationDetailResult reservationDetail={reservationDetail} />
 
         </div>
 
