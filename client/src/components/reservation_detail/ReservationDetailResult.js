@@ -79,7 +79,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
         </div>
         {/* image */}
         <div className={classNames('image')}>
-          <div className={classNames('arrow-left')} onClick={handleBeforePrev}>
+          <div className={classNames('arrow-left', { 'disabled': currentBeforeIndex === 0 })} onClick={handleBeforePrev}>
             <ProgressArrow200 />
           </div>
           <div className={classNames('image-wrapper')}>
@@ -96,7 +96,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
               ))}
             </div>
           </div>
-          <div className={classNames('arrow-right')} onClick={handleBeforeNext}>
+          <div className={classNames('arrow-right', { 'disabled': currentBeforeIndex === beforeImages.length - 1 || beforeImages.length === 0 })} onClick={handleBeforeNext}>
             <ProgressArrow200 />
           </div>
         </div>
@@ -109,7 +109,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
         </div>
         {/* image */}
         <div className={classNames('image')}>
-          <div className={classNames('arrow-left')} onClick={handleAfterPrev}>
+          <div className={classNames('arrow-left', { 'disabled': currentAfterIndex === 0 })} onClick={handleAfterPrev}>
             <ProgressArrow200 />
           </div>
           <div className={classNames('image-wrapper')}>
@@ -126,7 +126,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
               ))}
             </div>
           </div>
-          <div className={classNames('arrow-right')} onClick={handleAfterNext}>
+          <div className={classNames('arrow-right', { 'disabled': currentAfterIndex === afterImages.length - 1 || afterImages.length === 0 })} onClick={handleAfterNext}>
             <ProgressArrow200 />
           </div>
         </div>

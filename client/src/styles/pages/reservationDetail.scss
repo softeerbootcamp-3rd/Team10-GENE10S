@@ -793,6 +793,18 @@
 
             transform: rotate(180deg);
             z-index: 99;
+
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+
+            &.disabled {
+              opacity: 0.2;
+              pointer-events: none;
+            }
+
+            &:hover {
+              transform: rotate(180deg) scale(1.3);
+            }
           }
 
           .image-wrapper {
@@ -819,6 +831,18 @@
 
             // 추가
             z-index: 99;
+
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+
+            &.disabled {
+              opacity: 0.2;
+              pointer-events: none;
+            }
+
+            &:hover {
+              transform: scale(1.3);
+            }
           }
         }
       }
@@ -864,6 +888,18 @@
 
             transform: rotate(180deg);
             z-index: 99;
+
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+
+            &.disabled {
+              opacity: 0.2;
+              pointer-events: none;
+            }
+
+            &:hover {
+              transform: rotate(180deg) scale(1.3);
+            }
           }
 
           .image-wrapper {
@@ -890,6 +926,18 @@
 
             // 추가
             z-index: 99;
+
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+
+            &.disabled {
+              opacity: 0.2;
+              pointer-events: none;
+            }
+
+            &:hover {
+              transform: scale(1.3);
+            }
           }
         }
       }
