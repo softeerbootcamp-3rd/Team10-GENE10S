@@ -12,7 +12,6 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
   const [carListData, setCarListData] = useState([]);
 
   function handleNext() {
-    if (phone1 === '' || phone2 === '' || phone3 === '' || sellName === '' || plateNumber === '') return;
     nextStep(phone1, phone2, phone3, sellName, plateNumber);
   }
 

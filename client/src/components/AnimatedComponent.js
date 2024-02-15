@@ -22,7 +22,7 @@ const AnimatedComponent = ({ children, name = "animation",
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isVisible, triggerPosition]);
+  }, [isVisible, triggerPosition, name]);
 
   const containerStyle = {
     opacity: 0,

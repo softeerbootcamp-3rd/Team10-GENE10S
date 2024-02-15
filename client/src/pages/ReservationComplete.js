@@ -36,7 +36,7 @@ export default function ReservationComplete() {
               <span>{reservInfo ? `${reservInfo.visitDate} ${reservInfo.visitTime}` : `예약 날짜 및 시간`}</span>
             </div>
             <div className={classNames('content__detail')}>
-              <span className={classNames('content__detail--name', 'outline')}>픽업 시간</span>
+              <span className={classNames('content__detail--name', 'outline')}>픽업 시각</span>
               <span>{reservInfo ? `${reservInfo.pickupDate} ${reservInfo.pickupTime}` : '픽업 날짜 및 시간'}</span>
             </div>
           </div>
