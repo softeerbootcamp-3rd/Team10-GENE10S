@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.Time;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class ReservationResponse {
 
@@ -75,6 +73,36 @@ public class ReservationResponse {
             this.carSellName = carSellName;
             this.repairShop = repairShop;
             this.imageUrl = imageUrl;
+        }
+    }
+
+    @Getter
+    @Builder
+    public static class ReservationDetail {
+        private long reservationId;
+        private long customerId;
+        private String couponSerialNumber;
+        private String repairShop;
+        private String repairShopAddress;
+        private String from;
+        private String to;
+        private String contactNumber;
+        private String carSellName;
+        private String carPlateNumber;
+        private Map<String, Boolean> serviceType;
+        private String customerRequest;
+        private List<ProgressStage> progressStage;
+        private String checkupResult;
+        private List<String> beforeImages;
+        private List<String> afterImages;
+        private String managerPhoneNumber;
+
+        @Getter
+        @Builder
+        public static class ProgressStage {
+            private String step;
+            private String date;
+            private String detail;
         }
     }
 }

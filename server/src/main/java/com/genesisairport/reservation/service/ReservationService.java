@@ -86,7 +86,6 @@ public class ReservationService {
                 .build();
 
 
-
         if (!couponRepository.findCouponBySerialNumber(couponSerialNumber).getIsUsed()) {
             reservationRepository.save(reservation);
 
@@ -117,5 +116,73 @@ public class ReservationService {
         }
 
         return reservationDTOs;
+    }
+
+    public Optional<ReservationResponse.ReservationDetail> getReservationDetail(Long reservationId) {
+        Reservation reservation = reservationRepository.findReservationById(reservationId);
+        if (reservation == null) {
+            return Optional.empty();
+        }
+
+        Customer customer = reservation.getCustomer();
+        Coupon coupon = reservation.getCoupon();
+        RepairShop repairShop = reservation.getRepairShop();
+
+        // date (to, from)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String fromString = reservation.getDepartureTime().format(formatter);
+        String toString = reservation.getArrivalTime().format(formatter);
+
+        // serviceType
+        Map<String, Boolean> serviceType = new HashMap<>();
+        String serviceTypeString = reservation.getServiceType();
+        String substring = serviceTypeString.substring(1, serviceTypeString.length() - 1);
+        for(String typeString : substring.split(", ")) {
+            String[] split = typeString.split("=");
+            serviceType.put(split[0], split[1].equals("true"));
+        }
+
+        // maintenanceImage
+        List<String> beforeImages = new ArrayList<>();
+        List<String> afterImages = new ArrayList<>();
+        List<MaintenanceImage> maintenanceImage = reservation.getMaintenanceImage();
+        for (MaintenanceImage image : maintenanceImage) {
+            if (image.getStatus() == 1) {
+                afterImages.add(image.getImageUrl());
+            } else {
+                beforeImages.add(image.getImageUrl());
+            }
+        }
+
+        // progressStage
+        List<ReservationResponse.ReservationDetail.ProgressStage> progressStages = new ArrayList<>();
+        List<Step> steps = reservation.getStep();
+        for(Step step : steps) {
+            progressStages.add(ReservationResponse.ReservationDetail.ProgressStage.builder()
+                    .step(step.getStage())
+                    .date(step.getDate().format(DateTimeFormatter.ofPattern("yyyy년 MM월 d일 a hh:mm")))
+                    .detail(step.getDetail())
+                    .build());
+        }
+
+        return Optional.of(ReservationResponse.ReservationDetail.builder()
+                .reservationId(reservation.getId())
+                .customerId(customer.getId())
+                .couponSerialNumber(coupon.getSerialNumber())
+                .repairShop(repairShop.getShopName())
+                .repairShopAddress(repairShop.getAddress())
+                .from(fromString)
+                .to(toString)
+                .contactNumber(reservation.getContactNumber())
+                .carSellName(reservation.getSellName())
+                .carPlateNumber(reservation.getPlateNumber())
+                .serviceType(serviceType)
+                .customerRequest(reservation.getCustomerRequest())
+                .progressStage(progressStages)
+                .checkupResult(reservation.getInspectionResult())
+                .beforeImages(beforeImages)
+                .afterImages(afterImages)
+                .managerPhoneNumber(reservation.getContactNumber())
+                .build());
     }
 }
