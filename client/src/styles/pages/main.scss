@@ -1,12 +1,14 @@
 @import '../variables.scss';
 
 @keyframes fade_in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@mixin fade-in-animation {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease-in, visibility 1s ease-in;
 }
 
 .main {
@@ -17,391 +19,182 @@
   align-items: flex-start;
   overflow-x: hidden;
   word-break: keep-all;
+}
 
-  .title-area {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    align-self: stretch;
+.title-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+  width: 100%;
+  position: relative;
+
+  .image {
     width: 100%;
-    position: relative;
-
-    .image {
-      width: 100%;
-      height: 900px;
-      background: url(../../assets/main.png), lightgray 50% / cover no-repeat;
-      background-position: center;
-      background-size: cover;
-      animation: fade_in 1s;
-      background-size: 2560px 900px;
-    }
-    
-    .btn-main {
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 1s ease-in, visibility 1s ease-in;
-      display: flex;
-      height: 74px;
-      padding: 0px 76px;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-      border: 3px solid $uyh;
-      position: absolute;
-      left: 192px;
-      bottom: 200px;
-    }
-    
-    .btn-main:hover {
-      cursor: pointer;
-      > .reservation {
-        color: $gray_900;
-      }
-    }
-
-    .btn-main::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: white;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease-in-out; 
-      z-index: 0; 
-    }
-    
-    .btn-main:hover::before {
-      transform: scaleX(1); 
-    }
-    
-    .btn-main .reservation {
-      color: $uyh;
-      text-align: center;
-      @extend %M_36;
-      z-index: 1; 
-      position: relative; 
-      transition: color 0.5s ease-in-out; 
-    }
-    
-    .info-main {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-      position: absolute;
-      left: 192px;
-      bottom: 300px;
-
-      .title-main, .title-sub, .content {
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 1s ease-in, visibility 1s ease-in;
-      }
-
-      .title-main {
-        opacity: 0;
-        display: flex;
-        width: 269px;
-        height: 61px;
-        flex-direction: column;
-        justify-content: center;
-        color: $uyh;
-        @extend %M_36;
-      }
-
-      .title-sub {
-        display: flex;
-        width: 514px;
-        height: 64px;
-        flex-direction: column;
-        justify-content: center;
-        color: $uyh;
-        @extend %B_48;
-      }
-
-      .content {
-        display: flex;
-        height: 113px;
-        flex-direction: column;
-        justify-content: center;
-        color: $uyh;
-        @extend %SB_36;
-        margin-bottom: 30px;
-      }
+    height: 925px;
+    background: url(../../assets/main.png), lightgray 50% / cover no-repeat;
+    background-position: center;
+    background-size: cover;
+    animation: fade_in 1s;
+    background-size: 2560px 925px;
+  }
+  
+  .btn-main {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in, visibility 1s ease-in;
+    display: flex;
+    height: 74px;
+    padding: 0px 76px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border: 3px solid $uyh;
+    position: absolute;
+    left: 192px;
+    bottom: 200px;
+  }
+  
+  .btn-main:hover {
+    cursor: pointer;
+    > .reservation {
+      color: $gray_900;
     }
   }
 
-  .body {
+  .btn-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $uyh;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease-in-out; 
+    z-index: 0; 
+  }
+  
+  .btn-main:hover::before {
+    transform: scaleX(1); 
+  }
+  
+  .btn-main .reservation {
+    color: $uyh;
+    text-align: center;
+    @extend %M_36;
+    z-index: 1; 
+    position: relative; 
+    transition: color 0.5s ease-in-out; 
+  }
+  
+  .info-main {
     display: flex;
-    padding: 100px 64px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 100px;
+    gap: 5px;
+    position: absolute;
+    left: 192px;
+    bottom: 300px;
+
+    .title-main, .title-sub, .content {
+      @include fade-in-animation;
+    }
+
+    .title-main {
+      opacity: 0;
+      display: flex;
+      width: 269px;
+      height: 61px;
+      flex-direction: column;
+      justify-content: center;
+      color: $uyh;
+      @extend %M_36;
+    }
+
+    .title-sub {
+      display: flex;
+      width: 514px;
+      height: 64px;
+      flex-direction: column;
+      justify-content: center;
+      color: $uyh;
+      @extend %B_48;
+    }
+
+    .content {
+      display: flex;
+      height: 113px;
+      flex-direction: column;
+      justify-content: center;
+      color: $uyh;
+      @extend %SB_36;
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.body {
+  display: flex;
+  padding: 100px 64px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 100px;
+  align-self: stretch;
+  background: $gray_900;
+
+  .info-area-1 {
+    display: flex;
+    padding: 0px 56px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
     align-self: stretch;
-    background: $gray_900;
 
-    .info-area-1 {
+    .title {
+      opacity: 0;
+      transform: translateX(-80%);
+      visibility: hidden;
+      transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
       display: flex;
-      padding: 0px 56px;
-      flex-direction: column;
       justify-content: center;
-      align-items: center;
-      gap: 80px;
-      align-self: stretch;
+      align-items: flex-start;
+      gap: 10px;
 
-      .title {
-        opacity: 0;
-        transform: translateX(-80%);
-        visibility: hidden;
-        transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 10px;
-
-        .title-main {
-          color: $uyh;        
-          @extend %B_48;
-        }
-      }
-
-      .contents {
-        opacity: 0;
-        transform: translateX(-80%);
-        visibility: hidden;
-        transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
-        display: flex;
-        align-items: flex-start;
-        gap: 60px;
-        align-self: stretch;
-
-        .image-group {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 40px;
-          flex: 1 0 0;
-
-          .image-1 {
-            height: 328px;
-            align-self: stretch;
-            background-position: center; 
-            background-repeat: no-repeat; 
-            background: url(../../assets/Info-area-image1.png);
-
-            z-index: 1;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-            &:hover {
-              opacity: 1; 
-              transform: scale(1.05); 
-              z-index: 2; 
-            }
-          }
-
-          .image-2 {
-            height: 328px;
-            align-self: stretch;
-            background-position: center; 
-            background-repeat: no-repeat; 
-            background: url(../../assets/info-area-image2.png);
-            z-index: 1;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-            &:hover {
-              opacity: 1; 
-              transform: scale(1.05); 
-              z-index: 2; 
-            }
-          }
-
-          .image-3 {
-            height: 328px;
-            align-self: stretch;
-            background-position: center; 
-            background-repeat: no-repeat; 
-            background: url(../../assets/info-area-image3.png);
-            z-index: 1;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-            &:hover {
-              opacity: 1; 
-              transform: scale(1.05); 
-              z-index: 2; 
-            }
-          }
-        
-          .info {
-            display: flex;
-            padding: 17px 0px;
-            flex-direction: column;
-            align-items: flex-start;
-            align-self: stretch;
-
-            .title-sub {
-              align-self: stretch;
-              color: $uyh;
-              @extend %SB_36; 
-            }
-
-            .content {
-              align-self: stretch;
-              color: $uyh;
-              @extend %SB_24; 
-            }
-          }
-        }
+      .title-main {
+        color: $uyh;        
+        @extend %B_48;
       }
     }
 
-    
-    .info-area-2 {
+    .contents {
+      opacity: 0;
+      transform: translateX(-80%);
+      visibility: hidden;
+      transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
       display: flex;
-      padding: 64px;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 64px;
+      align-items: flex-start;
+      gap: 60px;
       align-self: stretch;
 
-      .title {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(30px);
-        transition: opacity 0.5s ease-in, visibility 0.5s ease-in, transform 0.5s ease-in;
-        color: $uyh;
-        text-align: center;
-        @extend %B_48;
-      }
-
-      .progress-group {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(30px);
-        transition: opacity 0.5s ease-in, visibility 0.5s ease-in, transform 0.5s ease-in;
+      .image-group {
         display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        align-self: stretch;
-
-        .progress-step {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          flex: 1 0 0;
-
-          .circle-area {
-            display: flex;
-            height: 240px;
-            justify-content: center;
-            align-items: center;
-            align-self: stretch;
-
-            .left, .right {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              flex: 1 0 0;
-              align-self: stretch;
-
-              .line {
-                width: 100%;
-                height: 1px;
-                background: $uyh;
-              }
-            }
-
-            .center {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              align-self: stretch;
-
-              .circle {
-                width: 144px;
-                height: 144px;
-                stroke-width: 1px;
-                stroke: $uyh;
-                background: url(../../assets/circle.png) no-repeat;
-              }
-
-              .step-number {
-                position: absolute;
-                color: $uyh;
-                text-align: center;
-                @extend %B_48;
-              }
-            }
-          }
-
-          .info-area {
-            display: flex;
-            padding: 48px 12px;
-            flex-direction: column;
-            align-items: center;
-            gap: 48px;
-            align-self: stretch;
-
-            .info-title {
-              color: $orange_700;
-              text-align: center;
-              @extend %SB_36;
-            }
-
-            .info-content {
-              align-self: stretch;
-              color: $gray_300;
-              text-align: center;
-              @extend %M_24;
-            }
-          }
-        }
-      } 
-    }
-
-    .info-area-3 {
-      display: flex;
-      padding: 64px;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 72px;
-      align-self: stretch;
-
-      .title {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(30px);
-        transition: opacity 0.5s ease-in, visibility 0.5s ease-in, transform 0.5s ease-in;
-        display: flex;
-        color: $uyh;
-        text-align: center;
-        @extend %B_48;
-      }
-
-      .info-card-1 {
-        opacity: 0;
-        transform: translateX(-80%);
-        visibility: hidden;
-        transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
-        display: flex;
-        padding: 60px 40px;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        gap: 60px;
-        align-self: stretch;
-        
+        gap: 40px;
+        flex: 1 0 0;
+
         .image-1 {
-          height: 440px;
-          flex: 1 0 0;
-          overflow: cover;
-          background: url(../../assets//info-area-image4.png), lightgray 50% / cover no-repeat;
-          background-position: center;
-          background-size: cover;
-          opacity: 0.65; 
+          height: 328px;
+          align-self: stretch;
+          background-position: center; 
+          background-repeat: no-repeat; 
+          background: url(../../assets/Info-area-image1.png);
+
           z-index: 1;
           transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
           &:hover {
@@ -411,200 +204,406 @@
           }
         }
 
-        .info-text-1 {
+        .image-2 {
+          height: 328px;
+          align-self: stretch;
+          background-position: center; 
+          background-repeat: no-repeat; 
+          background: url(../../assets/info-area-image2.png);
+          z-index: 1;
+          transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+          &:hover {
+            opacity: 1; 
+            transform: scale(1.05); 
+            z-index: 2; 
+          }
+        }
+
+        .image-3 {
+          height: 328px;
+          align-self: stretch;
+          background-position: center; 
+          background-repeat: no-repeat; 
+          background: url(../../assets/info-area-image3.png);
+          z-index: 1;
+          transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+          &:hover {
+            opacity: 1; 
+            transform: scale(1.05); 
+            z-index: 2; 
+          }
+        }
+      
+        .info {
           display: flex;
-          padding: 3px 18px;
+          padding: 17px 0px;
           flex-direction: column;
           align-items: flex-start;
-          gap: 32px;
+          align-self: stretch;
 
-          .title {
-            display: flex;
-            height: 99px;
-            align-items: center;
-            gap: 10px;
-
-            .title-text {
-              flex: 1 0 0;
-              color: $orange_700;
-              @extend %SB_36;
-            }
-          }
-        
-          .content {
-            display: flex;
-            width: 498px;
-            height: 78px;
-            align-items: flex-start;
-            gap: 10px;
-            .content-text {
-              flex: 1 0 0;
-              color: $uyh;
-              @extend %SB_30;
-              word-break: keep-all;
-            }
-          }
-
-          .btn-info {
-            display: flex;
-            width: 120px;
-            height: 20px;
-            padding: 23px 76px;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            border: 3px solid $uyh;
-            position: relative; 
-            overflow: hidden;
-          }
-          
-          .btn-info .detail {
+          .title-sub {
+            align-self: stretch;
             color: $uyh;
-            text-align: center;
-            @extend %M_24;
-            z-index: 1;
-            position: relative;
-            transition: color 0.5s ease-in-out;
+            @extend %SB_36; 
           }
-          
-          .btn-info::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: $uyh;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease-in-out; 
-            z-index: 0;
-          }
-          
-          .btn-info:hover::before {
-            transform: scaleX(1);
-          }
-          
-          .btn-info:hover .detail {
-            color: $gray_900;
+
+          .content {
+            align-self: stretch;
+            color: $uyh;
+            @extend %SB_24; 
           }
         }
       }
+    }
+  }
+  
+  .info-area-2 {
+    display: flex;
+    padding: 64px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+    align-self: stretch;
 
-      .info-card-2 {
-        opacity: 0;
-        transform: translateX(80%);
-        visibility: hidden;
-        transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
+    .title {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease-in, visibility 0.5s ease-in, transform 0.5s ease-in;
+      color: $uyh;
+      text-align: center;
+      @extend %B_48;
+    }
+
+    .progress-group {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease-in, visibility 0.5s ease-in, transform 0.5s ease-in;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      align-self: stretch;
+
+      .progress-step {
         display: flex;
-        padding: 20px 31px;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 60px;
-        align-self: stretch;
-      
-        .image-2 {
-          height: 440px;
-          flex: 1 0 0;
-          overflow: cover;
-          background: url(../../assets//info-area-image5.png), lightgray 50% / cover no-repeat;
-          background-position: center;
-          background-size: cover;
-          opacity: 0.65; 
-          z-index: 1;
-          transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-          &:hover {
-            opacity: 1; 
-            transform: scale(1.05); 
-            z-index: 2; 
-          }
-        }
+        flex: 1 0 0;
 
-        .info-text-2 {
+        .circle-area {
           display: flex;
-          padding: 3px 18px;
-          flex-direction: column;
+          height: 240px;
           justify-content: center;
-          align-items: flex-end;
-          gap: 32px;
+          align-items: center;
+          align-self: stretch;
 
-          .title {
+          .left, .right {
             display: flex;
-            width: 498px;
-            height: 99px;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px;
-
-            .title-text {
-              flex: 1 0 0;
-              color: $orange_700;
-              text-align: right;
-              @extend %B_40;
-            }
-          }
-
-          .content {
-            display: flex;
-            width: 498px;
-            height: 78px;
-            align-items: flex-start;
-            gap: 10px;
-
-            .content-text {
-              flex: 1 0 0;
-              color: $uyh;
-              text-align: right;
-              @extend %SB_30;
-              word-break: keep-all;
-            }
-          }
-
-          .btn-info {
-            display: flex;
-            width: 120px;
-            height: 20px;
-            padding: 23px 76px;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            border: 3px solid $uyh;
-            position: relative; 
-            overflow: hidden;
+            flex: 1 0 0;
+            align-self: stretch;
+
+            .line {
+              width: 100%;
+              height: 1px;
+              background: $uyh;
+            }
           }
-          
-          .btn-info .detail {
-            color: $uyh;
+
+          .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-self: stretch;
+
+            .circle {
+              width: 144px;
+              height: 144px;
+              stroke-width: 1px;
+              stroke: $uyh;
+              background: url(../../assets/circle.png) no-repeat;
+            }
+
+            .step-number {
+              position: absolute;
+              color: $uyh;
+              text-align: center;
+              @extend %B_48;
+            }
+          }
+        }
+
+        .info-area {
+          display: flex;
+          padding: 48px 12px;
+          flex-direction: column;
+          align-items: center;
+          gap: 48px;
+          align-self: stretch;
+
+          .info-title {
+            color: $orange_700;
+            text-align: center;
+            @extend %SB_36;
+          }
+
+          .info-content {
+            align-self: stretch;
+            color: $gray_300;
             text-align: center;
             @extend %M_24;
-            z-index: 1;
-            position: relative;
-            transition: color 0.5s ease-in-out;
           }
-          
-          .btn-info::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: $uyh;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease-in-out; 
-            z-index: 0;
-          }
-          
-          .btn-info:hover::before {
-            transform: scaleX(1);
-          }
-          
-          .btn-info:hover .detail {
-            color: #000;
-          }
-          
         }
+      }
+    } 
+  }
+
+  .info-area-3 {
+    display: flex;
+    padding: 64px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 72px;
+    align-self: stretch;
+
+    .title {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease-in, visibility 0.5s ease-in, transform 0.5s ease-in;
+      display: flex;
+      color: $uyh;
+      text-align: center;
+      @extend %B_48;
+    }
+
+    .info-card-1 {
+      opacity: 0;
+      transform: translateX(-80%);
+      visibility: hidden;
+      transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
+      display: flex;
+      padding: 60px 40px;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      align-self: stretch;
+      
+      .image-1 {
+        height: 440px;
+        flex: 1 0 0;
+        overflow: cover;
+        background: url(../../assets//info-area-image4.png), lightgray 50% / cover no-repeat;
+        background-position: center;
+        background-size: cover;
+        opacity: 0.65; 
+        z-index: 1;
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+        &:hover {
+          opacity: 1; 
+          transform: scale(1.05); 
+          z-index: 2; 
+        }
+      }
+
+      .info-text-1 {
+        display: flex;
+        padding: 3px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+
+        .title {
+          display: flex;
+          height: 99px;
+          align-items: center;
+          gap: 10px;
+
+          .title-text {
+            flex: 1 0 0;
+            color: $orange_700;
+            @extend %SB_36;
+          }
+        }
+      
+        .content {
+          display: flex;
+          width: 498px;
+          height: 78px;
+          align-items: flex-start;
+          gap: 10px;
+          .content-text {
+            flex: 1 0 0;
+            color: $uyh;
+            @extend %SB_30;
+            word-break: keep-all;
+          }
+        }
+
+        .btn-info {
+          display: flex;
+          width: 120px;
+          height: 20px;
+          padding: 23px 76px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          border: 3px solid $uyh;
+          position: relative; 
+          overflow: hidden;
+        }
+        
+        .btn-info .detail {
+          color: $uyh;
+          text-align: center;
+          @extend %M_24;
+          z-index: 1;
+          position: relative;
+          transition: color 0.5s ease-in-out;
+        }
+        
+        .btn-info::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: $uyh;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.5s ease-in-out; 
+          z-index: 0;
+        }
+        
+        .btn-info:hover::before {
+          transform: scaleX(1);
+        }
+        
+        .btn-info:hover .detail {
+          color: $gray_900;
+        }
+      }
+    }
+
+    .info-card-2 {
+      opacity: 0;
+      transform: translateX(80%);
+      visibility: hidden;
+      transition: opacity 1.5s ease-out, transform 1s ease-out, visibility 0.3s;
+      display: flex;
+      padding: 20px 31px;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      align-self: stretch;
+    
+      .image-2 {
+        height: 440px;
+        flex: 1 0 0;
+        overflow: cover;
+        background: url(../../assets//info-area-image5.png), lightgray 50% / cover no-repeat;
+        background-position: center;
+        background-size: cover;
+        opacity: 0.65; 
+        z-index: 1;
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out, filter 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+        &:hover {
+          opacity: 1; 
+          transform: scale(1.05); 
+          z-index: 2; 
+        }
+      }
+
+      .info-text-2 {
+        display: flex;
+        padding: 3px 18px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 32px;
+
+        .title {
+          display: flex;
+          width: 498px;
+          height: 99px;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 10px;
+
+          .title-text {
+            flex: 1 0 0;
+            color: $orange_700;
+            text-align: right;
+            @extend %B_40;
+          }
+        }
+
+        .content {
+          display: flex;
+          width: 498px;
+          height: 78px;
+          align-items: flex-start;
+          gap: 10px;
+
+          .content-text {
+            flex: 1 0 0;
+            color: $uyh;
+            text-align: right;
+            @extend %SB_30;
+            word-break: keep-all;
+          }
+        }
+
+        .btn-info {
+          display: flex;
+          width: 120px;
+          height: 20px;
+          padding: 23px 76px;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          border: 3px solid $uyh;
+          position: relative; 
+          overflow: hidden;
+        }
+        
+        .btn-info .detail {
+          color: $uyh;
+          text-align: center;
+          @extend %M_24;
+          z-index: 1;
+          position: relative;
+          transition: color 0.5s ease-in-out;
+        }
+        
+        .btn-info::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: $uyh;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.5s ease-in-out; 
+          z-index: 0;
+        }
+        
+        .btn-info:hover::before {
+          transform: scaleX(1);
+        }
+        
+        .btn-info:hover .detail {
+          color: $gray_900;
+        }
+        
       }
     }
   }
