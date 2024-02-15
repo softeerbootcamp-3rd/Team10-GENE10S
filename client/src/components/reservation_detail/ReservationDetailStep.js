@@ -54,7 +54,7 @@ export default function ReservationDetailStep({ progressStage }) {
                     {stage.step}
                   </div>
                   {index !== 0 && stage.detail && (
-                    <div className={classNames('frame-37222')}>
+                    <div className={classNames('detail')}>
                       <div className={classNames('text-1')}>
                         세부 사항
                       </div>

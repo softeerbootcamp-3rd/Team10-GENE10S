@@ -45,7 +45,7 @@ export default function ReservationDetailInfo({ reservationDetail }) {
               <div className={classNames('text')}>
                 센터 방문
               </div>
-              <div className={classNames('frame-37224')}>
+              <div className={classNames('time-text')}>
                 <div className={classNames('text')}>
                   {formattedDepartureDate}
                 </div>
@@ -58,7 +58,7 @@ export default function ReservationDetailInfo({ reservationDetail }) {
               <div className={classNames('text')}>
                 픽업 시간
               </div>
-              <div className={classNames('frame-37225')}>
+              <div className={classNames('time-text')}>
                 <div className={classNames('text')}>
                   {formattedArrivalDate}
                 </div>
@@ -79,7 +79,7 @@ export default function ReservationDetailInfo({ reservationDetail }) {
                 <div className={classNames('text-address')}>
                   {reservationDetail.repairShopAddress}
                 </div>
-                <div className={classNames('frame-37226')}>
+                <div className={classNames('shop-text')}>
                   <svg className={classNames('phone')} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                     <path d="M13.8638 11.3398L10.5367 11.9894C8.28929 10.8528 6.90104 9.54728 6.09313 7.51221L6.71518 4.1502L5.53932 1H2.50889C1.59792 1 0.880565 1.75849 1.01662 2.66605C1.35627 4.93175 2.35775 9.03973 5.28521 11.9894C8.3595 15.0869 12.7873 16.431 15.2242 16.9653C16.1653 17.1716 17 16.4319 17 15.4616V12.5439L13.8638 11.3398Z" stroke="#DDD8D2" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
