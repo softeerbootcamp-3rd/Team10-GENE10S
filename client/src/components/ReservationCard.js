@@ -40,7 +40,8 @@ const ReservationCard = ({ reservationInfo }) => {
         <Link
           key={reservation.reservationId}
           className={classNames('content-card', { 'animate': animationQueue.includes(index) })}
-          to='/'
+          to='/reservation/detail'
+          state={{reservationId: reservation.reservationId}}
         >
         <div className={classNames('id-area')}>
           <div className={classNames('id-text')}>
@@ -48,7 +49,7 @@ const ReservationCard = ({ reservationInfo }) => {
           </div>
         </div>
         <div className={classNames('image-area')}>
-          <img src={reservation.imageUrl} className={classNames('profile-image')}/>
+          <img alt='profile' src={reservation.imageUrl} className={classNames('profile-image')}/>
         </div>
         <div className={classNames('info-area')}>
           <div className={classNames('date-info', { 'animate': subAnimate.dateInfo})}>

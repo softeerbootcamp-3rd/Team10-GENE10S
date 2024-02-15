@@ -1,55 +1,48 @@
 import classNames from 'classnames';
+import { ProgressArrow200, ProgressArrow500 } from './Arrow';
+import { Link } from 'react-router-dom';
 
-export default function ModalHeader() {
+export default function ModalHeader({ shopName, currentStep, changeShop }) {
+  function handleDrop() {
+    const shopChangeButton = document.querySelector('.shop-selector');
+    if (shopChangeButton.classList.value.includes('dropped')) {
+      shopChangeButton.classList.remove('dropped');
+    } else {
+      shopChangeButton.classList.add('dropped');
+    }
+  }
 
   return (
     <div className={classNames('modal-header')}>
       <div className={classNames('shop-name')}>
-        <span className={classNames('text')}>
-          블루핸즈 인천공항점
-        </span>
-        <div className={classNames('dropdown')}>
-          <div className={classNames('progress-arrow-200')}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12" fill="none">
-              <path d="M1.5 1.66406L10.4048 10.3375L19 1.66406" stroke="#DDD8D2" strokeWidth="2"/>
-            </svg>
-          </div>
+        <span className={classNames('text')}>{shopName}</span>
+        <div className={classNames('dropdown')} onClick={handleDrop}>
+          <ProgressArrow200 />
         </div>
+      </div>
+      <div className={classNames('shop-name', 'shop-selector')}>
+        <span className={classNames('text')} onClick={changeShop}>
+          {shopName === '블루핸즈 인천공항점' ? '블루핸즈 김포공항점' : '블루핸즈 인천공항점'}
+        </span>
       </div>
 
       <div className={classNames('steps')}>
-        <div className={classNames('menu', 'active')}>
-          <span className={classNames('text')}>
-            날짜 선택
-          </span>
+        <div className={classNames('menu', { active: currentStep === 'date' })}>
+          <span className={classNames('text')}>날짜 선택</span>
         </div>
-        <div className={classNames('progress-arrow-500')}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
-            <path d="M1 18.75L9.67346 9.84524L0.999999 1.25" stroke="#726E69" strokeWidth="2"/>
-          </svg>
+        <ProgressArrow500 />
+        <div className={classNames('menu', { active: currentStep === 'info' })}>
+          <span className={classNames('text')}>예약 정보</span>
         </div>
-        <div className={classNames('menu')}>
-          <span className={classNames('text')}>
-            예약 정보
-          </span>
-        </div>
-        <div className={classNames('progress-arrow-500')}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20" fill="none">
-            <path d="M1 18.75L9.67346 9.84524L0.999999 1.25" stroke="#726E69" strokeWidth="2"/>
-          </svg>
-        </div>
-        <div className={classNames('menu')}>
-          <span className={classNames('text')}>
-            서비스 선택
-          </span>
+        <ProgressArrow500 />
+        <div className={classNames('menu', { active: currentStep === 'service' })}>
+          <span className={classNames('text')}>서비스 선택</span>
         </div>
       </div>
 
-      <div className={classNames('exit')}>
-        <span className={classNames('text')}>
-          X
-        </span>
-      </div>
+      <Link to="/reservation/intro" className={classNames('exit')}>
+        <span className={classNames('text')}>X</span>
+      </Link>
     </div>
   );
 }

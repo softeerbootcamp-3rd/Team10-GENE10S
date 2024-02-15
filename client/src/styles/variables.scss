@@ -23,6 +23,8 @@ $gray_900: #0f0e0d;
 $white: #fffefd;
 $black: #121110;
 $uyh: #fffefd;
+$green: #11d900;
+$red: #ff3e3e;
 
 %size {
   &_60 {
@@ -174,6 +176,11 @@ $uyh: #fffefd;
 %M {
   font-family: 'genesis-head-light', sans-serif;
   font-weight: 500;
+
+  &_36 {
+    @extend %M;
+    @extend %size_36;
+  }
 
   &_30 {
     @extend %M;

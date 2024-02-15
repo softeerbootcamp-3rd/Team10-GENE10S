@@ -2,11 +2,75 @@ import classNames from 'classnames';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import image from '../assets/image.png';
 
 export default function Profile() {
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({});
+  const [carList, setCarList] = useState([]);
+
+  const [userName, setUserName] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const handleUserNameChange = event => {
+    setUserName(event.target.value);
+  };
+
+  const handleBirthdateChange = event => {
+    setBirthdate(event.target.value);
+  };
+
+  const handlePhoneNumberChange = event => {
+    setPhoneNumber(event.target.value);
+  };
+
+  const handleDeleteCarClick = carId => {};
+  const handleUpdateClick = () => {
+    const requestBody = {
+      name: userName,
+      birthdate: birthdate,
+      phoneNumber: phoneNumber,
+    };
+
+    try {
+      axios.patch('v1/user/info', requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      window.location.href = '/mypage';
+    } catch (error) {
+      console.error('Error updating user information:', error);
+    }
+  };
+
+  useEffect(() => {
+    axios
+      .get('v1/user/info')
+      .then(response => setProfileInfo(response.data.data))
+      .catch(error => console.log('Error message :', error));
+
+    axios.get('v1/reservation/car-list').then(response => setCarList(response.data.data));
+  }, []);
+
+  const carElements = carList.map((car, index) => (
+    <div className={classNames('car-sub-frame')} key={index}>
+      <div className={classNames('car')}>
+        <img className={classNames('car-image')} src={image} alt="차량 이미지" />
+        <div className={classNames('car-info')}>
+          <span className={classNames('car-name')}>{car.sellName}</span>
+          <span className={classNames('car-number')}>{car.plateNumber}</span>
+        </div>
+        <button className={classNames('icon')} onClick={() => handleDeleteCarClick(car.carId)}>
+          {' '}
+        </button>
+      </div>
+    </div>
+  ));
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -17,6 +81,7 @@ export default function Profile() {
   };
 
   return (
+    <>
     <div className={classNames('page')}>
       <Header />
       <div className={classNames('body')}>
@@ -27,35 +92,39 @@ export default function Profile() {
         <div className={classNames('profile-info')}>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이름</span>
-            <span className={classNames('value')}>한수아</span>
+            <input
+              className={classNames('input')}
+              placeholder={profileInfo.name}
+              value={userName}
+              onChange={handleUserNameChange}
+            />
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>이메일</span>
-            <span className={classNames('value')}>s2sooey@gmail.com</span>
+            <span className={classNames('value')}>{profileInfo.email}</span>
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>생년월일</span>
-            <span className={classNames('value')}>1999.05.26</span>
+            <input
+              className={classNames('input')}
+              placeholder={profileInfo.birthdate}
+              value={birthdate}
+              onChange={handleBirthdateChange}
+            />
           </div>
           <div className={classNames('profile-row')}>
             <span className={classNames('key')}>연락처</span>
-            <input className={classNames('input')}></input>
+            <input
+              className={classNames('input')}
+              placeholder={profileInfo.phoneNumber}
+              value={phoneNumber}
+              onChange={handlePhoneNumberChange}
+            />
           </div>
-          <div className={classNames('profile-row')}>
+          <div className={classNames('car-list')}>
             <span className={classNames('key')}>보유 차량</span>
-            <div className={classNames('car-list')}>
-              <div className={classNames('car')}>
-                <div className={classNames('car-frame')}>
-                  <span className={classNames('car-name')}>Genesis G80</span>
-                  <span className={classNames('car-number')}>12가 3456</span>
-                </div>
-              </div>
-              <div className={classNames('car')}>
-                <div className={classNames('car-frame')}>
-                  <span className={classNames('car-name')}>Genesis G80</span>
-                  <span className={classNames('car-number')}>12가 3456</span>
-                </div>
-              </div>
+            <div className={classNames('car-frame')}>
+              {carElements}
               <div className={classNames('add')} onClick={openModal}>
                 <span className={classNames('text')}>차량 추가하기</span>
               </div>
@@ -63,17 +132,18 @@ export default function Profile() {
           </div>
         </div>
         <div className={classNames('buttons')}>
-          <div className={classNames('btn-white')}>
+          <div className={classNames('btn', 'custom')}>
             <span className={classNames('text')}>취소하기</span>
           </div>
-          <div className={classNames('btn-orange')}>
+          <div className={classNames('btn', 'custom')} onClick={handleUpdateClick}>
             <span className={classNames('text')}>저장하기</span>
           </div>
         </div>
       </div>
       <Footer />
 
-      {isModalOpen && <Modal onClose={closeModal}/>}
     </div>
+    <Modal onClose={closeModal} visible={isModalOpen} />
+    </>
   );
 }

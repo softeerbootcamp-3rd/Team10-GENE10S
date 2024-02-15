@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
 
-    @Query("SELECT c.sellName AS sellName, c.plateNumber AS plateNumber, i.imageUrl AS imageUrl " +
+    @Query("SELECT c.id AS carId, c.sellName AS sellName, c.plateNumber AS plateNumber, i.imageUrl AS imageUrl " +
             "FROM Car c " +
             "JOIN CarImage i ON c.sellName = i.sellName " +
             "WHERE c.customer.id = :customerId " +

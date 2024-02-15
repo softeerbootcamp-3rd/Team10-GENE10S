@@ -2,9 +2,12 @@
 
 .reserv-intro-page {
   display: flex;
-  width: 1920px;
+  width: 100%;
+  height: 1080px;
   flex-direction: column;
   align-items: flex-start;
+  overflow-x: hidden;
+  word-break: keep-all;
 
   .main-board {
     display: flex;
@@ -12,12 +15,20 @@
     align-items: flex-start;
     gap: 10px;
     align-self: stretch;
+    position: relative;
 
     .image-car {
       height: 1020px;
       align-self: stretch;
 
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%), url(../../assets/reserv-intro-1.png), lightgray;
+      background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.48) 0.01%,
+          rgba(0, 0, 0, 0.47) 0.02%,
+          rgba(0, 0, 0, 0) 32.5%
+        ),
+        url(../../assets/reserv-intro-1.png), lightgray;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -34,20 +45,16 @@
       left: 84px;
       top: 203px;
 
-      border-bottom: 1px solid var(--uyh, $uyh);
+      border-bottom: 1px solid $uyh;
 
       .title-text {
-        color: var(--uyh, $uyh);
+        color: $uyh;
         text-align: center;
-        font-family: Inter;
-        font-size: 60px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 72px; /* 120% */
+        @extend %B_60;
       }
     }
   }
-  
+
   .button-area {
     display: flex;
     padding: 144px 64px;
@@ -56,7 +63,7 @@
     gap: 40px;
     align-self: stretch;
 
-    background: var(--gray_900, $gray_900);
+    background: $gray_900;
 
     .text-title {
       display: flex;
@@ -65,12 +72,8 @@
       gap: 10px;
 
       .text {
-        color: #FFF;
-        font-family: Inter;
-        font-size: 48px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 54px; /* 112.5% */
+        color: $uyh;
+        @extend %B_48;
       }
     }
 
@@ -94,18 +97,22 @@
         .image-1 {
           height: 384px;
           align-self: stretch;
-          background: url(../../assets/reserv-intro-2.png), lightgray 50%;
+          background:
+            url(../../assets/reserv-intro-2.png),
+            lightgray 50%;
           background-repeat: no-repeat;
-          background-size: cover; 
+          background-size: cover;
           background-position: center;
         }
 
         .image-2 {
           height: 384px;
-          align-self: stretch;  
-          background: url(../../assets/reserv-intro-3.png), lightgray 50%;
+          align-self: stretch;
+          background:
+            url(../../assets/reserv-intro-3.png),
+            lightgray 50%;
           background-repeat: no-repeat;
-          background-size: cover; 
+          background-size: cover;
           background-position: center;
         }
 
@@ -116,36 +123,26 @@
           gap: 12px;
 
           .name {
-            color: var(--uyh, $uyh);
+            color: $uyh;
             text-align: center;
-            font-family: Inter;
-            font-size: 32px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 42px; /* 131.25% */
+            @extend %SB_36;
           }
 
           .arrow {
             width: 28px;
             height: 17.56px;
             stroke-width: 2px;
-            stroke: var(--orange_700, $orange_700);
+            stroke: $orange_700;
           }
         }
 
         .text-content {
           align-self: stretch;
-          color: var(--gray_200, $gray_200);
-          font-family: Inter;
-          font-size: 24px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 34px; /* 141.667% */
+          color: $gray_200;
+          @extend %M_24;
         }
-
       }
     }
-
   }
 
   .txt-area {
@@ -157,30 +154,22 @@
     gap: 52px;
     align-self: stretch;
 
-    background: var(--uyh, $uyh);
+    background: $uyh;
 
     .txt-title {
       align-self: stretch;
 
-      color: #000;
+      color: $gray_900;
       text-align: center;
-      font-family: Inter;
-      font-size: 48px;
-      font-style: normal;
-      font-weight: 800;
-      line-height: 54px; /* 112.5% */
+      @extend %B_48;
     }
 
     .txt-info {
       align-self: stretch;
 
-      color: #000;
+      color: $gray_900;
       text-align: center;
-      font-family: Inter;
-      font-size: 28px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
+      @extend %SB_24;
     }
   }
 
@@ -193,7 +182,7 @@
     gap: 180px;
     align-self: stretch;
 
-    background: var(--gray_900, $gray_900);
+    background: $gray_900;
 
     .service-info {
       display: flex;
@@ -203,23 +192,15 @@
       gap: 40px;
 
       .title {
-        color: #FFF;
+        color: $uyh;
         text-align: center;
-        font-family: Inter;
-        font-size: 48px;
-        font-style: normal;
-        font-weight: 800;
-        line-height: 54px; /* 112.5% */
+        @extend %B_48;
       }
 
       .content {
-        color: #FFF;
+        color: $uyh;
         text-align: center;
-        font-family: Inter;
-        font-size: 32px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 54px; /* 168.75% */
+        @extend %SB_30;
       }
     }
 
@@ -240,14 +221,18 @@
       }
 
       .image-frame-1 {
-        background: url(../../assets/reserv-intro-4.png), lightgray 50%;
+        background:
+          url(../../assets/reserv-intro-4.png),
+          lightgray 50%;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
       }
 
       .image-frame-2 {
-        background: url(../../assets/reserv-intro-5.png), lightgray 50%;
+        background:
+          url(../../assets/reserv-intro-5.png),
+          lightgray 50%;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -270,13 +255,9 @@
           justify-content: center;
           flex: 1 0 0;
 
-          color: var(--orange_700, $orange_700);
+          color: $orange_700;
           text-align: center;
-          font-family: Inter;
-          font-size: 40px;
-          font-style: normal;
-          font-weight: 700;
-          line-height: 48px; /* 120% */
+          @extend %B_40;
         }
 
         .category {
@@ -286,32 +267,31 @@
           align-items: center;
           gap: 80px;
           align-self: stretch;
-        
+
           .button {
             display: flex;
             padding: 12px;
             justify-content: center;
             align-items: center;
             gap: 10px;
-        
+
             text-align: center;
-            font-family: Inter;
-            font-size: 32px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-        
+            @extend %SB_30;
+
             &.button-unclick {
-              color: var(--uyh, #FFFEFD);
+              color: $uyh;
+
+              :hover {
+                cursor: pointer;
+              }
             }
-        
+
             &.button-click {
-              border-bottom: 3px solid var(--orange_500, $orange_500);
-              color: var(--orange_500, var(--color, $orange_500));
+              border-bottom: 3px solid $orange_500;
+              color: $orange_500;
             }
           }
         }
-        
 
         .text-content {
           display: flex;
@@ -326,18 +306,11 @@
           .txt-info {
             flex: 1 0 0;
 
-            color: var(--gray_300, $gray_300);
-            font-family: Inter;
-            font-size: 30px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 52px; /* 126.667% */
+            color: $gray_300;
+            @extend %M_30;
           }
         }
-        
       }
     }
-
   }
-
 }

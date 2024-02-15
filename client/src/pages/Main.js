@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import classNames from 'classnames';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 function runOnScroll() {
@@ -67,7 +67,6 @@ function animation() {
   }, 1100);
 }
 
-
 export default function Main() {
 
   const location = useLocation();
@@ -82,11 +81,11 @@ export default function Main() {
       <Header />
       <div className={classNames('title-area')}>
         <div className={classNames('image')}>
-          <div className={classNames('btn-main')}>
-            <a className={classNames('reservation')} href="/Reservation" style={{ textDecoration: 'none' }}>
+          <Link to="/reservation/intro" className={classNames('btn-main')}>
+            <span className={classNames('reservation')}>
               예약하기
-            </a>
-          </div>
+            </span>
+          </Link>
           <div className={classNames('info-main')}>
             <span className={classNames('title-main')}>GENESIS</span>
             <span className={classNames('title-sub')}>AIRPORT SERVICE</span>
@@ -229,11 +228,11 @@ export default function Main() {
                   안전과 신뢰를 바탕으로 김포공항에서의 여정을 편안하게 안내합니다.
                 </span>
               </div>
-              <div className={classNames('btn-info')}>
-                <a className={classNames('detail')} href="/Reservation" style={{ textDecoration: 'none' }}>
+              <Link to="/reservation/intro" className={classNames('btn-info')}>
+                <span className={classNames('detail')}>
                   자세히 보기
-                </a>
-              </div>
+                </span>
+              </Link>
             </div>
           </div>
 
@@ -247,11 +246,11 @@ export default function Main() {
                   최상의 편의성과 서비스로 인천공항 여정을 완벽하게 지원합니다.
                 </span>
               </div>
-              <div className={classNames('btn-info')}>
-                <a className={classNames('detail')} href="/Reservation" style={{ textDecoration: 'none' }}>
+              <Link to="/reservation/intro" className={classNames('btn-info')}>
+                <span className={classNames('detail')}>
                   자세히 보기
-                </a>
-              </div>
+                </span>
+              </Link>
             </div>
             <div className={classNames('image-2')} />
           </div>

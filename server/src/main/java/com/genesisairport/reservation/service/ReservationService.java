@@ -1,14 +1,12 @@
 package com.genesisairport.reservation.service;
 
-import com.genesisairport.reservation.entity.CarImage;
+import com.genesisairport.reservation.entity.*;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.respository.*;
-import com.genesisairport.reservation.entity.Coupon;
-import com.genesisairport.reservation.entity.Reservation;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,25 +27,23 @@ public class ReservationService {
     private final CarImageRepository carImageRepository;
 
     public Boolean validateCoupon(String serialNumber) {
-        return couponRepository.existsBySerialNumber(serialNumber);
+        Coupon coupon = couponRepository.findCouponBySerialNumber(serialNumber);
+        return coupon != null && !coupon.getIsUsed() && !coupon.getExpiredDate().isBefore(LocalDate.now());
     }
 
 
     public List<ReservationResponse.CarInfo> getCarList(Long userId) {
-        List<ReservationResponse.CarInfo> carInfoList = carRepository.findCarsByCustomer(userId);
-        return carInfoList.isEmpty() ? null : carInfoList;
+        return carRepository.findCarsByCustomer(userId);
     }
 
     public ReservationResponse.DateInfo getAvailableDates(String shopName) {
-        ReservationResponse.DateInfo dateInfo = repairShopRepository.findAvailableDates(shopName);
-        return dateInfo.getAvailableDates().isEmpty() ? null : dateInfo;
+        return repairShopRepository.findAvailableDates(shopName);
     }
 
     public ReservationResponse.TimeList getAvailableTimes(String shopName, LocalDate date) {
-        ReservationResponse.TimeList timeList = ReservationResponse.TimeList.builder()
+        return ReservationResponse.TimeList.builder()
                 .timeSlots(repairShopRepository.findAvailableTimes(shopName, date))
                 .build();
-        return timeList.getTimeSlots().isEmpty() ? null : timeList;
     }
 
     public ReservationResponse.ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
@@ -66,7 +62,7 @@ public class ReservationService {
         boolean reservationStatus = false;
 
         // 날짜 형식 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime fromDateTime = LocalDateTime.parse(from, formatter);
         LocalDateTime toDateTime = LocalDateTime.parse(to, formatter);
 
@@ -87,14 +83,14 @@ public class ReservationService {
                 .build();
 
 
-
-        if (!couponRepository.findCouponBySerialNumber(couponSerialNumber).getIsUsed()) {
-            reservationRepository.save(reservation);
-
-            reservationStatus = true;
+        if (!Strings.isEmpty(couponSerialNumber)) {
             Coupon c = couponRepository.findCouponBySerialNumber(couponSerialNumber);
-            c.setIsUsed(reservationStatus);
-            couponRepository.save(c);
+            if (c != null && !c.getIsUsed()) {
+                reservationStatus = true;
+                reservationRepository.save(reservation);
+                c.setIsUsed(true);
+                couponRepository.save(c);
+            }
         }
 
         return ReservationResponse.ReservationPostResponse.builder()
@@ -118,5 +114,83 @@ public class ReservationService {
         }
 
         return reservationDTOs;
+    }
+
+    public Optional<ReservationResponse.ReservationDetail> getReservationDetail(Long reservationId) {
+        Reservation reservation = reservationRepository.findReservationById(reservationId);
+        if (reservation == null) {
+            return Optional.empty();
+        }
+
+        Customer customer = reservation.getCustomer();
+        Coupon coupon = reservation.getCoupon();
+        RepairShop repairShop = reservation.getRepairShop();
+
+        // date (to, from)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String fromString = reservation.getDepartureTime().format(formatter);
+        String toString = reservation.getArrivalTime().format(formatter);
+
+        // serviceType
+        Map<String, Boolean> serviceType = new HashMap<>();
+        String serviceTypeString = reservation.getServiceType();
+        String substring = serviceTypeString.substring(1, serviceTypeString.length() - 1);
+        for(String typeString : substring.split(", ")) {
+            String[] split = typeString.split("=");
+            serviceType.put(split[0], split[1].equals("true"));
+        }
+
+        // maintenanceImage
+        List<String> beforeImages = new ArrayList<>();
+        List<String> afterImages = new ArrayList<>();
+        List<MaintenanceImage> maintenanceImage = reservation.getMaintenanceImage();
+        for (MaintenanceImage image : maintenanceImage) {
+            if (image.getStatus() == 1) {
+                afterImages.add(image.getImageUrl());
+            } else {
+                beforeImages.add(image.getImageUrl());
+            }
+        }
+
+        // progressStage
+        List<ReservationResponse.ReservationDetail.ProgressStage> progressStages = new ArrayList<>();
+        List<Step> steps = reservation.getStep();
+        for(Step step : steps) {
+            progressStages.add(ReservationResponse.ReservationDetail.ProgressStage.builder()
+                    .step(step.getStage())
+                    .date(step.getDate().format(DateTimeFormatter.ofPattern("yyyy년 MM월 d일 a hh:mm")))
+                    .detail(step.getDetail())
+                    .build());
+        }
+
+        // car image
+        Optional<CarImage> carImage = carImageRepository.findBySellName(reservation.getSellName());
+        String imageUrl;
+        if (carImage.isEmpty()) {
+            return Optional.empty();
+        } else {
+            imageUrl = carImage.get().getImageUrl();
+        }
+
+        return Optional.of(ReservationResponse.ReservationDetail.builder()
+                .reservationId(reservation.getId())
+                .customerId(customer.getId())
+                .couponSerialNumber(coupon.getSerialNumber())
+                .repairShop(repairShop.getShopName())
+                .repairShopAddress(repairShop.getAddress())
+                .from(fromString)
+                .to(toString)
+                .contactNumber(reservation.getContactNumber())
+                .carSellName(reservation.getSellName())
+                .carPlateNumber(reservation.getPlateNumber())
+                .serviceType(serviceType)
+                .customerRequest(reservation.getCustomerRequest())
+                .progressStage(progressStages)
+                .checkupResult(reservation.getInspectionResult())
+                .beforeImages(beforeImages)
+                .afterImages(afterImages)
+                .managerPhoneNumber(reservation.getContactNumber())
+                .imageUrl(imageUrl)
+                .build());
     }
 }

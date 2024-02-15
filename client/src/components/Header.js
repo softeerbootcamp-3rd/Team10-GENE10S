@@ -24,10 +24,11 @@ export default function Header() {
     }
 
     const header = document.querySelector('.header');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY === 0 && !header.classList.value.includes('on-top')) {
+    const page = document.querySelector('#root').querySelector('div');
+    page.addEventListener('scroll', () => {
+      if (page.scrollTop === 0 && !header.classList.value.includes('on-top')) {
         header.classList.add('on-top');
-      } else if (window.scrollY !== 0 && header.classList.value.includes('on-top')) {
+      } else if (page.scrollTop !== 0 && header.classList.value.includes('on-top')) {
         header.classList.remove('on-top');
       }
     });

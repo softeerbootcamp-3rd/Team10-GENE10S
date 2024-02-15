@@ -69,8 +69,8 @@
   transition: background-color 0.3s ease;
 }
 
-.calendar > .calendar-content > .week > .atom-weekday:hover,
-.calendar > .calendar-content > .week > .atom:hover {
+.calendar > .calendar-content > .week > .atom-weekday:not(.disabled):hover,
+.calendar > .calendar-content > .week > .atom:not(.disabled):hover {
   background: $orange_900;
   cursor: pointer;
 }
@@ -84,6 +84,14 @@
   color: $orange_500;
   text-align: center;
   @extend %B_24
+}
+
+.calendar > .calendar-content > .week > .atom-weekday.disabled > .text {
+  color: $orange_900;
+}
+
+.calendar > .calendar-content > .week > .atom.disabled > .text {
+  color: $gray_700;
 }
 
 .calendar > .calendar-content > .week-title > .atom > .text,
