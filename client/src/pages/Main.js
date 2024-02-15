@@ -2,6 +2,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import classNames from 'classnames';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function runOnScroll() {
   const observer = new IntersectionObserver(
@@ -39,12 +41,7 @@ function runOnScroll() {
   });
 }
 
-// 페이지 로드 시 함수 실행
-document.addEventListener('DOMContentLoaded', runOnScroll);
-
-window.addEventListener('scroll', runOnScroll);
-
-document.addEventListener('DOMContentLoaded', function () {
+function animation() {
   setTimeout(function () {
     let text = document.querySelector('.btn-main');
     text.style.opacity = 1;
@@ -68,9 +65,17 @@ document.addEventListener('DOMContentLoaded', function () {
     text.style.opacity = 1;
     text.style.visibility = 'visible';
   }, 1100);
-});
+}
+
 
 export default function Main() {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    animation();
+    runOnScroll();
+  }, []);
 
   return (
     <div className={classNames('main')}>
