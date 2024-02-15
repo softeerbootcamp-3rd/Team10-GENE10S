@@ -60,7 +60,7 @@ export default function ReservationDetail() {
         <div className={classNames('body')}>
 
           {/* info */}
-          <ReservationDetailInfo />
+          <ReservationDetailInfo reservationDetail={reservationDetail} />
 
           {/* service */}
           <ReservationDetailService />
