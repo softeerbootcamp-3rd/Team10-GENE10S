@@ -645,6 +645,18 @@
 
               position: relative;
 
+              animation: breathe 1s infinite ease-in-out alternate;
+              transform-origin: center top;
+
+              @keyframes breathe {
+                0% {
+                  transform: scale(1);
+                }
+                100% {
+                  transform: scale(1.08);
+                }
+              }
+
               .ellipse-2 {
                 width: 60px;
                 height: 60px;
