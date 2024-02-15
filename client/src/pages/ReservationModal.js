@@ -115,7 +115,7 @@ export default function ReservationModal() {
     if (phone1 === null || phone1 === ''
       || phone2 === null || phone2 === ''
       || phone3 === null || phone3 === '') {
-      showModal('전화번호를 입력해주세요.');
+      showModal('연락처를 입력해주세요.');
       return;
     }
     if (sellName === null || sellName === '') {
@@ -138,7 +138,11 @@ export default function ReservationModal() {
   }
 
   const submitForm = (services, customerRequest, coupon, couponValid) => {
-    if (coupon !== null && coupon !== '' && !couponValid) {
+    if (coupon === null || coupon === '') {
+      showModal('쿠폰번호를 입력해주세요.');
+      return;
+    }
+    if (!couponValid) {
       showModal('쿠폰번호를 확인해주세요.');
       return;
     }
