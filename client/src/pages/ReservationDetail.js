@@ -8,12 +8,34 @@ import ReservationDetailInfo from '../components/reservation_detail/ReservationD
 import ReservationDetailService from '../components/reservation_detail/ReservationDetailService';
 import ReservationDetailStep from '../components/reservation_detail/ReservationDetailStep';
 import ReservationDetailResult from '../components/reservation_detail/ReservationDetailResult';
+import { useLocation } from 'react-router-dom';
 
 export default function ReservationDetail() {
+  const location = useLocation();
+  const [reservationId, setReservationId] = useState(null);
+  const [reservationDetail, setReservationDetail] = useState({});
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    console.log('location: ', location);
+    if (location.state && location.state.reservationId) {
+      setReservationId(location.state.reservationId);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (reservationId) {
+      axios.get(`/v1/reservation/${reservationId}/detail`)
+      .then((response) => {
+        console.log("response: ", response.data.data  );
+        setReservationDetail(response.data.data);
+      })
+      .catch((error) => (console.log(error)));
+    }
+  }, [reservationId]);
   
   return (
     <>
