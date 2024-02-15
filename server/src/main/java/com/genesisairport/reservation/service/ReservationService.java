@@ -83,16 +83,18 @@ public class ReservationService {
                 .build();
 
 
-        if (Strings.isEmpty(couponSerialNumber)) {
+        if (!Strings.isEmpty(couponSerialNumber)) {
             Coupon c = couponRepository.findCouponBySerialNumber(couponSerialNumber);
-            if (c != null && c.getIsUsed()) {
+            if (c != null && !c.getIsUsed()) {
                 c.setIsUsed(reservationStatus);
                 couponRepository.save(c);
+                reservationStatus = true;
+                reservationRepository.save(reservation);
             }
+        } else {
+            reservationStatus = true;
+            reservationRepository.save(reservation);
         }
-
-        reservationStatus = true;
-        reservationRepository.save(reservation);
 
         return ReservationResponse.ReservationPostResponse.builder()
                 .reservationStatus(reservationStatus)
