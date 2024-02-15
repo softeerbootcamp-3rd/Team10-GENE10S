@@ -25,6 +25,7 @@ public class ReservationService {
     private final CarRepository carRepository;
     private final CouponRepository couponRepository;
     private final CarImageRepository carImageRepository;
+    private final StepRepository stepRepository;
 
     public Boolean validateCoupon(String serialNumber) {
         Coupon coupon = couponRepository.findCouponBySerialNumber(serialNumber);
@@ -90,6 +91,18 @@ public class ReservationService {
                 reservationRepository.save(reservation);
                 c.setIsUsed(true);
                 couponRepository.save(c);
+
+                // 초기 진행 단계 설정
+                Step step = Step.builder()
+                        .reservation(reservation)
+                        .stage("예약완료")
+                        .date(LocalDateTime.now())
+                        .detail("")
+                        .createDatetime(LocalDate.now())
+                        .updateDatetime(LocalDate.now())
+                        .build();
+
+                stepRepository.save(step);
             }
         }
 
