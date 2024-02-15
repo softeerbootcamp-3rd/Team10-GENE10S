@@ -94,7 +94,7 @@ export default function ReservationDetailInfo({ reservationDetail }) {
               <div className={classNames('text-1')}>{reservationDetail.carSellName}</div>
               <div className={classNames('text-2')}>{reservationDetail.carPlateNumber}</div>
             </div>
-            <img className={classNames('image-7')} />
+            <img src={reservationDetail.imageUrl} className={classNames('image-7')} />
           </div>
         </div>
         {/* coupon-info */}
