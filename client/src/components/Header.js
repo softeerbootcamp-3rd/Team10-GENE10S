@@ -51,7 +51,7 @@ export default function Header() {
   const handleLogoutClick = async () => {
     try {
       const response = await axios.post('/v1/logout');
-      
+      window.location.reload();
     } catch (error) {
       console.error('Error calling logout API:', error);
     }
