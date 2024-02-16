@@ -30,10 +30,10 @@ public class Step {
     private String detail;
 
     @Column(name = "create_datetime", nullable = false)
-    private LocalDate createDatetime;
+    private LocalDateTime createDatetime;
 
     @Column(name = "update_datetime", nullable = false)
-    private LocalDate updateDatetime;
+    private LocalDateTime updateDatetime;
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
