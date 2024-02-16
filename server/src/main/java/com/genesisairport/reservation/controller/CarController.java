@@ -28,13 +28,13 @@ public class CarController {
     @PostMapping
     public ResponseEntity<ResponseDto> registerVehicle(HttpServletRequest request, @RequestBody CarRequest.CarPost requestBody) {
         log.info("차량 등록 API");
-        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
+        Long userId = SessionService.getUserIdFromSession(request);
 
         //TODO: 로그인 유저 없을때 예외처리
-        if (customer.isEmpty()) {
+        if (userId == null) {
             return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        carService.saveCar(customer.get().getId(), requestBody);
+        carService.saveCar(userId, requestBody);
 
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
@@ -43,13 +43,13 @@ public class CarController {
     public ResponseEntity<ResponseDto> deleteVehicle(HttpServletRequest request, @PathVariable Long carId) {
         log.info("차량 삭제 API");
 
-        Optional<Customer> customer = sessionService.getLoggedInCustomer(request);
+        Long userId = SessionService.getUserIdFromSession(request);
 
         //TODO: 로그인 유저 없을때 예외처리
-        if (customer.isEmpty()) {
+        if (userId == null) {
             return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        carService.deleteCar(customer.get().getId(), carId);
+        carService.deleteCar(userId, carId);
 
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
