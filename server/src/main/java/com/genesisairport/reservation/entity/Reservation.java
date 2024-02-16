@@ -73,5 +73,5 @@ public class Reservation {
 
     @OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
-    private List<Step> step;
+    private List<Step> step = new ArrayList<>();
 }
