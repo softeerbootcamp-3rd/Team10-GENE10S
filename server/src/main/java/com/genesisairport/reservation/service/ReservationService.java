@@ -108,7 +108,13 @@ public class ReservationService {
             Optional<CarImage> carImageOptional = carImageRepository.findBySellName(r.getSellName());
             if (carImageOptional.isPresent()) {
                 CarImage carImage = carImageOptional.get();
-                ReservationResponse.ReservationInfoAbstract reservationDTO = new ReservationResponse.ReservationInfoAbstract(r.getId(), r.getDepartureTime().toString(), r.getArrivalTime().toString(), r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName(), carImage.getImageUrl());
+
+                // LocalDateTime 포메팅
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String departureDate = r.getDepartureTime().format(formatter);
+                String arrivalDate = r.getArrivalTime().format(formatter);
+
+                ReservationResponse.ReservationInfoAbstract reservationDTO = new ReservationResponse.ReservationInfoAbstract(r.getId(), departureDate, arrivalDate, r.getProgressStage(), r.getSellName(), r.getRepairShop().getShopName(), carImage.getImageUrl());
                 reservationDTOs.add(reservationDTO);
             }
         }
