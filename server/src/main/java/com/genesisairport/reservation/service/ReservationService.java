@@ -98,8 +98,8 @@ public class ReservationService {
                         .stage("예약완료")
                         .date(LocalDateTime.now())
                         .detail("")
-                        .createDatetime(LocalDate.now())
-                        .updateDatetime(LocalDate.now())
+                        .createDatetime(LocalDateTime.now())
+                        .updateDatetime(LocalDateTime.now())
                         .build();
 
                 stepRepository.save(step);
