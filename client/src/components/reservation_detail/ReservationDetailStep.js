@@ -28,7 +28,7 @@ export default function ReservationDetailStep({ progressStage }) {
               key={index}
               className={classNames({
                 'stage-completed': index < progressStage.length - 1,
-                'stage-inprogress': index == progressStage.length - 1,
+                'stage-inprogress': index === progressStage.length - 1,
               })}
             >
               <div className={classNames('icon')}>

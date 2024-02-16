@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import logo_header from '../assets/logo-header.png';
 import Cookies from 'js-cookie';
@@ -11,11 +11,8 @@ export default function Header() {
   const clientId = process.env.REACT_APP_CLIENT_ID;
   const host = process.env.REACT_APP_REDIRECT_URI;
 
-  const navigate = useNavigate();
-
   // RFC4122 version 4 UUID
   useEffect(() => {
-  
     setUuid(createUUID());
 
     const sid = Cookies.get('SID');
@@ -42,20 +39,15 @@ export default function Header() {
     });
   }
 
-  const handleLoginClick = () => {
-    // '로그인' 버튼 클릭 시 OAuth 요청을 보냄
-    window.location.href = `https://accounts.genesis.com/api/authorize/ccsp/oauth?clientId=${clientId}&host=${host}&state=${uuid}`;
-  };
-
   // TODO 로그아웃 클릭 시 윈도우 재로딩 필요
   const handleLogoutClick = async () => {
     try {
-      const response = await axios.post('/v1/logout');
+      await axios.post('/v1/logout');
       window.location.reload();
     } catch (error) {
       console.error('Error calling logout API:', error);
     }
-  }
+  };
 
   return (
     <div className={classNames('header', 'on-top')}>
