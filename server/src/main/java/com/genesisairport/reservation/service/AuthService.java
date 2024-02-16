@@ -74,7 +74,6 @@ public class AuthService {
 
         ResponseEntity<String> response = restTemplate.exchange(
                 tokenEndpoint, HttpMethod.GET, request, String.class); // GET 요청을 위해 exchange 메소드 사용
-        log.info(response.getBody());
 
         String email = extractStringValue(response.getBody(), "email");
 
