@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import classNames from 'classnames';
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 
 function runOnScroll() {
@@ -44,33 +44,34 @@ function runOnScroll() {
 function animation() {
   setTimeout(function () {
     let text = document.querySelector('.btn-main');
+    if (text == null) return;
     text.style.opacity = 1;
     text.style.visibility = 'visible';
   }, 1600);
 
   setTimeout(function () {
     let text = document.querySelector('.title-main');
+    if (text == null) return;
     text.style.opacity = 1;
     text.style.visibility = 'visible';
   }, 600);
 
   setTimeout(function () {
     let text = document.querySelector('.title-sub');
+    if (text == null) return;
     text.style.opacity = 1;
     text.style.visibility = 'visible';
   }, 900);
 
   setTimeout(function () {
     let text = document.querySelector('.content');
+    if (text == null) return;
     text.style.opacity = 1;
     text.style.visibility = 'visible';
   }, 1100);
 }
 
 export default function Main() {
-
-  const location = useLocation();
-
   useEffect(() => {
     animation();
     runOnScroll();
@@ -82,9 +83,7 @@ export default function Main() {
       <div className={classNames('title-area')}>
         <div className={classNames('image')}>
           <Link to="/reservation/intro" className={classNames('btn-main')}>
-            <span className={classNames('reservation')}>
-              예약하기
-            </span>
+            <span className={classNames('reservation')}>예약하기</span>
           </Link>
           <div className={classNames('info-main')}>
             <span className={classNames('title-main')}>GENESIS</span>
@@ -229,9 +228,7 @@ export default function Main() {
                 </span>
               </div>
               <Link to="/reservation/intro" className={classNames('btn-info')}>
-                <span className={classNames('detail')}>
-                  자세히 보기
-                </span>
+                <span className={classNames('detail')}>자세히 보기</span>
               </Link>
             </div>
           </div>
@@ -247,9 +244,7 @@ export default function Main() {
                 </span>
               </div>
               <Link to="/reservation/intro" className={classNames('btn-info')}>
-                <span className={classNames('detail')}>
-                  자세히 보기
-                </span>
+                <span className={classNames('detail')}>자세히 보기</span>
               </Link>
             </div>
             <div className={classNames('image-2')} />
