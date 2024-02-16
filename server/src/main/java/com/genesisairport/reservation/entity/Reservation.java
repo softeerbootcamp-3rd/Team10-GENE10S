@@ -60,6 +60,7 @@ public class Reservation {
     private Customer customer;
 
     @OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<MaintenanceImage> maintenanceImage = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -71,5 +72,6 @@ public class Reservation {
     private RepairShop repairShop;
 
     @OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Step> step;
 }

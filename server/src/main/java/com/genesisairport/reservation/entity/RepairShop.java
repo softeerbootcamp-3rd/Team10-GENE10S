@@ -38,8 +38,10 @@ public class RepairShop {
     private LocalDateTime updateDatetime;
 
     @OneToMany(mappedBy = "repairShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Reservation> reservation = new ArrayList<>();
 
     @OneToMany(mappedBy = "repairShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<AvailableTime> availableTime = new ArrayList<>();
 }
