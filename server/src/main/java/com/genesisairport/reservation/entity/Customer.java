@@ -40,8 +40,10 @@ public class Customer {
     private LocalDateTime updateDateTime;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Reservation> reservation = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Car> cars = new ArrayList<>();
 }
