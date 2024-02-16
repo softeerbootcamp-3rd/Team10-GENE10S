@@ -5,6 +5,7 @@ import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import image from '../assets/image.png';
+import { deleteCar } from '../api/CarApi';
 
 export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +28,17 @@ export default function Profile() {
     setPhoneNumber(event.target.value);
   };
 
-  const handleDeleteCarClick = carId => {};
+  const handleDeleteCarClick = carId => {
+    deleteCar(carId)
+      .then(result => {
+        alert('차량이 성공적으로 삭제되었습니다.');
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error deleting car:', error);
+      });
+  };
+
   const handleUpdateClick = () => {
     const requestBody = {
       name: userName,
@@ -82,68 +93,67 @@ export default function Profile() {
 
   return (
     <>
-    <div className={classNames('page')}>
-      <Header />
-      <div className={classNames('body')}>
-        <div className={classNames('title')}>
-          <span className={classNames('title-mini')}>마이페이지 &gt; 내 정보</span>
-          <span className={classNames('title-big')}>내 정보 수정</span>
-        </div>
-        <div className={classNames('profile-info')}>
-          <div className={classNames('profile-row')}>
-            <span className={classNames('key')}>이름</span>
-            <input
-              className={classNames('input')}
-              placeholder={profileInfo.name}
-              value={userName}
-              onChange={handleUserNameChange}
-            />
+      <div className={classNames('page')}>
+        <Header />
+        <div className={classNames('body')}>
+          <div className={classNames('title')}>
+            <span className={classNames('title-mini')}>마이페이지 &gt; 내 정보</span>
+            <span className={classNames('title-big')}>내 정보 수정</span>
           </div>
-          <div className={classNames('profile-row')}>
-            <span className={classNames('key')}>이메일</span>
-            <span className={classNames('value')}>{profileInfo.email}</span>
-          </div>
-          <div className={classNames('profile-row')}>
-            <span className={classNames('key')}>생년월일</span>
-            <input
-              className={classNames('input')}
-              placeholder={profileInfo.birthdate}
-              value={birthdate}
-              onChange={handleBirthdateChange}
-            />
-          </div>
-          <div className={classNames('profile-row')}>
-            <span className={classNames('key')}>연락처</span>
-            <input
-              className={classNames('input')}
-              placeholder={profileInfo.phoneNumber}
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
-            />
-          </div>
-          <div className={classNames('car-list')}>
-            <span className={classNames('key')}>보유 차량</span>
-            <div className={classNames('car-frame')}>
-              {carElements}
-              <div className={classNames('add')} onClick={openModal}>
-                <span className={classNames('text')}>차량 추가하기</span>
+          <div className={classNames('profile-info')}>
+            <div className={classNames('profile-row')}>
+              <span className={classNames('key')}>이름</span>
+              <input
+                className={classNames('input')}
+                placeholder={profileInfo.name}
+                value={userName}
+                onChange={handleUserNameChange}
+              />
+            </div>
+            <div className={classNames('profile-row')}>
+              <span className={classNames('key')}>이메일</span>
+              <span className={classNames('value')}>{profileInfo.email}</span>
+            </div>
+            <div className={classNames('profile-row')}>
+              <span className={classNames('key')}>생년월일</span>
+              <input
+                className={classNames('input')}
+                placeholder={profileInfo.birthdate}
+                value={birthdate}
+                onChange={handleBirthdateChange}
+              />
+            </div>
+            <div className={classNames('profile-row')}>
+              <span className={classNames('key')}>연락처</span>
+              <input
+                className={classNames('input')}
+                placeholder={profileInfo.phoneNumber}
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+              />
+            </div>
+            <div className={classNames('car-list')}>
+              <span className={classNames('key')}>보유 차량</span>
+              <div className={classNames('car-frame')}>
+                {carElements}
+                <div className={classNames('add')} onClick={openModal}>
+                  <span className={classNames('text')}>차량 추가하기</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className={classNames('buttons')}>
-          <div className={classNames('btn', 'custom')}>
-            <span className={classNames('text')}>취소하기</span>
+          <div className={classNames('buttons')}>
+            <div className={classNames('btn', 'custom')} onClick={() => (window.location.href = '/mypage')}>
+              <span className={classNames('text')}>취소하기</span>
+            </div>
+            <div className={classNames('btn', 'custom')} onClick={handleUpdateClick}>
+              <span className={classNames('text')}>저장하기</span>
+            </div>
           </div>
-          <div className={classNames('btn', 'custom')} onClick={handleUpdateClick}>
-            <span className={classNames('text')}>저장하기</span>
-          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-
-    </div>
-    <Modal onClose={closeModal} visible={isModalOpen} />
+      <Modal onClose={closeModal} visible={isModalOpen} />
     </>
   );
 }
