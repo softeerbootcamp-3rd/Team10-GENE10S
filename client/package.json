@@ -46,5 +46,5 @@
     "eslint-plugin-prettier": "^5.1.3",
     "prettier": "^3.2.5"
   },
-  "proxy": "http://api.reservation.genesis-airport.com/"
+  "proxy": "http://api.reservation.genesis-airport.com:8080/"
 }
