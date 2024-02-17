@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate , useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const RedirectPage = () => {
@@ -17,16 +17,15 @@ const RedirectPage = () => {
           console.log('Authorization Code:', authorizationCode);
           console.log('State:', state);
 
-          const response = await axios.post('/v1/login', {
+          await axios.post('/v1/login', {
             grantType: 'authorization_code',
             code: authorizationCode,
-            redirectUri: process.env.REACT_APP_REDIRECT_URI + "/oauth/redirect",
+            redirectUri: process.env.REACT_APP_REDIRECT_URI + '/oauth/redirect',
             clientId: process.env.REACT_APP_CLIENT_ID,
             clientSecret: process.env.REACT_APP_CLIENT_SECRET,
           });
 
           navigate('/');
-
         } else {
           console.error('Authorization Code not found');
         }
