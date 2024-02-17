@@ -25,7 +25,6 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @Slf4j
 @RequestMapping("/v1/reservation")
 public class ReservationController {

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @Slf4j
 @RequestMapping("/v1")
 public class AuthController {
@@ -35,6 +34,23 @@ public class AuthController {
 
         return new ResponseEntity(
                 ResponseDto.of(true, ResponseCode.OK),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity isLoggedIn(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null && session.getAttribute("userId") != null) {
+            return new ResponseEntity(
+                    ResponseDto.of(true, ResponseCode.OK),
+                    HttpStatus.OK
+            );
+        }
+
+        return new ResponseEntity<>(
+                ResponseDto.of(false, ResponseCode.UNAUTHORIZED),
                 HttpStatus.OK
         );
     }
