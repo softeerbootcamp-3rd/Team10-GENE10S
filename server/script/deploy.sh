@@ -9,23 +9,18 @@ DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 TIME_NOW=$(date +%c)
 
 echo "$TIME_NOW > $JAR_FILE 파일 복사" >> "$DEPLOY_LOG"
-cp "$PROJECT_ROOT/build/libs/reservation-0.0.1-SNAPSHOT.jar" "$PROJECT_ROOT/"
+cp "$PROJECT_ROOT/build/libs/$JAR_NAME" "$PROJECT_ROOT/"
 
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> "$DEPLOY_LOG"
-DEPLOY_PATH="/home/ubuntu/app/server/"
-BUILD_JAR=$(ls /home/ubuntu/app/server/build/libs/reservation-0.0.1-SNAPSHOT.jar)
+
+DEPLOY_PATH="$PROJECT_ROOT"
+BUILD_JAR="$DEPLOY_PATH/build/libs/$JAR_NAME"
 JAR_NAME=$(basename "$BUILD_JAR")
-
-echo "> build 파일명: $JAR_NAME" >> "$DEPLOY_LOG"
-
-echo "> build 파일 복사" >> "$DEPLOY_LOG"
-cp "$BUILD_JAR" "$DEPLOY_PATH"
 
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> "$DEPLOY_LOG"
 CURRENT_PID=$(pgrep -f "$JAR_NAME")
 
-if [ -z "$CURRENT_PID" ]
-then
+if [ -z "$CURRENT_PID" ]; then
   echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다." >> "$DEPLOY_LOG"
 else
   echo "> kill -15 $CURRENT_PID" >> "$DEPLOY_LOG"
