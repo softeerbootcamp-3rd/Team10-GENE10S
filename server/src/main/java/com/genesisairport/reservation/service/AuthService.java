@@ -46,12 +46,7 @@ public class AuthService {
         String parameters = getParameters(requestBody);
         HttpEntity<String> request = new HttpEntity<>(parameters, headers); // 요청 헤더와 바디 설정
 
-        System.out.println("request body = " + requestBody.getRedirectUri());
-        System.out.println("request = " + request.getBody());
-
         ResponseEntity<String> response = restTemplate.postForEntity(tokenEndpoint, request, String.class); // POST 요청
-
-        System.out.println("response = " + response.getBody());
 
         return extractStringValue(response.getBody(), "access_token");
     }
@@ -77,8 +72,6 @@ public class AuthService {
 
         headers.add("Authorization", "Bearer " + accessToken); // Authorization 헤더에 Access Token 추가
         HttpEntity<String> request = new HttpEntity<>(headers); // HttpEntity에 헤더만 포함시킴
-
-        System.out.println("access token : " + accessToken);
 
         ResponseEntity<String> response = restTemplate.exchange(
                 tokenEndpoint, HttpMethod.GET, request, String.class); // GET 요청을 위해 exchange 메소드 사용
