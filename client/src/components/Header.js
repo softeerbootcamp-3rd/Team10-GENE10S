@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import logo_header from '../assets/logo-header.png';
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../api/Settings';
 
 export default function Header() {
   const [isLogin, setIsLogin] = useState(false);
@@ -11,14 +10,32 @@ export default function Header() {
   const clientId = process.env.REACT_APP_CLIENT_ID;
   const host = process.env.REACT_APP_REDIRECT_URI;
 
+  const checkSession = async () => {
+    try {
+      const response = await axios.get('/v1/login');
+      const responseData = response.data;
+      
+      if (responseData && responseData.success) {
+        setIsLogin(true); 
+      } else {
+        setIsLogin(false); 
+      }
+    } catch (error) {
+      console.error('Error checking session:', error);
+      setIsLogin(false);
+    }
+  };
+
+  
   // RFC4122 version 4 UUID
   useEffect(() => {
     setUuid(createUUID());
 
-    const sid = Cookies.get('SID');
-    if (sid) {
-      setIsLogin(true);
-    }
+    // const sid = Cookies.get('SID');
+    // if (sid) {
+    //   setIsLogin(true);
+    // }
+    checkSession();
 
     const header = document.querySelector('.header');
     const page = document.querySelector('#root').querySelector('div');
