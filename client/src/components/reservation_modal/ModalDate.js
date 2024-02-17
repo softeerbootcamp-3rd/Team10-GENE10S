@@ -34,7 +34,7 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
     getAvailableDate().then(result => {
       setAvailableDates(result.availableDates);
     });
-  });
+  }, []);
 
   const handleNext = () => {
     if (departureTime === '' || pickupTime === '') return;
