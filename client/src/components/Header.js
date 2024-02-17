@@ -31,10 +31,6 @@ export default function Header() {
   useEffect(() => {
     setUuid(createUUID());
 
-    // const sid = Cookies.get('SID');
-    // if (sid) {
-    //   setIsLogin(true);
-    // }
     checkSession();
 
     const header = document.querySelector('.header');
