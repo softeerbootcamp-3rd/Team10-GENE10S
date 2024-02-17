@@ -25,6 +25,14 @@ public class AuthController {
     public ResponseEntity login(@RequestBody UserRequest.Login login, HttpServletRequest request) {
         // OAuth 토큰 발급
         String accessToken = authService.tokenRequest(login);
+
+        if (accessToken.isEmpty() || accessToken.isBlank()) {
+            return new ResponseEntity<>(
+                    ResponseDto.of(false, ResponseCode.BAD_REQUEST),
+                    HttpStatus.OK
+            );
+        }
+
         // 사용자 정보 조회 및 저장
         long userId = authService.userProfileRequest(accessToken);
         // 세션 생성
