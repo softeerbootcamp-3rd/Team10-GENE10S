@@ -8,7 +8,7 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: genesis-airport-react-app-user
+  S3_BUCKET_NAME: reservation.genesis-airport.com
 
 permissions:
   contents: read
@@ -28,6 +28,13 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./client
+
+      - name: .env setting
+        run: |
+          echo "REACT_APP_REDIRECT_URI=${{ secrets.REACT_APP_REDIRECT_URI }}" >> .env
+          echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> .env
+          echo "REACT_APP_CLIENT_SECRET=${{ secrets.REACT_APP_CLIENT_SECRET }}" >> .env
         working-directory: ./client
 
       - name: Build React app
