@@ -1,0 +1,45 @@
+name: Deploy Frontend to S3
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+    paths:
+      - 'client/**' 
+
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: genesis-airport-react-app-user
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-frontend:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./client
+
+      - name: Build React app
+        run: npm run build
+        working-directory: ./client
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload to AWS S3
+        run: aws s3 sync ./client/build/ s3://$S3_BUCKET_NAME/ --delete
