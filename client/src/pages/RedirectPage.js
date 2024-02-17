@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/Settings';
 
 const RedirectPage = () => {
   const navigate = useNavigate();

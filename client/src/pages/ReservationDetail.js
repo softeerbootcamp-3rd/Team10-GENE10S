@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import axios from 'axios';
+import axios from '../api/Settings';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { useEffect, useState } from 'react';

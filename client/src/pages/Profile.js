@@ -3,7 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../api/Settings';
 import image from '../assets/image.png';
 import { deleteCar } from '../api/CarApi';
 

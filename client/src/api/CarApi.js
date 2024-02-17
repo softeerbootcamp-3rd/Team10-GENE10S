@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../api/Settings';
 
 export async function registerCar({ sellName, plateNumber }) {
   try {

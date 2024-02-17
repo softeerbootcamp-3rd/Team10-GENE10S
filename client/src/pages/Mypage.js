@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import axios from 'axios';
+import axios from '../api/Settings';
 import { useEffect, useState } from 'react';
 import ProfileCard from '../components/ProfileCard';
 import ReservationCard from '../components/ReservationCard';

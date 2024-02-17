@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../api/Settings';
 import { formatDate } from '../utils/dateUtils';
 
 export async function getAvailableDate() {
