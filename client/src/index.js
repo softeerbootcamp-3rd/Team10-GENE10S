@@ -28,4 +28,3 @@ root.render(
     </Routes>
   </BrowserRouter>,
 );
-/* Gihub Action Test */
