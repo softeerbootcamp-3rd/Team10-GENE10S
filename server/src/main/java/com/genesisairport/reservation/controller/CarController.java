@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @Slf4j
 @RequestMapping("/v2/car")
 public class CarController {

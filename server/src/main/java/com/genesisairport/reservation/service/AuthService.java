@@ -45,6 +45,7 @@ public class AuthService {
 
         String parameters = getParameters(requestBody);
         HttpEntity<String> request = new HttpEntity<>(parameters, headers); // 요청 헤더와 바디 설정
+
         ResponseEntity<String> response = restTemplate.postForEntity(tokenEndpoint, request, String.class); // POST 요청
 
         return extractStringValue(response.getBody(), "access_token");
