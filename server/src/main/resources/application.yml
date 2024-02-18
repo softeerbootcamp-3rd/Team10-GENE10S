@@ -32,7 +32,7 @@ server:
     session:
       cookie:
         name: SID
-        domain:
+        domain: genesis-airport.com
         path: /
         http-only: true
         secure: false
