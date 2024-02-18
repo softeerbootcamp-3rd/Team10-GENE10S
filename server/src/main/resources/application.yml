@@ -28,6 +28,7 @@ spring:
       password: ${REDIS_PASSWORD}
 
 server:
+  url: http://api.reservation.genesis-airport.com
   servlet:
     session:
       cookie:
