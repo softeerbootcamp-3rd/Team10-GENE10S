@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry
-                .addMapping("/**")
+                .addMapping("/v1/login")
                 .allowedOrigins("http://localhost:3000")
                 .allowedOrigins("http://reservation.genesis-airport.com")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
