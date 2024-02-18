@@ -6,7 +6,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
@@ -15,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
                 .allowedOrigins("http://reservation.genesis-airport.com")
-                .allowedMethods("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                 .allowCredentials(true);
     }
 
