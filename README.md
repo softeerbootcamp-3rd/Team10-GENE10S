@@ -17,7 +17,7 @@
 
 |**👨🏻‍💻김주환**|**👩🏻‍💻김희진**|**👩🏻‍💻이태곤**|**👨🏻‍💻최성환**|**👩🏻‍💻한수아**|
 |:---:|:---:|:---:|:---:|:---:|
-|<img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/1a93dd89-82db-4c0d-8c33-42b6c2bd9df1" height=180 width=170> <br/> |<img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/4fe01783-38fb-4d9a-800c-213a05bcb7c3" height="180" width="170" alt="프로필 이미지의 대체 텍스트"> <br/>| <img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/d7ad8ea4-a4b6-4ea4-8d70-bd7646ca90b3" height=180 width=170> <br/>| <img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/f4ee9e06-a678-4b28-a512-cdb75b24da70" height=180 width=170> <br/> |<img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/23e800cc-5226-4fa3-bf2d-57fa7e53b65d" height=180 width=170> <br/> |
+|<img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/1a93dd89-82db-4c0d-8c33-42b6c2bd9df1" height=150 width=170> <br/> |<img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/4fe01783-38fb-4d9a-800c-213a05bcb7c3" height="150" width="170" alt="프로필 이미지의 대체 텍스트"> <br/>| <img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/d7ad8ea4-a4b6-4ea4-8d70-bd7646ca90b3" height=150 width=170> <br/>| <img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/f4ee9e06-a678-4b28-a512-cdb75b24da70" height=150 width=170> <br/> |<img src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/23e800cc-5226-4fa3-bf2d-57fa7e53b65d" height=150 width=170> <br/> |
 |**Full-stack**|**Full-stack**|**Full-stack**|**Full-stack**|**Full-stack**|
 
 <Br>
@@ -39,8 +39,10 @@
 ## 4. 아키텍처
 (차주 추가 예정)
 
+## 5. ERD
+<img width="800" alt="genesis_logo_수정 1" src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/e83d2a10-58d4-4010-b583-7fde53233684">
 
-## 5. 페이지별 기능
+## 6. 페이지별 기능
 
 | 랜딩 페이지 |
 |----------|
@@ -53,5 +55,5 @@
 (기능별 추가 예정)
 
 
-## 6. 소감
+## 7. 소감
 (차주 추가 예정)
