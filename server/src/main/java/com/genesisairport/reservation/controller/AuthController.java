@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1")
+@CrossOrigin(origins = "http://reservation.genesis-airport.com", allowCredentials = "true")
 public class AuthController {
     
     private final AuthService authService;
