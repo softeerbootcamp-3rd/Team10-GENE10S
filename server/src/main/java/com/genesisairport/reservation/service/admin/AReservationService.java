@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AdminReservationService {
+public class AReservationService {
     private final ReservationRepository reservationRepository;
     private final MaintenanceImageRepository maintenanceImageRepository;
 

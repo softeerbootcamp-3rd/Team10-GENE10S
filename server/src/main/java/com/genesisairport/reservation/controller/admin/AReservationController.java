@@ -3,7 +3,7 @@ package com.genesisairport.reservation.controller.admin;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.service.S3Service;
-import com.genesisairport.reservation.service.admin.AdminReservationService;
+import com.genesisairport.reservation.service.admin.AReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequestMapping("/v2/admin/reservation")
 public class AReservationController {
 
-    private final AdminReservationService adminReservationService;
+    private final AReservationService aReservationService;
     private final S3Service s3Service;
 
     @PostMapping("/{id}/image")
@@ -26,7 +26,7 @@ public class AReservationController {
                                                    @RequestParam("status") Integer status,
                                                    @RequestPart("image") MultipartFile image) throws IOException {
         String imageUrl = s3Service.saveFile(image);
-        adminReservationService.addMaintenanceImage(id, status, imageUrl);
+        aReservationService.addMaintenanceImage(id, status, imageUrl);
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 }
