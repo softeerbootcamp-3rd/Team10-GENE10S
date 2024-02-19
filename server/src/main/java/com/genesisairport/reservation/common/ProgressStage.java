@@ -24,4 +24,13 @@ public enum ProgressStage {
                 .findAny()
                 .orElse(null);
     }
+
+    public static ProgressStage fromName(String name) {
+        for (ProgressStage stage : ProgressStage.values()) {
+            if (stage.name.equals(name)) {
+                return stage;
+            }
+        }
+        throw new IllegalArgumentException("Invalid stage name: " + name);
+    }
 }
