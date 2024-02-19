@@ -1,5 +1,7 @@
 package com.genesisairport.reservation.service.admin;
 
+import com.genesisairport.reservation.common.GeneralException;
+import com.genesisairport.reservation.common.ResponseCode;
 import com.genesisairport.reservation.entity.Step;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.respository.ReservationRepository;
@@ -27,6 +29,10 @@ public class AdminReservationService {
                 .updateDatetime(LocalDateTime.now())
                 .reservation(reservationRepository.findReservationById(requestBody.getReservationId()))
                 .build();
-        stepRepository.save(newStep);
+        try {
+            stepRepository.save(newStep);
+        } catch (Exception e) {
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 추가된 진행 단계입니다.");
+        }
     }
 }
