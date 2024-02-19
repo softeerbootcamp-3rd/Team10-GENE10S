@@ -3,28 +3,16 @@
   src: url('../fonts/GenesisSansHeadKRLight.woff2') format('woff2');
 }
 
-$orange_500: #f3ab39;
-$orange_600: #cf8d26;
-$orange_700: #b57b1e;
-$orange_900: #64430f;
-$orange_200: #f7dbb0;
-
-$gray_50: #f8f5ef;
-$gray_100: #efebe5;
-$gray_200: #ddd8d2;
-$gray_300: #b6b0a8;
-$gray_400: #8c837a;
-$gray_500: #6e665c;
-$gray_600: #595148;
-$gray_700: #4a433b;
-$gray_800: #2e2b28;
-$gray_900: #0f0e0d;
+$blue_50: #E7F1F7;
+$blue_300: #C4EAFF;
+$blue_600: #9EC5DD;
+$blue_700: #ABB5BB;
+$blue_800: #0F608E;
+$blue_900: #0F496B;
 
 $white: #fffefd;
 $black: #121110;
 $uyh: #fffefd;
-$green: #11d900;
-$red: #ff3e3e;
 
 %size {
   &_60 {
