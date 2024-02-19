@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller;
 
+import com.genesisairport.reservation.common.GeneralException;
 import com.genesisairport.reservation.common.ResponseCode;
 import com.genesisairport.reservation.common.ResponseDto;
 import com.genesisairport.reservation.request.AdminRequest;
@@ -24,7 +25,7 @@ public class AdminController {
         log.debug("관리자 | 진행 단계 추가");
 
         if (requestBody.getProgress() == null) {
-            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 진행단계입니다.");
         }
 
         adminService.saveStage(requestBody);
