@@ -1,0 +1,227 @@
+@font-face {
+  font-family: 'genesis-head-light';
+  src: url('../fonts/GenesisSansHeadKRLight.woff2') format('woff2');
+}
+
+$blue_50: #E7F1F7;
+$blue_300: #C4EAFF;
+$blue_600: #9EC5DD;
+$blue_700: #ABB5BB;
+$blue_800: #0F608E;
+$blue_900: #0F496B;
+
+$white: #fffefd;
+$black: #121110;
+$uyh: #fffefd;
+
+%size {
+  &_60 {
+    font-size: 60px;
+    line-height: 72px;
+  }
+
+  &_48 {
+    font-size: 48px;
+    line-height: 54px;
+  }
+
+  &_40 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  &_36 {
+    font-size: 36px;
+    line-height: 42px;
+  }
+
+  &_30 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+
+  &_24 {
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  &_20 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  &_18 {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  &_16 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &_14 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  &_12 {
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+
+%B {
+  font-family: 'genesis-head-light', sans-serif;
+  font-weight: 700;
+
+  &_60 {
+    @extend %B;
+    @extend %size_60;
+  }
+
+  &_48 {
+    @extend %B;
+    @extend %size_48;
+  }
+
+  &_40 {
+    @extend %B;
+    @extend %size_40;
+  }
+
+  &_36 {
+    @extend %B;
+    @extend %size_36;
+  }
+
+  &_30 {
+    @extend %B;
+    @extend %size_30;
+  }
+
+  &_24 {
+    @extend %B;
+    @extend %size_24;
+  }
+
+  &_20 {
+    @extend %B;
+    @extend %size_20;
+  }
+
+  &_18 {
+    @extend %B;
+    @extend %size_18;
+  }
+
+  &_16 {
+    @extend %B;
+    @extend %size_16;
+  }
+}
+
+%SB {
+  font-family: 'genesis-head-light', sans-serif;
+  font-weight: 600;
+
+  &_36 {
+    @extend %SB;
+    @extend %size_36;
+  }
+
+  &_30 {
+    @extend %SB;
+    @extend %size_30;
+  }
+
+  &_24 {
+    @extend %SB;
+    @extend %size_24;
+  }
+
+  &_20 {
+    @extend %SB;
+    @extend %size_20;
+  }
+
+  &_18 {
+    @extend %SB;
+    @extend %size_18;
+  }
+
+  &_16 {
+    @extend %SB;
+    @extend %size_16;
+  }
+
+  &_14 {
+    @extend %SB;
+    @extend %size_14;
+  }
+}
+
+%M {
+  font-family: 'genesis-head-light', sans-serif;
+  font-weight: 500;
+
+  &_36 {
+    @extend %M;
+    @extend %size_36;
+  }
+
+  &_30 {
+    @extend %M;
+    @extend %size_30;
+  }
+
+  &_24 {
+    @extend %M;
+    @extend %size_24;
+  }
+
+  &_20 {
+    @extend %M;
+    @extend %size_20;
+  }
+
+  &_18 {
+    @extend %M;
+    @extend %size_18;
+  }
+
+  &_16 {
+    @extend %M;
+    @extend %size_16;
+  }
+
+  &_14 {
+    @extend %M;
+    @extend %size_14;
+  }
+
+  &_12 {
+    @extend %M;
+    @extend %size_12;
+  }
+}
+
+%R {
+  font-family: 'Apple SD Gothic Neo';
+  font-weight: 400;
+
+  &_16 {
+    @extend %R;
+    @extend %size_16;
+  }
+
+  &_14 {
+    @extend %R;
+    @extend %size_14;
+  }
+
+  &_12 {
+    @extend %R;
+    @extend %size_12;
+  }
+}
