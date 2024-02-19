@@ -23,6 +23,10 @@ public class AdminController {
             @RequestBody AdminRequest.StageInfo requestBody) {
         log.debug("관리자 | 진행 단계 추가");
 
+        if (requestBody.getProgress() == null) {
+            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         adminService.saveStage(requestBody);
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
