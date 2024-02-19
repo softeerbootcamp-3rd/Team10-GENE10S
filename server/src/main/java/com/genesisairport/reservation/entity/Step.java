@@ -15,6 +15,7 @@ public class Step {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @Column(nullable = false, length = 20)
