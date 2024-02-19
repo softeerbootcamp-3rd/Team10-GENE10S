@@ -1,11 +1,10 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.common.ResponseCode;
-import com.genesisairport.reservation.common.ResponseDto;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.model.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller

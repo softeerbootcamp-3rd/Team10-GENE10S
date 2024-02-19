@@ -1,5 +1,8 @@
-package com.genesisairport.reservation.common;
+package com.genesisairport.reservation.common.util;
 
+import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.model.DataResponseDto;
+import com.genesisairport.reservation.common.enums.ResponseCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

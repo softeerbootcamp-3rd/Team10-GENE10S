@@ -1,15 +1,14 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.common.DataResponseDto;
-import com.genesisairport.reservation.common.ResponseCode;
-import com.genesisairport.reservation.common.ResponseDto;
+import com.genesisairport.reservation.common.model.DataResponseDto;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.response.UserResponse;
 import com.genesisairport.reservation.service.SessionService;
 import com.genesisairport.reservation.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

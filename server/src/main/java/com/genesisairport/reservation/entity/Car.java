@@ -2,6 +2,7 @@ package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@DynamicInsert
 public class Car {
 
     @Id
@@ -27,10 +29,10 @@ public class Car {
     @Column(name = "plate_number", length = 20)
     private String plateNumber;
 
-    @Column(name = "create_datetime", nullable = false)
+    @Column(name = "create_datetime")
     private LocalDateTime createDatetime;
 
-    @Column(name = "update_datetime", nullable = false)
+    @Column(name = "update_datetime")
     private LocalDateTime updateDatetime;
 
     @ManyToOne

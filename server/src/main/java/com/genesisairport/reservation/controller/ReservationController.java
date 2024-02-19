@@ -1,12 +1,11 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.common.ResponseCode;
-import com.genesisairport.reservation.common.ResponseDto;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.ReservationRequest;
-import com.genesisairport.reservation.common.DataResponseDto;
+import com.genesisairport.reservation.common.model.DataResponseDto;
 
 
-import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.service.ReservationService;
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
+@DynamicInsert
 public class RepairShop {
 
     @Id
@@ -31,10 +33,10 @@ public class RepairShop {
     @Column(length = 255)
     private String address;
 
-    @Column(name = "create_datetime", nullable = false)
+    @Column(name = "create_datetime")
     private LocalDateTime createDatetime;
 
-    @Column(name = "update_datetime", nullable = false)
+    @Column(name = "update_datetime")
     private LocalDateTime updateDatetime;
 
     @OneToMany(mappedBy = "repairShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

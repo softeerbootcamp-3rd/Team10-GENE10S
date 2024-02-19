@@ -2,6 +2,7 @@ package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @Setter
+@DynamicInsert
 public class Coupon {
 
     @Id
@@ -28,10 +30,10 @@ public class Coupon {
     @Column(name = "is_used", nullable = false)
     private Boolean isUsed;
 
-    @Column(name = "create_datetime", nullable = false)
+    @Column(name = "create_datetime")
     private LocalDateTime createDatetime;
 
-    @Column(name = "update_datetime", nullable = false)
+    @Column(name = "update_datetime")
     private LocalDateTime updateDatetime;
 
     @OneToOne(mappedBy = "coupon", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
