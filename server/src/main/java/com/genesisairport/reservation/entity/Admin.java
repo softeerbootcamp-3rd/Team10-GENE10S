@@ -1,0 +1,36 @@
+package com.genesisairport.reservation.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "admin")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Admin {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "admin_id", nullable = false, length = 320)
+    private String adminId;
+
+    @Column(name = "admin_password", nullable = false, columnDefinition = "TEXT")
+    private String adminPassword;
+
+    @Column(name = "phone_number", nullable = false, length = 20)
+    private String phoneNumber;
+
+    @Column(name = "create_datetime", nullable = false)
+    private LocalDateTime createDatetime;
+
+    @Column(name = "update_datetime", nullable = false)
+    private LocalDateTime updateDatetime;
+
+}
