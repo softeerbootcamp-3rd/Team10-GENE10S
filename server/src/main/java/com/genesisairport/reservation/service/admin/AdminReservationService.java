@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.service;
+package com.genesisairport.reservation.service.admin;
 
 import com.genesisairport.reservation.entity.Step;
 import com.genesisairport.reservation.request.AdminRequest;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AdminService {
+public class AdminReservationService {
 
     private final ReservationRepository reservationRepository;
     private final StepRepository stepRepository;
