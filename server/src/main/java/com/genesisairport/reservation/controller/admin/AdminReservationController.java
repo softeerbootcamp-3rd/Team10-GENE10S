@@ -32,4 +32,17 @@ public class AdminReservationController {
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 
+    @DeleteMapping("/reservation/progress")
+    public ResponseEntity deleteStage(
+            @RequestBody AdminRequest.StageInfo requestBody) {
+        log.debug("관리자 | 진행 단계 삭제");
+
+        if (requestBody.getProgress() == null) {
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 진행단계입니다.");
+        }
+
+        adminReservationService.deleteStage(requestBody);
+        return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
+    }
+
 }

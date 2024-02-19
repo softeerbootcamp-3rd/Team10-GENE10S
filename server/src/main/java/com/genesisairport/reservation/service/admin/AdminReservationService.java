@@ -9,6 +9,7 @@ import com.genesisairport.reservation.respository.StepRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -34,5 +35,15 @@ public class AdminReservationService {
         } catch (Exception e) {
             throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 추가된 진행 단계입니다.");
         }
+    }
+
+    @Transactional
+    public void deleteStage(AdminRequest.StageInfo requestBody) {
+        Long stepId = stepRepository.findStepByReservationIdAndStage(
+                requestBody.getReservationId(),
+                requestBody.getProgress().getName()).getId();
+
+        stepRepository.deleteById(stepId);
+
     }
 }
