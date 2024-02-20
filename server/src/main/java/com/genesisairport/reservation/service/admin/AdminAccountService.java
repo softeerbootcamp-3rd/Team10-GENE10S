@@ -1,5 +1,7 @@
 package com.genesisairport.reservation.service.admin;
 
+import com.genesisairport.reservation.common.GeneralException;
+import com.genesisairport.reservation.common.ResponseCode;
 import com.genesisairport.reservation.entity.Admin;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.respository.AdminRepository;
@@ -25,12 +27,12 @@ public class AdminAccountService {
 
         // 아이디 존재 x
         if (admin == null)
-            return null;
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 아이디입니다.");
 
         // 비밀번호 일치 x
         String encryptedPwd = encryptPassword(adminPwd);
         if (!admin.getAdminPassword().equals(encryptedPwd))
-            return null;
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "비밀번호가 일치하지 않습니다");
 
         return admin.getId();
     }

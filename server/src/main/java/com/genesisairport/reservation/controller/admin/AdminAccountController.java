@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller.admin;
 
+import com.genesisairport.reservation.common.GeneralException;
 import com.genesisairport.reservation.common.ResponseCode;
 import com.genesisairport.reservation.common.ResponseDto;
 import com.genesisairport.reservation.request.AdminRequest;
@@ -28,12 +29,6 @@ public class AdminAccountController {
     public ResponseEntity adminLogin(@RequestBody AdminRequest.Login loginDto, HttpServletRequest request) {
 
         Long adminId = adminAccountService.adminLogin(loginDto);
-        if (adminId == null) {
-            return new ResponseEntity<>(
-                    ResponseDto.of(false, ResponseCode.BAD_REQUEST),
-                    HttpStatus.OK
-            );
-        }
 
         HttpSession session = request.getSession(true);
         session.setAttribute("adminId", adminId);
