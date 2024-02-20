@@ -10,6 +10,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Main />} />
+      <Route path="/sidebar" element={<SideBar />}/>
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>

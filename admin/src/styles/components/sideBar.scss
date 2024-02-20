@@ -1,0 +1,67 @@
+@import '../variables.scss';
+
+.side-menu {
+    display: flex;
+    width: 280px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex-shrink: 0;
+    align-self: stretch;
+
+    background: $blue_800;
+
+    > .title {
+        display: flex;
+        padding: 24px;
+        justify-content: space-between;
+        align-items: center;
+        align-self: stretch;
+
+        > span {
+            color: $white;
+            text-align: center;
+            @extend %B_36;
+        }
+    }
+
+    > .profile {
+        display: flex;
+        padding: 24px;
+        align-items: center;
+        gap: 24px;
+        align-self: stretch;
+
+        > span {
+            color: $white;
+            text-align: center;
+            @extend %SB_30;
+        }
+    }
+
+    .menu-list {
+        display: flex;
+        padding: 0px 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        align-self: stretch;
+
+        > .menu {
+            display: flex;
+            padding: 12px;
+            align-items: center;
+            gap: 12px;
+            align-self: stretch;
+
+            > span {
+                color: $white;
+                text-align: center;
+                @extend %SB_20;
+            }
+        }
+
+        > .menu.active {
+            background: $blue_900;
+        }
+    }
+}
