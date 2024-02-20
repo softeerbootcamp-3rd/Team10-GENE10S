@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter
 public class Reservation {
 
     @Id
@@ -42,6 +41,7 @@ public class Reservation {
     private String customerRequest;
 
     @Column(name = "progress_stage", nullable = false, length = 20)
+    @Setter
     private String progressStage;
 
     @Column(name = "inspection_result", length = 2000)

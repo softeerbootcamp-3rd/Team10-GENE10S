@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter
 public class Coupon {
 
     @Id
@@ -26,6 +25,7 @@ public class Coupon {
     private LocalDate expiredDate;
 
     @Column(name = "is_used", nullable = false)
+    @Setter
     private Boolean isUsed;
 
     @Column(name = "create_datetime", nullable = false)
