@@ -1,59 +1,51 @@
 import classNames from "classnames";
 import SideBar from "../components/SideBar";
 import BtnDark, { BtnLight } from "../components/Button";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import AddImageModal from "../components/modal/AddImageModal";
+import { getReservationDetail } from "../api/ReservationApi";
 
 export default function ReservationDetail() {
 
+    const { reservationId } = useParams();
+
     const [isAdding, setIsAdding] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalStatus, setModalStatus] = useState(0);
 
-    const reservationId = 10;
-    const shopName = '블루핸즈 인천공항점';
-    const customerName = '김희진';
-    const carSellName = 'Genesis G80';
-    const departureDate = '2024-01-01 10:00';
-    const pickupDate = '2024-01-02 10:00';
-    const services = ['aa', 'bb', 'cc']
-    const customerRequest = '에어컨 수리 부탁드려요.';
-    const coupon = 'GENESISAIRPORT1234';
-    const reservationSteps = [
-        {
-            title: '예약 완료',
-            content: null
-        },
-        {
-            title: '차량 인수',
-            content: '14시 이후에 정비 예정입니다.'
-        },
-        {
-            title: '정비중',
-            content: '에어컨 점검은 못 할듯...'
-        },
-        {
-            title: '보관중',
-            content: '인천공항 주차장에 보관 중입니다.'
-        }
-    ];
-    const beforeImages = [
-        {
-            id: 1,
-            imageUrl: 'https://genesis-airport.s3.ap-northeast-2.amazonaws.com/maintenance/car3.jpg'
-        },
-        {
-            id: 2,
-            imageUrl: 'https://genesis-airport.s3.ap-northeast-2.amazonaws.com/maintenance/car3.jpg'
-        },
-        {
-            id: 3,
-            imageUrl: 'https://genesis-airport.s3.ap-northeast-2.amazonaws.com/maintenance/car3.jpg'
-        }
-    ]
-    const afterImages = [
+    const [shopName, setShopName] = useState(null);
+    const [customerName, setCustomerName] = useState(null);
+    const [carInfo, setCarInfo] = useState(null);
+    const [departureDate, setDepartureDate] = useState(null);
+    const [pickupDate, setPickupDate] = useState(null);
+    const [services, setServices] = useState([]);
+    const [customerRequest, setCustomerRequest] = useState(null);
+    const [coupon, setCoupon] = useState(null);
+    const [reservationSteps, setReservationSteps] = useState([]);
+    const [beforeImages, setBeforeImages] = useState([]);
+    const [afterImages, setAfterImages] = useState([]);
 
-    ]
+    useEffect(() => {
+        getReservationDetail(reservationId)
+        .then(response => {
+            setShopName(response.repairShop);
+            setCustomerName(response.customerId);
+            setCarInfo(`${response.carSellName} (${response.carPlateNumber})`);
+            setDepartureDate(response.from);
+            setPickupDate(response.to);
+            setServices([]);
+            // TODO: service들 넣기
+            setCustomerRequest(response.customerRequest);
+            setCoupon(response.couponSerialNumber);
+            setReservationSteps(response.progressStage);
+            setBeforeImages(response.beforeImages);
+            setAfterImages(response.afterImages);
+        })
+        .catch(error => {
+          console.error('Error registering car:', error);
+        });
+    }, [reservationId])
 
     function deleteStep(stepName) {
         console.log('delete ' + stepName);
@@ -77,6 +69,7 @@ export default function ReservationDetail() {
 
     function showImageModal(status) {
         setModalVisible(true);
+        setModalStatus(status);
     }
 
     function closeModal() {
@@ -118,10 +111,10 @@ export default function ReservationDetail() {
                                 <span>{customerName}</span>
                             </div>
                             <div className={classNames('td', 'header')}>
-                                <span>차종</span>
+                                <span>차량 정보</span>
                             </div>
                             <div className={classNames('td')}>
-                                <span>{carSellName}</span>
+                                <span>{carInfo}</span>
                             </div>
                         </div>
                         <div className={classNames('tr')}>
@@ -170,10 +163,10 @@ export default function ReservationDetail() {
                             </div>
                             <div className={classNames('td', 'reservation-steps')}>
                                 {reservationSteps.map((step) => (
-                                    <div key={step.title} className={classNames('step')}>
-                                        <span className={classNames('step-title')}>{step.title}</span>
-                                        <span className={classNames('step-content')}>{step.content}</span>
-                                        <BtnLight text={'삭제'} onClick={() => deleteStep(step.title)}/>
+                                    <div key={step.name} className={classNames('step')}>
+                                        <span className={classNames('step-title')}>{step.name}</span>
+                                        <span className={classNames('step-content')}>{step.detail}</span>
+                                        <BtnLight text={'삭제'} onClick={() => deleteStep(step.name)}/>
                                     </div>
                                 ))}
                                 {isAdding && <div className={classNames('step')}>
@@ -229,7 +222,7 @@ export default function ReservationDetail() {
             </div>
         </div>
       </div>
-        <AddImageModal onClose={closeModal} visible={modalVisible} />
+        <AddImageModal status={modalStatus} onClose={closeModal} visible={modalVisible} />
     </>
     );
   }

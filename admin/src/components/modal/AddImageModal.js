@@ -1,7 +1,18 @@
 import classNames from 'classnames';
 import BtnDark, { BtnLight } from '../Button';
+import { useEffect, useState } from 'react';
 
-export default function AddImageModal({ onClose, visible }) {
+export default function AddImageModal({ status = 0, onClose, visible }) {
+
+    const [selectedStatus, setSelectedStatus] = useState(status);
+
+    useEffect(() => {
+        setSelectedStatus(status);
+    }, [status])
+
+    function handleChangeStatus(event) {
+        setSelectedStatus(event.target.value);
+    }
 
     function submitImage() {
         onClose();
@@ -21,7 +32,10 @@ export default function AddImageModal({ onClose, visible }) {
                                     <span>구분</span>
                                 </div>
                                 <div className={classNames('td')}>
-                                    <input></input>
+                                    <select value={selectedStatus} onChange={handleChangeStatus}>
+                                        <option value='0'>정비 전</option>
+                                        <option value='1'>정비 후</option>
+                                    </select>
                                 </div>
                             </div>
                             <div className={classNames('tr')}>

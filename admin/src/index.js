@@ -13,7 +13,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/reservation/detail" element={<ReservationDetail />}/>
+        <Route path="/reservation/:reservationId/detail" element={<ReservationDetail />}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
