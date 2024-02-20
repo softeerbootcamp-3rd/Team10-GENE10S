@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.respository;
+package com.genesisairport.reservation.repository;
 
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;

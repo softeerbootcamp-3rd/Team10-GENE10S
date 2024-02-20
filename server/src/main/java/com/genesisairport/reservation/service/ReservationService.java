@@ -3,7 +3,7 @@ package com.genesisairport.reservation.service;
 import com.genesisairport.reservation.entity.*;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
-import com.genesisairport.reservation.respository.*;
+import com.genesisairport.reservation.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;

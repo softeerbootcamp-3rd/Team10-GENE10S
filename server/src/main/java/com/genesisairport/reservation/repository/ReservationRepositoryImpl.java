@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.respository;
+package com.genesisairport.reservation.repository;
 
 import com.genesisairport.reservation.common.CommonDateFormat;
 import com.genesisairport.reservation.request.AdminRequest;
