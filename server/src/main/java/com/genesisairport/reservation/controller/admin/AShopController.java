@@ -1,5 +1,7 @@
 package com.genesisairport.reservation.controller.admin;
 
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.AdminRequest;
@@ -19,18 +21,39 @@ public class AShopController {
 
     @GetMapping("/available")
     public ResponseEntity<ResponseDto> getAvailableDate(@RequestBody AdminRequest.ReservationTimeRange requestBody) {
+        if (requestBody.getShopName() == null) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명 누락");
+        }
+        if (requestBody.getBusinessDayFrom() == null) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "검색 시작 날짜 누락");
+        }
+        if (requestBody.getBusinessDayTo() == null) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "검색 끝 날짜 누락");
+        }
 
         return new ResponseEntity<>(DataResponseDto.of(aShopService.getAvailableTime(requestBody)), HttpStatus.OK);
     }
 
     @PostMapping("/available")
     public ResponseEntity<ResponseDto> addAvailableDate(@RequestBody AdminRequest.ReservationTime requestBody) {
+        if (requestBody.getShopName() == null) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명 누락");
+        }
+        if (requestBody.getBusinessDay() == null) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "날짜 정보 누락");
+        }
 
         return new ResponseEntity<>(ResponseDto.of(true, aShopService.addAvailableTime(requestBody)), HttpStatus.OK);
     }
 
     @DeleteMapping("/available")
     public ResponseEntity<ResponseDto> deleteAvailableDate(@RequestBody AdminRequest.ReservationTime requestBody) {
+        if (requestBody.getShopName() == null) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명 누락");
+        }
+        if (requestBody.getBusinessDay() == null) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "날짜 정보 누락");
+        }
 
         return new ResponseEntity<>(ResponseDto.of(true, aShopService.deleteAvailableTime(requestBody)), HttpStatus.OK);
     }
