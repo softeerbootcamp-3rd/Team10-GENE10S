@@ -1,8 +1,9 @@
 @import './reset.scss';
 @import './variables.scss';
-
 @import './components/button.scss';
 @import './components/sideBar.scss';
+@import './components/button.scss';
+@import './pages/reservationList.scss';
 
 @import './pages/reservationDetail.scss';
 
@@ -54,3 +55,4 @@ body {
 .p-0 {
   padding: 0px !important;
 }
+
