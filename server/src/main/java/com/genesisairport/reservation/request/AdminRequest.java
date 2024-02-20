@@ -17,4 +17,14 @@ public class AdminRequest {
         private ProgressStage progress;
         private String detail;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Login {
+        private String adminId;
+        private String adminPwd;
+    }
+
 }

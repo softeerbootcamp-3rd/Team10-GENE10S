@@ -19,4 +19,13 @@ public class SessionService {
         }
         return null;
     }
+
+    public static Long getAdminIdFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return (Long) session.getAttribute("adminId");
+        }
+        return null;
+    }
+
 }
