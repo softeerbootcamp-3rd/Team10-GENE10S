@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.common;
+package com.genesisairport.reservation.common.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;

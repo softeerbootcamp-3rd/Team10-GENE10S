@@ -3,6 +3,7 @@ package com.genesisairport.reservation.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "car_image")
+@DynamicInsert
 public class CarImage {
 
     @Id
@@ -22,9 +24,9 @@ public class CarImage {
     @Column(name = "image_url", nullable = false, length = 2048)
     private String imageUrl;
 
-    @Column(name = "create_datetime", nullable = false)
+    @Column(name = "create_datetime")
     private LocalDateTime createDatetime;
 
-    @Column(name = "update_datetime", nullable = false)
+    @Column(name = "update_datetime")
     private LocalDateTime updateDatetime;
 }
