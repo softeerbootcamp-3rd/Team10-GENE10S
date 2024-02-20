@@ -5,6 +5,7 @@ import { userNameState } from '../util/states';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import { LogoutImage } from './svg/LogoutImage';
 
 // currentPage: 'reservation', 'shop', 'account' 중 한 개로 설정해야 함
 export default function SideBar({ currentPage }) {
@@ -21,8 +22,13 @@ export default function SideBar({ currentPage }) {
         <span>Genesis Airport</span>
       </Link>
       <div className={classNames('profile')}>
-        <ProfileImage/>
-        <span>{userName}</span>
+        <div className={classNames('profile-info')}>
+          <ProfileImage/>
+          <span>{userName}</span>
+        </div>
+        <Link to='/logout' className={classNames('logout')}>
+          <LogoutImage/>
+        </Link>
       </div>
       <div className={classNames('menu-list')}>
         <Link to="/reservation" className={(classNames('menu', {'active': currentPage === 'reservation'}))}>

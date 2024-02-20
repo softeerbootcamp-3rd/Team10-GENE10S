@@ -8,7 +8,7 @@ export default function BtnDark({ text }) {
     );
 }
 
-export default function BtnLight({ text }) {
+export function BtnLight({ text }) {
     return (
         <div className={classNames('btn-light')}>
             <span>{text}</span>
