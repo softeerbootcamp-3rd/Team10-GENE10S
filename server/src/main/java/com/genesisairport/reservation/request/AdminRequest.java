@@ -49,4 +49,23 @@ public class AdminRequest {
         private String adminId;
         private String adminPwd;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReservationTime {
+        private String shopName;
+        private String businessDay;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReservationTimeRange {
+        private String shopName;
+        private String businessDayFrom;
+        private String businessDayTo;
+    }
 }

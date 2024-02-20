@@ -1,10 +1,11 @@
 @import './reset.scss';
 @import './variables.scss';
-
 @import './components/button.scss';
 @import './components/sideBar.scss';
 @import './components/infoTable.scss';
 @import './components/modal.scss';
+@import './components/button.scss';
+@import './pages/reservationList.scss';
 
 body {
   user-select: none;
@@ -54,3 +55,4 @@ body {
 .p-0 {
   padding: 0px !important;
 }
+
