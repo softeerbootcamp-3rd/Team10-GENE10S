@@ -7,7 +7,7 @@ import selectArrow from '../assets/arrow.svg'
 
 
 const CalendarContainer = styled.div`
-  position: relative;
+  position: relative; 
 `;
 
 const DropdownButton = styled.button`
@@ -69,23 +69,25 @@ const CustomCalendar = ({ onChange, value }) => {
   
     return (
       <div ref={calendarRef}>
-        <CalendarContainer>
-          <DropdownButton onClick={handleToggleCalendar}>{nowDate}</DropdownButton>
-          <CalendarWrapper isOpen={isOpen}>
-            <Calendar
-                onChange={handleDateChange}
-                value={value}
-                formatDay={(locale, date) => moment(date).format("D")}
-                formatYear={(locale, date) => moment(date).format("YYYY")}
-                formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")}
-                calendarType="gregory"
-                showNeighboringMonth={false} 
-                next2Label={null} 
-                prev2Label={null}
-                minDetail="year" 
-            ></Calendar>
-          </CalendarWrapper>
-        </CalendarContainer>
+        <>
+          <CalendarContainer>
+            <DropdownButton onClick={handleToggleCalendar}>{nowDate}</DropdownButton>
+            <CalendarWrapper isOpen={isOpen}>
+              <Calendar
+                  onChange={handleDateChange}
+                  value={value}
+                  formatDay={(locale, date) => moment(date).format("D")}
+                  formatYear={(locale, date) => moment(date).format("YYYY")}
+                  formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")}
+                  calendarType="gregory"
+                  showNeighboringMonth={false} 
+                  next2Label={null} 
+                  prev2Label={null}
+                  minDetail="year" 
+              ></Calendar>
+            </CalendarWrapper>
+          </CalendarContainer>
+        </>
       </div>
     );
   };
