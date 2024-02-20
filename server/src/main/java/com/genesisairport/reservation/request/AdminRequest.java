@@ -22,6 +22,15 @@ public class AdminRequest {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class CommentInfo {
+        private Long reservationId;
+        private String comment;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Login {
         private String adminId;
         private String adminPwd;
