@@ -45,4 +45,17 @@ public class AdminReservationController {
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 
+    @PutMapping("/reservation/comment")
+    public ResponseEntity updateComment(@RequestBody AdminRequest.CommentInfo requestBody) {
+        log.debug("관리자 | 정비소 코멘트 업데이트");
+
+        if (requestBody.getReservationId() == null)
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "예약 Id를 받아오지 못했습니다.");
+
+        if (requestBody.getComment() == null)
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 받아오지 못했습니다.");
+
+        return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
+    }
+
 }
