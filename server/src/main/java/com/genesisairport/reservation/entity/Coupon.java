@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter
 @DynamicInsert
 public class Coupon {
 
@@ -28,6 +27,7 @@ public class Coupon {
     private LocalDate expiredDate;
 
     @Column(name = "is_used", nullable = false)
+    @Setter
     private Boolean isUsed;
 
     @Column(name = "create_datetime")

@@ -1,10 +1,7 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
@@ -46,6 +43,7 @@ public class Reservation {
     private String customerRequest;
 
     @Column(name = "progress_stage", nullable = false, length = 20)
+    @Setter
     private String progressStage;
 
     @Column(name = "inspection_result", length = 2000)
