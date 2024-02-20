@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.respository;
+package com.genesisairport.reservation.repository;
 
 import com.genesisairport.reservation.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;

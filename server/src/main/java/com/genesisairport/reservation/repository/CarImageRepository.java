@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.respository;
+package com.genesisairport.reservation.repository;
 
 import com.genesisairport.reservation.entity.CarImage;
 import org.springframework.data.jpa.repository.JpaRepository;
