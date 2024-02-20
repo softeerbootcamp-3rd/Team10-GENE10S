@@ -1,14 +1,20 @@
 package com.genesisairport.reservation.repository;
 
 import com.genesisairport.reservation.common.util.CommonDateFormat;
+import com.genesisairport.reservation.entity.Admin;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,13 +22,14 @@ import java.util.List;
 
 import static com.genesisairport.reservation.entity.QAdmin.admin;
 
-@RequiredArgsConstructor
-public class AdminRepositoryImpl implements AdminRepositoryCustom {
+public class AdminRepositoryImpl extends QuerydslRepositorySupport implements AdminRepositoryCustom {
 
-    private final JPAQueryFactory jpaQueryFactory;
+    public AdminRepositoryImpl() {
+        super(Admin.class);
+    }
 
     @Override
-    public List<AdminResponse.AccountDetail> findAccounts(AdminRequest.AccountDetail accountDetail) {
+    public Page<AdminResponse.AccountDetail> findAccounts(Pageable pageable, AdminRequest.AccountDetail accountDetail) {
         BooleanBuilder builderForWhereClause = getBuilderForWhereClause(
                 accountDetail.getAdminId(),
                 accountDetail.getAdminName(),
@@ -34,7 +41,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
                 accountDetail.getSortDirection()
         );
 
-        List<Tuple> tuples = jpaQueryFactory
+        JPQLQuery<Tuple> query = from(admin)
                 .select(
                         admin.id,
                         admin.adminId,
@@ -42,12 +49,14 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
                         admin.phoneNumber,
                         admin.createDatetime
                 )
-                .from(admin)
                 .where(builderForWhereClause)
-                .orderBy(orderSpecifier)
-                .fetch();
+                .orderBy(orderSpecifier);
 
-        return convertToAccountDetail(tuples);
+        List<Tuple> tuples = getQuerydsl().applyPagination(pageable, query).fetch();
+
+        List<AdminResponse.AccountDetail> accountDetailList = convertToAccountDetail(tuples);
+
+        return new PageImpl<>(accountDetailList, pageable, tuples.size());
     }
 
     private List<AdminResponse.AccountDetail> convertToAccountDetail(List<Tuple> tuples) {

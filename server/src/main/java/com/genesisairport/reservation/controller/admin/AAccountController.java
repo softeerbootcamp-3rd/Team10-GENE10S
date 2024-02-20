@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,10 +60,27 @@ public class AAccountController {
     }
 
     @GetMapping
-    public ResponseEntity searchAllAccounts(@RequestBody AdminRequest.AccountDetail requestBody) {
-        List<AdminResponse.AccountDetail> accountDetailList = adminAccountService.getAllAccounts(requestBody);
+    public ResponseEntity searchAllAccounts(
+            Pageable pageable,
+            @RequestBody AdminRequest.AccountDetail requestBody) {
+        Page<AdminResponse.AccountDetail> accountDetailPage = adminAccountService.getAllAccounts(pageable, requestBody);
+
+        // Page에서 필요한 정보 추출
+        List<AdminResponse.AccountDetail> accountDetailList = accountDetailPage.getContent();
+        AdminResponse.PageInfo pageInfo = AdminResponse.PageInfo.builder()
+                .page(accountDetailPage.getNumber())
+                .size(accountDetailPage.getSize())
+                .totalElements(accountDetailPage.getTotalElements())
+                .totalPages(accountDetailPage.getTotalPages())
+                .build();
+
+        AdminResponse.AccountDetailForPage accountDetailForPage = AdminResponse.AccountDetailForPage.builder()
+                .accountDetailList(accountDetailList)
+                .pageInfo(pageInfo)
+                .build();
+
         return new ResponseEntity<>(
-                DataResponseDto.of(accountDetailList),
+                DataResponseDto.of(accountDetailForPage),
                 HttpStatus.OK
         );
     }

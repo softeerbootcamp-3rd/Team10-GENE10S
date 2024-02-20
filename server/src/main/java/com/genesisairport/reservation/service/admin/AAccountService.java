@@ -8,6 +8,8 @@ import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -55,8 +57,8 @@ public class AAccountService {
         }
     }
 
-    public List<AdminResponse.AccountDetail> getAllAccounts(AdminRequest.AccountDetail requestBody) {
-        return adminRepository.findAccounts(requestBody);
+    public Page<AdminResponse.AccountDetail> getAllAccounts(Pageable pageable, AdminRequest.AccountDetail requestBody) {
+        return adminRepository.findAccounts(pageable, requestBody);
     }
 
 }
