@@ -5,7 +5,7 @@ import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.response.UserResponse;
-import com.genesisairport.reservation.service.SessionService;
+import com.genesisairport.reservation.common.util.SessionUtil;
 import com.genesisairport.reservation.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class UserController {
     public ResponseEntity<DataResponseDto<UserResponse.UserInfo>> getUserInfo(
             final HttpServletRequest request
     ) {
-        Long userId = SessionService.getUserIdFromSession(request);
+        Long userId = SessionUtil.getUserIdFromSession(request);
 
         return new ResponseEntity<>(
                 DataResponseDto.of(userService.getUserInfo(userId)),
@@ -38,7 +38,7 @@ public class UserController {
             final HttpServletRequest request,
             @RequestBody UserRequest.UserInfo userInfo
     ) {
-        Long userId = SessionService.getUserIdFromSession(request);
+        Long userId = SessionUtil.getUserIdFromSession(request);
         userService.patchUserInfo(userId, userInfo);
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class UserController {
     public ResponseEntity<DataResponseDto<UserResponse.Profile>> getResult(
             final HttpServletRequest request
     ) {
-        Long userId = SessionService.getUserIdFromSession(request);
+        Long userId = SessionUtil.getUserIdFromSession(request);
         return new ResponseEntity<>(
                 DataResponseDto.of(userService.getUserProfile(userId)),
                 HttpStatus.OK

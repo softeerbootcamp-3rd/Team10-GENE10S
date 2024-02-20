@@ -9,7 +9,7 @@ import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.service.ReservationService;
 
-import com.genesisairport.reservation.service.SessionService;
+import com.genesisairport.reservation.common.util.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ import java.util.Optional;
 public class ReservationController {
 
     private final ReservationService reservationService;
-    private final SessionService sessionService;
+    private final SessionUtil sessionUtil;
 
     @GetMapping("/coupon/valid")
     public ResponseEntity<DataResponseDto<ReservationResponse.CouponValid>> couponValidation(
@@ -42,7 +42,7 @@ public class ReservationController {
     @GetMapping("/car-list")
     public ResponseEntity getCarList(final HttpServletRequest request) {
         // TODO: customer emtpy일 때 response 추가
-        Long userId = SessionService.getUserIdFromSession(request);
+        Long userId = SessionUtil.getUserIdFromSession(request);
         return new ResponseEntity(
                 DataResponseDto.of(reservationService.getCarList(userId)),
                 HttpStatus.OK
@@ -75,7 +75,7 @@ public class ReservationController {
     public ResponseEntity saveReservation(final HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody) {
         log.debug("예약 정보 저장");
 
-        Long userId = SessionService.getUserIdFromSession(request);
+        Long userId = SessionUtil.getUserIdFromSession(request);
         return new ResponseEntity<>(DataResponseDto.of(reservationService.reserve(userId, requestBody)), HttpStatus.OK);
     }
 
@@ -83,7 +83,7 @@ public class ReservationController {
     public ResponseEntity getReservationList(final HttpServletRequest request) {
         log.debug("특정 사용자 예약 내역 조회");
 
-        Long userId = SessionService.getUserIdFromSession(request);
+        Long userId = SessionUtil.getUserIdFromSession(request);
         List<ReservationResponse.ReservationInfoAbstract> reservationList = reservationService.getReservationList(userId);
 
         return new ResponseEntity<>(DataResponseDto.of(reservationList), HttpStatus.OK);
