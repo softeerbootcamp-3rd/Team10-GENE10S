@@ -1,6 +1,9 @@
 package com.genesisairport.reservation.service;
 
-import com.genesisairport.reservation.common.CommonDateFormat;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.util.CommonDateFormat;
+import com.genesisairport.reservation.common.util.SessionUtil;
 import com.genesisairport.reservation.entity.Car;
 import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.request.UserRequest;
@@ -19,14 +22,13 @@ import java.util.List;
 @Slf4j
 public class UserService {
 
-    private final SessionService sessionService;
+    private final SessionUtil sessionUtil;
     private final CarService carService;
     private final CustomerRepository customerRepository;
 
     public UserResponse.UserInfo getUserInfo(Long userId) {
-        // TODO: 로그인 유저 없을때
         if (userId == null)
-            return UserResponse.UserInfo.builder().build();
+            throw new GeneralException(ResponseCode.FORBIDDEN, "유저를 불러오는 데에 실패했습니다.");
 
         Customer customer = customerRepository.findCustomerById(userId); //TODO 빌더 사용으로 변경
         List<Car> carList = customer.getCars();
@@ -51,9 +53,8 @@ public class UserService {
     }
 
     public void patchUserInfo(Long userId, UserRequest.UserInfo userInfo) {
-        // TODO: 로그인 유저 없을때
         if (userId == null)
-            return;
+            throw new GeneralException(ResponseCode.FORBIDDEN, "유저를 불러오는 데에 실패했습니다.");
 
         Customer customer = customerRepository.findCustomerById(userId); //TODO 빌더 사용으로 변경
         if (!Strings.isEmpty(userInfo.getName()))
@@ -67,9 +68,8 @@ public class UserService {
     }
 
     public UserResponse.Profile getUserProfile(Long userId) {
-        // TODO: 로그인 유저 없을때
         if (userId == null)
-            return UserResponse.Profile.builder().build();
+            throw new GeneralException(ResponseCode.FORBIDDEN, "유저를 불러오는 데에 실패했습니다.");
 
         Customer customer = customerRepository.findCustomerById(userId); //TODO 빌더 사용으로 변경
         List<Car> carList = customer.getCars();

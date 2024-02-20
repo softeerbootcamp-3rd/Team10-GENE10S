@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.service;
 
+import com.genesisairport.reservation.common.enums.ProgressStage;
 import com.genesisairport.reservation.entity.*;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
@@ -95,7 +96,7 @@ public class ReservationService {
                 // 초기 진행 단계 설정
                 Step step = Step.builder()
                         .reservation(reservation)
-                        .stage("예약완료")
+                        .stage(ProgressStage.RESERVATION_APPROVED.getName())
                         .date(LocalDateTime.now())
                         .detail("")
                         .createDatetime(LocalDateTime.now())

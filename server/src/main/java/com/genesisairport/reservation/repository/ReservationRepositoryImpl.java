@@ -1,6 +1,6 @@
 package com.genesisairport.reservation.repository;
 
-import com.genesisairport.reservation.common.CommonDateFormat;
+import com.genesisairport.reservation.common.util.CommonDateFormat;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.querydsl.core.BooleanBuilder;

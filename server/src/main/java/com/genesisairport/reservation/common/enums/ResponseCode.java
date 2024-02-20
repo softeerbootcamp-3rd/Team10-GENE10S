@@ -1,4 +1,4 @@
-package com.genesisairport.reservation.common;
+package com.genesisairport.reservation.common.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ public enum ResponseCode {
 
     BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "Bad request"),
     UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED, "Unauthorized"),
+    FORBIDDEN(403, HttpStatus.FORBIDDEN, "Forbidden"),
 
     INTERNAL_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "Internal error");
 

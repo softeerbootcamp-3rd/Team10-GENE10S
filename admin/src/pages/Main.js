@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-export default function NotFound() {
+export default function Main() {
   return (
     <div className={classNames('content')}>Main</div>
   );

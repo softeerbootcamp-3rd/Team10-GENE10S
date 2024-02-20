@@ -1,32 +1,35 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "car")
+@Table(name = "admin")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Builder
+@Getter
 @DynamicInsert
-public class Car {
+public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "vin", length = 50)
-    private String vin;
+    @Column(name = "admin_id", nullable = false, length = 320)
+    private String adminId;
 
-    @Column(name = "sell_name", length = 20)
-    private String sellName;
+    @Column(name = "admin_password", nullable = false, columnDefinition = "TEXT")
+    private String adminPassword;
 
-    @Column(name = "plate_number", length = 20)
-    private String plateNumber;
+    @Column(name = "phone_number", nullable = false, length = 20)
+    private String phoneNumber;
 
     @Column(name = "create_datetime")
     private LocalDateTime createDatetime;
@@ -34,7 +37,4 @@ public class Car {
     @Column(name = "update_datetime")
     private LocalDateTime updateDatetime;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 }
