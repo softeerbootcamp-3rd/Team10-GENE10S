@@ -25,6 +25,9 @@ public class Admin {
     @Column(name = "admin_id", nullable = false, length = 320)
     private String adminId;
 
+    @Column(name = "admin_name", nullable = false, length = 20)
+    private String adminName;
+
     @Column(name = "admin_password", nullable = false, columnDefinition = "TEXT")
     private String adminPassword;
 
