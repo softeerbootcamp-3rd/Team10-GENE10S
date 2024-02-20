@@ -35,7 +35,6 @@ public class AvailableTimeRepositoryImpl implements AvailableTimeRepositoryCusto
     }
 
     private List<AdminResponse.AvailableTime> convert(List<Tuple> tuples) {
-        List<AdminResponse.AvailableTime> result = new ArrayList<>();
         Map<String, List<String>> dateRange = new HashMap<>();
 
         for(Tuple tuple : tuples) {
@@ -52,10 +51,8 @@ public class AvailableTimeRepositoryImpl implements AvailableTimeRepositoryCusto
         List<String> keySet = new ArrayList<>(dateRange.keySet());
         Collections.sort(keySet);
 
-        for(String data : keySet) {
-            result.add(new AdminResponse.AvailableTime(data, dateRange.get(data)));
-        }
-
-        return result;
+        return keySet.stream().map(date ->
+                new AdminResponse.AvailableTime(date, dateRange.get(date)))
+                .toList();
     }
 }
