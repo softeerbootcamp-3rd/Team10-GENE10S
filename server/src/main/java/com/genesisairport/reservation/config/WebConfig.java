@@ -34,7 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SessionInterceptor(redisTemplate))
                 .order(2)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/v1/login", "/"); //TODO v2 api 완성되면 추가
+                .excludePathPatterns("/v1/login", "/", "/v2/admin/account/login"); 
     }
 
 }

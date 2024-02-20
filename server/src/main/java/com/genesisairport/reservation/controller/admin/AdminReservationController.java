@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller.admin;
 
+
 import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.model.ResponseDto;
