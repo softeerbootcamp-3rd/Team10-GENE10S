@@ -1,6 +1,8 @@
 package com.genesisairport.reservation.service;
 
 
+import com.genesisairport.reservation.common.GeneralException;
+import com.genesisairport.reservation.common.ResponseCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,18 +16,26 @@ public class SessionService {
 
     public static Long getUserIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            return (Long) session.getAttribute("userId");
+        try {
+            if (session != null) {
+                return Long.TYPE.cast(session.getAttribute("userId"));
+            }
+            return null;
+        } catch (ClassCastException e) {
+            throw new GeneralException(ResponseCode.UNAUTHORIZED, "유저 정보가 존재하지 않습니다.");
         }
-        return null;
     }
 
     public static Long getAdminIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            return (Long) session.getAttribute("adminId");
+        try {
+            if (session != null) {
+                return Long.TYPE.cast(session.getAttribute("adminId"));
+            }
+            return null;
+        } catch (ClassCastException e) {
+            throw new GeneralException(ResponseCode.UNAUTHORIZED, "관리자 정보가 존재하지 않습니다.");
         }
-        return null;
     }
 
 }
