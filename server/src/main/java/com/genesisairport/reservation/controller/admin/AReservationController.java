@@ -2,9 +2,11 @@ package com.genesisairport.reservation.controller.admin;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
+
 import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.common.util.SessionUtil;
+
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.service.S3Service;
 import com.genesisairport.reservation.service.admin.AReservationService;
@@ -50,9 +52,7 @@ public class AReservationController {
     }
 
     @PostMapping("/progress")
-    public ResponseEntity registerStage(
-            @RequestBody AdminRequest.StageInfo requestBody) {
-        log.debug("관리자 | 진행 단계 추가");
+    public ResponseEntity registerStage(@RequestBody AdminRequest.StageInfo requestBody) {
 
         if (requestBody.getProgress() == null) {
             throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 진행단계입니다.");
@@ -63,15 +63,27 @@ public class AReservationController {
     }
 
     @DeleteMapping("/progress")
-    public ResponseEntity deleteStage(
-            @RequestBody AdminRequest.StageInfo requestBody) {
-        log.debug("관리자 | 진행 단계 삭제");
+    public ResponseEntity deleteStage(@RequestBody AdminRequest.StageInfo requestBody) {
 
         if (requestBody.getProgress() == null) {
             throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 진행단계입니다.");
         }
 
         aReservationService.deleteStage(requestBody);
+        return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
+    }
+
+    @PutMapping("/comment")
+    public ResponseEntity updateComment(@RequestBody AdminRequest.CommentInfo requestBody) {
+
+        if (requestBody.getReservationId() == null)
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "예약 Id를 받아오지 못했습니다.");
+
+        if (requestBody.getComment() == null)
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 받아오지 못했습니다.");
+
+        aReservationService.updateComment(requestBody);
+
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 }

@@ -6,11 +6,13 @@ import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.entity.MaintenanceImage;
 import com.genesisairport.reservation.entity.Reservation;
 import com.genesisairport.reservation.entity.Step;
+
 import com.genesisairport.reservation.repository.MaintenanceImageRepository;
 import com.genesisairport.reservation.repository.StepRepository;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.genesisairport.reservation.repository.ReservationRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -92,5 +93,19 @@ public class AReservationService {
         );
 
         reservationRepository.save(reservation);
+    }
+
+    public void updateComment(AdminRequest.CommentInfo requestBody) {
+        try {
+            Reservation reservation = reservationRepository.findReservationById(requestBody.getReservationId());
+            try {
+                reservation.setInspectionResult(requestBody.getComment());
+                reservationRepository.save(reservation);
+            } catch (Exception e) {
+                throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 저장하는 데 실패했습니다.");
+            }
+        } catch (Exception e) {
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
+        }
     }
 }
