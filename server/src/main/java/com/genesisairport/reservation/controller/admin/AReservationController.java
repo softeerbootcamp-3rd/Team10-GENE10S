@@ -22,11 +22,11 @@ import java.util.Objects;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/v2/admin")
+@RequestMapping("/v2/admin/reservation")
 public class AReservationController {
     private final AReservationService aReservationService;
 
-    @GetMapping("/reservation/all")
+    @GetMapping("/all")
     public ResponseEntity<ResponseDto> searchAllReservations(HttpServletRequest request, @RequestBody AdminRequest.ReservationDetail requestBody) {
         Long userId = SessionService.getUserIdFromSession(request);
 
