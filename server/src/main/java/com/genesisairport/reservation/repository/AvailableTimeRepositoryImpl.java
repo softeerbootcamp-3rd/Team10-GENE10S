@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.repository;
 
+import com.genesisairport.reservation.common.util.CommonDateFormat;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -7,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -41,8 +41,8 @@ public class AvailableTimeRepositoryImpl implements AvailableTimeRepositoryCusto
         for(Tuple tuple : tuples) {
             Date date = tuple.get(0, Date.class);
             Time time = tuple.get(1, Time.class);
-            String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-            String formattedTime = new SimpleDateFormat("HH:mm").format(time);
+            String formattedDate = CommonDateFormat.date(date.toLocalDate());
+            String formattedTime = CommonDateFormat.time(time.toLocalTime());
 
             List<String> times = dateRange.getOrDefault(formattedDate, new ArrayList<>());
             times.add(formattedTime);
