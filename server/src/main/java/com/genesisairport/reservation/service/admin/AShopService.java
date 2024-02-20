@@ -7,6 +7,7 @@ import com.genesisairport.reservation.entity.RepairShop;
 import com.genesisairport.reservation.repository.AvailableTimeRepository;
 import com.genesisairport.reservation.repository.RepairShopRepository;
 import com.genesisairport.reservation.request.AdminRequest;
+import com.genesisairport.reservation.response.AdminResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -76,5 +78,12 @@ public class AShopService {
         availableTimeRepository.delete(exactAvailableTime.get());
 
         return ResponseCode.OK;
+    }
+
+    public List<AdminResponse.AvailableTime> getAvailableTime(AdminRequest.ReservationTimeRange requestBody) {
+        LocalDate dateFrom = LocalDate.parse(requestBody.getBusinessDayFrom());
+        LocalDate dateTo = LocalDate.parse(requestBody.getBusinessDayTo());
+
+        return availableTimeRepository.findAvailableTimeList(requestBody.getShopName(), dateFrom, dateTo);
     }
 }

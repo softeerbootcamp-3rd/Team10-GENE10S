@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.controller.admin;
 
+import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.service.admin.AShopService;
@@ -15,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v2/admin/shop")
 public class AShopController {
     private final AShopService aShopService;
+
+    @GetMapping("/available")
+    public ResponseEntity<ResponseDto> getAvailableDate(@RequestBody AdminRequest.ReservationTimeRange requestBody) {
+
+        return new ResponseEntity<>(DataResponseDto.of(aShopService.getAvailableTime(requestBody)), HttpStatus.OK);
+    }
 
     @PostMapping("/available")
     public ResponseEntity<ResponseDto> addAvailableDate(@RequestBody AdminRequest.ReservationTime requestBody) {

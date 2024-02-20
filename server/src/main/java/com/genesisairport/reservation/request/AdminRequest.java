@@ -58,4 +58,14 @@ public class AdminRequest {
         private String shopName;
         private String businessDay;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReservationTimeRange {
+        private String shopName;
+        private String businessDayFrom;
+        private String businessDayTo;
+    }
 }
