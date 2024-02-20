@@ -7,6 +7,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class AdminRequest {
+    @Getter
+    @Builder
+    public static class ReservationDetail {
+        private String shopName;
+        private String startPickupDateTime;
+        private String endPickupDateTime;
+        private String startReturnDateTime;
+        private String endReturnDateTime;
+        private String customerName;
+        private String sellName;
+        private String stage;
+        private String sortColumn;
+        private String sortDirection;
+    }
 
     @Getter
     @Builder
@@ -22,9 +36,36 @@ public class AdminRequest {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class CommentInfo {
+        private Long reservationId;
+        private String comment;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Login {
         private String adminId;
         private String adminPwd;
     }
 
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReservationTime {
+        private String shopName;
+        private String businessDay;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReservationTimeRange {
+        private String shopName;
+        private String businessDayFrom;
+        private String businessDayTo;
+    }
 }

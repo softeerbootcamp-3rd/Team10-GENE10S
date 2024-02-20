@@ -47,6 +47,7 @@ public class Reservation {
     private String progressStage;
 
     @Column(name = "inspection_result", length = 2000)
+    @Setter
     private String inspectionResult;
 
     @Column(name = "create_datetime")

@@ -1,9 +1,8 @@
-package com.genesisairport.reservation.respository;
+package com.genesisairport.reservation.repository;
 
 import com.genesisairport.reservation.response.ReservationResponse;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface RepairShopRepositoryCustom {

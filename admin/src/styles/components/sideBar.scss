@@ -33,10 +33,26 @@
         gap: 24px;
         align-self: stretch;
 
-        > span {
-            color: $white;
-            text-align: center;
-            @extend %SB_24;
+        > .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex: 1 0 0;
+            align-self: stretch;
+
+            > span {
+                color: $white;
+                text-align: center;
+                @extend %SB_24;
+            }
+        }
+
+        > .logout {
+            display: flex;
+            padding: 0px 4px;
+            align-items: center;
+            gap: 24px;
+            align-self: stretch;
         }
     }
 
