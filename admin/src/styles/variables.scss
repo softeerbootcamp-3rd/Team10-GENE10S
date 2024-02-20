@@ -40,6 +40,11 @@ $uyh: #fffefd;
     line-height: 38px;
   }
 
+  &_28 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
   &_24 {
     font-size: 24px;
     line-height: 34px;
@@ -98,6 +103,11 @@ $uyh: #fffefd;
   &_30 {
     @extend %B;
     @extend %size_30;
+  }
+
+  &_28 {
+    @extend %B;
+    @extend %size_28;
   }
 
   &_24 {
