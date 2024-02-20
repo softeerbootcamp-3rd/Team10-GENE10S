@@ -11,6 +11,19 @@
     border: 1px solid $blue_600;
     overflow: hidden;
 
+    input {
+        display: flex;
+        width: 240px;
+        padding: 4px 12px;
+        align-items: center;
+
+        border-radius: 5px;
+        border: 1px solid $blue_600;
+        background: $white;
+
+        @extend %B_20;
+    }
+
     > .tbody {
         display: flex;
         flex-direction: column;
@@ -102,6 +115,23 @@
                     > .step-content {
                         flex: 1 0 0;
                         color: $black;
+                        @extend %B_16;
+                    }
+
+                    > .input-title {
+                        width: 140px;
+                        padding: 8px;
+                        border-radius: 5px;
+                        border: 1px solid $blue_600;
+                        @extend %B_20;
+                        text-align: center;
+                    }
+
+                    > .input-content {
+                        flex: 1 0 0;
+                        padding: 8px;
+                        border-radius: 5px;
+                        border: 1px solid $blue_600;
                         @extend %B_16;
                     }
                 }

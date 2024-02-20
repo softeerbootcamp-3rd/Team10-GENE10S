@@ -2,8 +2,14 @@ import classNames from "classnames";
 import SideBar from "../components/SideBar";
 import BtnDark, { BtnLight } from "../components/Button";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import AddImageModal from "../components/modal/AddImageModal";
 
 export default function ReservationDetail() {
+
+    const [isAdding, setIsAdding] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+
     const reservationId = 10;
     const shopName = '블루핸즈 인천공항점';
     const customerName = '김희진';
@@ -49,11 +55,36 @@ export default function ReservationDetail() {
 
     ]
 
+    function deleteStep(stepName) {
+        console.log('delete ' + stepName);
+    }
+
+    function addStep() {
+        setIsAdding(true);
+    }
+
+    function submitStep() {
+        setIsAdding(false);
+    }
+
+    function cancelStep() {
+        setIsAdding(false);
+    }
+
     function deleteImage(imageId) {
         console.log('delete ' + imageId);
     }
 
+    function showImageModal(status) {
+        setModalVisible(true);
+    }
+
+    function closeModal() {
+        setModalVisible(false);
+    }
+
     return (
+    <>
       <div className={classNames('page')}>
         <SideBar currentPage={'reservation'} />
         <div className={classNames('body')}>
@@ -113,7 +144,7 @@ export default function ReservationDetail() {
                             </div>
                             <div className={classNames('td', 'grid')}>
                                 {services.map((service) => (
-                                    <span>{service}</span>
+                                    <span key={service}>{service}</span>
                                 ))}
                             </div>
                         </div>
@@ -142,14 +173,20 @@ export default function ReservationDetail() {
                                     <div key={step.title} className={classNames('step')}>
                                         <span className={classNames('step-title')}>{step.title}</span>
                                         <span className={classNames('step-content')}>{step.content}</span>
-                                        <BtnLight text={'삭제'}/>
+                                        <BtnLight text={'삭제'} onClick={() => deleteStep(step.title)}/>
                                     </div>
                                 ))}
-                                <div className={classNames('step')}>
-                                    <div className={classNames('btn-add')}>
+                                {isAdding && <div className={classNames('step')}>
+                                    <input className={classNames('input-title')}></input>
+                                    <input className={classNames('input-content')}></input>
+                                    <BtnLight text={'적용'} onClick={submitStep}/>
+                                    <BtnLight text={'취소'} onClick={cancelStep}/>
+                                </div>}
+                                {!isAdding && <div className={classNames('step')}>
+                                    <div className={classNames('btn-add')} onClick={addStep}>
                                         <span>추가</span>
                                     </div>
-                                </div>
+                                </div>}
                             </div>
                         </div>
                         <div className={classNames('tr')}>
@@ -159,12 +196,12 @@ export default function ReservationDetail() {
                             <div className={classNames('td')}>
                                 {beforeImages.map((image) => (
                                     <div key={image.id} className={classNames('image')} style={{background: `url(${image.imageUrl}) lightgray 50%`}}>
-                                        <div className={classNames('btn-delete')} onClick={deleteImage(image.id)}>
+                                        <div className={classNames('btn-delete')} onClick={() => deleteImage(image.id)}>
                                             <span>삭제</span>
                                         </div>
                                     </div>
                                 ))}
-                                <BtnLight text={'추가'}/>
+                                <BtnLight text={'추가'} onClick={() => {showImageModal(0)}}/>
                             </div>
                         </div>
                         <div className={classNames('tr')}>
@@ -179,7 +216,7 @@ export default function ReservationDetail() {
                                         </div>
                                     </div>
                                 ))}
-                                <BtnLight text={'추가'}/>
+                                <BtnLight text={'추가'} onClick={() => {showImageModal(1)}}/>
                             </div>
                         </div>
                     </div>
@@ -192,6 +229,8 @@ export default function ReservationDetail() {
             </div>
         </div>
       </div>
+        <AddImageModal onClose={closeModal} visible={modalVisible} />
+    </>
     );
   }
   
