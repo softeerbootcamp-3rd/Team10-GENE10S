@@ -45,4 +45,22 @@ public class AdminAccountController {
         );
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity adminLogout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+            return new ResponseEntity(
+                    ResponseDto.of(true, ResponseCode.OK),
+                    HttpStatus.OK
+            );
+        }
+
+        return new ResponseEntity(
+                ResponseDto.of(true, ResponseCode.UNAUTHORIZED),
+                HttpStatus.OK
+        );
+    }
+
 }
