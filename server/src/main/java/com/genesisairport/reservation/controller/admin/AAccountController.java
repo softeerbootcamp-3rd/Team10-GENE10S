@@ -1,11 +1,9 @@
 package com.genesisairport.reservation.controller.admin;
 
-import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.AdminRequest;
-import com.genesisairport.reservation.service.SessionService;
-import com.genesisairport.reservation.service.admin.AdminAccountService;
+import com.genesisairport.reservation.service.admin.AAccountService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v2/admin/account")
-public class AdminAccountController {
+public class AAccountController {
 
-    private final AdminAccountService adminAccountService;
+    private final AAccountService adminAccountService;
 
     @PostMapping("/login")
     public ResponseEntity adminLogin(@RequestBody AdminRequest.Login loginDto, HttpServletRequest request) {

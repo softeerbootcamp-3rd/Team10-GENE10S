@@ -3,11 +3,12 @@ package com.genesisairport.reservation.service;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.util.CommonDateFormat;
+import com.genesisairport.reservation.common.util.SessionUtil;
 import com.genesisairport.reservation.entity.Car;
 import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.response.UserResponse;
-import com.genesisairport.reservation.respository.CustomerRepository;
+import com.genesisairport.reservation.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -21,7 +22,7 @@ import java.util.List;
 @Slf4j
 public class UserService {
 
-    private final SessionService sessionService;
+    private final SessionUtil sessionUtil;
     private final CarService carService;
     private final CustomerRepository customerRepository;
 

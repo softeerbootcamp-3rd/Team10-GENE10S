@@ -3,8 +3,8 @@ package com.genesisairport.reservation.service.admin;
 import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.entity.Admin;
+import com.genesisairport.reservation.repository.AdminRepository;
 import com.genesisairport.reservation.request.AdminRequest;
-import com.genesisairport.reservation.respository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AdminAccountService {
+public class AAccountService {
 
     private final AdminRepository adminRepository;
 

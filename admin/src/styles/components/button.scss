@@ -1,0 +1,32 @@
+@import '../variables.scss';
+
+.btn-dark {
+    display: flex;
+    padding: 8px 48px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background: $blue_800;
+
+    > span {
+        color: $blue_50;
+        text-align: center;
+        @extend %B_20;
+    }
+}
+
+.btn-light {
+    display: flex;
+    padding: 8px 48px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid $blue_600;
+    background: $blue_50;
+
+    > span {
+        color: $black;
+        text-align: center;
+        @extend %B_20;
+    }
+}

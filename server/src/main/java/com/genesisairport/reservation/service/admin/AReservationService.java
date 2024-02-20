@@ -6,11 +6,15 @@ import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.entity.MaintenanceImage;
 import com.genesisairport.reservation.entity.Reservation;
 import com.genesisairport.reservation.entity.Step;
+
+import com.genesisairport.reservation.repository.MaintenanceImageRepository;
+import com.genesisairport.reservation.repository.StepRepository;
 import com.genesisairport.reservation.request.AdminRequest;
-import com.genesisairport.reservation.respository.MaintenanceImageRepository;
-import com.genesisairport.reservation.respository.ReservationRepository;
-import com.genesisairport.reservation.respository.StepRepository;
+import com.genesisairport.reservation.response.AdminResponse;
+import com.genesisairport.reservation.repository.ReservationRepository;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +25,15 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AReservationService {
     private final ReservationRepository reservationRepository;
     private final MaintenanceImageRepository maintenanceImageRepository;
     private final StepRepository stepRepository;
+
+    public List<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail requestBody) {
+        return reservationRepository.findReservations(requestBody);
+    }
 
     public void addMaintenanceImage(Long reservationId, Integer status, String imageUrl) {
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
