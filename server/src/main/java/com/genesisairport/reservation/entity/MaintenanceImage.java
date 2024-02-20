@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 public class MaintenanceImage {
 
     @Id
@@ -27,10 +29,10 @@ public class MaintenanceImage {
     @Getter
     private String imageUrl;
 
-    @Column(name = "create_datetime", nullable = false)
+    @Column(name = "create_datetime")
     private LocalDateTime createDatetime;
 
-    @Column(name = "update_datetime", nullable = false)
+    @Column(name = "update_datetime")
     private LocalDateTime updateDatetime;
 
     @ManyToOne

@@ -1,8 +1,8 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.common.ResponseCode;
-import com.genesisairport.reservation.common.ResponseDto;
-import com.genesisairport.reservation.entity.Customer;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.CarRequest;
 import com.genesisairport.reservation.service.CarService;
 import com.genesisairport.reservation.service.SessionService;
@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +27,8 @@ public class CarController {
         log.info("차량 등록 API");
         Long userId = SessionService.getUserIdFromSession(request);
 
-        //TODO: 로그인 유저 없을때 예외처리
         if (userId == null) {
-            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GeneralException(ResponseCode.FORBIDDEN, "유저를 불러오는 데에 실패했습니다.");
         }
         carService.saveCar(userId, requestBody);
 
@@ -44,9 +41,8 @@ public class CarController {
 
         Long userId = SessionService.getUserIdFromSession(request);
 
-        //TODO: 로그인 유저 없을때 예외처리
         if (userId == null) {
-            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GeneralException(ResponseCode.FORBIDDEN, "유저를 불러오는 데에 실패했습니다.");
         }
         carService.deleteCar(userId, carId);
 

@@ -1,5 +1,6 @@
-package com.genesisairport.reservation.common;
+package com.genesisairport.reservation.common.model;
 
+import com.genesisairport.reservation.common.enums.ResponseCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

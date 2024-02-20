@@ -1,10 +1,9 @@
 package com.genesisairport.reservation.controller;
 
-import com.genesisairport.reservation.common.ResponseCode;
-import com.genesisairport.reservation.common.ResponseDto;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.service.AuthService;
-import com.genesisairport.reservation.service.SessionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
