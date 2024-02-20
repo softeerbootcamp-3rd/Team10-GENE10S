@@ -55,6 +55,8 @@ public class AdminReservationController {
         if (requestBody.getComment() == null)
             throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 받아오지 못했습니다.");
 
+        adminReservationService.updateComment(requestBody);
+
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 

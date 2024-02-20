@@ -70,4 +70,18 @@ public class AdminReservationService {
 
         reservationRepository.save(reservation);
     }
+
+    public void updateComment(AdminRequest.CommentInfo requestBody) {
+        try {
+            Reservation reservation = reservationRepository.findReservationById(requestBody.getReservationId());
+            try {
+                reservation.setInspectionResult(requestBody.getComment());
+                reservationRepository.save(reservation);
+            } catch (Exception e) {
+                throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 저장하는 데 실패했습니다.");
+            }
+        } catch (Exception e) {
+            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
+        }
+    }
 }
