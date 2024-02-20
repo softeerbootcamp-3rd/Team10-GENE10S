@@ -1,19 +1,11 @@
-package com.genesisairport.reservation.service;
+package com.genesisairport.reservation.common.util;
 
-
-import com.genesisairport.reservation.common.GeneralException;
-import com.genesisairport.reservation.common.ResponseCode;
+import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
-public class SessionService {
+public class SessionUtil {
 
     public static Long getUserIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

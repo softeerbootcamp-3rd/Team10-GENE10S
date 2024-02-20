@@ -4,7 +4,6 @@ import com.genesisairport.reservation.common.GeneralException;
 import com.genesisairport.reservation.common.ResponseCode;
 import com.genesisairport.reservation.common.ResponseDto;
 import com.genesisairport.reservation.request.AdminRequest;
-import com.genesisairport.reservation.service.SessionService;
 import com.genesisairport.reservation.service.admin.AdminAccountService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
