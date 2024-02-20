@@ -5,7 +5,7 @@ import './styles/styles.scss';
 import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 import { RecoilRoot } from 'recoil';
-import TestPage from './pages/TestPage';
+import ReservationDetail from './pages/RservationDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,7 +13,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/test" element={<TestPage />}/>
+        <Route path="/reservation/detail" element={<ReservationDetail />}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
