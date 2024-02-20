@@ -1,8 +1,8 @@
 package com.genesisairport.reservation.service;
 
 
-import com.genesisairport.reservation.common.GeneralException;
-import com.genesisairport.reservation.common.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.enums.ResponseCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

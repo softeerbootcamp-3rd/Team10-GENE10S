@@ -1,6 +1,7 @@
-package com.genesisairport.reservation.common;
+package com.genesisairport.reservation.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -1,8 +1,8 @@
 package com.genesisairport.reservation.service.admin;
 
-import com.genesisairport.reservation.common.GeneralException;
-import com.genesisairport.reservation.common.ProgressStage;
-import com.genesisairport.reservation.common.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.enums.ProgressStage;
+import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.entity.Reservation;
 import com.genesisairport.reservation.entity.Step;
 import com.genesisairport.reservation.request.AdminRequest;

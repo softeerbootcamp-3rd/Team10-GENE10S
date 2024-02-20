@@ -1,6 +1,6 @@
 package com.genesisairport.reservation.service;
 
-import com.genesisairport.reservation.common.ProgressStage;
+import com.genesisairport.reservation.common.enums.ProgressStage;
 import com.genesisairport.reservation.entity.*;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
