@@ -8,19 +8,19 @@ import java.time.Duration;
 
 @Component
 public class RedisUtil {
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public RedisUtil(RedisTemplate<String, String> redisTemplate) {
+    public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
-    public void setValues(String key, String data) {
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
+    public void setValues(String key, Object data) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
         values.set(key, data, Duration.ofHours(1));
     }
 
-    public String getValues(String key) {
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
+    public Object getValues(String key) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
         return values.get(key);
     }
 
