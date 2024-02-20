@@ -26,9 +26,9 @@ public class AdminAccountController {
 
     @PostMapping("/login")
     public ResponseEntity adminLogin(@RequestBody AdminRequest.Login loginDto, HttpServletRequest request) {
-        Long id = SessionService.getAdminIdFromSession(request);
 
-        if (!adminAccountService.adminLogin(loginDto, id)) {
+        Long adminId = adminAccountService.adminLogin(loginDto);
+        if (adminId == null) {
             return new ResponseEntity<>(
                     ResponseDto.of(false, ResponseCode.BAD_REQUEST),
                     HttpStatus.OK
@@ -36,7 +36,7 @@ public class AdminAccountController {
         }
 
         HttpSession session = request.getSession(true);
-        session.setAttribute("adminId", id);
+        session.setAttribute("adminId", adminId);
         session.setMaxInactiveInterval(3600); // 1시간
 
         return new ResponseEntity(

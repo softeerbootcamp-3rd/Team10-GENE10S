@@ -17,7 +17,7 @@ public class AdminAccountService {
 
     private final AdminRepository adminRepository;
 
-    public boolean adminLogin(AdminRequest.Login loginDto, Long id) {
+    public Long adminLogin(AdminRequest.Login loginDto) {
         String adminId = loginDto.getAdminId();
         String adminPwd = loginDto.getAdminPwd();
 
@@ -25,18 +25,14 @@ public class AdminAccountService {
 
         // 아이디 존재 x
         if (admin == null)
-            return false;
+            return null;
 
         // 비밀번호 일치 x
         String encryptedPwd = encryptPassword(adminPwd);
         if (!admin.getAdminPassword().equals(encryptedPwd))
-            return false;
+            return null;
 
-        // 본인 확인
-        if (admin.getId() != id)
-            return false;
-
-        return true;
+        return admin.getId();
     }
 
     private String encryptPassword(String password) {
