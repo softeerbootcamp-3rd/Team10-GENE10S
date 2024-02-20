@@ -18,7 +18,6 @@ import java.util.List;
 import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
 import static com.genesisairport.reservation.entity.QReservation.reservation;
 import static com.genesisairport.reservation.entity.QCustomer.customer;
-import static com.genesisairport.reservation.entity.QStep.step;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -44,7 +43,6 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 reservationDetail.getSortColumn(),
                 reservationDetail.getSortDirection()
         );
-
         List<Tuple> tuples = jpaQueryFactory
                 .select(
                         reservation.id,
@@ -53,12 +51,11 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                         reservation.sellName,
                         reservation.departureTime,
                         reservation.arrivalTime,
-                        step.stage
+                        reservation.progressStage
                 )
                 .from(reservation)
                 .innerJoin(customer).on(reservation.customer.eq(customer))
                 .innerJoin(repairShop).on(reservation.repairShop.eq(repairShop))
-                .innerJoin(step).on(step.reservation.eq(reservation))
                 .where(builderForWhereClause)
                 .orderBy(orderBySpecifier)
                 .fetch();
@@ -101,7 +98,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
             builderForWhereClause.and(reservation.sellName.eq(sellName));
         }
         if (!Strings.isEmpty(stage)) {
-            builderForWhereClause.and(step.stage.eq(stage));
+            builderForWhereClause.and(reservation.progressStage.eq(stage));
         }
 
         return builderForWhereClause;
