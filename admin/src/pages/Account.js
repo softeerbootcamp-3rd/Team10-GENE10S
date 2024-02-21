@@ -3,44 +3,88 @@ import SideBar from "../components/SideBar";
 import { useEffect, useState } from "react";
 import { getAccountList } from "../api/AccountApi";
 import Pagination from "../components/Pagination";
-import { useLocation } from "react-router-dom";
+import BtnDark from "../components/BtnDark";
 
 export default function Account() {
-  const location = useLocation();
   const [accountList, setAccountList] = useState([]);
 
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [sortColumn, setSortColumn] = useState("adminId");
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(10);
-  const [totalElements, setTotalElements] = useState(100);
-  const [totalPages, setTotalPages] = useState(10); // dummy
+  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    if (location.state && location.state.page) {
-      setPage(location.state.page);
-    }
-  }, [location]);
-
-  const search = () => {
+  const search = (pageNumber = 1) => {
     getAccountList({
       adminId: userId,
       adminName: userName,
       phoneNumber: phoneNumber,
+      sortColumn: sortColumn,
+      sortDirection: sortDirection,
+      page: pageNumber - 1,
     }).then((response) => {
       setAccountList(response.data.data);
-
-      setPage(response.data.pageInfoDto.page);
-      setSize(response.data.pageInfoDto.size);
-      setTotalElements(response.data.pageInfoDto.totalElements);
-      setTotalPages(response.data.pageInfoDto.totalPages);
+      setPage(response.data.pageInfo.page + 1);
+      setTotalPages(response.data.pageInfo.totalPages);
     });
   };
 
-  const accountElements = accountList.map((account) => (
-    <div className={classNames("tr")}>
+  const handleSort = (columnName) => {
+    if (sortColumn === columnName) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(columnName);
+      setSortDirection("asc");
+    }
+    search(page);
+  };
+
+  const renderArrow = (columnName) => {
+    if (sortColumn === columnName) {
+      return sortDirection === "asc" ? (
+        <svg
+          width="14"
+          height="11"
+          viewBox="0 0 10 10"
+          fill="#000000"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M5 1L1 9H9L5 1Z" fill="#000000" />
+        </svg>
+      ) : (
+        <svg
+          width="14"
+          height="11"
+          viewBox="0 0 10 10"
+          fill="#000000"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M5 9L9 1H1L5 9Z" fill="#000000" />
+        </svg>
+      );
+    }
+    return (
+      <svg
+        width="14"
+        height="11"
+        viewBox="0 0 10 10"
+        fill="#999999"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M5 9L9 1H1L5 9Z" fill="#999999" />
+      </svg>
+    );
+  };
+
+  useEffect(() => {
+    search();
+  }, []);
+
+  const accountElements = accountList.map((account, index) => (
+    <div className={classNames("tr")} key={index}>
       <div className={classNames("td w-100")}>
         <span>{account.id}</span>
       </div>
@@ -76,19 +120,26 @@ export default function Account() {
             <div className={classNames("search-row")}>
               <div className={classNames("search-item")}>
                 <span>아이디</span>
-                <input type="text" onChange={setUserId} />
+                <input
+                  type="text"
+                  onChange={(event) => setUserId(event.target.value)}
+                />
               </div>
               <div className={classNames("search-item")}>
                 <span>이름</span>
-                <input type="text" onChange={setUserName} />
+                <input
+                  type="text"
+                  onChange={(event) => setUserName(event.target.value)}
+                />
               </div>
               <div className={classNames("search-item")}>
                 <span>전화번호</span>
-                <input type="text" onChange={setPhoneNumber} />
+                <input
+                  type="text"
+                  onChange={(event) => setPhoneNumber(event.target.value)}
+                />
               </div>
-              <div className={classNames("btn-dark")}>
-                <a onClick={() => search()}>검색</a>
-              </div>
+              <BtnDark onClick={() => search()} text={"검색"} />
             </div>
           </div>
 
@@ -100,8 +151,8 @@ export default function Account() {
 
           <div className={classNames("table")}>
             <div className="th">
-              <div className="td w-100">
-                <span>No</span>
+              <div className="td w-100" onClick={() => handleSort("adminId")}>
+                <span>No {renderArrow("id")}</span>
               </div>
               <div className="td w-250">
                 <span>아이디</span>
@@ -112,8 +163,11 @@ export default function Account() {
               <div className="td w-200">
                 <span>전화번호</span>
               </div>
-              <div className="td w-350">
-                <span>가입일</span>
+              <div
+                className="td w-350"
+                onClick={() => handleSort("createDateTime")}
+              >
+                <span>가입일 {renderArrow("createDateTime")}</span>
               </div>
               <div className="td w-150 h-52">
                 <span></span>
@@ -124,8 +178,10 @@ export default function Account() {
 
           <div className={classNames("paginate")}>
             <Pagination
-              PageInfo={{ page, size, totalElements, totalPages }}
+              page={page}
+              totalPages={totalPages}
               paginationSize={5}
+              onChange={search}
             />
           </div>
         </div>
