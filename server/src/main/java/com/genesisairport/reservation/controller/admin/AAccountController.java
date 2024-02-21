@@ -5,6 +5,7 @@ import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.PageInfo;
 import com.genesisairport.reservation.common.model.PageResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
+import com.genesisairport.reservation.common.util.RedisUtil;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.genesisairport.reservation.service.admin.AAccountService;
@@ -27,6 +28,8 @@ import java.util.List;
 public class AAccountController {
 
     private final AAccountService adminAccountService;
+
+    private final RedisUtil redisUtil;
 
     @PostMapping("/login")
     public ResponseEntity adminLogin(@RequestBody AdminRequest.Login loginDto, HttpServletRequest request) {
@@ -92,6 +95,26 @@ public class AAccountController {
 
         return new ResponseEntity<>(
                 PageResponseDto.of(accountDetailList, pageInfo),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/is-valid-session")
+    public ResponseEntity<ResponseDto> isValidSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        Boolean valid = redisUtil.isValid(session.getId());
+
+        // 유효하지 않은 세션인 경우
+        if (!valid) {
+            return new ResponseEntity<>(
+                    ResponseDto.of(false, ResponseCode.UNAUTHORIZED),
+                    HttpStatus.OK
+            );
+        }
+
+        return new ResponseEntity<>(
+                ResponseDto.of(true, ResponseCode.OK),
                 HttpStatus.OK
         );
     }
