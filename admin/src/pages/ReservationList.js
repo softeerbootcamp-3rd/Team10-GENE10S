@@ -183,29 +183,6 @@ export default function ReservationList() {
                             <div>현재 단계 </div>
                         </div>
                     </div>
-                    {/* <div className={classNames('tr')}>
-                        <div className={classNames('td')}>
-                            <div>10</div>
-                        </div>
-                        <div className={classNames('td')}>
-                            <div>블루핸즈 인천공항점</div>
-                        </div>
-                        <div className={classNames('td')}>
-                            <div>김희진</div>
-                        </div>
-                        <div className={classNames('td')}>
-                            <div>Genesis G80</div>
-                        </div>
-                        <div className={classNames('td')}>
-                            <div>2024-02-19 10:00</div>
-                        </div>
-                        <div className={classNames('td')}>
-                            <div>2024-02-20 20:00</div>
-                        </div>
-                        <div className={classNames('td')}>
-                            <div>예약 완료</div>
-                        </div>
-                    </div> */}
                     {responseData && responseData.map(item => (
                         <div key={item.reservationId} className={classNames('tr')}>
                             <div className={classNames('td')}>
