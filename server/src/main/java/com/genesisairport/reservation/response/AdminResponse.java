@@ -28,7 +28,7 @@ public class AdminResponse {
         private String adminName;
         private String phoneNumber;
         private String createDateTime;
-
+    }
       
     @AllArgsConstructor
     public static class AvailableTime {
