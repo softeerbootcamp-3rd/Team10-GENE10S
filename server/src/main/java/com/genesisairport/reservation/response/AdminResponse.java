@@ -22,6 +22,14 @@ public class AdminResponse {
 
     @Getter
     @Builder
+    public static class AccountDetail {
+        private long id;
+        private String adminId;
+        private String adminName;
+        private String phoneNumber;
+        private String createDateTime;
+
+      
     @AllArgsConstructor
     public static class AvailableTime {
         private String date;
