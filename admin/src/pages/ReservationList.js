@@ -6,9 +6,6 @@ import React, { useState, useEffect } from 'react';
 import { getReservationList } from '../api/ReservationApi';
 
 export default function ReservationList() {
-    
-    const today = new Date();
-    const next28Day = new Date(today.getTime() + (28 * 24 * 60 * 60 * 1000));
 
     const [shopName, setShopName] = useState('');
     const [startPickUpDateTime, setStartPickUpDateTime] = useState('');
