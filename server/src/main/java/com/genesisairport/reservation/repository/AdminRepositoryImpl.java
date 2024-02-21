@@ -8,9 +8,12 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +25,10 @@ import java.util.List;
 
 import static com.genesisairport.reservation.entity.QAdmin.admin;
 
-public class AdminRepositoryImpl extends QuerydslRepositorySupport implements AdminRepositoryCustom {
+public class AdminRepositoryImpl implements AdminRepositoryCustom {
 
-    public AdminRepositoryImpl() {
-        super(Admin.class);
-    }
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public Page<AdminResponse.AccountDetail> findAccounts(Pageable pageable, AdminRequest.AccountDetail accountDetail) {
@@ -41,22 +43,27 @@ public class AdminRepositoryImpl extends QuerydslRepositorySupport implements Ad
                 accountDetail.getSortDirection()
         );
 
-        JPQLQuery<Tuple> query = from(admin)
-                .select(
+        JPAQuery<AdminResponse.AccountDetail> query = new JPAQuery<>(entityManager);
+
+        List<Tuple> tuples = query.select(
                         admin.id,
                         admin.adminId,
                         admin.adminName,
                         admin.phoneNumber,
                         admin.createDatetime
                 )
+                .from(admin)
                 .where(builderForWhereClause)
-                .orderBy(orderSpecifier);
+                .orderBy(orderSpecifier)
+                .offset(pageable.getOffset()) // 페이지네이션 오프셋 설정
+                .limit(pageable.getPageSize()) // 페이지 크기 설정
+                .fetch();
 
-        List<Tuple> tuples = getQuerydsl().applyPagination(pageable, query).fetch();
+        long totalCount = query.fetchCount(); // 총 개수 가져오기
 
         List<AdminResponse.AccountDetail> accountDetailList = convertToAccountDetail(tuples);
 
-        return new PageImpl<>(accountDetailList, pageable, tuples.size());
+        return new PageImpl<>(accountDetailList, pageable, totalCount);
     }
 
     private List<AdminResponse.AccountDetail> convertToAccountDetail(List<Tuple> tuples) {
