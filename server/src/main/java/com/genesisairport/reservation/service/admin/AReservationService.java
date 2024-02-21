@@ -78,7 +78,9 @@ public class AReservationService {
                 .reservation(reservationRepository.findReservationById(requestBody.getReservationId()))
                 .build();
         try {
-            return stepRepository.save(newStep).getId();
+            Step insertResult = stepRepository.save(newStep);
+            setLatestStage(requestBody.getReservationId());
+            return insertResult.getId();
         } catch (Exception e) {
             throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "이미 추가된 진행 단계입니다.");
         }
