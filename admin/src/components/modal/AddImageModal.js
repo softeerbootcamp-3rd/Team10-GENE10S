@@ -1,17 +1,24 @@
 import classNames from 'classnames';
 import BtnDark, { BtnLight } from '../Button';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function AddImageModal({ status = 0, onClose, visible }) {
 
     const [selectedStatus, setSelectedStatus] = useState(status);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const ref = useRef();
 
     useEffect(() => {
         setSelectedStatus(status);
+        ref.current.value = '';
     }, [status])
 
-    function handleChangeStatus(event) {
+    function onStatusChange(event) {
         setSelectedStatus(event.target.value);
+    }
+
+    function onFileChange(event) {
+        setSelectedFile(event.target.files[0]);
     }
 
     function submitImage() {
@@ -32,7 +39,7 @@ export default function AddImageModal({ status = 0, onClose, visible }) {
                                     <span>구분</span>
                                 </div>
                                 <div className={classNames('td')}>
-                                    <select value={selectedStatus} onChange={handleChangeStatus}>
+                                    <select value={selectedStatus} onChange={onStatusChange}>
                                         <option value='0'>정비 전</option>
                                         <option value='1'>정비 후</option>
                                     </select>
@@ -43,7 +50,7 @@ export default function AddImageModal({ status = 0, onClose, visible }) {
                                     <span>파일 첨부</span>
                                 </div>
                                 <div className={classNames('td')}>
-                                    <input></input>
+                                    <input type='file' onChange={onFileChange} ref={ref}></input>
                                 </div>
                             </div>
                         </div>

@@ -24,6 +24,10 @@
         @extend %B_20;
     }
 
+    input[type="file"] {
+        @extend %M_16;
+    }
+
     > .tbody {
         display: flex;
         flex-direction: column;
@@ -55,11 +59,16 @@
     
                 > .image {
                     display: flex;
-                    width: 240px;
-                    height: 240px;
-                    padding: 12px;
                     flex-direction: column;
-                    align-items: flex-end;
+                    align-items: center;
+                    min-width: 78px;
+                    min-height: 64px;
+                    position: relative;
+
+                    > img {
+                        max-width: 240px;
+                        max-height: 240px;
+                    }
                 }
             }
     

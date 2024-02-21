@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class AReservationService {
         maintenanceImageRepository.save(entity);
     }
 
-    public void saveStage(AdminRequest.StageInfo requestBody) {
+    public Long saveStage(AdminRequest.StageInfo requestBody) {
         Step newStep = Step.builder()
                 .stage(requestBody.getProgress().getName())
                 .date(LocalDateTime.now())
@@ -59,12 +60,10 @@ public class AReservationService {
                 .reservation(reservationRepository.findReservationById(requestBody.getReservationId()))
                 .build();
         try {
-            stepRepository.save(newStep);
+            return stepRepository.save(newStep).getId();
         } catch (Exception e) {
             throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 추가된 진행 단계입니다.");
         }
-
-        setLatestStage(requestBody.getReservationId());
     }
 
     @Transactional
@@ -81,11 +80,11 @@ public class AReservationService {
 
         List<ProgressStage> stages = stepRepository.findStagesByReservationId(reservationId).stream()
                 .map(ProgressStage::fromName)
-                .collect(Collectors.toList());
+                .toList();
 
-        reservation.setProgressStage(stages.stream()
-                .max(Enum::compareTo)
-                .orElse(null)
+        reservation.setProgressStage(Objects.requireNonNull(stages.stream()
+                        .max(Enum::compareTo)
+                        .orElse(null))
                 .getName()
         );
 

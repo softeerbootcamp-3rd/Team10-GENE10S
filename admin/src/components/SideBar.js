@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { LogoutImage } from './svg/LogoutImage';
-import axios from '../api/Setting';
+import axios from '../api/Settings';
 
 // currentPage: 'reservation', 'shop', 'account' 중 한 개로 설정해야 함
 export default function SideBar({ currentPage }) {

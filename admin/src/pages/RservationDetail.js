@@ -2,9 +2,9 @@ import classNames from "classnames";
 import SideBar from "../components/SideBar";
 import BtnDark, { BtnLight } from "../components/Button";
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddImageModal from "../components/modal/AddImageModal";
-import { getReservationDetail } from "../api/ReservationApi";
+import { deleteProgress, getReservationDetail, postProgress } from "../api/ReservationApi";
 
 export default function ReservationDetail() {
 
@@ -19,12 +19,34 @@ export default function ReservationDetail() {
     const [carInfo, setCarInfo] = useState(null);
     const [departureDate, setDepartureDate] = useState(null);
     const [pickupDate, setPickupDate] = useState(null);
-    const [services, setServices] = useState([]);
+    const [services, setServices] = useState({
+        oil: false,
+        battery: false,
+        engineRun: false,
+        engineCooler: false,
+        airCooler: false,
+        bottom: false,
+        breakpad: false,
+        lamp: false,
+        engineMount: false,
+        suspension: false,
+        shaft: false,
+        scanner: false,
+        heater: false,
+        tire: false,
+        filter: false,
+    });
     const [customerRequest, setCustomerRequest] = useState(null);
     const [coupon, setCoupon] = useState(null);
     const [reservationSteps, setReservationSteps] = useState([]);
     const [beforeImages, setBeforeImages] = useState([]);
     const [afterImages, setAfterImages] = useState([]);
+
+    const stepTitleRef = useRef();
+    const stepContentRef = useRef();
+
+    const [selectedStep, setSelectedStep] = useState('예약완료');
+    const [stepContent, setStepContent] = useState(null);
 
     useEffect(() => {
         getReservationDetail(reservationId)
@@ -34,8 +56,7 @@ export default function ReservationDetail() {
             setCarInfo(`${response.carSellName} (${response.carPlateNumber})`);
             setDepartureDate(response.from);
             setPickupDate(response.to);
-            setServices([]);
-            // TODO: service들 넣기
+            setServices(response.serviceType);
             setCustomerRequest(response.customerRequest);
             setCoupon(response.couponSerialNumber);
             setReservationSteps(response.progressStage);
@@ -47,15 +68,34 @@ export default function ReservationDetail() {
         });
     }, [reservationId])
 
-    function deleteStep(stepName) {
-        console.log('delete ' + stepName);
+    function deleteStep(stepId) {
+        deleteProgress(stepId).then(() => {
+            setReservationSteps(reservationSteps.filter(item => item.id !== stepId));
+        });
     }
 
     function addStep() {
         setIsAdding(true);
     }
 
+    function onChangeStepTitle(event) {
+        setSelectedStep(event.target.value);
+    }
+
+    function onChangeStepContent(event) {
+        setStepContent(event.target.value);
+    }
+
     function submitStep() {
+        postProgress(reservationId, selectedStep, stepContent).then((response) => {
+            setReservationSteps([...reservationSteps,
+                {
+                    id: response.stepId,
+                    step: selectedStep,
+                    detail: stepContent
+                }]
+            )
+        });
         setIsAdding(false);
     }
 
@@ -136,9 +176,21 @@ export default function ReservationDetail() {
                                 <span>선택 서비스</span>
                             </div>
                             <div className={classNames('td', 'grid')}>
-                                {services.map((service) => (
-                                    <span key={service}>{service}</span>
-                                ))}
+                                {services.oil && <span>각종 오일 및 호스 상태</span>}
+                                {services.battery && <span>배터리 상태 및 충전 전압</span>}
+                                {services.engineRun && <span>엔진 구동 상태</span>}
+                                {services.engineCooler && <span>엔진 냉각수</span>}
+                                {services.airCooler && <span>에어클리너 점검</span>}
+                                {services.bottom && <span>하체충격 및 손상 여부</span>}
+                                {services.breakpad && <span>브레이크패드 및 라이닝 마모</span>}
+                                {services.lamp && <span>각종 등화 장치 점검</span>}
+                                {services.engineMount && <span>엔진 미션 마운트</span>}
+                                {services.suspension && <span>서스펜션 뉴계토우 점검</span>}
+                                {services.shaft && <span>스테빌라이저 및 드라이버 샤프트</span>}
+                                {services.scanner && <span>스캐너 고장코드 진단</span>}
+                                {services.heater && <span>에어컨 및 히터 작동 생태</span>}
+                                {services.tire && <span>타이어 공기압 및 마모도</span>}
+                                {services.filter && <span>에어컨 필터</span>}
                             </div>
                         </div>
                         <div className={classNames('tr')}>
@@ -163,15 +215,22 @@ export default function ReservationDetail() {
                             </div>
                             <div className={classNames('td', 'reservation-steps')}>
                                 {reservationSteps.map((step) => (
-                                    <div key={step.name} className={classNames('step')}>
-                                        <span className={classNames('step-title')}>{step.name}</span>
+                                    <div key={step.id} className={classNames('step')}>
+                                        <span className={classNames('step-title')}>{step.step}</span>
                                         <span className={classNames('step-content')}>{step.detail}</span>
-                                        <BtnLight text={'삭제'} onClick={() => deleteStep(step.name)}/>
+                                        <BtnLight text={'삭제'} onClick={() => deleteStep(step.id)}/>
                                     </div>
                                 ))}
                                 {isAdding && <div className={classNames('step')}>
-                                    <input className={classNames('input-title')}></input>
-                                    <input className={classNames('input-content')}></input>
+                                    <select className={classNames('input-title')} value={selectedStep} onChange={onChangeStepTitle} ref={stepTitleRef}>
+                                        <option value={'예약완료'}>예약완료</option>
+                                        <option value={'차량인수'}>차량인수</option>
+                                        <option value={'정비중'}>정비중</option>
+                                        <option value={'보관중'}>보관중</option>
+                                        <option value={'차량인계'}>차량인계</option>
+                                        <option value={'취소됨'}>취소됨</option>
+                                    </select>
+                                    <input className={classNames('input-content')} onChange={onChangeStepContent} ref={stepContentRef}></input>
                                     <BtnLight text={'적용'} onClick={submitStep}/>
                                     <BtnLight text={'취소'} onClick={cancelStep}/>
                                 </div>}
@@ -188,7 +247,8 @@ export default function ReservationDetail() {
                             </div>
                             <div className={classNames('td')}>
                                 {beforeImages.map((image) => (
-                                    <div key={image.id} className={classNames('image')} style={{background: `url(${image.imageUrl}) lightgray 50%`}}>
+                                    <div key={image.id} className={classNames('image')}>
+                                        <img alt={image.id} src={image.url}/>
                                         <div className={classNames('btn-delete')} onClick={() => deleteImage(image.id)}>
                                             <span>삭제</span>
                                         </div>
@@ -203,8 +263,9 @@ export default function ReservationDetail() {
                             </div>
                             <div className={classNames('td')}>
                                 {afterImages.map((image) => (
-                                    <div key={image.id} className={classNames('image')} style={{background: `url(${image.imageUrl}) lightgray 50%`}}>
-                                        <div className={classNames('btn-delete')} onClick={deleteImage(image.id)}>
+                                    <div key={image.id} className={classNames('image')}>
+                                        <img alt={image.id} src={image.url}/>
+                                        <div className={classNames('btn-delete')} onClick={() => deleteImage(image.id)}>
                                             <span>삭제</span>
                                         </div>
                                     </div>

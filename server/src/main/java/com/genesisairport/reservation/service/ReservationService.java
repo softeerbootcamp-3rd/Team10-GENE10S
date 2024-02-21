@@ -185,6 +185,7 @@ public class ReservationService {
         List<Step> steps = reservation.getStep();
         for(Step step : steps) {
             progressStages.add(ReservationResponse.ReservationDetail.ProgressStage.builder()
+                    .id(step.getId())
                     .step(step.getStage())
                     .date(step.getDate().format(DateTimeFormatter.ofPattern("yyyy년 MM월 d일 a hh:mm")))
                     .detail(step.getDetail())

@@ -8,6 +8,8 @@ import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.common.util.SessionUtil;
 
 import com.genesisairport.reservation.request.AdminRequest;
+import com.genesisairport.reservation.response.AdminResponse;
+import com.genesisairport.reservation.response.ReservationResponse;
 import com.genesisairport.reservation.service.S3Service;
 import com.genesisairport.reservation.service.admin.AReservationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -39,31 +42,36 @@ public class AReservationController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto> searchAllReservations(HttpServletRequest request, @RequestBody AdminRequest.ReservationDetail requestBody) {
+    public ResponseEntity<DataResponseDto<List<AdminResponse.ReservationDetail>>>
+        searchAllReservations(HttpServletRequest request, @RequestBody AdminRequest.ReservationDetail requestBody) {
         Long userId = SessionUtil.getAdminIdFromSession(request);
 
         if (!Objects.isNull(userId)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "로그인이 필요합니다.");
         }
-        return new ResponseEntity(
+        return new ResponseEntity<>(
                 DataResponseDto.of(aReservationService.getAllReservations(requestBody)),
                 HttpStatus.OK
         );
     }
 
     @PostMapping("/progress")
-    public ResponseEntity registerStage(@RequestBody AdminRequest.StageInfo requestBody) {
+    public ResponseEntity<DataResponseDto<ReservationResponse.ProgressId>> registerStage(
+            @RequestBody AdminRequest.StageInfo requestBody
+    ) {
+        if (requestBody.getProgress() == null)
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "유효하지 않은 진행단계입니다.");
 
-        if (requestBody.getProgress() == null) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 진행단계입니다.");
-        }
-
-        aReservationService.saveStage(requestBody);
-        return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
+        Long insertedId = aReservationService.saveStage(requestBody);
+        return new ResponseEntity<>(DataResponseDto.of(
+                ReservationResponse.ProgressId.builder()
+                        .stepId(insertedId)
+                        .build()),
+                HttpStatus.OK);
     }
 
-    @DeleteMapping("/progress")
-    public ResponseEntity deleteStage(@RequestParam(value = "stepId") long stepId) {
+    @DeleteMapping("/progress/{stepId}")
+    public ResponseEntity<ResponseDto> deleteStage(@PathVariable Long stepId) {
         aReservationService.deleteStage(stepId);
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }

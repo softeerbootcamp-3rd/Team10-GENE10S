@@ -5,11 +5,6 @@
 @import './components/infoTable.scss';
 @import './components/modal.scss';
 @import './components/button.scss';
-@import './pages/reservationList.scss';
-
-body {
-  user-select: none;
-}
 
 .page {
   display: flex;
