@@ -31,8 +31,16 @@ public class AReservationService {
     private final MaintenanceImageRepository maintenanceImageRepository;
     private final StepRepository stepRepository;
 
-    public List<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail requestBody) {
-        return reservationRepository.findReservations(requestBody);
+    public List<AdminResponse.ReservationDetail> getAllReservations(
+            String shopName, String startPickUpDateTime, String endPickUpDateTime, String startReturnDateTime,
+            String endReturnDateTime, String customerName, String sellName, String stage,
+            String sortColumn, String sortDirection, String pageSize, String pageNumber
+    ) {
+        return reservationRepository.findReservations(
+                shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime,
+                endReturnDateTime, customerName, sellName, stage, sortColumn, sortDirection,
+                pageSize, pageNumber
+        );
     }
 
     public void addMaintenanceImage(Long reservationId, Integer status, String imageUrl) {

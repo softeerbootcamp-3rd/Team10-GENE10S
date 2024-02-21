@@ -39,14 +39,31 @@ public class AReservationController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto> searchAllReservations(HttpServletRequest request, @RequestBody AdminRequest.ReservationDetail requestBody) {
+    public ResponseEntity<ResponseDto> searchAllReservations(
+            HttpServletRequest request,
+            @RequestParam("shopName") String shopName,
+            @RequestParam("startPickUpDateTime") String startPickUpDateTime,
+            @RequestParam("endPickUpDateTime") String endPickUpDateTime,
+            @RequestParam("startReturnDateTime") String startReturnDateTime,
+            @RequestParam("endReturnDateTime") String endReturnDateTime,
+            @RequestParam("customerName") String customerName,
+            @RequestParam("sellName") String sellName,
+            @RequestParam("stage") String stage,
+            @RequestParam("sortColumn") String sortColumn,
+            @RequestParam("sortDirection") String sortDirection,
+            @RequestParam("pageSize") String pageSize,
+            @RequestParam("pageNumber") String pageNumber) {
         Long userId = SessionUtil.getAdminIdFromSession(request);
 
         if (!Objects.isNull(userId)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "로그인이 필요합니다.");
         }
         return new ResponseEntity(
-                DataResponseDto.of(aReservationService.getAllReservations(requestBody)),
+                DataResponseDto.of(aReservationService.getAllReservations(
+                        shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime,
+                        endReturnDateTime, customerName, sellName, stage, sortColumn, sortDirection,
+                        pageSize, pageNumber
+                )),
                 HttpStatus.OK
         );
     }
