@@ -101,6 +101,10 @@ export default function ReservationList() {
         });
     }
 
+    useEffect(() => {
+        handleSearchReservations();
+    }, []);
+
     return (
       <div className={classNames('page')}>
         <SideBar currentPage={'reservation'} />
