@@ -30,19 +30,19 @@ export default function ReservationList() {
     };
 
     const handleStartPickUpDateTimeChange = (date) => {
-        setStartPickUpDateTime(date);
+        setStartPickUpDateTime(date.toISOString().split('T')[0] + ' 00:00:00');
     }
 
     const handleEndPickUpDateTimeChange = (date) => {
-        setEndPickUpDateTime(date);
+        setEndPickUpDateTime(date.toISOString().split('T')[0] + ' 00:00:00');
     }
 
     const handleStartReturnDateTimeChange = (date) => {
-        setStartReturnDateTime(date);
+        setStartReturnDateTime(date.toISOString().split('T')[0] + ' 00:00:00');
     }
 
     const handleEndReturnDateTimeChange = (date) => {
-        setEndReturnDateTime(date);
+        setEndReturnDateTime(date.toISOString().split('T')[0] + ' 00:00:00');
     }
 
     const handleCustomerNameChange = (event) => {
@@ -130,9 +130,9 @@ export default function ReservationList() {
                         </div>
                         <div className={classNames('search-item')}>
                             <div>픽업</div>
-                            <CustomCalendar value={startReturnDateTime} onChange={setStartReturnDateTime} />
+                            <CustomCalendar value={startReturnDateTime} onChange={handleStartReturnDateTimeChange} />
                             <div>~</div>
-                            <CustomCalendar value={endReturnDateTime} onChange={setEndReturnDateTime} />
+                            <CustomCalendar value={endReturnDateTime} onChange={handleEndReturnDateTimeChange} />
                         </div>
                     </div>
                     <div className={classNames('search-row')}>
