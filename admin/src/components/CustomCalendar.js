@@ -35,7 +35,7 @@ const CalendarWrapper = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
 `;
 
 const CustomCalendar = ({ onChange, value }) => {
@@ -68,7 +68,6 @@ const CustomCalendar = ({ onChange, value }) => {
     };
   
     return (
-      <>
       <div ref={calendarRef}>
         <CalendarContainer>
           <DropdownButton onClick={handleToggleCalendar}>{nowDate}</DropdownButton>
@@ -88,7 +87,6 @@ const CustomCalendar = ({ onChange, value }) => {
           </CalendarWrapper>
         </CalendarContainer>
       </div>
-      </>
     );
   };
 
