@@ -2,6 +2,8 @@ package com.genesisairport.reservation.controller.admin;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.model.DataResponseDto;
+import com.genesisairport.reservation.common.model.PageInfo;
+import com.genesisairport.reservation.common.model.PageResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
@@ -67,20 +69,15 @@ public class AAccountController {
 
         // Page에서 필요한 정보 추출
         List<AdminResponse.AccountDetail> accountDetailList = accountDetailPage.getContent();
-        AdminResponse.PageInfo pageInfo = AdminResponse.PageInfo.builder()
+        PageInfo pageInfo = PageInfo.builder()
                 .page(accountDetailPage.getNumber())
                 .size(accountDetailPage.getSize())
                 .totalElements(accountDetailPage.getTotalElements())
                 .totalPages(accountDetailPage.getTotalPages())
                 .build();
 
-        AdminResponse.AccountDetailForPage accountDetailForPage = AdminResponse.AccountDetailForPage.builder()
-                .accountDetailList(accountDetailList)
-                .pageInfo(pageInfo)
-                .build();
-
         return new ResponseEntity<>(
-                DataResponseDto.of(accountDetailForPage),
+                PageResponseDto.of(accountDetailList, pageInfo),
                 HttpStatus.OK
         );
     }
