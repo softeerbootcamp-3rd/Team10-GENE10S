@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import SideBar from "../components/SideBar";
 import BtnDark from '../components/Button';
 import CustomCalendar from '../components/CustomCalendar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getReservationList } from '../api/ReservationApi';
 
 export default function ReservationList() {
@@ -67,6 +67,8 @@ export default function ReservationList() {
           setSortColumn(columnName);
           setSortAscending(true); // true가 내림차순 (desc)
         }
+
+        handleSearchReservations();
     };
 
     const renderArrow = (columnName) => {
@@ -161,7 +163,7 @@ export default function ReservationList() {
                 </div>
                 <div className={classNames('table')}>
                     <div className={classNames('th')}>
-                        <div className={classNames('td')} onClick={() => handleSort('no')}>
+                        <div className={classNames('td')} onClick={() => handleSort('no') }>
                             <div>No {renderArrow('no')}</div>
                         </div>
                         <div className={classNames('td')} >
@@ -173,11 +175,11 @@ export default function ReservationList() {
                         <div className={classNames('td')} >
                             <div>차종 </div>
                         </div>
-                        <div className={classNames('td')} onClick={() => handleSort('pickUpDateTime')}>
-                            <div>센터 방문 {renderArrow('pickUpDateTime')}</div>
+                        <div className={classNames('td')} onClick={() =>  handleSort('departureTime') }>
+                            <div>센터 방문 {renderArrow('departureTime')}</div>
                         </div>
-                        <div className={classNames('td')} onClick={() => handleSort('returnDateTime')}>
-                            <div>픽업 {renderArrow('returnDateTime')}</div>
+                        <div className={classNames('td')} onClick={() => handleSort('arrivalTime')}>
+                            <div>픽업 {renderArrow('arrivalTime')}</div>
                         </div>
                         <div className={classNames('td')} >
                             <div>현재 단계 </div>
