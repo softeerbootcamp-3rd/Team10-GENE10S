@@ -64,7 +64,21 @@ public class AAccountController {
     @GetMapping
     public ResponseEntity searchAllAccounts(
             Pageable pageable,
-            @RequestBody AdminRequest.AccountDetail requestBody) {
+            @RequestParam String adminId,
+            @RequestParam String adminName,
+            @RequestParam String phoneNumber,
+            @RequestParam String sortColumn,
+            @RequestParam String sortDirection
+            ) {
+
+        AdminRequest.AccountDetail requestBody = AdminRequest.AccountDetail.builder()
+                .adminId(adminId)
+                .adminName(adminName)
+                .phoneNumber(phoneNumber)
+                .sortColumn(sortColumn)
+                .sortDirection(sortDirection)
+                .build();
+
         Page<AdminResponse.AccountDetail> accountDetailPage = adminAccountService.getAllAccounts(pageable, requestBody);
 
         // Page에서 필요한 정보 추출
