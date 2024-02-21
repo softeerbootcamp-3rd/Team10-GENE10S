@@ -6,7 +6,7 @@ import Main from "./pages/Main";
 import NotFound from "./pages/NotFound";
 import { RecoilRoot } from "recoil";
 import TestPage from "./pages/TestPage";
-import ReservationDetail from "./pages/RservationDetail";
+import ReservationDetail from "./pages/ReservationDetail";
 import ReservationList from "./pages/ReservationList";
 import Account from "./pages/Account";
 import "./styles/styles.scss";
