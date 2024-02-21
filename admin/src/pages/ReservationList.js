@@ -192,16 +192,16 @@ export default function ReservationList() {
                                 <div>{item.shopName}</div>
                             </div>
                             <div className={classNames('td')}>
-                                <div>{item.userName}</div>
+                                <div>{item.customerName}</div>
                             </div>
                             <div className={classNames('td')}>
-                                <div>{item.carModel}</div>
+                                <div>{item.sellName}</div>
                             </div>
                             <div className={classNames('td')}>
-                                <div>{item.startDate}</div>
+                                <div>{item.arrivalTime}</div>
                             </div>
                             <div className={classNames('td')}>
-                                <div>{item.endDate}</div>
+                                <div>{item.departureTime}</div>
                             </div>
                             <div className={classNames('td')}>
                                 <div>{item.stage}</div>
