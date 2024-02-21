@@ -41,18 +41,18 @@ public class AReservationController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> searchAllReservations(
             HttpServletRequest request,
-            @RequestParam("shopName") String shopName,
-            @RequestParam("startPickUpDateTime") String startPickUpDateTime,
-            @RequestParam("endPickUpDateTime") String endPickUpDateTime,
-            @RequestParam("startReturnDateTime") String startReturnDateTime,
-            @RequestParam("endReturnDateTime") String endReturnDateTime,
-            @RequestParam("customerName") String customerName,
-            @RequestParam("sellName") String sellName,
-            @RequestParam("stage") String stage,
-            @RequestParam("sortColumn") String sortColumn,
-            @RequestParam("sortDirection") String sortDirection,
-            @RequestParam("pageSize") String pageSize,
-            @RequestParam("pageNumber") String pageNumber) {
+            @RequestParam(value = "shopName", required = false) String shopName,
+            @RequestParam(value = "startPickUpDateTime", required = false) String startPickUpDateTime,
+            @RequestParam(value = "endPickUpDateTime", required = false) String endPickUpDateTime,
+            @RequestParam(value = "startReturnDateTime", required = false) String startReturnDateTime,
+            @RequestParam(value = "endReturnDateTime", required = false) String endReturnDateTime,
+            @RequestParam(value = "customerName", required = false) String customerName,
+            @RequestParam(value = "sellName", required = false) String sellName,
+            @RequestParam(value = "stage", required = false) String stage,
+            @RequestParam(value = "sortColumn", required = false) String sortColumn,
+            @RequestParam(value = "sortDirection", required = false) String sortDirection,
+            @RequestParam(value = "pageSize", required = false) String pageSize,
+            @RequestParam(value = "pageNumber", required = false) String pageNumber) {
         Long userId = SessionUtil.getAdminIdFromSession(request);
 
         if (!Objects.isNull(userId)) {
