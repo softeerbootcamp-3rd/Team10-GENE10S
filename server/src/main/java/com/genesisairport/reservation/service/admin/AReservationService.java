@@ -58,31 +58,25 @@ public class AReservationService {
                 .updateDatetime(LocalDateTime.now())
                 .reservation(reservationRepository.findReservationById(requestBody.getReservationId()))
                 .build();
-        try {
-            stepRepository.save(newStep);
-        } catch (Exception e) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 추가된 진행 단계입니다.");
-        }
 
-        setLatestStage(requestBody);
+        stepRepository.save(newStep);
+
+        setLatestStage(requestBody.getReservationId());
     }
 
     @Transactional
-    public void deleteStage(AdminRequest.StageInfo requestBody) {
-        Long stepId = stepRepository.findStepByReservationIdAndStage(
-                requestBody.getReservationId(),
-                requestBody.getProgress().getName()).getId();
-
+    public void deleteStage(long stepId) {
+        long reservationId = stepRepository.findStepById(stepId).getReservation().getId();
         stepRepository.deleteById(stepId);
 
-        setLatestStage(requestBody);
+        setLatestStage(reservationId);
     }
 
-    private void setLatestStage(AdminRequest.StageInfo requestBody) {
+    private void setLatestStage(long reservationId) {
         // 예약 현황 갱신
-        Reservation reservation = reservationRepository.findReservationById(requestBody.getReservationId());
+        Reservation reservation = reservationRepository.findReservationById(reservationId);
 
-        List<ProgressStage> stages = stepRepository.findStagesByReservationId(requestBody.getReservationId()).stream()
+        List<ProgressStage> stages = stepRepository.findStagesByReservationId(reservationId).stream()
                 .map(ProgressStage::fromName)
                 .collect(Collectors.toList());
 

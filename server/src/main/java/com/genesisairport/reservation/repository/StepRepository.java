@@ -15,6 +15,8 @@ public interface StepRepository extends JpaRepository<Step, Long> {
             @Param("reservationId") Long reservation,
             @Param("stage") String progress);
 
+    Step findStepById(long stepId);
+
     @Query("SELECT s.stage FROM Step s WHERE s.reservation.id = :reservationId")
     List<String> findStagesByReservationId(@Param("reservationId") Long reservationId);
 }
