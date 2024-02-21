@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -27,5 +28,11 @@ public class AdminResponse {
         private String adminName;
         private String phoneNumber;
         private String createDateTime;
+
+      
+    @AllArgsConstructor
+    public static class AvailableTime {
+        private String date;
+        private List<String> availableTime;
     }
 }

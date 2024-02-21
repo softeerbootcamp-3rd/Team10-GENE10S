@@ -8,10 +8,17 @@
     border-radius: 5px;
     background: $blue_800;
 
+    transition: background-color 0.3s ease;
+
     > span {
         color: $blue_50;
         text-align: center;
         @extend %B_20;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background: $blue_900;
     }
 }
 
@@ -24,9 +31,66 @@
     border: 1px solid $blue_600;
     background: $blue_50;
 
+    transition: background-color 0.3s ease;
+
     > span {
         color: $black;
         text-align: center;
         @extend %B_20;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background: $blue_600;
+    }
+}
+
+
+.btn-delete {
+    display: flex;
+    padding: 8px 12px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+    border: 1px solid $blue_600;
+    background: $blue_50;
+
+    transition: background-color 0.3s ease;
+
+    > span {
+        color: $black;
+        text-align: center;
+        @extend %B_16;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background: $blue_600;
+    }
+}
+
+.btn-add {
+    display: flex;
+    padding: 8px 48px;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+
+    border-radius: 5px;
+    border: 1px solid $blue_600;
+    background: $blue_50;
+
+    transition: background-color 0.3s ease;
+
+    > span {
+        color: $black;
+        text-align: center;
+        @extend %B_20;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background: $blue_600;
     }
 }

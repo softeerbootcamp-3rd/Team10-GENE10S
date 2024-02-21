@@ -50,7 +50,6 @@ public class AdminRequest {
         private String adminPwd;
     }
 
-
     @Getter
     @Builder
     public static class AccountDetail {
@@ -59,5 +58,24 @@ public class AdminRequest {
         private String phoneNumber;
         private String sortColumn;
         private String sortDirection;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReservationTime {
+        private String shopName;
+        private String businessDay;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ReservationTimeRange {
+        private String shopName;
+        private String businessDayFrom;
+        private String businessDayTo;
     }
 }
