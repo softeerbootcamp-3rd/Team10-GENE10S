@@ -1,7 +1,7 @@
 import axios from "../api/Settings";
 
 export async function getAccountList({
-  page = 0,
+  page = 1,
   size = 10,
   adminId = "",
   adminName = "",
