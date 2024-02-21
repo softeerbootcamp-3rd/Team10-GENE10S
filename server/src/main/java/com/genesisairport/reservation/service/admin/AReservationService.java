@@ -58,11 +58,8 @@ public class AReservationService {
                 .updateDatetime(LocalDateTime.now())
                 .reservation(reservationRepository.findReservationById(requestBody.getReservationId()))
                 .build();
-        try {
-            stepRepository.save(newStep);
-        } catch (Exception e) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 추가된 진행 단계입니다.");
-        }
+
+        stepRepository.save(newStep);
 
         setLatestStage(requestBody.getReservationId());
     }
