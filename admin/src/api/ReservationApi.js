@@ -33,3 +33,31 @@ export async function deleteProgress(stepId) {
     console.error(error);
   }
 }
+
+export async function postMaintenanceImage(reservationId, status, image) {
+  try {
+    const formData = new FormData();
+    formData.append('status', status);
+    formData.append('image', image);
+
+    const response = await axios.post(`/v2/admin/reservation/${reservationId}/image`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    return response.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function deleteMaintenanceImage(imageId) {
+  try {
+    const response = await axios.delete(`/v2/admin/reservation/image/${imageId}`);
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}

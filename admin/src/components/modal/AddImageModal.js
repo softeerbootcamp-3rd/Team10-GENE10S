@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import BtnDark, { BtnLight } from '../Button';
 import { useEffect, useRef, useState } from 'react';
+import { postMaintenanceImage } from '../../api/ReservationApi';
 
-export default function AddImageModal({ status = 0, onClose, visible }) {
+export default function AddImageModal({ reservationId, status = 0, onPost, onClose, visible }) {
 
     const [selectedStatus, setSelectedStatus] = useState(status);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -21,7 +22,10 @@ export default function AddImageModal({ status = 0, onClose, visible }) {
         setSelectedFile(event.target.files[0]);
     }
 
-    function submitImage() {
+    function submitImage(reservationId) {
+        postMaintenanceImage(reservationId, selectedStatus, selectedFile).then((response) => {
+            onPost(response.imageId, selectedStatus, response.imageUrl);
+        });
         onClose();
     }
 
@@ -56,7 +60,7 @@ export default function AddImageModal({ status = 0, onClose, visible }) {
                         </div>
                     </div>
                     <div className={classNames('btn-bottom')}>
-                        <BtnDark text={'등록'} onClick={submitImage}/>
+                        <BtnDark text={'등록'} onClick={() => submitImage(reservationId)}/>
                         <BtnLight text={'취소'} onClick={onClose}/>
                     </div>
                 </div>

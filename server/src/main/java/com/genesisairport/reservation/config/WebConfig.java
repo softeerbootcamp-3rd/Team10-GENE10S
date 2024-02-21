@@ -34,7 +34,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SessionInterceptor(redisTemplate))
                 .order(2)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/v1/login", "/", "/v2/admin/*", "/v1/reservation/*/detail");
+                .excludePathPatterns("/v1/login", "/", "/v2/admin/**", "/v1/reservation/**/detail");
     }
-
 }

@@ -32,6 +32,6 @@ public enum ProgressStage {
                 return stage;
             }
         }
-        throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 stage name 입니다. : " + name);
+        throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "유효하지 않은 stage name 입니다. : " + name);
     }
 }

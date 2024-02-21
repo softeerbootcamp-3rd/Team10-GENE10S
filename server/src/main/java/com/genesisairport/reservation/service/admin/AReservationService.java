@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class AReservationService {
         return reservationRepository.findReservations(requestBody);
     }
 
-    public void addMaintenanceImage(Long reservationId, Integer status, String imageUrl) {
+    public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
         if (reservation.isEmpty())
             throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 예약 id입니다.");
@@ -45,9 +44,28 @@ public class AReservationService {
                 .reservation(reservation.get())
                 .status(status)
                 .imageUrl(imageUrl)
+                .objectKey(objectKey)
                 .build();
 
-        maintenanceImageRepository.save(entity);
+        MaintenanceImage insertResult = maintenanceImageRepository.save(entity);
+        return AdminResponse.UploadImage.builder()
+                .imageId(insertResult.getId())
+                .imageUrl(insertResult.getImageUrl())
+                .build();
+    }
+
+    public MaintenanceImage getMaintenanceImage(Long imageId) {
+        Optional<MaintenanceImage> image = maintenanceImageRepository.findById(imageId);
+        if (image.isEmpty())
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 이미지 id입니다.");
+        return image.get();
+    }
+
+    public void deleteMaintenanceImage(Long imageId) {
+        Optional<MaintenanceImage> image = maintenanceImageRepository.findById(imageId);
+        if (image.isEmpty())
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 이미지 id입니다.");
+        maintenanceImageRepository.deleteById(imageId);
     }
 
     public Long saveStage(AdminRequest.StageInfo requestBody) {
@@ -62,7 +80,7 @@ public class AReservationService {
         try {
             return stepRepository.save(newStep).getId();
         } catch (Exception e) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 추가된 진행 단계입니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "이미 추가된 진행 단계입니다.");
         }
     }
 
@@ -98,10 +116,10 @@ public class AReservationService {
                 reservation.setInspectionResult(requestBody.getComment());
                 reservationRepository.save(reservation);
             } catch (Exception e) {
-                throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 저장하는 데 실패했습니다.");
+                throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "코멘트를 저장하는 데 실패했습니다.");
             }
         } catch (Exception e) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
         }
     }
 }

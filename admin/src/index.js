@@ -6,7 +6,7 @@ import Main from './pages/Main';
 import NotFound from './pages/NotFound';
 import { RecoilRoot } from 'recoil';
 import ReservationList from './pages/ReservationList';
-import ReservationDetail from './pages/RservationDetail';
+import ReservationDetail from './pages/ReservationDetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

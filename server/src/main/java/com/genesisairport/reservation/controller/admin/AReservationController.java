@@ -7,6 +7,7 @@ import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.common.util.SessionUtil;
 
+import com.genesisairport.reservation.entity.MaintenanceImage;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.genesisairport.reservation.response.ReservationResponse;
@@ -33,11 +34,21 @@ public class AReservationController {
     private final S3Service s3Service;
 
     @PostMapping("/{id}/image")
-    public ResponseEntity<ResponseDto> uploadImage(@PathVariable("id") Long id,
-                                                   @RequestParam("status") Integer status,
-                                                   @RequestPart("image") MultipartFile image) throws IOException {
-        String imageUrl = s3Service.saveFile(image);
-        aReservationService.addMaintenanceImage(id, status, imageUrl);
+    public ResponseEntity<DataResponseDto<AdminResponse.UploadImage>>
+        uploadImage(@PathVariable("id") Long id,
+                    @RequestParam("status") Integer status,
+                    @RequestPart("image") MultipartFile image) throws IOException {
+        S3Service.S3Result s3Result = s3Service.saveFile(image);
+        AdminResponse.UploadImage result =
+                aReservationService.addMaintenanceImage(id, status, s3Result.getUrl(), s3Result.getObjectKey());
+        return new ResponseEntity<>(DataResponseDto.of(result), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/image/{id}")
+    public ResponseEntity<ResponseDto> deleteImage(@PathVariable("id") Long id) {
+        MaintenanceImage image = aReservationService.getMaintenanceImage(id);
+        s3Service.deleteFile(image.getObjectKey());
+        aReservationService.deleteMaintenanceImage(id);
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 
@@ -80,10 +91,10 @@ public class AReservationController {
     public ResponseEntity updateComment(@RequestBody AdminRequest.CommentInfo requestBody) {
 
         if (requestBody.getReservationId() == null)
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "예약 Id를 받아오지 못했습니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "예약 Id를 받아오지 못했습니다.");
 
         if (requestBody.getComment() == null)
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 받아오지 못했습니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "코멘트를 받아오지 못했습니다.");
 
         aReservationService.updateComment(requestBody);
 

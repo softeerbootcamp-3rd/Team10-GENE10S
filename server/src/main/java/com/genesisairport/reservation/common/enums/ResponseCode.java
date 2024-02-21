@@ -18,7 +18,7 @@ public enum ResponseCode {
     UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED, "Unauthorized"),
     FORBIDDEN(403, HttpStatus.FORBIDDEN, "Forbidden"),
 
-    INTERNAL_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "Internal error");
+    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "Internal error");
 
     private final Integer code;
     private final HttpStatus httpStatus;
@@ -43,7 +43,7 @@ public enum ResponseCode {
                     if (httpStatus.is4xxClientError()) {
                         return ResponseCode.BAD_REQUEST;
                     } else if (httpStatus.is5xxServerError()) {
-                        return ResponseCode.INTERNAL_ERROR;
+                        return ResponseCode.INTERNAL_SERVER_ERROR;
                     } else {
                         return ResponseCode.OK;
                     }
