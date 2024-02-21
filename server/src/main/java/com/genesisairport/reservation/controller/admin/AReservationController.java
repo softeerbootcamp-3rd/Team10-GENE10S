@@ -63,13 +63,8 @@ public class AReservationController {
     }
 
     @DeleteMapping("/progress")
-    public ResponseEntity deleteStage(@RequestBody AdminRequest.StageInfo requestBody) {
-
-        if (requestBody.getProgress() == null) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 진행단계입니다.");
-        }
-
-        aReservationService.deleteStage(requestBody);
+    public ResponseEntity deleteStage(@RequestParam(value = "stepId") long stepId) {
+        aReservationService.deleteStage(stepId);
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 
