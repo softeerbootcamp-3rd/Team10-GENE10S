@@ -34,7 +34,7 @@ export default function ReservationList() {
     }
 
     const handleEndPickUpDateTimeChange = (date) => {
-        setEndPickUpDateTime(date.toISOString().split('T')[0] + ' 00:00:00');
+        setEndPickUpDateTime(date.toISOString().split('T')[0] + ' 23:59:59');
     }
 
     const handleStartReturnDateTimeChange = (date) => {
@@ -42,7 +42,7 @@ export default function ReservationList() {
     }
 
     const handleEndReturnDateTimeChange = (date) => {
-        setEndReturnDateTime(date.toISOString().split('T')[0] + ' 00:00:00');
+        setEndReturnDateTime(date.toISOString().split('T')[0] + ' 23:59:59');
     }
 
     const handleCustomerNameChange = (event) => {
