@@ -9,6 +9,7 @@ import TestPage from "./pages/TestPage";
 import ReservationDetail from "./pages/RservationDetail";
 import ReservationList from "./pages/ReservationList";
 import Account from "./pages/Account";
+import "./styles/styles.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

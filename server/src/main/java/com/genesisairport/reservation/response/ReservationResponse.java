@@ -94,10 +94,17 @@ public class ReservationResponse {
         private String customerRequest;
         private List<ProgressStage> progressStage;
         private String checkupResult;
-        private List<String> beforeImages;
-        private List<String> afterImages;
+        private List<ImageContainer> beforeImages;
+        private List<ImageContainer> afterImages;
         private String managerPhoneNumber;
         private String imageUrl;
+
+        @Getter
+        @Builder
+        public static class ImageContainer {
+            private long id;
+            private String url;
+        }
 
         @Getter
         @Builder

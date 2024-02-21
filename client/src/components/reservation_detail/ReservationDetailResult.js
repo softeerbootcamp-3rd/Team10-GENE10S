@@ -48,7 +48,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
       const img = new Image();
       img.onload = () => resolve({ width: img.width * (400 / img.height), height: 400 });
       img.onerror = reject;
-      img.src = src;
+      img.src = src.url;
     });
   };
   const handleBeforePrev = () => {
@@ -95,7 +95,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
               }}
             >
               {beforeImages.map((image, index) => (
-                <img key={index} src={image} alt={'before-'+index} style={{ height: `400px` }} />
+                <img key={index} src={image.url} alt={'before-'+index} style={{ height: `400px` }} />
               ))}
             </div>
             )}
@@ -129,7 +129,7 @@ export default function ReservationDetailResult({ reservationDetail }) {
               }}
             >
               {afterImages.map((image, index) => (
-                <img key={index} src={image} alt={'after-'+index} style={{ height: `400px` }} />
+                <img key={index} src={image.url} alt={'after-'+index} style={{ height: `400px` }} />
               ))}
             </div>
             )}
