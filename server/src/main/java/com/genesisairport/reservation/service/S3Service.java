@@ -2,9 +2,12 @@ package com.genesisairport.reservation.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -23,7 +26,14 @@ public class S3Service {
 
     private final String folderName = "maintenance/";
 
-    public String saveFile(MultipartFile file) throws IOException {
+    @Getter
+    @Builder
+    public static class S3Result {
+        private String url;
+        private String objectKey;
+    }
+
+    public S3Result saveFile(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
 
         // 파일 이름에서 확장자 추출
@@ -51,7 +61,21 @@ public class S3Service {
         s3Client.putObject(
                 new PutObjectRequest(bucket, folderName + uniqueFilename, file.getInputStream(), metadata)
         );
-        return s3Client.getUrl(bucket, folderName + uniqueFilename).toString();
+        return S3Result.builder()
+                .url(s3Client.getUrl(bucket, folderName + uniqueFilename).toString())
+                .objectKey(folderName + uniqueFilename)
+                .build();
+    }
+
+    public void deleteFile(String objectKey) {
+        try {
+            s3Client.deleteObject(bucket, objectKey);
+        } catch (AmazonS3Exception e) {
+            e.printStackTrace();
+            if (e.getStatusCode() != HttpStatus.NOT_FOUND.value()) {
+                throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "S3 파일 삭제 중 오류가 발생했습니다.");
+            }
+        }
     }
 
     private boolean doesFileExist(String filename) {

@@ -5,10 +5,8 @@ import "./styles/styles.scss";
 import Main from "./pages/Main";
 import NotFound from "./pages/NotFound";
 import { RecoilRoot } from "recoil";
-import ReservationDetail from "./pages/ReservationDetail";
 import ReservationList from "./pages/ReservationList";
-import Account from "./pages/Account";
-import "./styles/styles.scss";
+import ReservationDetail from "./pages/ReservationDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,8 +14,11 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route
+          path="/reservation/:reservationId/detail"
+          element={<ReservationDetail />}
+        />
         <Route path="reservation" element={<ReservationList />} />
-        <Route path="/reservation/detail" element={<ReservationDetail />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/admin/account" element={<Account />} />
       </Routes>
