@@ -121,8 +121,8 @@ public class ReservationService {
     }
 
     private void checkConcurrency(RepairShop repairShop, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
-        String fromDateTimeKey = concurrencyManager.createDateKey(repairShop, fromDateTime);
-        String toDateTimeKey = concurrencyManager.createDateKey(repairShop, toDateTime);
+        String fromDateTimeKey = concurrencyManager.createDateTimeKey(repairShop, fromDateTime);
+        String toDateTimeKey = concurrencyManager.createDateTimeKey(repairShop, toDateTime);
 
         synchronizeCache(repairShop, fromDateTime, fromDateTimeKey);
         Integer fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
@@ -157,7 +157,6 @@ public class ReservationService {
         }
     }
 
-    @Transactional
     protected Reservation saveReservation(Reservation reservation) {
         Reservation result = reservationRepository.save(reservation);
         availableTimeRepository.increaseReservationCount(

@@ -52,21 +52,21 @@ public class ReservationController {
     }
 
     @GetMapping("/date")
-    public ResponseEntity getAvailableDates(@RequestParam(value = "repairShop") String repairShop) {
+    public ResponseEntity<DataResponseDto<ReservationResponse.DateInfo>> getAvailableDates(@RequestParam(value = "repairShop") String repairShop) {
         log.debug("예약 가능 날짜 확인 API");
 
-        return new ResponseEntity(
+        return new ResponseEntity<>(
                 DataResponseDto.of(reservationService.getAvailableDates(repairShop)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/time")
-    public ResponseEntity getAvailableTimes(
+    public ResponseEntity<DataResponseDto<ReservationResponse.TimeList>> getAvailableTimes(
             @RequestParam(value = "repairShop") String repairShop,
             @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate date) {
 
-        return new ResponseEntity(
+        return new ResponseEntity<>(
                 DataResponseDto.of(reservationService.getAvailableTimes(repairShop, date)),
                 HttpStatus.OK
         );
@@ -74,7 +74,9 @@ public class ReservationController {
 
 
     @PostMapping
-    public ResponseEntity saveReservation(final HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody) {
+    public ResponseEntity<DataResponseDto<ReservationResponse.ReservationPostResponse>>
+        saveReservation(final HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody)
+    {
         log.debug("예약 정보 저장");
 
         Long userId = SessionUtil.getUserIdFromSession(request);
@@ -82,7 +84,9 @@ public class ReservationController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity getReservationList(final HttpServletRequest request) {
+    public ResponseEntity<DataResponseDto<List<ReservationResponse.ReservationInfoAbstract>>>
+        getReservationList(final HttpServletRequest request)
+    {
         log.debug("특정 사용자 예약 내역 조회");
 
         Long userId = SessionUtil.getUserIdFromSession(request);

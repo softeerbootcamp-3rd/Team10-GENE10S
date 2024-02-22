@@ -45,9 +45,8 @@ public class RedisUtil {
         values.decrement(key);
     }
 
-    public void setNx(String key, Object object) {
+    public void setNx(String key, String str) {
         ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        values.setIfAbsent(key, object);
+        values.setIfAbsent(key, str);
     }
-
 }
