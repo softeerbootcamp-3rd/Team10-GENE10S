@@ -1,7 +1,6 @@
 package com.genesisairport.reservation.controller.admin;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
-import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.PageInfo;
 import com.genesisairport.reservation.common.model.PageResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
@@ -62,7 +61,7 @@ public class AAccountController {
     }
 
     @GetMapping
-    public ResponseEntity searchAllAccounts(
+    public ResponseEntity<PageResponseDto> searchAllAccounts(
             Pageable pageable,
             @RequestParam String adminId,
             @RequestParam String adminName,

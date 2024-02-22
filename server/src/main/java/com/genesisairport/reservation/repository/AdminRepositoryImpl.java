@@ -25,10 +25,10 @@ import java.util.List;
 
 import static com.genesisairport.reservation.entity.QAdmin.admin;
 
+@RequiredArgsConstructor
 public class AdminRepositoryImpl implements AdminRepositoryCustom {
 
-    @Autowired
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public Page<AdminResponse.AccountDetail> findAccounts(Pageable pageable, AdminRequest.AccountDetail accountDetail) {
