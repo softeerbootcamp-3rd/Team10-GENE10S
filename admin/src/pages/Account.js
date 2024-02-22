@@ -11,7 +11,7 @@ export default function Account() {
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [sortColumn, setSortColumn] = useState("adminId");
+  const [sortColumn, setSortColumn] = useState("id");
   const [sortDirection, setSortDirection] = useState("asc");
 
   const [page, setPage] = useState(1);
@@ -151,7 +151,7 @@ export default function Account() {
 
           <div className={classNames("table")}>
             <div className="th">
-              <div className="td w-100" onClick={() => handleSort("adminId")}>
+              <div className="td w-100" onClick={() => handleSort("id")}>
                 <span>No {renderArrow("id")}</span>
               </div>
               <div className="td w-250">
