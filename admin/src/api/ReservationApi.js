@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import axios from "./Setting";
 
 export async function getReservationList( shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime, 
@@ -36,8 +35,7 @@ export async function getReservationList( shopName, startPickUpDateTime, endPick
         } catch (error) {
             console.error(error);
         }
-=======
-import axios from './Settings';
+      }
 
 export async function getReservationDetail(reservationId) {
   try {
@@ -99,5 +97,5 @@ export async function deleteMaintenanceImage(imageId) {
   } catch (error) {
     console.error(error);
   }
->>>>>>> develop
+
 }

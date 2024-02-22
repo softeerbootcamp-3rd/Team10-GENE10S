@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -53,7 +52,6 @@ public class AReservationController {
     }
 
     @GetMapping("/all")
-<<<<<<< HEAD
     public ResponseEntity<ResponseDto> searchAllReservations(
             HttpServletRequest request,
             @RequestParam(value = "shopName", required = false) String shopName,
@@ -68,26 +66,17 @@ public class AReservationController {
             @RequestParam(value = "sortDirection", required = false) String sortDirection,
             @RequestParam(value = "pageSize", required = false) String pageSize,
             @RequestParam(value = "pageNumber", required = false) String pageNumber) {
-=======
-    public ResponseEntity<DataResponseDto<List<AdminResponse.ReservationDetail>>>
-        searchAllReservations(HttpServletRequest request, @RequestBody AdminRequest.ReservationDetail requestBody) {
->>>>>>> develop
         Long userId = SessionUtil.getAdminIdFromSession(request);
 
         if (!Objects.isNull(userId)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "로그인이 필요합니다.");
         }
-<<<<<<< HEAD
         return new ResponseEntity(
                 DataResponseDto.of(aReservationService.getAllReservations(
                         shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime,
                         endReturnDateTime, customerName, sellName, stage, sortColumn, sortDirection,
                         pageSize, pageNumber
                 )),
-=======
-        return new ResponseEntity<>(
-                DataResponseDto.of(aReservationService.getAllReservations(requestBody)),
->>>>>>> develop
                 HttpStatus.OK
         );
     }
