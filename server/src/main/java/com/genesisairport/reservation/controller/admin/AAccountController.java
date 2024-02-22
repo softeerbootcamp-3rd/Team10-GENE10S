@@ -1,6 +1,7 @@
 package com.genesisairport.reservation.controller.admin;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.PageInfo;
 import com.genesisairport.reservation.common.model.PageResponseDto;
@@ -103,14 +104,15 @@ public class AAccountController {
     public ResponseEntity<ResponseDto> isValidSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
-        Boolean valid = redisUtil.isValid(session.getId());
+        Boolean valid = false;
+        if (session != null) {
+            valid = redisUtil.isValid(session.getId());
+
+        }
 
         // 유효하지 않은 세션인 경우
         if (!valid) {
-            return new ResponseEntity<>(
-                    ResponseDto.of(false, ResponseCode.UNAUTHORIZED),
-                    HttpStatus.OK
-            );
+            throw new GeneralException(ResponseCode.UNAUTHORIZED, "유효하지 않은 세션입니다.");
         }
 
         return new ResponseEntity<>(
