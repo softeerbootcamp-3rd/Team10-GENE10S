@@ -66,16 +66,30 @@ public class AReservationController {
             @RequestParam(value = "sortDirection", required = false) String sortDirection,
             @RequestParam(value = "pageSize", required = false) String pageSize,
             @RequestParam(value = "pageNumber", required = false) String pageNumber) {
+
         Long userId = SessionUtil.getAdminIdFromSession(request);
 
         if (!Objects.isNull(userId)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "로그인이 필요합니다.");
         }
+
+        AdminRequest.ReservationDetail requestBody = AdminRequest.ReservationDetail
+                .builder()
+                .shopName(shopName)
+                .startPickupDateTime(startPickUpDateTime)
+                .endPickupDateTime(endPickUpDateTime)
+                .startReturnDateTime(startReturnDateTime)
+                .endReturnDateTime(endReturnDateTime)
+                .customerName(customerName)
+                .sellName(sellName)
+                .stage(stage)
+                .sortColumn(sortColumn)
+                .sortDirection(sortDirection)
+                .build();
+
         return new ResponseEntity(
                 DataResponseDto.of(aReservationService.getAllReservations(
-                        shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime,
-                        endReturnDateTime, customerName, sellName, stage, sortColumn, sortDirection,
-                        pageSize, pageNumber
+                        requestBody, pageSize, pageNumber
                 )),
                 HttpStatus.OK
         );

@@ -27,18 +27,18 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
 
     @Override
     public List<AdminResponse.ReservationDetail> findReservations(
-            String shopName, String startPickUpDateTime, String endPickUpDateTime, String startReturnDateTime,
-            String endReturnDateTime, String customerName, String sellName, String stage,
-            String sortColumn, String sortDirection, String pageSize, String pageNumber
+            AdminRequest.ReservationDetail reservationDetail, String pageSize, String pageNumber
     ) {
 
         BooleanBuilder builderForWhereClause = getBuilderForWhereClause(
-                shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime, endReturnDateTime,
-                customerName, sellName, stage
+                reservationDetail.getShopName(), reservationDetail.getStartPickupDateTime(),
+                reservationDetail.getEndPickupDateTime(), reservationDetail.getStartReturnDateTime(),
+                reservationDetail.getEndReturnDateTime(), reservationDetail.getCustomerName(),
+                reservationDetail.getSellName(), reservationDetail.getStage()
         );
 
         OrderSpecifier<?> orderBySpecifier = getOrderBySpecifier(
-                sortColumn, sortDirection
+                reservationDetail.getSortColumn(), reservationDetail.getSortDirection()
         );
 
         List<Tuple> tuples = jpaQueryFactory

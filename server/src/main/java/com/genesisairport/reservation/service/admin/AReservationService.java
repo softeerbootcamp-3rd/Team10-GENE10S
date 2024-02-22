@@ -32,14 +32,10 @@ public class AReservationService {
     private final StepRepository stepRepository;
 
     public List<AdminResponse.ReservationDetail> getAllReservations(
-            String shopName, String startPickUpDateTime, String endPickUpDateTime, String startReturnDateTime,
-            String endReturnDateTime, String customerName, String sellName, String stage,
-            String sortColumn, String sortDirection, String pageSize, String pageNumber
+            AdminRequest.ReservationDetail reservationDetail, String pageSize, String pageNumber
     ) {
         return reservationRepository.findReservations(
-                shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime,
-                endReturnDateTime, customerName, sellName, stage, sortColumn, sortDirection,
-                pageSize, pageNumber
+                reservationDetail, pageSize, pageNumber
         );
     }
 

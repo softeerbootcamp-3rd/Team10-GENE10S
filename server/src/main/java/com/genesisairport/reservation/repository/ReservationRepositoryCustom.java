@@ -8,8 +8,6 @@ import java.util.List;
 public interface ReservationRepositoryCustom {
 
     List<AdminResponse.ReservationDetail> findReservations(
-            String shopName, String startPickUpDateTime, String endPickUpDateTime, String startReturnDateTime,
-            String endReturnDateTime, String customerName, String sellName, String stage,
-            String sortColumn, String sortDirection, String pageSize, String pageNumber
+            AdminRequest.ReservationDetail reservationDetail, String pageSize, String pageNumber
     );
 }
