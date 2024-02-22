@@ -4,6 +4,7 @@ import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 e,
                 body,
                 headers,
-                responseCode.getHttpStatus(),
+                HttpStatus.OK,
                 webRequest);
     }
 }

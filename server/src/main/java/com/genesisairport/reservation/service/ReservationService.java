@@ -1,13 +1,15 @@
 package com.genesisairport.reservation.service;
 
 import com.genesisairport.reservation.common.enums.ProgressStage;
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.util.CommonDateFormat;
 import com.genesisairport.reservation.entity.*;
+import com.genesisairport.reservation.repository.*;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.response.ReservationResponse;
-import com.genesisairport.reservation.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,8 +31,8 @@ public class ReservationService {
     private final StepRepository stepRepository;
 
     public Boolean validateCoupon(String serialNumber) {
-        Coupon coupon = couponRepository.findCouponBySerialNumber(serialNumber);
-        return coupon != null && !coupon.getIsUsed() && !coupon.getExpiredDate().isBefore(LocalDate.now());
+        Optional<Coupon> coupon = couponRepository.findCouponBySerialNumber(serialNumber);
+        return coupon.isPresent() && !coupon.get().getIsUsed() && !coupon.get().getExpiredDate().isBefore(LocalDate.now());
     }
 
 
@@ -49,67 +51,59 @@ public class ReservationService {
     }
 
     public ReservationResponse.ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
-        // 요청 바디에서 필요한 정보 추출
-        String from = requestBody.getDepartureTime();
-        String to = requestBody.getArrivalTime();
-        String contactNumber = requestBody.getContactNumber();
-        String sellName = requestBody.getCarSellName();
-        String plateNumber = requestBody.getCarPlateNumber();
-        String serviceType = requestBody.getServiceType().toString();
-        String customerRequest = requestBody.getCustomerRequest();
-        String couponSerialNumber = requestBody.getCouponSerialNumber();
-        String repairShop = requestBody.getShopName();
+        Optional<Coupon> coupon = couponRepository.findCouponBySerialNumber(requestBody.getCouponSerialNumber());
+        if (coupon.isEmpty()) {
+            throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 쿠폰입니다.");
+        }
+        if (coupon.get().getIsUsed()) {
+            throw new GeneralException(ResponseCode.CONFLICT, "이미 사용된 쿠폰입니다.");
+        }
 
-        // 예약 상태 확인 (임의로 true로 설정)
-        boolean reservationStatus = false;
+        Optional<RepairShop> repairShop = repairShopRepository.findRepairShopByShopName(requestBody.getShopName());
+        if (repairShop.isEmpty()) {
+            throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 지점명입니다.");
+        }
 
         // 날짜 형식 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime fromDateTime = LocalDateTime.parse(from, formatter);
-        LocalDateTime toDateTime = LocalDateTime.parse(to, formatter);
+        LocalDateTime fromDateTime = CommonDateFormat.localDatetime(requestBody.getDepartureTime());
+        LocalDateTime toDateTime = CommonDateFormat.localDatetime(requestBody.getArrivalTime());
 
         Reservation reservation = Reservation.builder()
                 .departureTime(fromDateTime)
                 .arrivalTime(toDateTime)
-                .contactNumber(contactNumber)
-                .sellName(sellName)
-                .plateNumber(plateNumber)
-                .serviceType(serviceType)
-                .customerRequest(customerRequest)
-                .progressStage("예약중")
-                .customer(customerRepository.findCustomerById((long) customerId))
-                .coupon(couponRepository.findCouponBySerialNumber(couponSerialNumber))
-                .repairShop(repairShopRepository.findRepairShopByShopName(repairShop))
+                .contactNumber(requestBody.getContactNumber())
+                .sellName(requestBody.getCarSellName())
+                .plateNumber(requestBody.getCarPlateNumber())
+                .serviceType(requestBody.getServiceType().toString())
+                .customerRequest(requestBody.getCustomerRequest())
+                .progressStage(ProgressStage.RESERVATION_APPROVED.getName())
+                .customer(customerRepository.findCustomerById(customerId))
+                .coupon(coupon.get())
+                .repairShop(repairShop.get())
                 .createDateTime(LocalDateTime.now())
                 .updateDateTime(LocalDateTime.now())
                 .build();
 
 
-        if (!Strings.isEmpty(couponSerialNumber)) {
-            Coupon c = couponRepository.findCouponBySerialNumber(couponSerialNumber);
-            if (c != null && !c.getIsUsed()) {
-                reservationStatus = true;
-                reservationRepository.save(reservation);
-                c.setIsUsed(true);
-                couponRepository.save(c);
+        reservationRepository.save(reservation);
+        coupon.get().setIsUsed(true);
+        couponRepository.save(coupon.get());
 
-                // 초기 진행 단계 설정
-                Step step = Step.builder()
-                        .reservation(reservation)
-                        .stage(ProgressStage.RESERVATION_APPROVED.getName())
-                        .date(LocalDateTime.now())
-                        .detail("")
-                        .createDatetime(LocalDateTime.now())
-                        .updateDatetime(LocalDateTime.now())
-                        .build();
+        // 초기 진행 단계 설정
+        Step step = Step.builder()
+                .reservation(reservation)
+                .stage(ProgressStage.RESERVATION_APPROVED.getName())
+                .date(LocalDateTime.now())
+                .detail("")
+                .createDatetime(LocalDateTime.now())
+                .updateDatetime(LocalDateTime.now())
+                .build();
 
-                stepRepository.save(step);
-            }
-        }
+        stepRepository.save(step);
 
         return ReservationResponse.ReservationPostResponse.builder()
-                .reservationStatus(reservationStatus)
-                .repairShopAddress(repairShopRepository.findRepairShopByShopName(repairShop).getAddress())
+                .reservationStatus(true)
+                .repairShopAddress(repairShop.get().getAddress())
                 .customerName(customerRepository.findCustomerById(customerId).getName())
                 .build();
     }
@@ -137,23 +131,22 @@ public class ReservationService {
     }
 
     public Optional<ReservationResponse.ReservationDetail> getReservationDetail(Long reservationId) {
-        Reservation reservation = reservationRepository.findReservationById(reservationId);
-        if (reservation == null) {
-            return Optional.empty();
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        if (reservation.isEmpty()) {
+            throw new GeneralException(ResponseCode.NOT_FOUND, "예약 id를 찾을 수 없습니다.");
         }
 
-        Customer customer = reservation.getCustomer();
-        Coupon coupon = reservation.getCoupon();
-        RepairShop repairShop = reservation.getRepairShop();
+        Customer customer = reservation.get().getCustomer();
+        Coupon coupon = reservation.get().getCoupon();
+        RepairShop repairShop = reservation.get().getRepairShop();
 
         // date (to, from)
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String fromString = reservation.getDepartureTime().format(formatter);
-        String toString = reservation.getArrivalTime().format(formatter);
+        String fromString = CommonDateFormat.localDatetime(reservation.get().getDepartureTime());
+        String toString = CommonDateFormat.localDatetime(reservation.get().getArrivalTime());
 
         // serviceType
         Map<String, Boolean> serviceType = new HashMap<>();
-        String serviceTypeString = reservation.getServiceType();
+        String serviceTypeString = reservation.get().getServiceType();
         String substring = serviceTypeString.substring(1, serviceTypeString.length() - 1);
         for(String typeString : substring.split(", ")) {
             String[] split = typeString.split("=");
@@ -163,7 +156,7 @@ public class ReservationService {
         // maintenanceImage
         List<ReservationResponse.ReservationDetail.ImageContainer> beforeImages = new ArrayList<>();
         List<ReservationResponse.ReservationDetail.ImageContainer> afterImages = new ArrayList<>();
-        List<MaintenanceImage> maintenanceImage = reservation.getMaintenanceImage();
+        List<MaintenanceImage> maintenanceImage = reservation.get().getMaintenanceImage();
         for (MaintenanceImage image : maintenanceImage) {
             if (image.getStatus() == 1) {
                 afterImages.add(ReservationResponse.ReservationDetail.ImageContainer.builder()
@@ -182,7 +175,7 @@ public class ReservationService {
 
         // progressStage
         List<ReservationResponse.ReservationDetail.ProgressStage> progressStages = new ArrayList<>();
-        List<Step> steps = reservation.getStep();
+        List<Step> steps = reservation.get().getStep();
         for(Step step : steps) {
             progressStages.add(ReservationResponse.ReservationDetail.ProgressStage.builder()
                     .id(step.getId())
@@ -193,7 +186,7 @@ public class ReservationService {
         }
 
         // car image
-        Optional<CarImage> carImage = carImageRepository.findBySellName(reservation.getSellName());
+        Optional<CarImage> carImage = carImageRepository.findBySellName(reservation.get().getSellName());
         String imageUrl;
         if (carImage.isEmpty()) {
             return Optional.empty();
@@ -202,23 +195,23 @@ public class ReservationService {
         }
 
         return Optional.of(ReservationResponse.ReservationDetail.builder()
-                .reservationId(reservation.getId())
+                .reservationId(reservation.get().getId())
                 .customerId(customer.getId())
                 .couponSerialNumber(coupon.getSerialNumber())
                 .repairShop(repairShop.getShopName())
                 .repairShopAddress(repairShop.getAddress())
                 .from(fromString)
                 .to(toString)
-                .contactNumber(reservation.getContactNumber())
-                .carSellName(reservation.getSellName())
-                .carPlateNumber(reservation.getPlateNumber())
+                .contactNumber(reservation.get().getContactNumber())
+                .carSellName(reservation.get().getSellName())
+                .carPlateNumber(reservation.get().getPlateNumber())
                 .serviceType(serviceType)
-                .customerRequest(reservation.getCustomerRequest())
+                .customerRequest(reservation.get().getCustomerRequest())
                 .progressStage(progressStages)
-                .checkupResult(reservation.getInspectionResult())
+                .checkupResult(reservation.get().getInspectionResult())
                 .beforeImages(beforeImages)
                 .afterImages(afterImages)
-                .managerPhoneNumber(reservation.getContactNumber())
+                .managerPhoneNumber(reservation.get().getContactNumber())
                 .imageUrl(imageUrl)
                 .build());
     }

@@ -2,10 +2,10 @@ package com.genesisairport.reservation.service;
 
 import com.genesisairport.reservation.entity.Car;
 import com.genesisairport.reservation.entity.CarImage;
-import com.genesisairport.reservation.request.CarRequest;
 import com.genesisairport.reservation.repository.CarImageRepository;
 import com.genesisairport.reservation.repository.CarRepository;
 import com.genesisairport.reservation.repository.CustomerRepository;
+import com.genesisairport.reservation.request.CarRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

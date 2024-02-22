@@ -14,8 +14,8 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
 import static com.genesisairport.reservation.entity.QAvailableTime.availableTime;
+import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
 
 @RequiredArgsConstructor
 public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
