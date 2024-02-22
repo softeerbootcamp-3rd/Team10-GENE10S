@@ -164,25 +164,25 @@ export default function ReservationList() {
                 </div>
                 <div className={classNames('table')}>
                     <div className={classNames('th')}>
-                        <div className={classNames('td')} onClick={() => handleSort('no') }>
+                        <div className={classNames('td', 'w-100')} onClick={() => handleSort('no') }>
                             <div>No {renderArrow('no')}</div>
                         </div>
-                        <div className={classNames('td')} >
+                        <div className={classNames('td', 'w-250')} >
                             <div>정비소 </div>
                         </div>
-                        <div className={classNames('td')} >
+                        <div className={classNames('td', 'w-150')} >
                             <div>고객명 </div>
                         </div>
-                        <div className={classNames('td')} >
+                        <div className={classNames('td', 'w-200')} >
                             <div>차종 </div>
                         </div>
-                        <div className={classNames('td')} onClick={() =>  handleSort('departureTime') }>
+                        <div className={classNames('td', 'w-250')} onClick={() =>  handleSort('departureTime') }>
                             <div>센터 방문 {renderArrow('departureTime')}</div>
                         </div>
-                        <div className={classNames('td')} onClick={() => handleSort('arrivalTime')}>
+                        <div className={classNames('td', 'w-250')} onClick={() => handleSort('arrivalTime')}>
                             <div>픽업 {renderArrow('arrivalTime')}</div>
                         </div>
-                        <div className={classNames('td')} >
+                        <div className={classNames('td', 'w-150')} >
                             <div>현재 단계 </div>
                         </div>
                     </div>
