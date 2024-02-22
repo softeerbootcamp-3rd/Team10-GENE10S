@@ -112,7 +112,7 @@ public class ReservationService {
         String toDateTimeKey = concurrencyManager.createDateKey(repairShop.get(), toDateTime);
 
         // 캐시에서 먼저 읽어서 없으면
-        Optional<Object> existFromCache = concurrencyManager.get(RedisKey.RESERVATION, fromDateTimeKey);
+        Optional<Integer> existFromCache = concurrencyManager.get(RedisKey.RESERVATION, fromDateTimeKey);
         if (existFromCache.isEmpty()) {
             Integer existCount = reservationRepository.countByDepartureTimeAndRepairShop(fromDateTime, repairShop.get());
             concurrencyManager.setNx(RedisKey.RESERVATION, fromDateTimeKey, existCount);
@@ -129,7 +129,7 @@ public class ReservationService {
 
         // ---- 여기까지가 from을 체크하는 부분
 
-        Optional<Object> existToCache = concurrencyManager.get(RedisKey.RESERVATION, toDateTimeKey);
+        Optional<Integer> existToCache = concurrencyManager.get(RedisKey.RESERVATION, toDateTimeKey);
         if (existToCache.isEmpty()) {
             Integer existCount = reservationRepository.countByDepartureTimeAndRepairShop(fromDateTime, repairShop.get());
             concurrencyManager.setNx(RedisKey.RESERVATION, toDateTimeKey, existCount);

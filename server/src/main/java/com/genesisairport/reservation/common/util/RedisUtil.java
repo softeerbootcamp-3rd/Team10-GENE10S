@@ -33,4 +33,9 @@ public class RedisUtil {
         return redisTemplate.hasKey(SESSION_PREFIX + sessionKey);
     }
 
+    public void setNx(String key, Object object) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        values.setIfAbsent(key, object);
+    }
+
 }
