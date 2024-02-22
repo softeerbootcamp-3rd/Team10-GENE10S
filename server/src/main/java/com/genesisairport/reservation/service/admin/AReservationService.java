@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class AReservationService {
         return reservationRepository.findReservations(requestBody);
     }
 
-    public void addMaintenanceImage(Long reservationId, Integer status, String imageUrl) {
+    public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
         if (reservation.isEmpty())
             throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 예약 id입니다.");
@@ -44,12 +44,31 @@ public class AReservationService {
                 .reservation(reservation.get())
                 .status(status)
                 .imageUrl(imageUrl)
+                .objectKey(objectKey)
                 .build();
 
-        maintenanceImageRepository.save(entity);
+        MaintenanceImage insertResult = maintenanceImageRepository.save(entity);
+        return AdminResponse.UploadImage.builder()
+                .imageId(insertResult.getId())
+                .imageUrl(insertResult.getImageUrl())
+                .build();
     }
 
-    public void saveStage(AdminRequest.StageInfo requestBody) {
+    public MaintenanceImage getMaintenanceImage(Long imageId) {
+        Optional<MaintenanceImage> image = maintenanceImageRepository.findById(imageId);
+        if (image.isEmpty())
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 이미지 id입니다.");
+        return image.get();
+    }
+
+    public void deleteMaintenanceImage(Long imageId) {
+        Optional<MaintenanceImage> image = maintenanceImageRepository.findById(imageId);
+        if (image.isEmpty())
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 이미지 id입니다.");
+        maintenanceImageRepository.deleteById(imageId);
+    }
+
+    public Long saveStage(AdminRequest.StageInfo requestBody) {
         Step newStep = Step.builder()
                 .stage(requestBody.getProgress().getName())
                 .date(LocalDateTime.now())
@@ -58,10 +77,13 @@ public class AReservationService {
                 .updateDatetime(LocalDateTime.now())
                 .reservation(reservationRepository.findReservationById(requestBody.getReservationId()))
                 .build();
-
-        stepRepository.save(newStep);
-
-        setLatestStage(requestBody.getReservationId());
+        try {
+            Step insertResult = stepRepository.save(newStep);
+            setLatestStage(requestBody.getReservationId());
+            return insertResult.getId();
+        } catch (Exception e) {
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "이미 추가된 진행 단계입니다.");
+        }
     }
 
     @Transactional
@@ -78,11 +100,11 @@ public class AReservationService {
 
         List<ProgressStage> stages = stepRepository.findStagesByReservationId(reservationId).stream()
                 .map(ProgressStage::fromName)
-                .collect(Collectors.toList());
+                .toList();
 
-        reservation.setProgressStage(stages.stream()
-                .max(Enum::compareTo)
-                .orElse(null)
+        reservation.setProgressStage(Objects.requireNonNull(stages.stream()
+                        .max(Enum::compareTo)
+                        .orElse(null))
                 .getName()
         );
 
@@ -96,10 +118,10 @@ public class AReservationService {
                 reservation.setInspectionResult(requestBody.getComment());
                 reservationRepository.save(reservation);
             } catch (Exception e) {
-                throw new GeneralException(ResponseCode.INTERNAL_ERROR, "코멘트를 저장하는 데 실패했습니다.");
+                throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "코멘트를 저장하는 데 실패했습니다.");
             }
         } catch (Exception e) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
         }
     }
 }

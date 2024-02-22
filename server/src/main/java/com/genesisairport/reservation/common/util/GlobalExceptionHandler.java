@@ -16,6 +16,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<Object> handleGeneralException(GeneralException generalException, WebRequest webRequest){
+
         return handleExceptionInternal(
                 generalException,
                 generalException.getResponseCode(),
@@ -24,7 +25,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ResponseCode responseCode,
-                                                           HttpHeaders headers, WebRequest webRequest){
+                                                           HttpHeaders headers, WebRequest webRequest) {
 
         DataResponseDto<Object> body = DataResponseDto.of(null, responseCode.getMessage(e));
 

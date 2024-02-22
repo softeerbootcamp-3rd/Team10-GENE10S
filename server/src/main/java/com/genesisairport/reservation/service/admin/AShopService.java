@@ -36,12 +36,12 @@ public class AShopService {
 
         RepairShop repairShop = repairShopRepository.findRepairShopByShopName(shopName);
         if (repairShop == null) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "존재하지 않는 지점명입니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "존재하지 않는 지점명입니다.");
         }
 
         Optional<AvailableTime> exactAvailableTime = availableTimeRepository.findExactAvailableTime(repairShop.getId(), date, time);
         if (exactAvailableTime.isPresent()) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 추가된 시간입니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "이미 추가된 시간입니다.");
         }
 
         AvailableTime availableTime = AvailableTime.builder()
@@ -67,12 +67,12 @@ public class AShopService {
 
         RepairShop repairShop = repairShopRepository.findRepairShopByShopName(shopName);
         if (repairShop == null) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "유효하지 않은 지점명입니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "유효하지 않은 지점명입니다.");
         }
 
         Optional<AvailableTime> exactAvailableTime = availableTimeRepository.findExactAvailableTime(repairShop.getId(), date, time);
         if (exactAvailableTime.isEmpty()) {
-            throw new GeneralException(ResponseCode.INTERNAL_ERROR, "이미 삭제된 시간입니다.");
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "이미 삭제된 시간입니다.");
         }
 
         availableTimeRepository.delete(exactAvailableTime.get());

@@ -95,7 +95,7 @@ public class ReservationController {
 
         Optional<ReservationResponse.ReservationDetail> reservationDetail = reservationService.getReservationDetail(reservationId);
         if (reservationDetail.isEmpty()) {
-            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(DataResponseDto.of(reservationDetail.get()), HttpStatus.OK);
