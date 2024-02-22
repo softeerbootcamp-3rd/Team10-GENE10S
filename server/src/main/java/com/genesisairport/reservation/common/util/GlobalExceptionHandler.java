@@ -4,6 +4,7 @@ import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<Object> handleGeneralException(GeneralException generalException, WebRequest webRequest){
-
         return handleExceptionInternal(
                 generalException,
                 generalException.getResponseCode(),
@@ -24,8 +24,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 webRequest);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Object> exception(Exception e, WebRequest request) {
+        return handleExceptionInternal(
+                e,
+                ResponseCode.INTERNAL_ERROR,
+                HttpHeaders.EMPTY,
+                request
+        );
+    }
+
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ResponseCode responseCode,
-                                                           HttpHeaders headers, WebRequest webRequest) {
+                                                           HttpHeaders headers, WebRequest webRequest){
 
         DataResponseDto<Object> body = DataResponseDto.of(null, responseCode.getMessage(e));
 
@@ -33,7 +43,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 e,
                 body,
                 headers,
-                responseCode.getHttpStatus(),
+                HttpStatus.OK,
                 webRequest);
     }
 }
