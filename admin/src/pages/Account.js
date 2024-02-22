@@ -12,12 +12,14 @@ export default function Account() {
   const [userName, setUserName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [sortColumn, setSortColumn] = useState("id");
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortDirection, setSortDirection] = useState("desc");
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   const search = (pageNumber = 1) => {
+    console.log("sortColumn", sortColumn);
+    console.log("sortDirection", sortDirection);
     getAccountList({
       adminId: userId,
       adminName: userName,
@@ -32,14 +34,17 @@ export default function Account() {
     });
   };
 
+  useEffect(() => {
+    search(page);
+  }, [sortDirection, sortColumn]);
+
   const handleSort = (columnName) => {
     if (sortColumn === columnName) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+      setSortDirection(sortDirection === "desc" ? "asc" : "desc");
     } else {
       setSortColumn(columnName);
       setSortDirection("asc");
     }
-    search(page);
   };
 
   const renderArrow = (columnName) => {
@@ -165,9 +170,9 @@ export default function Account() {
               </div>
               <div
                 className="td w-350"
-                onClick={() => handleSort("createDateTime")}
+                onClick={() => handleSort("createDatetime")}
               >
-                <span>가입일 {renderArrow("createDateTime")}</span>
+                <span>가입일 {renderArrow("createDatetime")}</span>
               </div>
               <div className="td w-150 h-52">
                 <span></span>
