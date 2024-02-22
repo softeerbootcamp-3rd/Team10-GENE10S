@@ -76,10 +76,7 @@ export default function Main() {
               </div>
               <input type='password' className={classNames('input-area')} onChange={handleAdminPasswordChange}/>
             </div>
-            <div className={classNames('btn-dark')} onClick={handleLoginClick}>
-              {/* pull 받아서 BtnDark에 onChange 전달 */}
-              <BtnDark text='로그인'/>
-            </div>
+            <BtnDark text='로그인' onClick={handleLoginClick} />
             {loginFailed && <div style={{ color: 'red' }}>로그인에 실패했습니다.</div>} {/* 에러 메시지 표시 */}
           </div>
         </div>
