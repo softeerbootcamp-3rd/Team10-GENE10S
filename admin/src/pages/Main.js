@@ -16,7 +16,7 @@ export default function Main() {
   }, []);
 
   const checkSession = async () => {
-    axios.get('/v2/admin/account/is-valid-session')
+    axios.get('/v2/admin/account/session-validation')
       .then(response => {
         if (response.data && response.data.success) {
           navigate('/reservation');
