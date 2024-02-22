@@ -3,6 +3,7 @@ package com.genesisairport.reservation.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class AdminResponse {
     }
       
     @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Builder
     public static class AvailableTime {
         private String date;
         private List<String> availableTime;

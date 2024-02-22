@@ -1,7 +1,7 @@
 spring:
   datasource: # MySQL DB 설정
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://43.202.44.161:3306/GENE10S
+    url: jdbc:mysql://13.124.180.7:3306/GENE10S
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   sql:
@@ -23,7 +23,7 @@ spring:
       repository-type: indexed
   data:
     redis:
-      host: 43.203.119.163
+      host: 13.124.180.7
       port: 6379
       password: ${REDIS_PASSWORD}
 

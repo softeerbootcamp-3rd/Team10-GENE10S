@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long>, ReservationRepositoryCustom {
@@ -19,4 +22,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
             " WHERE r.customer.id = :customerId " +
             "ORDER BY r.progressStage desc, r.departureTime")
     List<Reservation> findReservationsByCustomerId(Long customerId);
+
+    @Query("SELECT r FROM Reservation r " +
+            "WHERE r.repairShop.id = :repairShopId AND (r.departureTime = :businessTime OR r.arrivalTime = :businessTime)")
+    Optional<Reservation> findReservationBy(Long repairShopId, LocalDateTime businessTime);
+
+    @Query("SELECT r FROM Reservation r " +
+            "WHERE r.repairShop.id = :repairShopId AND (r.departureTime = :businessTime OR r.arrivalTime = :businessTime)")
+    List<Reservation> findReservationsBy(Long repairShopId, LocalDateTime businessTime);
 }

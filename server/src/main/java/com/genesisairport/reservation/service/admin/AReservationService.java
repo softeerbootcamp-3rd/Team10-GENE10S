@@ -3,11 +3,14 @@ package com.genesisairport.reservation.service.admin;
 import com.genesisairport.reservation.common.enums.ProgressStage;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.util.CommonDateFormat;
 import com.genesisairport.reservation.entity.MaintenanceImage;
+import com.genesisairport.reservation.entity.RepairShop;
 import com.genesisairport.reservation.entity.Reservation;
 import com.genesisairport.reservation.entity.Step;
 
 import com.genesisairport.reservation.repository.MaintenanceImageRepository;
+import com.genesisairport.reservation.repository.RepairShopRepository;
 import com.genesisairport.reservation.repository.StepRepository;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
@@ -30,6 +33,7 @@ public class AReservationService {
     private final ReservationRepository reservationRepository;
     private final MaintenanceImageRepository maintenanceImageRepository;
     private final StepRepository stepRepository;
+    private final RepairShopRepository repairShopRepository;
 
     public List<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail requestBody) {
         return reservationRepository.findReservations(requestBody);
@@ -69,6 +73,7 @@ public class AReservationService {
     }
 
     public Long saveStage(AdminRequest.StageInfo requestBody) {
+        log.info(String.valueOf(requestBody.getReservationId()));
         Step newStep = Step.builder()
                 .stage(requestBody.getProgress().getName())
                 .date(LocalDateTime.now())
@@ -123,5 +128,20 @@ public class AReservationService {
         } catch (Exception e) {
             throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
         }
+    }
+
+    public boolean checkReservation(String shopName, String businessTime) {
+        RepairShop repairShop;
+        try {
+            repairShop = repairShopRepository.findRepairShopByShopName(shopName);
+        } catch (Exception e) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 지점명입니다.");
+        }
+
+        LocalDateTime datetime = CommonDateFormat.datetime(businessTime);
+
+        Optional<Reservation> reservation = reservationRepository.findReservationBy(repairShop.getId(), datetime);
+
+        return reservation.isPresent();
     }
 }
