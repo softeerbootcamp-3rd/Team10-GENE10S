@@ -1,6 +1,7 @@
 package com.genesisairport.reservation.controller;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.common.model.DataResponseDto;
@@ -40,10 +41,11 @@ public class ReservationController {
     }
 
     @GetMapping("/car-list")
-    public ResponseEntity getCarList(final HttpServletRequest request) {
-        // TODO: customer emtpy일 때 response 추가
+    public ResponseEntity<DataResponseDto<List<ReservationResponse.CarInfo>>>
+        getCarList(final HttpServletRequest request)
+    {
         Long userId = SessionUtil.getUserIdFromSession(request);
-        return new ResponseEntity(
+        return new ResponseEntity<>(
                 DataResponseDto.of(reservationService.getCarList(userId)),
                 HttpStatus.OK
         );
@@ -95,7 +97,7 @@ public class ReservationController {
 
         Optional<ReservationResponse.ReservationDetail> reservationDetail = reservationService.getReservationDetail(reservationId);
         if (reservationDetail.isEmpty()) {
-            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GeneralException(ResponseCode.NOT_FOUND, "예약 내역이 존재하지 않습니다.");
         }
 
         return new ResponseEntity<>(DataResponseDto.of(reservationDetail.get()), HttpStatus.OK);

@@ -1,0 +1,87 @@
+.login-page {
+    display: flex;
+    width: 1920px;
+    height: 1080px;
+    align-items: flex-start;
+
+    border: 1px solid $black;
+    background: $white;
+
+    > .login-frame {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+        flex: 1 0 0;
+        align-self: stretch;
+    
+        background: $blue_900;
+
+        > .title {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+
+            > .text {
+                color: $white;
+                text-align: center;
+
+                @extend %B_60
+            }
+        }
+
+        > .body {
+            display: flex;
+            padding: 24px;
+            flex-direction: column;
+            align-items: flex-start;
+
+            border-radius: 5px;
+            background: $white;
+
+            > .content {
+                display: flex;
+                padding: 24px;
+                flex-direction: column;
+                align-items: center;
+                gap: 24px;
+
+                > .input-container {
+                    display: flex;
+                    width: 640px;
+                    height: 64px;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 24px;
+
+                    border-radius: 5px;
+
+                    > .text {
+                        width: 120px;
+                        flex-shrink: 0;
+
+                        color: $black;
+                        text-align: center;
+
+                        @extend %B_20;
+                    }
+
+                    > .input-area {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        flex: 1 0 0;
+                        align-self: stretch;
+
+                        border-radius: 5px;
+                        border: 1px solid $blue_600;
+                    }
+                }
+            }
+        }
+    }
+}

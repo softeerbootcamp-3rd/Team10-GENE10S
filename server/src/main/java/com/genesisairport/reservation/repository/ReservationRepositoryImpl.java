@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.genesisairport.reservation.entity.QCustomer.customer;
 import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
 import static com.genesisairport.reservation.entity.QReservation.reservation;
-import static com.genesisairport.reservation.entity.QCustomer.customer;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -26,23 +26,21 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<AdminResponse.ReservationDetail> findReservations(AdminRequest.ReservationDetail reservationDetail) {
+    public List<AdminResponse.ReservationDetail> findReservations(
+            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
+    ) {
 
         BooleanBuilder builderForWhereClause = getBuilderForWhereClause(
-                reservationDetail.getShopName(),
-                reservationDetail.getStartPickupDateTime(),
-                reservationDetail.getEndPickupDateTime(),
-                reservationDetail.getStartReturnDateTime(),
-                reservationDetail.getEndReturnDateTime(),
-                reservationDetail.getCustomerName(),
-                reservationDetail.getSellName(),
-                reservationDetail.getStage()
+                reservationDetail.getShopName(), reservationDetail.getStartPickupDateTime(),
+                reservationDetail.getEndPickupDateTime(), reservationDetail.getStartReturnDateTime(),
+                reservationDetail.getEndReturnDateTime(), reservationDetail.getCustomerName(),
+                reservationDetail.getSellName(), reservationDetail.getStage()
         );
 
         OrderSpecifier<?> orderBySpecifier = getOrderBySpecifier(
-                reservationDetail.getSortColumn(),
-                reservationDetail.getSortDirection()
+                reservationDetail.getSortColumn(), reservationDetail.getSortDirection()
         );
+
         List<Tuple> tuples = jpaQueryFactory
                 .select(
                         reservation.id,
@@ -70,8 +68,8 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                     .shopName(t.get(1, String.class))
                     .customerName(t.get(2, String.class))
                     .sellName(t.get(3, String.class))
-                    .departureTime(CommonDateFormat.datetime(t.get(4, LocalDateTime.class)))
-                    .arrivalTime(CommonDateFormat.datetime(t.get(5, LocalDateTime.class)))
+                    .departureTime(CommonDateFormat.localDatetime(t.get(4, LocalDateTime.class)))
+                    .arrivalTime(CommonDateFormat.localDatetime(t.get(5, LocalDateTime.class)))
                     .stage(t.get(6, String.class))
                     .build();
             reservationDetailAdmins.add(reservationDetailAdmin);
@@ -86,10 +84,10 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
             builderForWhereClause.and(repairShop.shopName.eq(shopName));
         }
         if (!Strings.isEmpty(startPickupDate) && !Strings.isEmpty(endPickupDate)) {
-            builderForWhereClause.and(reservation.departureTime.between(CommonDateFormat.datetime(startPickupDate), CommonDateFormat.datetime(endPickupDate)));
+            builderForWhereClause.and(reservation.departureTime.between(CommonDateFormat.localDatetime(startPickupDate), CommonDateFormat.localDatetime(endPickupDate)));
         }
         if (!Strings.isEmpty(startReturnDate) && !Strings.isEmpty(endReturnDate)) {
-            builderForWhereClause.and(reservation.arrivalTime.between(CommonDateFormat.datetime(startReturnDate), CommonDateFormat.datetime(endReturnDate)));
+            builderForWhereClause.and(reservation.arrivalTime.between(CommonDateFormat.localDatetime(startReturnDate), CommonDateFormat.localDatetime(endReturnDate)));
         }
         if (!Strings.isEmpty(customerName)) {
             builderForWhereClause.and(customer.name.eq(customerName));

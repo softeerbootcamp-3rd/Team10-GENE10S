@@ -8,6 +8,7 @@ import java.time.Duration;
 
 @Component
 public class RedisUtil {
+    private static final String SESSION_PREFIX = "spring:session:sessions:";
     private final RedisTemplate<String, Object> redisTemplate;
 
     public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
@@ -26,6 +27,10 @@ public class RedisUtil {
 
     public void deleteValues(String key) {
         redisTemplate.delete(key);
+    }
+
+    public Boolean isValid(String sessionKey) {
+        return redisTemplate.hasKey(SESSION_PREFIX + sessionKey);
     }
 
 }

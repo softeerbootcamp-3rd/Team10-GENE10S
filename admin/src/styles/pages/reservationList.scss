@@ -63,7 +63,22 @@
                     background: $white;
                     border: none;
                     box-shadow: none;
+                    font-size: 16px;
                 }
+
+                > select {
+                    width: auto; /* 원하는 너비 설정 */
+                    padding: 12px;
+                    font-size: 16px;
+                    color: lightslategrey;
+
+                    border-radius: 5px;
+                    outline: none; /* 선택된 상태에서의 외곽선 제거 */
+                    background-color: $white;
+                    border: none;
+
+                  }
+
             }
         }
     }
@@ -112,7 +127,6 @@
 
             .td {
                 display: flex;
-                width: 100px;
                 padding: 12px 0px;
                 justify-content: center;
                 align-items: center;

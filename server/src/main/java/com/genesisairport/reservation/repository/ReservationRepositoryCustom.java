@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface ReservationRepositoryCustom {
 
-    List<AdminResponse.ReservationDetail> findReservations(AdminRequest.ReservationDetail reservationDetail);
+    List<AdminResponse.ReservationDetail> findReservations(
+            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
+    );
 }

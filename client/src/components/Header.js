@@ -12,14 +12,10 @@ export default function Header() {
 
   const checkSession = async () => {
     try {
-      const response = await axios.get('/v1/login');
+      const response = await axios.get('/v1/login/check');
       const responseData = response.data;
       
-      if (responseData && responseData.success) {
-        setIsLogin(true); 
-      } else {
-        setIsLogin(false); 
-      }
+      setIsLogin(responseData.data); 
     } catch (error) {
       console.error('Error checking session:', error);
       setIsLogin(false);

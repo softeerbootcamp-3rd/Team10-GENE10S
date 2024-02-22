@@ -2,11 +2,9 @@ package com.genesisairport.reservation.controller.admin;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
-
 import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.common.util.SessionUtil;
-
 import com.genesisairport.reservation.entity.MaintenanceImage;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -53,15 +50,45 @@ public class AReservationController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<DataResponseDto<List<AdminResponse.ReservationDetail>>>
-        searchAllReservations(HttpServletRequest request, @RequestBody AdminRequest.ReservationDetail requestBody) {
+    public ResponseEntity<ResponseDto> searchAllReservations(
+            HttpServletRequest request,
+            @RequestParam(value = "shopName", required = false) String shopName,
+            @RequestParam(value = "startPickUpDateTime", required = false) String startPickUpDateTime,
+            @RequestParam(value = "endPickUpDateTime", required = false) String endPickUpDateTime,
+            @RequestParam(value = "startReturnDateTime", required = false) String startReturnDateTime,
+            @RequestParam(value = "endReturnDateTime", required = false) String endReturnDateTime,
+            @RequestParam(value = "customerName", required = false) String customerName,
+            @RequestParam(value = "sellName", required = false) String sellName,
+            @RequestParam(value = "stage", required = false) String stage,
+            @RequestParam(value = "sortColumn", required = false) String sortColumn,
+            @RequestParam(value = "sortDirection", required = false) String sortDirection,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value = "pageNumber", required = false) Integer pageNumber) {
+
         Long userId = SessionUtil.getAdminIdFromSession(request);
 
         if (!Objects.isNull(userId)) {
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "로그인이 필요합니다.");
+            throw new GeneralException(ResponseCode.FORBIDDEN, "로그인 정보를 불러오는 데에 실패했습니다.");
         }
-        return new ResponseEntity<>(
-                DataResponseDto.of(aReservationService.getAllReservations(requestBody)),
+
+        AdminRequest.ReservationDetail requestBody = AdminRequest.ReservationDetail
+                .builder()
+                .shopName(shopName)
+                .startPickupDateTime(startPickUpDateTime)
+                .endPickupDateTime(endPickUpDateTime)
+                .startReturnDateTime(startReturnDateTime)
+                .endReturnDateTime(endReturnDateTime)
+                .customerName(customerName)
+                .sellName(sellName)
+                .stage(stage)
+                .sortColumn(sortColumn)
+                .sortDirection(sortDirection)
+                .build();
+
+        return new ResponseEntity(
+                DataResponseDto.of(aReservationService.getAllReservations(
+                        requestBody, pageSize, pageNumber
+                )),
                 HttpStatus.OK
         );
     }
@@ -71,7 +98,7 @@ public class AReservationController {
             @RequestBody AdminRequest.StageInfo requestBody
     ) {
         if (requestBody.getProgress() == null)
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "유효하지 않은 진행단계입니다.");
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "진행 단계 ID를 입력해주세요.");
 
         Long insertedId = aReservationService.saveStage(requestBody);
         return new ResponseEntity<>(DataResponseDto.of(
@@ -88,16 +115,15 @@ public class AReservationController {
     }
 
     @PutMapping("/comment")
-    public ResponseEntity updateComment(@RequestBody AdminRequest.CommentInfo requestBody) {
+    public ResponseEntity<ResponseDto> updateComment(@RequestBody AdminRequest.CommentInfo requestBody) {
 
         if (requestBody.getReservationId() == null)
-            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "예약 Id를 받아오지 못했습니다.");
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "예약 아이디를 입력해주세요.");
 
         if (requestBody.getComment() == null)
-            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "코멘트를 받아오지 못했습니다.");
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "댓글을 입력해주세요.");
 
         aReservationService.updateComment(requestBody);
-
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 }
