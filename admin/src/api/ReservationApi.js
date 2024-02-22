@@ -1,4 +1,4 @@
-import axios from "./Setting";
+import axios from "./Settings";
 
 export async function getReservationList( shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime, 
     endReturnDateTime, customerName, sellName, stage, sortColumn, sortAscending, pageSize, pageNumber) {
