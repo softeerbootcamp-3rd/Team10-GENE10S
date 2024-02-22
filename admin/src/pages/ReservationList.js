@@ -17,7 +17,7 @@ export default function ReservationList() {
     const [stage, setStage] = useState('');
 
     const [sortColumn, setSortColumn] = useState('');
-    const [sortAscending, setSortAscending] = useState(null); 
+    const [sortDirection, setSortDirection] = useState(''); 
 
     const [pageSize, setPageSize] = useState(20);
     const [pageNumber, setPageNumber] = useState(1);
@@ -59,18 +59,20 @@ export default function ReservationList() {
 
     const handleSort = (columnName) => {
         if (sortColumn === columnName) {
-          setSortAscending(!sortAscending);
-        } else {
-          setSortColumn(columnName);
-          setSortAscending(true); // true가 내림차순 (desc)
-        }
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+          } else {
+            
+
+            setSortColumn(columnName);
+            setSortDirection("desc");
+          }
 
         handleSearchReservations();
     };
 
     const renderArrow = (columnName) => {
         if (sortColumn === columnName) {
-          return sortAscending ? (
+          return sortDirection ? (
             <svg width="14" height="11" viewBox="0 0 10 10" fill="#000000" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 1L1 9H9L5 1Z" fill="#000000"/>
             </svg>
@@ -90,7 +92,7 @@ export default function ReservationList() {
     function handleSearchReservations() {
         getReservationList(
             shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime, endReturnDateTime,
-            customerName, sellName, stage, sortColumn, sortAscending, pageSize, pageNumber
+            customerName, sellName, stage, sortColumn, sortDirection, pageSize, pageNumber
         )
         .then( response => {
             setResponseData(response.data.data);
@@ -188,25 +190,25 @@ export default function ReservationList() {
                     </div>
                     {responseData && responseData.map(item => (
                         <div key={item.reservationId} className={classNames('tr')}>
-                            <div className={classNames('td')}>
+                            <div className={classNames('td', 'w-100')}>
                                 <div>{item.reservationId}</div>
                             </div>
-                            <div className={classNames('td')}>
+                            <div className={classNames('td', 'w-250')}>
                                 <div>{item.shopName}</div>
                             </div>
-                            <div className={classNames('td')}>
+                            <div className={classNames('td', 'w-150')}>
                                 <div>{item.customerName}</div>
                             </div>
-                            <div className={classNames('td')}>
+                            <div className={classNames('td', 'w-200')}>
                                 <div>{item.sellName}</div>
                             </div>
-                            <div className={classNames('td')}>
+                            <div className={classNames('td', 'w-250')}>
                                 <div>{item.arrivalTime}</div>
                             </div>
-                            <div className={classNames('td')}>
+                            <div className={classNames('td', 'w-250')}>
                                 <div>{item.departureTime}</div>
                             </div>
-                            <div className={classNames('td')}>
+                            <div className={classNames('td', 'w-150')}>
                                 <div>{item.stage}</div>
                             </div>
                         </div>
