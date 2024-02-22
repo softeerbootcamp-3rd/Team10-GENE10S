@@ -1,6 +1,6 @@
-import classNames from 'classnames';
+import classNames from "classnames";
 import SideBar from "../components/SideBar";
-import BtnDark from '../components/Button';
+import { BtnDark } from '../components/Button';
 import CustomCalendar from '../components/CustomCalendar';
 import React, { useState, useEffect } from 'react';
 import { getReservationList } from '../api/ReservationApi';
@@ -221,10 +221,9 @@ export default function ReservationList() {
                     <div>5</div>
                     <div>&gt;</div>
                 </div>
-            </div>
+          </div>
         </div>
       </div>
-    );
-  }
-  
-
+    </div>
+  );
+}

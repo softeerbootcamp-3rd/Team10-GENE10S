@@ -1,11 +1,13 @@
 @import './reset.scss';
 @import './variables.scss';
-@import './components/button.scss';
 @import './components/sideBar.scss';
-@import './components/infoTable.scss';
-@import './components/modal.scss';
 @import './components/button.scss';
 @import './pages/reservationList.scss';
+@import './components/button.scss';
+@import './pages/reservationList.scss';
+@import './pages/reservationDetail.scss';
+@import './components/infoTable.scss';
+@import './components/modal.scss';
 
 .page {
   display: flex;
@@ -76,3 +78,6 @@
   width: 350px !important;
 }
 
+.h-52 {
+  height: 52px !important;
+}
