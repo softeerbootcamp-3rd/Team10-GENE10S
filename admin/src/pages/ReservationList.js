@@ -61,8 +61,6 @@ export default function ReservationList() {
         if (sortColumn === columnName) {
             setSortDirection(sortDirection === "asc" ? "desc" : "asc");
           } else {
-            
-
             setSortColumn(columnName);
             setSortDirection("desc");
           }
@@ -72,7 +70,7 @@ export default function ReservationList() {
 
     const renderArrow = (columnName) => {
         if (sortColumn === columnName) {
-          return sortDirection ? (
+          return (sortDirection === "desc") ? (
             <svg width="14" height="11" viewBox="0 0 10 10" fill="#000000" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 1L1 9H9L5 1Z" fill="#000000"/>
             </svg>
