@@ -51,6 +51,10 @@ public class ReservationService {
     }
 
     public ReservationResponse.ReservationPostResponse reserve(Long customerId, ReservationRequest.ReservationPost requestBody) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (customer.isEmpty()) {
+            throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 고객 id입니다.");
+        }
         Optional<Coupon> coupon = couponRepository.findCouponBySerialNumber(requestBody.getCouponSerialNumber());
         if (coupon.isEmpty()) {
             throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 쿠폰입니다.");
@@ -63,6 +67,7 @@ public class ReservationService {
         if (repairShop.isEmpty()) {
             throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 지점명입니다.");
         }
+
 
         // 날짜 형식 변환
         LocalDateTime fromDateTime = CommonDateFormat.localDatetime(requestBody.getDepartureTime());
@@ -77,7 +82,7 @@ public class ReservationService {
                 .serviceType(requestBody.getServiceType().toString())
                 .customerRequest(requestBody.getCustomerRequest())
                 .progressStage(ProgressStage.RESERVATION_APPROVED.getName())
-                .customer(customerRepository.findCustomerById(customerId))
+                .customer(customer.get())
                 .coupon(coupon.get())
                 .repairShop(repairShop.get())
                 .createDateTime(LocalDateTime.now())
@@ -104,7 +109,7 @@ public class ReservationService {
         return ReservationResponse.ReservationPostResponse.builder()
                 .reservationStatus(true)
                 .repairShopAddress(repairShop.get().getAddress())
-                .customerName(customerRepository.findCustomerById(customerId).getName())
+                .customerName(customer.get().getName())
                 .build();
     }
 

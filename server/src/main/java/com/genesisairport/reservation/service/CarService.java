@@ -1,7 +1,10 @@
 package com.genesisairport.reservation.service;
 
+import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.entity.Car;
 import com.genesisairport.reservation.entity.CarImage;
+import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.repository.CarImageRepository;
 import com.genesisairport.reservation.repository.CarRepository;
 import com.genesisairport.reservation.repository.CustomerRepository;
@@ -35,10 +38,14 @@ public class CarService {
     }
 
     public void saveCar(Long customerId, CarRequest.CarPost requestBody) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (customer.isEmpty()) {
+            throw new GeneralException(ResponseCode.NOT_FOUND, "고객 정보를 찾을 수 없습니다.");
+        }
         String sellName = requestBody.getSellName();
         String plateNumber = requestBody.getPlateNumber();
         carRepository.save(Car.builder()
-                .customer(customerRepository.findCustomerById(customerId))
+                .customer(customer.get())
                 .sellName(sellName)
                 .plateNumber(plateNumber)
                 .createDatetime(LocalDateTime.now())
@@ -49,10 +56,8 @@ public class CarService {
     public void deleteCar(Long customerId, Long carId) {
         Optional<Car> car = carRepository.findById(carId);
 
-        //TODO: 차량 레코드가 가진 고객 정보와 로그인한 고객 정보가 일치하지 않을 때 예외처리
         if (car.isEmpty() || !car.get().getCustomer().getId().equals(customerId)) {
-            log.error("차량 삭제 실패");
-            return;
+            throw new GeneralException(ResponseCode.FORBIDDEN, "차량 소유주가 아닙니다.");
         }
         carRepository.deleteById(carId);
     }

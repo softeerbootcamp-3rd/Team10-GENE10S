@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +29,11 @@ public class UserService {
         if (userId == null)
             throw new GeneralException(ResponseCode.BAD_REQUEST, "유저 아이디를 입력해주세요.");
 
-        Customer customer = customerRepository.findCustomerById(userId);
-        List<Car> carList = customer.getCars();
+        Optional<Customer> customer = customerRepository.findById(userId);
+        if (customer.isEmpty())
+            throw new GeneralException(ResponseCode.NOT_FOUND, "유저 정보를 찾을 수 없습니다.");
+
+        List<Car> carList = customer.get().getCars();
         List<UserResponse.UserInfo.CarInfo> carInfo = carList.stream()
                 .map(car -> UserResponse.UserInfo.CarInfo.builder()
                         .carId(car.getId())
@@ -41,11 +45,11 @@ public class UserService {
                 .toList();
 
         return UserResponse.UserInfo.builder()
-                .userId(customer.getId())
-                .name(customer.getName())
-                .email(customer.getEmail())
-                .birthdate(CommonDateFormat.date(customer.getBirthdate()))
-                .phoneNumber(customer.getPhoneNumber())
+                .userId(customer.get().getId())
+                .name(customer.get().getName())
+                .email(customer.get().getEmail())
+                .birthdate(CommonDateFormat.date(customer.get().getBirthdate()))
+                .phoneNumber(customer.get().getPhoneNumber())
                 .carList(carInfo)
                 .build();
     }
@@ -54,23 +58,28 @@ public class UserService {
         if (userId == null)
             throw new GeneralException(ResponseCode.BAD_REQUEST, "유저 아이디를 입력해주세요.");
 
-        Customer customer = customerRepository.findCustomerById(userId);
+        Optional<Customer> customer = customerRepository.findById(userId);
+        if (customer.isEmpty())
+            throw new GeneralException(ResponseCode.NOT_FOUND, "유저 정보를 찾을 수 없습니다.");
         if (!Strings.isEmpty(userInfo.getName()))
-            customer.setName(userInfo.getName());
+            customer.get().setName(userInfo.getName());
         if (!Strings.isEmpty(userInfo.getBirthdate()))
-            customer.setBirthdate(LocalDate.parse(userInfo.getBirthdate()));
+            customer.get().setBirthdate(LocalDate.parse(userInfo.getBirthdate()));
         if (!Strings.isEmpty(userInfo.getPhoneNumber()))
-            customer.setPhoneNumber(userInfo.getPhoneNumber());
+            customer.get().setPhoneNumber(userInfo.getPhoneNumber());
 
-        customerRepository.save(customer);
+        customerRepository.save(customer.get());
     }
 
     public UserResponse.Profile getUserProfile(Long userId) {
         if (userId == null)
             throw new GeneralException(ResponseCode.BAD_REQUEST, "유저 아이디를 입력해주세요.");
 
-        Customer customer = customerRepository.findCustomerById(userId);
-        List<Car> carList = customer.getCars();
+        Optional<Customer> customer = customerRepository.findById(userId);
+        if (customer.isEmpty())
+            throw new GeneralException(ResponseCode.NOT_FOUND, "유저 정보를 찾을 수 없습니다.");
+
+        List<Car> carList = customer.get().getCars();
         String carSellName = null;
         String imageUrl = carService.getDefaultImage();
         if (!carList.isEmpty()) {
@@ -79,8 +88,8 @@ public class UserService {
         }
 
         return UserResponse.Profile.builder()
-                .name(customer.getName())
-                .email(customer.getEmail())
+                .name(customer.get().getName())
+                .email(customer.get().getEmail())
                 .carSellName(carSellName)
                 .imageUrl(imageUrl)
                 .build();
