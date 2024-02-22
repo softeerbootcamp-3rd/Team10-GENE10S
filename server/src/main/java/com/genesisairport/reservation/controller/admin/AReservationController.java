@@ -129,4 +129,25 @@ public class AReservationController {
 
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
+
+    @GetMapping("/check")
+    public ResponseEntity<ResponseDto> checkReservation(
+            @RequestParam (value = "shopName") String shopName,
+            @RequestParam (value = "businessDay") String businessDay) {
+
+        if (shopName.isEmpty()) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명을 입력해주세요.");
+        }
+        if (businessDay.isEmpty()) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "확인할 날짜를 입력해주세요.");
+        }
+
+        boolean hasReservation = aReservationService.checkReservation(shopName, businessDay);
+
+        return new ResponseEntity<>(DataResponseDto.of(
+                ReservationResponse.hasReservation.builder()
+                        .hasReservation(hasReservation)
+                        .build())
+                , HttpStatus.OK);
+    }
 }

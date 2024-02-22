@@ -8,6 +8,7 @@ import { RecoilRoot } from "recoil";
 import ReservationList from "./pages/ReservationList";
 import ReservationDetail from "./pages/ReservationDetail";
 import Account from "./pages/Account";
+import ShopManage from "./pages/ShopManage"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,6 +21,7 @@ root.render(
           element={<ReservationDetail />}
         />
         <Route path="reservation" element={<ReservationList />} />
+        <Route path="/shop/manage" element={<ShopManage />}/>
         <Route path="*" element={<NotFound />} />
         <Route path="/admin/account" element={<Account />} />
       </Routes>

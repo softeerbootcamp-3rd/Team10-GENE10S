@@ -1,11 +1,15 @@
 package com.genesisairport.reservation.service.admin;
 
+import com.genesisairport.reservation.common.enums.ProgressStage;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.util.CommonDateFormat;
 import com.genesisairport.reservation.entity.AvailableTime;
 import com.genesisairport.reservation.entity.RepairShop;
+import com.genesisairport.reservation.entity.Reservation;
 import com.genesisairport.reservation.repository.AvailableTimeRepository;
 import com.genesisairport.reservation.repository.RepairShopRepository;
+import com.genesisairport.reservation.repository.ReservationRepository;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,8 @@ import java.util.Optional;
 public class AShopService {
     private final RepairShopRepository repairShopRepository;
     private final AvailableTimeRepository availableTimeRepository;
+    private final ReservationRepository reservationRepository;
+    private final AReservationService aReservationService;
 
     public ResponseCode addAvailableTime(AdminRequest.ReservationTime requestBody) {
         String shopName = requestBody.getShopName();
@@ -58,9 +64,7 @@ public class AShopService {
         return ResponseCode.OK;
     }
 
-    public ResponseCode deleteAvailableTime(AdminRequest.ReservationTime requestBody) {
-        String shopName = requestBody.getShopName();
-        String businessDay = requestBody.getBusinessDay();
+    public ResponseCode deleteAvailableTime(String shopName, String businessDay) {
 
         Date date = Date.valueOf(LocalDate.parse(businessDay.split(" ")[0]));
         Time time = Time.valueOf(LocalTime.parse(businessDay.split(" ")[1]));
@@ -80,10 +84,43 @@ public class AShopService {
         return ResponseCode.OK;
     }
 
-    public List<AdminResponse.AvailableTime> getAvailableTime(AdminRequest.ReservationTimeRange requestBody) {
-        LocalDate dateFrom = LocalDate.parse(requestBody.getBusinessDayFrom());
-        LocalDate dateTo = LocalDate.parse(requestBody.getBusinessDayTo());
+    public List<AdminResponse.AvailableTime> getAvailableTime(String shopName, String businessDayFrom, String businessDayTo) {
+        LocalDate dateFrom = LocalDate.parse(businessDayFrom);
+        LocalDate dateTo = LocalDate.parse(businessDayTo);
 
-        return availableTimeRepository.findAvailableTimeList(requestBody.getShopName(), dateFrom, dateTo);
+        return availableTimeRepository.findAvailableTimeList(shopName, dateFrom, dateTo);
+    }
+
+    public ResponseCode deleteAvailableTimeWithReservation(String shopName, String businessTime, String message) {
+        RepairShop repairShop;
+        try {
+            repairShop = repairShopRepository.findRepairShopByShopName(shopName);
+        } catch (Exception e) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 지점명입니다.");
+        }
+
+        LocalDateTime datetime = CommonDateFormat.datetime(businessTime);
+        Date date = Date.valueOf(LocalDate.parse(businessTime.split(" ")[0]));
+        Time time = Time.valueOf(LocalTime.parse(businessTime.split(" ")[1]));
+
+        try {
+            List<Reservation> reservations = reservationRepository.findReservationsBy(repairShop.getId(), datetime);
+
+            for (Reservation reservation : reservations) {
+                AdminRequest.StageInfo stageInfo = new AdminRequest.StageInfo(reservation.getId(), ProgressStage.CANCEL, message);
+                aReservationService.saveStage(stageInfo);
+            }
+        } catch (Exception e) {
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "예약을 취소하는 중 문제가 발생했습니다.");
+        }
+
+        Optional<AvailableTime> exactAvailableTime = availableTimeRepository.findExactAvailableTime(repairShop.getId(), date, time);
+        if (exactAvailableTime.isEmpty()) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "이미 삭제된 시간입니다.");
+        }
+
+        availableTimeRepository.delete(exactAvailableTime.get());
+
+        return ResponseCode.OK;
     }
 }

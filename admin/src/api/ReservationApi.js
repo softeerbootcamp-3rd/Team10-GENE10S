@@ -90,3 +90,19 @@ export async function deleteMaintenanceImage(imageId) {
   }
 
 }
+
+export async function checkReservation(shopName, businessDay) {
+  try {
+      const response = await axios.get(`/v2/admin/reservation/check`,
+          {
+              params: {
+                  shopName: shopName,
+                  businessDay: businessDay
+              }
+          });
+
+      return response.data.data;
+  } catch (error) {
+      console.error(error);
+  }
+}

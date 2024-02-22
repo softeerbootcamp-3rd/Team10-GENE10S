@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.genesisairport.reservation.entity.QAvailableTime.availableTime;
 import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
@@ -52,7 +53,7 @@ public class AvailableTimeRepositoryImpl implements AvailableTimeRepositoryCusto
         Collections.sort(keySet);
 
         return keySet.stream().map(date ->
-                new AdminResponse.AvailableTime(date, dateRange.get(date)))
-                .toList();
+                        new AdminResponse.AvailableTime(date, dateRange.get(date)))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }

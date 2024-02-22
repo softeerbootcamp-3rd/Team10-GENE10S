@@ -14,7 +14,8 @@ public enum ProgressStage {
     TO_GARAGE("차량인수"),
     MAINTENANCE("정비중"),
     PARKING("보관중"),
-    TO_CUSTOMER("차량인계");
+    TO_CUSTOMER("차량인계"),
+    CANCEL("예약취소");;
 
     private final String name;
 
