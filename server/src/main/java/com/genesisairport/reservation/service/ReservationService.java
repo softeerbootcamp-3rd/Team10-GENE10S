@@ -1,9 +1,11 @@
 package com.genesisairport.reservation.service;
 
 import com.genesisairport.reservation.common.enums.ProgressStage;
+import com.genesisairport.reservation.common.enums.RedisKey;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.util.CommonDateFormat;
+import com.genesisairport.reservation.common.util.ConcurrencyManager;
 import com.genesisairport.reservation.entity.*;
 import com.genesisairport.reservation.repository.*;
 import com.genesisairport.reservation.request.ReservationRequest;
@@ -21,6 +23,8 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class ReservationService {
+
+    private final ConcurrencyManager concurrencyManager;
 
     private final ReservationRepository reservationRepository;
     private final CustomerRepository customerRepository;
@@ -103,6 +107,43 @@ public class ReservationService {
                 .createDatetime(LocalDateTime.now())
                 .updateDatetime(LocalDateTime.now())
                 .build();
+
+        String fromDateTimeKey = concurrencyManager.createDateKey(repairShop.get(), fromDateTime);
+        String toDateTimeKey = concurrencyManager.createDateKey(repairShop.get(), toDateTime);
+
+        // 캐시에서 먼저 읽어서 없으면
+        Optional<Object> existFromCache = concurrencyManager.get(RedisKey.RESERVATION, fromDateTimeKey);
+        if (existFromCache.isEmpty()) {
+            Integer existCount = reservationRepository.countByDepartureTimeAndRepairShop(fromDateTime, repairShop.get());
+            concurrencyManager.setNx(RedisKey.RESERVATION, fromDateTimeKey, existCount);
+        }
+
+        // INCR
+        Integer fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
+
+        // 5가 넘으면 (변수에서 갖고와서) 다시 줄이고 return false
+        if (fromCount > repairShop.get().getCapacityPerTime()) {
+            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
+            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
+        }
+
+        // ---- 여기까지가 from을 체크하는 부분
+
+        Optional<Object> existToCache = concurrencyManager.get(RedisKey.RESERVATION, toDateTimeKey);
+        if (existToCache.isEmpty()) {
+            Integer existCount = reservationRepository.countByDepartureTimeAndRepairShop(fromDateTime, repairShop.get());
+            concurrencyManager.setNx(RedisKey.RESERVATION, toDateTimeKey, existCount);
+        }
+
+        // INCR
+        Integer toCount = concurrencyManager.increase(RedisKey.RESERVATION, toDateTimeKey);
+
+        // 5가 넘으면 (변수에서 갖고와서) 다시 줄이고 return false
+        if (toCount > repairShop.get().getCapacityPerTime()) {
+            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
+            concurrencyManager.decrease(RedisKey.RESERVATION, toDateTimeKey);
+            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
+        }
 
         stepRepository.save(step);
 
