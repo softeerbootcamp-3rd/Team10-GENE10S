@@ -5,12 +5,16 @@ import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.entity.Admin;
 import com.genesisairport.reservation.repository.AdminRepository;
 import com.genesisairport.reservation.request.AdminRequest;
+import com.genesisairport.reservation.response.AdminResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +57,8 @@ public class AAccountService {
         }
     }
 
-
+    public Page<AdminResponse.AccountDetail> getAllAccounts(Pageable pageable, AdminRequest.AccountDetail requestBody) {
+        return adminRepository.findAccounts(pageable, requestBody);
+    }
 
 }

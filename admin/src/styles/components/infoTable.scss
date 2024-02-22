@@ -11,6 +11,23 @@
     border: 1px solid $blue_600;
     overflow: hidden;
 
+    input, select {
+        display: flex;
+        width: 240px;
+        padding: 4px 12px;
+        align-items: center;
+
+        border-radius: 5px;
+        border: 1px solid $blue_600;
+        background: $white;
+
+        @extend %B_20;
+    }
+
+    input[type="file"] {
+        @extend %M_16;
+    }
+
     > .tbody {
         display: flex;
         flex-direction: column;
@@ -42,11 +59,16 @@
     
                 > .image {
                     display: flex;
-                    width: 240px;
-                    height: 240px;
-                    padding: 12px;
                     flex-direction: column;
-                    align-items: flex-end;
+                    align-items: center;
+                    min-width: 78px;
+                    min-height: 64px;
+                    position: relative;
+
+                    > img {
+                        max-width: 240px;
+                        max-height: 240px;
+                    }
                 }
             }
     
@@ -102,6 +124,23 @@
                     > .step-content {
                         flex: 1 0 0;
                         color: $black;
+                        @extend %B_16;
+                    }
+
+                    > .input-title {
+                        width: 140px;
+                        padding: 8px;
+                        border-radius: 5px;
+                        border: 1px solid $blue_600;
+                        @extend %B_20;
+                        text-align: center;
+                    }
+
+                    > .input-content {
+                        flex: 1 0 0;
+                        padding: 8px;
+                        border-radius: 5px;
+                        border: 1px solid $blue_600;
                         @extend %B_16;
                     }
                 }

@@ -161,14 +161,22 @@ public class ReservationService {
         }
 
         // maintenanceImage
-        List<String> beforeImages = new ArrayList<>();
-        List<String> afterImages = new ArrayList<>();
+        List<ReservationResponse.ReservationDetail.ImageContainer> beforeImages = new ArrayList<>();
+        List<ReservationResponse.ReservationDetail.ImageContainer> afterImages = new ArrayList<>();
         List<MaintenanceImage> maintenanceImage = reservation.getMaintenanceImage();
         for (MaintenanceImage image : maintenanceImage) {
             if (image.getStatus() == 1) {
-                afterImages.add(image.getImageUrl());
+                afterImages.add(ReservationResponse.ReservationDetail.ImageContainer.builder()
+                        .id(image.getId())
+                        .url(image.getImageUrl())
+                        .build()
+                );
             } else {
-                beforeImages.add(image.getImageUrl());
+                beforeImages.add(ReservationResponse.ReservationDetail.ImageContainer.builder()
+                        .id(image.getId())
+                        .url(image.getImageUrl())
+                        .build()
+                );
             }
         }
 
@@ -177,6 +185,7 @@ public class ReservationService {
         List<Step> steps = reservation.getStep();
         for(Step step : steps) {
             progressStages.add(ReservationResponse.ReservationDetail.ProgressStage.builder()
+                    .id(step.getId())
                     .step(step.getStage())
                     .date(step.getDate().format(DateTimeFormatter.ofPattern("yyyy년 MM월 d일 a hh:mm")))
                     .detail(step.getDetail())

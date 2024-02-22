@@ -19,6 +19,7 @@ public class MaintenanceImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @Column(nullable = false)
@@ -28,6 +29,10 @@ public class MaintenanceImage {
     @Column(name = "image_url", nullable = false, length = 2048)
     @Getter
     private String imageUrl;
+
+    @Column(name = "object_key", nullable = false, length = 2048)
+    @Getter
+    private String objectKey;
 
     @Column(name = "create_datetime")
     private LocalDateTime createDatetime;

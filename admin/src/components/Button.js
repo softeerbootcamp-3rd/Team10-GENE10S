@@ -8,9 +8,9 @@ export default function BtnDark({ text, onClick }) {
     );
 }
 
-export function BtnLight({ text }) {
+export function BtnLight({ text, onClick }) {
     return (
-        <div className={classNames('btn-light')}>
+        <div className={classNames('btn-light')} onClick={onClick}>
             <span>{text}</span>
         </div>
     );

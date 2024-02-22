@@ -40,5 +40,6 @@ public class Step {
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
+    @Getter
     private Reservation reservation;
 }

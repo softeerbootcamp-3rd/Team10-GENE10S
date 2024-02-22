@@ -52,6 +52,16 @@ public class AdminRequest {
 
     @Getter
     @Builder
+    public static class AccountDetail {
+        private String adminId;
+        private String adminName;
+        private String phoneNumber;
+        private String sortColumn;
+        private String sortDirection;
+    }
+
+    @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReservationTime {
