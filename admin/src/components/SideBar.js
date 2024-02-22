@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { LogoutImage } from './svg/LogoutImage';
+import axios from '../api/Settings';
 
 // currentPage: 'reservation', 'shop', 'account' 중 한 개로 설정해야 함
 export default function SideBar({ currentPage }) {
@@ -15,6 +16,15 @@ export default function SideBar({ currentPage }) {
   useEffect(() => {
     setUserName('test');
   }, [setUserName])
+
+  const handleLogoutClick = async () => {
+    try {
+      console.log("ABC");
+      await axios.post('/v2/admin/account/logout');
+    } catch (error) {
+      console.error('Error calling logout API:', error);
+    }
+  };
 
   return (
     <div className={classNames('side-menu')}>
@@ -26,7 +36,7 @@ export default function SideBar({ currentPage }) {
           <ProfileImage/>
           <span>{userName}</span>
         </div>
-        <Link to='/logout' className={classNames('logout')}>
+        <Link to='/' className={classNames('logout')} onClick={handleLogoutClick}>
           <LogoutImage/>
         </Link>
       </div>
