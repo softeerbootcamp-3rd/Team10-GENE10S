@@ -9,7 +9,6 @@
 @import './components/infoTable.scss';
 @import './components/modal.scss';
 
-
 .page {
   display: flex;
   width: 100%;
@@ -56,29 +55,29 @@
 }
 
 .w-100 {
-  width: 100px;
+  width: 100px !important;
 }
 
 .w-150 {
-  width: 150px;
+  width: 150px !important;
 }
 
 .w-200 {
-  width: 200px;
+  width: 200px !important;
 }
 
 .w-250 {
-  width: 250px;
+  width: 250px !important;
 }
 
 .w-300 {
-  width: 300px;
+  width: 300px !important;
 }
 
 .w-350 {
-  width: 350px;
+  width: 350px !important;
 }
 
 .h-52 {
-  height: 52px;
+  height: 52px !important;
 }
