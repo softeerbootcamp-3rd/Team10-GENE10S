@@ -36,5 +36,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/v1/login", "/", "/v2/admin/account/login", "/v2/admin/account/session-validation");
     }
-
 }

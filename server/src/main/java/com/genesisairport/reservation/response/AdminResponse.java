@@ -35,4 +35,11 @@ public class AdminResponse {
         private String date;
         private List<String> availableTime;
     }
+
+    @Getter
+    @Builder
+    public static class UploadImage {
+        private Long imageId;
+        private String imageUrl;
+    }
 }

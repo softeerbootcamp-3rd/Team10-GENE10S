@@ -2,15 +2,13 @@
 @import './variables.scss';
 @import './components/button.scss';
 @import './components/sideBar.scss';
+@import './components/infoTable.scss';
+@import './components/modal.scss';
 @import './components/button.scss';
 @import './pages/reservationList.scss';
 
 @import './pages/reservationDetail.scss';
 @import './pages/main.scss';
-
-body {
-  user-select: none;
-}
 
 .page {
   display: flex;

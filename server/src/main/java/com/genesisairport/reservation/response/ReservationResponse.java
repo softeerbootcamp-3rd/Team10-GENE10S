@@ -109,9 +109,16 @@ public class ReservationResponse {
         @Getter
         @Builder
         public static class ProgressStage {
+            private Long id;
             private String step;
             private String date;
             private String detail;
         }
+    }
+
+    @Getter
+    @Builder
+    public static class ProgressId {
+        private Long stepId;
     }
 }

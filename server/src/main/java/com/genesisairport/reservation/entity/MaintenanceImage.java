@@ -30,6 +30,10 @@ public class MaintenanceImage {
     @Getter
     private String imageUrl;
 
+    @Column(name = "object_key", nullable = false, length = 2048)
+    @Getter
+    private String objectKey;
+
     @Column(name = "create_datetime")
     private LocalDateTime createDatetime;
 
