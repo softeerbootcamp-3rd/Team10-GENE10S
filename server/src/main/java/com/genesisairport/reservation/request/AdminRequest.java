@@ -52,8 +52,6 @@ public class AdminRequest {
 
     @Getter
     @Builder
-<<<<<<< HEAD
-=======
     public static class AccountDetail {
         private String adminId;
         private String adminName;
@@ -64,7 +62,6 @@ public class AdminRequest {
 
     @Getter
     @Builder
->>>>>>> develop
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReservationTime {

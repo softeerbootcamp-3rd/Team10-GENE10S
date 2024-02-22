@@ -22,8 +22,6 @@ public class AdminResponse {
 
     @Getter
     @Builder
-<<<<<<< HEAD
-=======
     public static class AccountDetail {
         private long id;
         private String adminId;
@@ -32,7 +30,6 @@ public class AdminResponse {
         private String createDateTime;
     }
       
->>>>>>> develop
     @AllArgsConstructor
     public static class AvailableTime {
         private String date;
