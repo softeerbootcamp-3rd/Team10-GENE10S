@@ -32,7 +32,7 @@ public class AReservationService {
     private final StepRepository stepRepository;
 
     public List<AdminResponse.ReservationDetail> getAllReservations(
-            AdminRequest.ReservationDetail reservationDetail, String pageSize, String pageNumber
+            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
     ) {
         return reservationRepository.findReservations(
                 reservationDetail, pageSize, pageNumber

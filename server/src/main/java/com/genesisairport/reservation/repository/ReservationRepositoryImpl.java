@@ -27,7 +27,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
 
     @Override
     public List<AdminResponse.ReservationDetail> findReservations(
-            AdminRequest.ReservationDetail reservationDetail, String pageSize, String pageNumber
+            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
     ) {
 
         BooleanBuilder builderForWhereClause = getBuilderForWhereClause(

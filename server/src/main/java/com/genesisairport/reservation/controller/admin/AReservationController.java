@@ -64,8 +64,8 @@ public class AReservationController {
             @RequestParam(value = "stage", required = false) String stage,
             @RequestParam(value = "sortColumn", required = false) String sortColumn,
             @RequestParam(value = "sortDirection", required = false) String sortDirection,
-            @RequestParam(value = "pageSize", required = false) String pageSize,
-            @RequestParam(value = "pageNumber", required = false) String pageNumber) {
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value = "pageNumber", required = false) Integer pageNumber) {
 
         Long userId = SessionUtil.getAdminIdFromSession(request);
 

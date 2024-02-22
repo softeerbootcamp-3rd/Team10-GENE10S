@@ -8,6 +8,6 @@ import java.util.List;
 public interface ReservationRepositoryCustom {
 
     List<AdminResponse.ReservationDetail> findReservations(
-            AdminRequest.ReservationDetail reservationDetail, String pageSize, String pageNumber
+            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
     );
 }
