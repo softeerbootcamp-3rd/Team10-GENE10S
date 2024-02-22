@@ -29,12 +29,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .maxAge(86400);
     }
 
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new SessionInterceptor(redisTemplate))
-//                .order(2)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/v1/login", "/", "/v2/**");
-//    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SessionInterceptor(redisTemplate))
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/v1/login", "/", "/v2/**");
+    }
 }
