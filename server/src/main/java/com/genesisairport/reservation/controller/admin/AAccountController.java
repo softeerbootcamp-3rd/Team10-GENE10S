@@ -39,7 +39,7 @@ public class AAccountController {
 
         HttpSession session = request.getSession(true);
         session.setAttribute("adminId", adminId);
-        session.setMaxInactiveInterval(3600); // 1시간
+        session.setMaxInactiveInterval(3600);
 
         return new ResponseEntity(
                 ResponseDto.of(true, ResponseCode.OK),

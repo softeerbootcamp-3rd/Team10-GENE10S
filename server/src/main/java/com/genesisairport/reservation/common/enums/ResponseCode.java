@@ -17,6 +17,8 @@ public enum ResponseCode {
     BAD_REQUEST(400, HttpStatus.BAD_REQUEST, "Bad request"),
     UNAUTHORIZED(401, HttpStatus.UNAUTHORIZED, "Unauthorized"),
     FORBIDDEN(403, HttpStatus.FORBIDDEN, "Forbidden"),
+    NOT_FOUND(404, HttpStatus.NOT_FOUND, "Not found"),
+    CONFLICT(409, HttpStatus.CONFLICT, "Conflict"),
 
     INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "Internal error");
 

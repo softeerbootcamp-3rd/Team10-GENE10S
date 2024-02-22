@@ -1,7 +1,7 @@
 package com.genesisairport.reservation.service.admin;
 
-import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.entity.Admin;
 import com.genesisairport.reservation.repository.AdminRepository;
 import com.genesisairport.reservation.request.AdminRequest;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +30,12 @@ public class AAccountService {
 
         // 아이디 존재 x
         if (admin == null)
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 아이디입니다.");
+            throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 아이디입니다.");
 
         // 비밀번호 일치 x
         String encryptedPwd = encryptPassword(adminPwd);
         if (!admin.getAdminPassword().equals(encryptedPwd))
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "비밀번호가 일치하지 않습니다");
+            throw new GeneralException(ResponseCode.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
 
         return admin.getId();
     }
@@ -52,8 +51,7 @@ public class AAccountService {
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "비밀번호 암호화에 실패했습니다.");
         }
     }
 
