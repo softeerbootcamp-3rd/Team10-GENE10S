@@ -22,6 +22,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
             " WHERE r.customer.id = :customerId " +
             "ORDER BY r.progressStage desc, r.departureTime")
     List<Reservation> findReservationsByCustomerId(Long customerId);
-
-    Integer countByDepartureTimeAndRepairShop(LocalDateTime departureTime, RepairShop repairShop);
 }

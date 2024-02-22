@@ -13,7 +13,10 @@ import com.genesisairport.reservation.response.ReservationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,6 +30,7 @@ public class ReservationService {
     private final ConcurrencyManager concurrencyManager;
 
     private final ReservationRepository reservationRepository;
+    private final AvailableTimeRepository availableTimeRepository;
     private final CustomerRepository customerRepository;
     private final RepairShopRepository repairShopRepository;
     private final CarRepository carRepository;
@@ -93,8 +97,8 @@ public class ReservationService {
                 .updateDateTime(LocalDateTime.now())
                 .build();
 
-
-        reservationRepository.save(reservation);
+        checkConcurrency(repairShop.get(), fromDateTime, toDateTime);
+        saveReservation(reservation);
         coupon.get().setIsUsed(true);
         couponRepository.save(coupon.get());
 
@@ -107,44 +111,6 @@ public class ReservationService {
                 .createDatetime(LocalDateTime.now())
                 .updateDatetime(LocalDateTime.now())
                 .build();
-
-        String fromDateTimeKey = concurrencyManager.createDateKey(repairShop.get(), fromDateTime);
-        String toDateTimeKey = concurrencyManager.createDateKey(repairShop.get(), toDateTime);
-
-        // 캐시에서 먼저 읽어서 없으면
-        Optional<Integer> existFromCache = concurrencyManager.get(RedisKey.RESERVATION, fromDateTimeKey);
-        if (existFromCache.isEmpty()) {
-            Integer existCount = reservationRepository.countByDepartureTimeAndRepairShop(fromDateTime, repairShop.get());
-            concurrencyManager.setNx(RedisKey.RESERVATION, fromDateTimeKey, existCount);
-        }
-
-        // INCR
-        Integer fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
-
-        // 예약 가능 인원 수(5)를 넘으면 다시 줄이고 return false
-        if (fromCount > repairShop.get().getCapacityPerTime()) {
-            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
-            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
-        }
-
-        // ---- 여기까지가 from을 체크하는 부분
-
-        Optional<Integer> existToCache = concurrencyManager.get(RedisKey.RESERVATION, toDateTimeKey);
-        if (existToCache.isEmpty()) {
-            Integer existCount = reservationRepository.countByDepartureTimeAndRepairShop(fromDateTime, repairShop.get());
-            concurrencyManager.setNx(RedisKey.RESERVATION, toDateTimeKey, existCount);
-        }
-
-        // INCR
-        Integer toCount = concurrencyManager.increase(RedisKey.RESERVATION, toDateTimeKey);
-
-        // 5가 넘으면 (변수에서 갖고와서) 다시 줄이고 return false
-        if (toCount > repairShop.get().getCapacityPerTime()) {
-            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
-            concurrencyManager.decrease(RedisKey.RESERVATION, toDateTimeKey);
-            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
-        }
-
         stepRepository.save(step);
 
         return ReservationResponse.ReservationPostResponse.builder()
@@ -152,6 +118,57 @@ public class ReservationService {
                 .repairShopAddress(repairShop.get().getAddress())
                 .customerName(customer.get().getName())
                 .build();
+    }
+
+    private void checkConcurrency(RepairShop repairShop, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
+        String fromDateTimeKey = concurrencyManager.createDateKey(repairShop, fromDateTime);
+        String toDateTimeKey = concurrencyManager.createDateKey(repairShop, toDateTime);
+
+        synchronizeCache(repairShop, fromDateTime, fromDateTimeKey);
+        Integer fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
+        // 예약 가능 인원 수(5)를 넘으면 다시 줄이고 return false
+        if (fromCount > repairShop.getCapacityPerTime()) {
+            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
+            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
+        }
+
+        synchronizeCache(repairShop, toDateTime, toDateTimeKey);
+        Integer toCount = concurrencyManager.increase(RedisKey.RESERVATION, toDateTimeKey);
+        // 5가 넘으면 (변수에서 갖고와서) 다시 줄이고 return false
+        if (toCount > repairShop.getCapacityPerTime()) {
+            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
+            concurrencyManager.decrease(RedisKey.RESERVATION, toDateTimeKey);
+            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
+        }
+    }
+
+    public void synchronizeCache(RepairShop repairShop, LocalDateTime dateTime, String fromDateTimeKey) {
+        Optional<Integer> existFromCache = concurrencyManager.get(RedisKey.RESERVATION, fromDateTimeKey);
+        Date date = Date.valueOf(dateTime.toLocalDate());
+        Time time = Time.valueOf(dateTime.toLocalTime());
+        if (existFromCache.isEmpty()) {
+            Optional<AvailableTime> availableTime = availableTimeRepository.findExactAvailableTime(
+                    repairShop.getId(), date, time);
+            if (availableTime.isEmpty()) {
+                concurrencyManager.setNx(RedisKey.RESERVATION, fromDateTimeKey, 0);
+            } else {
+                concurrencyManager.setNx(RedisKey.RESERVATION, fromDateTimeKey, availableTime.get().getReservationCount());
+            }
+        }
+    }
+
+    @Transactional
+    protected Reservation saveReservation(Reservation reservation) {
+        Reservation result = reservationRepository.save(reservation);
+        availableTimeRepository.increaseReservationCount(
+                reservation.getRepairShop().getId(),
+                Date.valueOf(reservation.getDepartureTime().toLocalDate()),
+                Time.valueOf(reservation.getDepartureTime().toLocalTime()));
+        availableTimeRepository.increaseReservationCount(
+                reservation.getRepairShop().getId(),
+                Date.valueOf(reservation.getArrivalTime().toLocalDate()),
+                Time.valueOf(reservation.getArrivalTime().toLocalTime()));
+        return result;
     }
 
     public List<ReservationResponse.ReservationInfoAbstract> getReservationList(Long customerId) {
