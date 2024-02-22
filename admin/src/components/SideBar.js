@@ -19,7 +19,6 @@ export default function SideBar({ currentPage }) {
 
   const handleLogoutClick = async () => {
     try {
-      console.log("ABC");
       await axios.post('/v2/admin/account/logout');
     } catch (error) {
       console.error('Error calling logout API:', error);

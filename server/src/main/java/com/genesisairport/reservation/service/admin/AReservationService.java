@@ -31,8 +31,12 @@ public class AReservationService {
     private final MaintenanceImageRepository maintenanceImageRepository;
     private final StepRepository stepRepository;
 
-    public List<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail requestBody) {
-        return reservationRepository.findReservations(requestBody);
+    public List<AdminResponse.ReservationDetail> getAllReservations(
+            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
+    ) {
+        return reservationRepository.findReservations(
+                reservationDetail, pageSize, pageNumber
+        );
     }
 
     public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {

@@ -86,13 +86,13 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
         BooleanBuilder builderForWhereClause = new BooleanBuilder();
 
         if (!Strings.isEmpty(adminId)) { // null 이거나 "" 가 아니면
-            builderForWhereClause.and(admin.adminId.eq(adminId));
+            builderForWhereClause.and(admin.adminId.contains(adminId));
         }
         if (!Strings.isEmpty(adminName)) {
-            builderForWhereClause.and(admin.adminName.eq(adminName));
+            builderForWhereClause.and(admin.adminName.contains(adminName));
         }
         if (!Strings.isEmpty(phoneNumber)) {
-            builderForWhereClause.and(admin.phoneNumber.eq(phoneNumber));
+            builderForWhereClause.and(admin.phoneNumber.contains(phoneNumber));
         }
 
         return builderForWhereClause;

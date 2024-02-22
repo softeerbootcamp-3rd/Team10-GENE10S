@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -53,15 +52,45 @@ public class AReservationController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<DataResponseDto<List<AdminResponse.ReservationDetail>>>
-        searchAllReservations(HttpServletRequest request, @RequestBody AdminRequest.ReservationDetail requestBody) {
+    public ResponseEntity<ResponseDto> searchAllReservations(
+            HttpServletRequest request,
+            @RequestParam(value = "shopName", required = false) String shopName,
+            @RequestParam(value = "startPickUpDateTime", required = false) String startPickUpDateTime,
+            @RequestParam(value = "endPickUpDateTime", required = false) String endPickUpDateTime,
+            @RequestParam(value = "startReturnDateTime", required = false) String startReturnDateTime,
+            @RequestParam(value = "endReturnDateTime", required = false) String endReturnDateTime,
+            @RequestParam(value = "customerName", required = false) String customerName,
+            @RequestParam(value = "sellName", required = false) String sellName,
+            @RequestParam(value = "stage", required = false) String stage,
+            @RequestParam(value = "sortColumn", required = false) String sortColumn,
+            @RequestParam(value = "sortDirection", required = false) String sortDirection,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+            @RequestParam(value = "pageNumber", required = false) Integer pageNumber) {
+
         Long userId = SessionUtil.getAdminIdFromSession(request);
 
         if (!Objects.isNull(userId)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "로그인이 필요합니다.");
         }
-        return new ResponseEntity<>(
-                DataResponseDto.of(aReservationService.getAllReservations(requestBody)),
+
+        AdminRequest.ReservationDetail requestBody = AdminRequest.ReservationDetail
+                .builder()
+                .shopName(shopName)
+                .startPickupDateTime(startPickUpDateTime)
+                .endPickupDateTime(endPickUpDateTime)
+                .startReturnDateTime(startReturnDateTime)
+                .endReturnDateTime(endReturnDateTime)
+                .customerName(customerName)
+                .sellName(sellName)
+                .stage(stage)
+                .sortColumn(sortColumn)
+                .sortDirection(sortDirection)
+                .build();
+
+        return new ResponseEntity(
+                DataResponseDto.of(aReservationService.getAllReservations(
+                        requestBody, pageSize, pageNumber
+                )),
                 HttpStatus.OK
         );
     }

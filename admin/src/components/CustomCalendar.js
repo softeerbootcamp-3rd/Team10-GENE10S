@@ -7,7 +7,7 @@ import selectArrow from '../assets/arrow.svg'
 
 
 const CalendarContainer = styled.div`
-  position: relative;
+  position: relative; 
 `;
 
 const DropdownButton = styled.button`
@@ -35,7 +35,7 @@ const CalendarWrapper = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
 `;
 
 const CustomCalendar = ({ onChange, value }) => {
@@ -71,7 +71,7 @@ const CustomCalendar = ({ onChange, value }) => {
       <div ref={calendarRef}>
         <CalendarContainer>
           <DropdownButton onClick={handleToggleCalendar}>{nowDate}</DropdownButton>
-          <CalendarWrapper isOpen={isOpen}>
+          <CalendarWrapper $isOpen={isOpen}>
             <Calendar
                 onChange={handleDateChange}
                 value={value}

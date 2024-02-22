@@ -37,7 +37,8 @@
 
 
 ## 4. 아키텍처
-(차주 추가 예정)
+![genesis-airport-architecture](https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/43667241/37ab92e4-78dd-42f8-bef5-0fefddcc6171)
+
 
 ## 5. ERD
 <img width="800" alt="genesis_logo_수정 1" src="https://github.com/softeerbootcamp-3rd/Team10-GENE10S/assets/102223636/e83d2a10-58d4-4010-b583-7fde53233684">
