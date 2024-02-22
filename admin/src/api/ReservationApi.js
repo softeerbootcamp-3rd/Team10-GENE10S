@@ -1,16 +1,7 @@
 import axios from "./Settings";
 
 export async function getReservationList( shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime, 
-    endReturnDateTime, customerName, sellName, stage, sortColumn, sortAscending, pageSize, pageNumber) {
-
-        let sortDirection;
-        if (sortAscending === true) {
-            sortDirection = "asc";
-        } else if (sortAscending === false) {
-            sortDirection = "desc";
-        } else {
-            sortDirection = "";
-        }
+    endReturnDateTime, customerName, sellName, stage, sortColumn, sortDirection, pageSize, pageNumber) {
         
         try {
             const response = await axios.get('/v2/admin/reservation/all', {
