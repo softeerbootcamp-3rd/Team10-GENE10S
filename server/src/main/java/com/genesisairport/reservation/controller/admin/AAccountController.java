@@ -99,7 +99,7 @@ public class AAccountController {
         );
     }
 
-    @GetMapping("/is-valid-session")
+    @GetMapping("/session-validation")
     public ResponseEntity<ResponseDto> isValidSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
