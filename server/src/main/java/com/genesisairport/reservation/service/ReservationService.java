@@ -121,13 +121,11 @@ public class ReservationService {
         // INCR
         Integer fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
 
-        // 5가 넘으면 (변수에서 갖고와서) 다시 줄이고 return false
+        // 예약 가능 인원 수(5)를 넘으면 다시 줄이고 return false
         if (fromCount > repairShop.get().getCapacityPerTime()) {
             concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
             throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
         }
-
-        // ---- 여기까지가 from을 체크하는 부분
 
         Optional<Object> existToCache = concurrencyManager.get(RedisKey.RESERVATION, toDateTimeKey);
         if (existToCache.isEmpty()) {

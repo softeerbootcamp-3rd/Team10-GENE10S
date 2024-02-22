@@ -33,4 +33,15 @@ public class RedisUtil {
         return redisTemplate.hasKey(SESSION_PREFIX + sessionKey);
     }
 
+    public Object increaseValue(String key) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        values.increment(key);
+
+        return values.get(key);
+    }
+
+    public void decreaseValue(String key) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        values.decrement(key);
+    }
 }
