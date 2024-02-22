@@ -28,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> exception(Exception e, WebRequest request) {
         return handleExceptionInternal(
                 e,
-                ResponseCode.INTERNAL_ERROR,
+                ResponseCode.INTERNAL_SERVER_ERROR,
                 HttpHeaders.EMPTY,
                 request
         );
