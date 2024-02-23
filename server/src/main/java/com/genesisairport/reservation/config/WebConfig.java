@@ -24,7 +24,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://reservation.genesis-airport.com")
+                .allowedOrigins("http://localhost:3000", "http://localhost:3001",
+                        "https://reservation.genesis-airport.com",
+                        "https://admin.genesis-airport.com")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)
