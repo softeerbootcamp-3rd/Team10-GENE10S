@@ -245,7 +245,7 @@ export default function ShopManage() {
                     </div>
                 </div>
             </div>
-            {showModal && <div className='modal'></div>}
+            {showModal && <div className='sub-modal'></div>}
             {AvailableTimeModal({ status: state, date: date.current, time: time.current, hasReserv: hasReserv.current, onConfirm: handleConfirm, onCancel: handleCancel, visible: visible })}
         </div>
     )
