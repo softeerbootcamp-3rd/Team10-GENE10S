@@ -19,7 +19,7 @@ export default function ReservationList() {
   const [sortColumn, setSortColumn] = useState("");
   const [sortDirection, setSortDirection] = useState("");
 
-  const [page, setPage] = useState(1); 
+  const [page, setPage] = useState(0); 
   const [totalPages, setTotalPages] = useState(1); 
 
   const [responseData, setResponseData] = useState([]);
@@ -115,6 +115,7 @@ export default function ReservationList() {
         stage: stage,
         sortColumn: sortColumn,
         sortDirection: sortDirection,
+        page: 0
       }
     ).then((response) => {
       setResponseData(response.data.data);
