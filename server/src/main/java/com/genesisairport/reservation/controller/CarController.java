@@ -28,7 +28,7 @@ public class CarController {
         Long userId = SessionUtil.getUserIdFromSession(request);
 
         if (userId == null) {
-            throw new GeneralException(ResponseCode.FORBIDDEN, "유저를 불러오는 데에 실패했습니다.");
+            throw new GeneralException(ResponseCode.FORBIDDEN, "로그인 정보를 불러오는 데에 실패했습니다.");
         }
         carService.saveCar(userId, requestBody);
 
@@ -42,7 +42,7 @@ public class CarController {
         Long userId = SessionUtil.getUserIdFromSession(request);
 
         if (userId == null) {
-            throw new GeneralException(ResponseCode.FORBIDDEN, "유저를 불러오는 데에 실패했습니다.");
+            throw new GeneralException(ResponseCode.FORBIDDEN, "로그인 정보를 불러오는 데에 실패했습니다.");
         }
         carService.deleteCar(userId, carId);
 

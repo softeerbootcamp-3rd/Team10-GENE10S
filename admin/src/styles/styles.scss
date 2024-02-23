@@ -1,12 +1,13 @@
 @import './reset.scss';
 @import './variables.scss';
+
 @import './components/sideBar.scss';
 @import './components/button.scss';
-@import './pages/reservationList.scss';
-@import './components/button.scss';
-@import './pages/reservationList.scss';
 @import './components/infoTable.scss';
 @import './components/modal.scss';
+
+@import './pages/reservationList.scss';
+@import './pages/main.scss';
 
 .page {
   display: flex;

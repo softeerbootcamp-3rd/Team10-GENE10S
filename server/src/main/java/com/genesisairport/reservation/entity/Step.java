@@ -1,10 +1,12 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

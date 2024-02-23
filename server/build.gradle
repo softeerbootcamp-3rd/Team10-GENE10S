@@ -48,7 +48,9 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-data-redis'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-	testImplementation 'junit:junit:4.13.2'
+	implementation 'com.amazonaws:aws-java-sdk-sts:1.11.1000'
+  
+  testImplementation 'junit:junit:4.13.2'
 }
 
 tasks.named('test') {

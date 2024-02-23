@@ -1,6 +1,7 @@
 package com.genesisairport.reservation.controller;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.request.ReservationRequest;
 import com.genesisairport.reservation.common.model.DataResponseDto;
@@ -40,31 +41,32 @@ public class ReservationController {
     }
 
     @GetMapping("/car-list")
-    public ResponseEntity getCarList(final HttpServletRequest request) {
-        // TODO: customer emtpy일 때 response 추가
+    public ResponseEntity<DataResponseDto<List<ReservationResponse.CarInfo>>>
+        getCarList(final HttpServletRequest request)
+    {
         Long userId = SessionUtil.getUserIdFromSession(request);
-        return new ResponseEntity(
+        return new ResponseEntity<>(
                 DataResponseDto.of(reservationService.getCarList(userId)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/date")
-    public ResponseEntity getAvailableDates(@RequestParam(value = "repairShop") String repairShop) {
+    public ResponseEntity<DataResponseDto<ReservationResponse.DateInfo>> getAvailableDates(@RequestParam(value = "repairShop") String repairShop) {
         log.debug("예약 가능 날짜 확인 API");
 
-        return new ResponseEntity(
+        return new ResponseEntity<>(
                 DataResponseDto.of(reservationService.getAvailableDates(repairShop)),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/time")
-    public ResponseEntity getAvailableTimes(
+    public ResponseEntity<DataResponseDto<ReservationResponse.TimeList>> getAvailableTimes(
             @RequestParam(value = "repairShop") String repairShop,
             @RequestParam(value = "date") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate date) {
 
-        return new ResponseEntity(
+        return new ResponseEntity<>(
                 DataResponseDto.of(reservationService.getAvailableTimes(repairShop, date)),
                 HttpStatus.OK
         );
@@ -72,7 +74,9 @@ public class ReservationController {
 
 
     @PostMapping
-    public ResponseEntity saveReservation(final HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody) {
+    public ResponseEntity<DataResponseDto<ReservationResponse.ReservationPostResponse>>
+        saveReservation(final HttpServletRequest request, @RequestBody ReservationRequest.ReservationPost requestBody)
+    {
         log.debug("예약 정보 저장");
 
         Long userId = SessionUtil.getUserIdFromSession(request);
@@ -80,7 +84,9 @@ public class ReservationController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity getReservationList(final HttpServletRequest request) {
+    public ResponseEntity<DataResponseDto<List<ReservationResponse.ReservationInfoAbstract>>>
+        getReservationList(final HttpServletRequest request)
+    {
         log.debug("특정 사용자 예약 내역 조회");
 
         Long userId = SessionUtil.getUserIdFromSession(request);
@@ -95,7 +101,7 @@ public class ReservationController {
 
         Optional<ReservationResponse.ReservationDetail> reservationDetail = reservationService.getReservationDetail(reservationId);
         if (reservationDetail.isEmpty()) {
-            return new ResponseEntity<>(ResponseDto.of(false, ResponseCode.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GeneralException(ResponseCode.NOT_FOUND, "예약 내역이 존재하지 않습니다.");
         }
 
         return new ResponseEntity<>(DataResponseDto.of(reservationDetail.get()), HttpStatus.OK);
