@@ -2,6 +2,8 @@ package com.genesisairport.reservation.config;
 
 
 import com.genesisairport.reservation.common.SessionInterceptor;
+import com.genesisairport.reservation.common.util.SessionUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -13,10 +15,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private final SessionUtil sessionUtil;
 
     @Override
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -32,7 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SessionInterceptor(redisTemplate))
+        registry.addInterceptor(new SessionInterceptor(sessionUtil))
                 .order(2)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/v1/login", "/", "/v2/**");

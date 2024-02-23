@@ -1,4 +1,7 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
+
   datasource: # MySQL DB 설정
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://13.125.79.182:3306/GENE10S
@@ -16,11 +19,10 @@ spring:
         show_sql: false
 
   session:
-    store-type: redis # 세션 저장소 지정
     redis:
-      namespace: gene10s:session # 세션을 저장하는 데 사용되는 키의 namespace
-      cleanup-cron: "0 * * * * *"
-      repository-type: indexed
+      flush-mode: on_save
+      namespace: "gene10s:session:airport"
+
   data:
     redis:
       host: 43.203.119.163

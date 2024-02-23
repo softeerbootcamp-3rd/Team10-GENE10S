@@ -1,5 +1,6 @@
 package com.genesisairport.reservation.common;
 
+import com.genesisairport.reservation.common.util.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -12,9 +13,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @RequiredArgsConstructor
 public class SessionInterceptor implements HandlerInterceptor {
-
-    private static final String SESSION_PREFIX = "spring:session:sessions:";
-    private final RedisTemplate<String, Object> redisTemplate;
+    
+    private final SessionUtil sessionUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -30,9 +30,9 @@ public class SessionInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        String sessionKey = getSessionKey(session.getId());
+        String sessionKey = sessionUtil.getSessionKey(session.getId());
 
-        if (!isSessionExists(sessionKey)) {
+        if (!sessionUtil.isSessionExists(sessionKey)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
@@ -40,11 +40,5 @@ public class SessionInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private String getSessionKey(String sessionId) {
-        return SESSION_PREFIX + sessionId;
-    }
 
-    private Boolean isSessionExists(String sessionKey) {
-        return redisTemplate.hasKey(sessionKey);
-    }
 }

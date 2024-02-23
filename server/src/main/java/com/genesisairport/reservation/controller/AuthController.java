@@ -4,6 +4,7 @@ import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
+import com.genesisairport.reservation.common.util.SessionUtil;
 import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     
     private final AuthService authService;
+    private final SessionUtil sessionUtil;
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody UserRequest.Login login, HttpServletRequest request) {
@@ -38,7 +40,7 @@ public class AuthController {
         // 세션 생성
         HttpSession session = request.getSession(true);
         session.setAttribute("userId", userId);
-        session.setMaxInactiveInterval(3600); // 1시간
+        session.setMaxInactiveInterval(24 * 60 * 60); // TODO 개발 다 끝나면 시간 변경
 
         return new ResponseEntity<>(
                 ResponseDto.of(true, ResponseCode.OK),
@@ -50,7 +52,15 @@ public class AuthController {
     public ResponseEntity<DataResponseDto<Boolean>> isLoggedIn(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("userId") != null) {
+        if (session == null) {
+            return new ResponseEntity<>(
+                    DataResponseDto.of(false),
+                    HttpStatus.OK
+            );
+        }
+
+        String sessionKey = sessionUtil.getSessionKey(session.getId());
+        if (!sessionUtil.isSessionExists(sessionKey)) {
             return new ResponseEntity<>(
                     DataResponseDto.of(false),
                     HttpStatus.OK

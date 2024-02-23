@@ -1,8 +1,8 @@
-import classNames from "classnames";
-import { useEffect, useRef, useState } from "react";
-import { postMaintenanceImage } from "../../api/ReservationApi";
-import BtnDark from "../BtnDark";
-import { BtnLight } from "../BtnLight";
+import classNames from 'classnames';
+import BtnDark from '../BtnDark';
+import BtnLight from '../BtnLight';
+import { useEffect, useRef, useState } from 'react';
+import { postMaintenanceImage } from '../../api/ReservationApi';
 
 export default function AddImageModal({
   reservationId,
