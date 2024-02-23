@@ -3,6 +3,8 @@ package com.genesisairport.reservation.controller.admin;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.DataResponseDto;
+import com.genesisairport.reservation.common.model.PageInfo;
+import com.genesisairport.reservation.common.model.PageResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.common.util.SessionUtil;
 import com.genesisairport.reservation.entity.MaintenanceImage;
@@ -14,12 +16,15 @@ import com.genesisairport.reservation.service.admin.AReservationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -51,6 +56,7 @@ public class AReservationController {
 
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> searchAllReservations(
+            Pageable pageable,
             HttpServletRequest request,
             @RequestParam(value = "shopName", required = false) String shopName,
             @RequestParam(value = "startPickUpDateTime", required = false) String startPickUpDateTime,
@@ -85,10 +91,20 @@ public class AReservationController {
                 .sortDirection(sortDirection)
                 .build();
 
+        Page<AdminResponse.ReservationDetail> reservationDetailPage = aReservationService.getAllReservations(
+                requestBody, pageable
+        );
+
+        List<AdminResponse.ReservationDetail> reservationDetailList = reservationDetailPage.getContent();
+        PageInfo pageInfo = PageInfo.builder()
+                .page(reservationDetailPage.getNumber())
+                .size(reservationDetailPage.getSize())
+                .totalElements(reservationDetailPage.getTotalElements())
+                .totalPages(reservationDetailPage.getTotalPages())
+                .build();
+
         return new ResponseEntity(
-                DataResponseDto.of(aReservationService.getAllReservations(
-                        requestBody, pageSize, pageNumber
-                )),
+                PageResponseDto.of(reservationDetailList, pageInfo),
                 HttpStatus.OK
         );
     }
