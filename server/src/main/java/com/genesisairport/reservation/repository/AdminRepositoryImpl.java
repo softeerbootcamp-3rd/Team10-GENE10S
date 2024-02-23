@@ -10,7 +10,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -71,7 +70,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
                     .adminId(t.get(1, String.class))
                     .adminName(t.get(2, String.class))
                     .phoneNumber(t.get(3, String.class))
-                    .createDateTime(CommonDateFormat.localDatetime(t.get(4, LocalDateTime.class)))
+                    .createDateTime(CommonDateFormat.localDateTime(t.get(4, LocalDateTime.class)))
                     .build();
             accountDetailList.add(accountDetail);
         }

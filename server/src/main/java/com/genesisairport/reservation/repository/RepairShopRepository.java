@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface RepairShopRepository extends JpaRepository<RepairShop, Long>, RepairShopRepositoryCustom {
-    Optional<RepairShop> findRepairShopByShopName(String shopName);
+    Optional<RepairShop> findByShopName(String shopName);
 }

@@ -121,4 +121,10 @@ public class ReservationResponse {
     public static class ProgressId {
         private Long stepId;
     }
+
+    @Getter
+    @Builder
+    public static class hasReservation {
+        private boolean hasReservation;
+    }
 }

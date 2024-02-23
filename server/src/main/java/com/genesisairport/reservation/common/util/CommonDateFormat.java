@@ -37,12 +37,12 @@ public class CommonDateFormat {
         return Time.valueOf(LocalTime.parse(time, formatter));
     }
 
-    public static String localDatetime(LocalDateTime localDateTime) {
+    public static String localDateTime(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter);
     }
 
-    public static LocalDateTime localDatetime(String localDateTime) {
+    public static LocalDateTime localDateTime(String localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(localDateTime, formatter);
     }

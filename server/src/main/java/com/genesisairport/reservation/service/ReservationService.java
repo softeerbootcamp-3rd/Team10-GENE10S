@@ -13,7 +13,6 @@ import com.genesisairport.reservation.response.ReservationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -71,15 +70,15 @@ public class ReservationService {
             throw new GeneralException(ResponseCode.CONFLICT, "이미 사용된 쿠폰입니다.");
         }
 
-        Optional<RepairShop> repairShop = repairShopRepository.findRepairShopByShopName(requestBody.getShopName());
+        Optional<RepairShop> repairShop = repairShopRepository.findByShopName(requestBody.getShopName());
         if (repairShop.isEmpty()) {
             throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 지점명입니다.");
         }
 
 
         // 날짜 형식 변환
-        LocalDateTime fromDateTime = CommonDateFormat.localDatetime(requestBody.getDepartureTime());
-        LocalDateTime toDateTime = CommonDateFormat.localDatetime(requestBody.getArrivalTime());
+        LocalDateTime fromDateTime = CommonDateFormat.localDateTime(requestBody.getDepartureTime());
+        LocalDateTime toDateTime = CommonDateFormat.localDateTime(requestBody.getArrivalTime());
 
         Reservation reservation = Reservation.builder()
                 .departureTime(fromDateTime)
@@ -203,8 +202,8 @@ public class ReservationService {
         RepairShop repairShop = reservation.get().getRepairShop();
 
         // date (to, from)
-        String fromString = CommonDateFormat.localDatetime(reservation.get().getDepartureTime());
-        String toString = CommonDateFormat.localDatetime(reservation.get().getArrivalTime());
+        String fromString = CommonDateFormat.localDateTime(reservation.get().getDepartureTime());
+        String toString = CommonDateFormat.localDateTime(reservation.get().getArrivalTime());
 
         // serviceType
         Map<String, Boolean> serviceType = new HashMap<>();

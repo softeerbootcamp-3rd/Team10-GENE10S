@@ -22,4 +22,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
             " WHERE r.customer.id = :customerId " +
             "ORDER BY r.progressStage desc, r.departureTime")
     List<Reservation> findReservationsByCustomerId(Long customerId);
+
+    @Query("SELECT r FROM Reservation r " +
+            "WHERE (r.departureTime = :businessTime OR r.arrivalTime = :businessTime) " +
+            "AND r.repairShop.id = :repairShopId " +
+            "AND r.progressStage NOT IN ('완료', '취소')")
+    List<Reservation> findReservationsBy(Long repairShopId, LocalDateTime businessTime);
 }

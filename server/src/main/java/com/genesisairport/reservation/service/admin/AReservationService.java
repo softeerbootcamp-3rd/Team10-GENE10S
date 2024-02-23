@@ -3,11 +3,14 @@ package com.genesisairport.reservation.service.admin;
 import com.genesisairport.reservation.common.enums.ProgressStage;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.util.CommonDateFormat;
 import com.genesisairport.reservation.entity.MaintenanceImage;
+import com.genesisairport.reservation.entity.RepairShop;
 import com.genesisairport.reservation.entity.Reservation;
 import com.genesisairport.reservation.entity.Step;
 
 import com.genesisairport.reservation.repository.MaintenanceImageRepository;
+import com.genesisairport.reservation.repository.RepairShopRepository;
 import com.genesisairport.reservation.repository.StepRepository;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
@@ -32,6 +35,7 @@ public class AReservationService {
     private final ReservationRepository reservationRepository;
     private final MaintenanceImageRepository maintenanceImageRepository;
     private final StepRepository stepRepository;
+    private final RepairShopRepository repairShopRepository;
 
     public Page<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail reservationDetail, Pageable pageable) {
         return reservationRepository.findReservations(reservationDetail, pageable);
@@ -122,5 +126,18 @@ public class AReservationService {
             throw new GeneralException(ResponseCode.NOT_FOUND, "예약 id를 찾을 수 없습니다.");
         reservation.get().setInspectionResult(requestBody.getComment());
         reservationRepository.save(reservation.get());
+    }
+
+    public boolean checkReservation(String shopName, String businessTime) {
+        Optional<RepairShop> repairShop = repairShopRepository.findByShopName(shopName);
+        if (repairShop.isEmpty()) {
+            throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 지점명입니다.");
+        }
+
+        LocalDateTime datetime = CommonDateFormat.localDateTime(businessTime);
+
+        List<Reservation> reservations = reservationRepository.findReservationsBy(repairShop.get().getId(), datetime);
+
+        return !reservations.isEmpty();
     }
 }

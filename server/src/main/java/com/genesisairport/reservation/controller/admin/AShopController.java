@@ -21,18 +21,20 @@ public class AShopController {
     private final AShopService aShopService;
 
     @GetMapping("/available")
-    public ResponseEntity<ResponseDto> getAvailableDate(@RequestBody AdminRequest.ReservationTimeRange requestBody) {
-        if (Strings.isEmpty(requestBody.getShopName())) {
+    public ResponseEntity<ResponseDto> getAvailableDate(@RequestParam String shopName,
+                                                        @RequestParam String businessDayFrom,
+                                                        @RequestParam String businessDayTo) {
+        if (Strings.isEmpty(shopName)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명을 선택해주세요.");
         }
-        if (Strings.isEmpty(requestBody.getBusinessDayFrom())) {
+        if (Strings.isEmpty(businessDayFrom)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "검색 시작 날짜를 입력해주세요.");
         }
-        if (Strings.isEmpty(requestBody.getBusinessDayTo())) {
+        if (Strings.isEmpty(businessDayTo)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "검색 끝 날짜를 입력해주세요.");
         }
 
-        return new ResponseEntity<>(DataResponseDto.of(aShopService.getAvailableTime(requestBody)), HttpStatus.OK);
+        return new ResponseEntity<>(DataResponseDto.of(aShopService.getAvailableTime(shopName, businessDayFrom, businessDayTo)), HttpStatus.OK);
     }
 
     @PostMapping("/available")
@@ -41,21 +43,40 @@ public class AShopController {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명을 선택해주세요.");
         }
         if (Strings.isEmpty(requestBody.getBusinessDay())) {
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "시간 정보를 입력해주세요.");
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "시간 정보가 없습니다.");
         }
 
         return new ResponseEntity<>(ResponseDto.of(true, aShopService.addAvailableTime(requestBody)), HttpStatus.OK);
     }
 
     @DeleteMapping("/available")
-    public ResponseEntity<ResponseDto> deleteAvailableDate(@RequestBody AdminRequest.ReservationTime requestBody) {
-        if (Strings.isEmpty(requestBody.getShopName())) {
+    public ResponseEntity<ResponseDto> deleteAvailableDate(@RequestParam String shopName,
+                                                          @RequestParam String businessDay) {
+        if (Strings.isEmpty(shopName)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명을 선택해주세요.");
         }
-        if (Strings.isEmpty(requestBody.getBusinessDay())) {
+        if (Strings.isEmpty(businessDay)) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "시간 정보가 없습니다.");
         }
 
-        return new ResponseEntity<>(ResponseDto.of(true, aShopService.deleteAvailableTime(requestBody)), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.of(true, aShopService.deleteAvailableTime(shopName, businessDay)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/cancel")
+    public ResponseEntity<ResponseDto> deleteAvailableDateWithReservation(@RequestParam(value = "shopName") String shopName,
+                                                                          @RequestParam(value = "businessDay") String businessDay,
+                                                                          @RequestParam(value = "message") String message) {
+        log.debug("예약되어있는 시간 삭제");
+        if (Strings.isEmpty(shopName)) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명을 선택해주세요.");
+        }
+        if (Strings.isEmpty(businessDay)) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "시간 정보가 없습니다.");
+        }
+        if (Strings.isEmpty(message)) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "메시지가 없습니다.");
+        }
+
+        return new ResponseEntity<>(ResponseDto.of(true, aShopService.deleteAvailableTimeWithReservation(shopName, businessDay, message)), HttpStatus.OK);
     }
 }

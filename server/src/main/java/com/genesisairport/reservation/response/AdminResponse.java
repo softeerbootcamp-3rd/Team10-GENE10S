@@ -31,6 +31,8 @@ public class AdminResponse {
     }
       
     @AllArgsConstructor
+    @Getter
+    @Builder
     public static class AvailableTime {
         private String date;
         private List<String> availableTime;

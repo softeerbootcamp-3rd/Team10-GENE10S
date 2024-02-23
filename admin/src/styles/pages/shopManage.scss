@@ -1,0 +1,166 @@
+@import "../variables.scss";
+
+.shop-manage {
+  .search-area {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+
+    border-radius: 5px;
+    background: $blue_50;
+
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      align-self: stretch;
+
+      .search-item {
+        display: flex;
+        padding: 12px;
+        align-items: center;
+        gap: 24px;
+
+        span {
+          @extend %B_20;
+          color: $black;
+          text-align: center;
+        }
+
+        select {
+          width: 196px;
+          height: 40px;
+          border-radius: 5px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .column-content {
+    display: flex;
+    padding: 12px;
+    height: 600px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    align-self: stretch;
+    overflow: scroll;
+  }
+}
+
+.shop-manage .column-content .content-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px $blue_600;
+
+  .content-date {
+    display: flex;
+    padding: 0px 12px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 12px;
+    background: $blue_50;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .date {
+      display: flex;
+      height: 64px;
+      padding: 10px;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+
+      span {
+        @extend %B_20;
+        color: $black;
+      }
+    }
+
+    .btn {
+      display: flex;
+      padding: 24px 24px;
+      justify-content: space-between;
+      align-items: center;
+      align-self: stretch;
+      justify-content: center;
+      transform: rotate(90deg);
+      transition: all 0.3s ease;
+    }
+  }
+
+  .content-time {
+    display: flex;
+    padding: 0px 12px;
+    align-items: center;
+    align-content: center;
+    gap: 12px;
+    align-self: stretch;
+    flex-wrap: wrap;
+    overflow: hidden;
+    max-height: 0px;
+    transition: all 0.3s ease;
+
+    .time {
+      display: flex;
+      width: 216px;
+      padding: 12px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      background: $blue_700;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      span {
+        @extend %B_20;
+        color: $blue_50;
+      }
+
+      &.active {
+        background: none;
+        box-shadow: 0 0 0 1px $blue_600;
+
+        span {
+          color: $black;
+        }
+      }
+    }
+  }
+}
+
+.shop-manage .column-content .content-row.opened {
+  .btn {
+    transform: rotate(-90deg);
+    transition: all 0.3s ease;
+  }
+
+  .content-time {
+    padding: 12px;
+    max-height: 200px;
+    transition: all 0.3s ease;
+  }
+}
+
+.shop-manage .sub-modal {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
