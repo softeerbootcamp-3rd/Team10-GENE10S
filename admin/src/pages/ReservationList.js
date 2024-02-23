@@ -149,7 +149,6 @@ export default function ReservationList() {
   };
 
 
-  
   useEffect(() => {
     search(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
