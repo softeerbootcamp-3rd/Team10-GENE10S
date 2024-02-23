@@ -5,6 +5,7 @@ import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.PageInfo;
 import com.genesisairport.reservation.common.model.PageResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
+//import com.genesisairport.reservation.config.RedisHttpConfig;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.genesisairport.reservation.service.admin.AAccountService;
@@ -18,7 +19,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,8 +41,8 @@ public class AAccountController {
         Long adminId = adminAccountService.adminLogin(loginDto);
 
         HttpSession session = request.getSession(true);
-        session.setAttribute("adminId", adminId);
-        session.setMaxInactiveInterval(3600); // 1시간
+        session.setAttribute("admin", adminId);
+        session.setMaxInactiveInterval(24 * 60 * 60); // TODO 개발 끝나면 값 변경
 
         return new ResponseEntity(
                 ResponseDto.of(true, ResponseCode.OK),
