@@ -107,7 +107,7 @@ export default function Account() {
       </div>
       <div className={classNames("delete-button")}>
         <div className={classNames("btn-light")}>
-          <a>삭제</a>
+          <span>삭제</span>
         </div>
       </div>
     </div>
@@ -150,7 +150,7 @@ export default function Account() {
 
           <div className={classNames("register-area")}>
             <div className={classNames("btn-dark")}>
-              <a>등록</a>
+              <span>등록</span>
             </div>
           </div>
 
