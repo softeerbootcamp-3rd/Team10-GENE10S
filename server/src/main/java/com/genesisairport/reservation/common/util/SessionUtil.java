@@ -28,6 +28,7 @@ public class SessionUtil {
 
     public static Long getUserIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
+
         return Optional.ofNullable(session)
                     .map(s -> (Long) s.getAttribute("userId"))
                     .orElse(null);
