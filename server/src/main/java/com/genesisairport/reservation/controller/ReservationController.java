@@ -30,7 +30,6 @@ import java.util.Optional;
 public class ReservationController {
 
     private final ReservationService reservationService;
-    private final SessionUtil sessionUtil;
 
     @GetMapping("/coupon/valid")
     public ResponseEntity<DataResponseDto<ReservationResponse.CouponValid>> couponValidation(

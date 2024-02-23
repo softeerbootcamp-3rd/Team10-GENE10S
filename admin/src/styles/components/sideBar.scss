@@ -1,90 +1,90 @@
-@import '../variables.scss';
+@import "../variables.scss";
 
 .side-menu {
+  display: flex;
+  width: 280px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  flex-shrink: 0;
+  align-self: stretch;
+  overflow-y: auto;
+
+  background: $blue_800;
+
+  > .title {
     display: flex;
-    width: 280px;
+    padding: 24px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+
+    > span {
+      color: $white;
+      text-align: center;
+      @extend %B_28;
+    }
+  }
+
+  > .profile {
+    display: flex;
+    padding: 24px;
+    align-items: center;
+    gap: 24px;
+    align-self: stretch;
+
+    > .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1 0 0;
+      align-self: stretch;
+
+      > span {
+        color: $white;
+        text-align: center;
+        @extend %SB_24;
+      }
+    }
+
+    > .logout {
+      display: flex;
+      padding: 0px 4px;
+      align-items: center;
+      gap: 24px;
+      align-self: stretch;
+    }
+  }
+
+  > .menu-list {
+    display: flex;
+    padding: 0px 12px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
-    flex-shrink: 0;
     align-self: stretch;
-    overflow-y: auto;
 
-    background: $blue_800;
+    > .menu {
+      display: flex;
+      padding: 12px;
+      align-items: center;
+      gap: 12px;
+      align-self: stretch;
 
-    > .title {
-        display: flex;
-        padding: 24px;
-        justify-content: space-between;
-        align-items: center;
-        align-self: stretch;
+      transition: background-color 0.3s ease;
 
-        > span {
-            color: $white;
-            text-align: center;
-            @extend %B_28;
-        }
+      > span {
+        color: $white;
+        text-align: center;
+        @extend %SB_20;
+      }
     }
 
-    > .profile {
-        display: flex;
-        padding: 24px;
-        align-items: center;
-        gap: 24px;
-        align-self: stretch;
-
-        > .profile-info {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            flex: 1 0 0;
-            align-self: stretch;
-
-            > span {
-                color: $white;
-                text-align: center;
-                @extend %SB_24;
-            }
-        }
-
-        > .logout {
-            display: flex;
-            padding: 0px 4px;
-            align-items: center;
-            gap: 24px;
-            align-self: stretch;
-        }
+    > .menu:hover {
+      background: $blue_900;
     }
 
-    > .menu-list {
-        display: flex;
-        padding: 0px 12px;
-        flex-direction: column;
-        align-items: flex-start;
-        align-self: stretch;
-
-        > .menu {
-            display: flex;
-            padding: 12px;
-            align-items: center;
-            gap: 12px;
-            align-self: stretch;
-
-            transition: background-color 0.3s ease;
-
-            > span {
-                color: $white;
-                text-align: center;
-                @extend %SB_20;
-            }
-        }
-
-        > .menu:hover {
-            background: $blue_900;
-        }
-
-        > .menu.active {
-            background: $blue_900;
-        }
+    > .menu.active {
+      background: $blue_900;
     }
+  }
 }
