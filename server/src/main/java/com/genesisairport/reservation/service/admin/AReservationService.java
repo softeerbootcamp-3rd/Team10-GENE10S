@@ -143,8 +143,8 @@ public class AReservationService {
 
         LocalDateTime datetime = CommonDateFormat.datetime(businessTime);
 
-        Optional<Reservation> reservation = reservationRepository.findReservationBy(repairShop.getId(), datetime);
+        List<Reservation> reservations = reservationRepository.findReservationsBy(repairShop.getId(), datetime);
 
-        return reservation.isPresent();
+        return !reservations.isEmpty();
     }
 }

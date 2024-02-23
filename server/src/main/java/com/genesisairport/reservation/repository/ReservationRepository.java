@@ -26,11 +26,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
             "WHERE (r.departureTime = :businessTime OR r.arrivalTime = :businessTime) " +
             "AND r.repairShop.id = :repairShopId " +
             "AND r.progressStage NOT IN ('완료', '취소')")
-    Optional<Reservation> findReservationBy(Long repairShopId, LocalDateTime businessTime);
-
-    @Query("SELECT r FROM Reservation r " +
-            "WHERE (r.departureTime = :businessTime OR r.arrivalTime = :businessTime) " +
-            "AND r.repairShop.id = :repairShopId " +
-            "AND r.progressStage NOT IN ('완료', '취소')")
     List<Reservation> findReservationsBy(Long repairShopId, LocalDateTime businessTime);
 }

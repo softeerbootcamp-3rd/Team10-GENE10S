@@ -7,6 +7,7 @@ import { Arrow500 } from "../components/svg/Arrow";
 import CustomCalendar from "../components/CustomCalendar";
 import { getAvailableTime, addAvailableTime, removeAvailableTime, removeAvailableTimeWithReserv } from "../api/ShopApi";
 import { checkReservation } from "../api/ReservationApi";
+import AvailableTimeModal from "../components/modal/AvailableTimeModal";
 
 export default function ShopManage() {
     const [availableList, setAvailableList] = useState(null);
@@ -17,20 +18,15 @@ export default function ShopManage() {
 
     const [showModal, setShowModal] = useState(false);
     const [state, setState] = useState('');
-    const [isChecked, setIsChecked] = useState(false);
-    const [message, setMessage] = useState('');
     const hasReserv = useRef(false);
     const date = useRef('');
     const time = useRef('');
 
+    const [visible, setVisible] = useState(false);
+
     function resetState() {
-        setState('');
-        setIsChecked(false);
         setShowModal(false);
-        setMessage('');
-        hasReserv.current = false;
-        date.current = '';
-        time.current = '';
+        setVisible(false);
     }
 
     function handleAccordianClick(event) {
@@ -38,7 +34,6 @@ export default function ShopManage() {
         if (!target.classList.value.includes('content-date')) return;
 
         const parent = target.closest('.content-row');
-        // parent.classList.toggle('opened');
         if (openedRow.includes(parent.id)) {
             openedRow.pop(parent.id);
             setOpenedRow([...openedRow]);
@@ -66,11 +61,12 @@ export default function ShopManage() {
                     hasReserv.current = response.hasReservation;
                 });
 
-            setIsChecked(true);
         } else {
+            hasReserv.current = false;
             setState('add');
-            setIsChecked(true);
         }
+
+        setVisible(true);
     }
 
     async function handleSearchBtn() {
@@ -81,13 +77,12 @@ export default function ShopManage() {
             });
     }
 
-    async function handleConfirm() {
+    async function handleConfirm(date, time, message = '') {
         const businessDay = `${date.current} ${time.current}:00`;
         if (state === 'add') {
             await addAvailableTime(shopName, businessDay)
                 .then(() => {
-                    // todo 시간 버튼 비활성화
-                    resetState();
+                    addTimeToData(date, time);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -96,7 +91,7 @@ export default function ShopManage() {
             if (hasReserv.current) {
                 await removeAvailableTimeWithReserv(shopName, businessDay, message)
                     .then(() => {
-                        // todo 시간 버튼 비활성화
+                        removeTimeFromData(date, time);
                         resetState();
                     })
                     .catch((error) => {
@@ -105,15 +100,50 @@ export default function ShopManage() {
             } else {
                 await removeAvailableTime(shopName, businessDay)
                     .then(() => {
-                        // todo 시간 버튼 비활성화
-                        resetState();
+                        removeTimeFromData(date, time);
                     })
                     .catch((error) => {
                         console.error(error);
                     })
             }
         }
+
+        resetState();
     }
+
+    function handleCancel() {
+        resetState();
+    }
+
+    function removeTimeFromData(targetDate, targetTime) {
+        setAvailableList(prevData => {
+            const newData = prevData.map(item => {
+                if (item.date === targetDate) {
+                    return {
+                        ...item,
+                        availableTime: item.availableTime.filter(time => time !== targetTime)
+                    };
+                }
+                return item;
+            });
+            return newData;
+        });
+    };
+
+    function addTimeToData(targetDate, targetTime) {
+        setAvailableList(prevData => {
+            const newData = prevData.map(item => {
+                if (item.date === targetDate) {
+                    return {
+                        ...item,
+                        availableTime: [...item.availableTime, targetTime]
+                    };
+                }
+                return item;
+            });
+            return newData;
+        });
+    };
 
     function ContentRow() {
         const content = availableList.map((timeData, index) => (
@@ -215,28 +245,8 @@ export default function ShopManage() {
                     </div>
                 </div>
             </div>
-            {showModal && <div className='modal'>
-                <div className='modal-box'>
-                    {isChecked &&
-                        <>
-                            <div className='modal-title'>
-                                <span>{date.current} {time.current}를 {state === 'add' ? '추가' : '삭제'}하시겠습니까?</span>
-                                {hasReserv.current && <span>예약된 일정이 있습니다. 예약을 취소하는 사유를 작성해주세요.</span>}
-                            </div>
-                            {hasReserv.current && <textarea type='text' className='modal-text' rows='10' onChange={e => setMessage(e.target.value)} />}
-                            <div className='modal-btn'>
-                                <div className={classNames('btn', 'left')} onClick={handleConfirm}>
-                                    <span>확인</span>
-                                </div>
-                                <div className={classNames('btn', 'right')} onClick={resetState}>
-                                    <span>취소</span>
-                                </div>
-                            </div>
-                        </>
-                    }
-
-                </div>
-            </div>}
+            {showModal && <div className='modal'></div>}
+            {AvailableTimeModal({ status: state, date: date.current, time: time.current, hasReserv: hasReserv.current, onConfirm: handleConfirm, onCancel: handleCancel, visible: visible })}
         </div>
     )
 }
