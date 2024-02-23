@@ -5,7 +5,7 @@ import SideBar from "../components/SideBar";
 import { useRef, useState } from "react";
 import { Arrow500 } from "../components/svg/Arrow";
 import CustomCalendar from "../components/CustomCalendar";
-import { getAvailableTime, addAvailableTime, removeAvailableTime } from "../api/ShopApi";
+import { getAvailableTime, addAvailableTime, removeAvailableTime, removeAvailableTimeWithReserv } from "../api/ShopApi";
 import { checkReservation } from "../api/ReservationApi";
 
 export default function ShopManage() {
@@ -14,11 +14,24 @@ export default function ShopManage() {
     const [shopName, setShopName] = useState('블루핸즈 인천공항점');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+
     const [showModal, setShowModal] = useState(false);
     const [state, setState] = useState('');
+    const [isChecked, setIsChecked] = useState(false);
+    const [message, setMessage] = useState('');
     const hasReserv = useRef(false);
     const date = useRef('');
     const time = useRef('');
+
+    function resetState() {
+        setState('');
+        setIsChecked(false);
+        setShowModal(false);
+        setMessage('');
+        hasReserv.current = false;
+        date.current = '';
+        time.current = '';
+    }
 
     function handleAccordianClick(event) {
         const target = event.currentTarget;
@@ -33,13 +46,10 @@ export default function ShopManage() {
             openedRow.push(parent.id);
             setOpenedRow([...openedRow]);
         }
-
-        // event가 일어난 아코디안의 키값을 가지고 있는 원소를 availableList에서 찾아서
-        // 거기에다가 opened: true 속성만 추가하면 됨
-        // 이미 true면 false로 바꾸면 됨
     }
 
-    function handleTimeClick(event) {
+    async function handleTimeClick(event) {
+        setShowModal(true);
         const target = event.currentTarget;
         const timeText = target.innerText.split(' : ');
         const timeValue = `${timeText[0]}:${timeText[1]}`;
@@ -51,89 +61,62 @@ export default function ShopManage() {
         if (target.classList.value.includes('active')) {
             setState('delete');
 
-            checkReservation(shopName, businessDay)
+            await checkReservation(shopName, businessDay)
                 .then((response) => {
                     hasReserv.current = response.hasReservation;
-                })
+                });
 
-            if (hasReserv.current) {
-                
-            } else {
-                setShowModal(true);
-            }
-
-            // setState('delete');
-            // setShowModal(true);
+            setIsChecked(true);
         } else {
             setState('add');
-            setShowModal(true);
+            setIsChecked(true);
         }
     }
 
-    function handleEndDate(date) {
-        setEndDate(moment(date).format('YYYY-MM-DD'));
-    }
-
-    function handleStartDate(date) {
-        setStartDate(moment(date).format('YYYY-MM-DD'));
-    }
-
-    function handleShopName(event) {
-        setShopName(event.target.value);
-    }
-
-    function handleSearchBtn() {
-        getAvailableTime(shopName, startDate, endDate)
+    async function handleSearchBtn() {
+        await getAvailableTime(shopName, startDate, endDate)
             .then(response => {
                 if (response === undefined) return;
                 setAvailableList(response);
             });
     }
 
-    function handleConfirm() {
+    async function handleConfirm() {
         const businessDay = `${date.current} ${time.current}:00`;
         if (state === 'add') {
-            addAvailableTime(shopName, businessDay)
+            await addAvailableTime(shopName, businessDay)
                 .then(() => {
-                    const target = document.getElementById(`${date.current}-${time.current}`);
-                    target.classList.toggle('active');
-                    date.current = '';
-                    time.current = '';
-                    hasReserv.current = false;
-                    setShowModal(false);
-                    setState('');
+                    // todo 시간 버튼 비활성화
+                    resetState();
                 })
                 .catch((error) => {
                     console.error(error);
                 })
         } else if (state === 'delete') {
-            removeAvailableTime(shopName, businessDay)
-                .then(() => {
-                    const target = document.getElementById(`${date.current}-${time.current}`);
-                    target.classList.remove('active');
-                    date.current = '';
-                    time.current = '';
-                    hasReserv.current = false;
-                    setShowModal(false);
-                    setState('');
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
+            if (hasReserv.current) {
+                await removeAvailableTimeWithReserv(shopName, businessDay, message)
+                    .then(() => {
+                        // todo 시간 버튼 비활성화
+                        resetState();
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    })
+            } else {
+                await removeAvailableTime(shopName, businessDay)
+                    .then(() => {
+                        // todo 시간 버튼 비활성화
+                        resetState();
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    })
+            }
         }
-    }
-
-    function handleCancel() {
-        date.current = '';
-        time.current = '';
-        hasReserv.current = false;
-        setShowModal(false);
-        setState('');
     }
 
     function ContentRow() {
         const content = availableList.map((timeData, index) => (
-            // <div id={timeData.date} className={classNames('content-row', {'opened': timeData.opened != null && timeData.opened === true})} key={index}>
             // <div id={timeData.date} className={classNames('content-row')} key={index}>
             <div id={timeData.date} className={classNames('content-row', { 'opened': openedRow.includes(timeData.date) })} key={index}>
                 <div className='content-date' onClick={handleAccordianClick}>
@@ -211,7 +194,7 @@ export default function ShopManage() {
                         <div className='search-row'>
                             <div className='search-item'>
                                 <span>정비소</span>
-                                <select name="languages" id="lang" className='select' value={shopName} onChange={e => { handleShopName(e) }}>
+                                <select name="languages" id="lang" className='select' value={shopName} onChange={e => { setShopName(e.target.value) }}>
                                     <option value="블루핸즈 인천공항점">블루핸즈 인천공항점</option>
                                     <option value="블루핸즈 김포공항점">블루핸즈 김포공항점</option>
                                 </select>
@@ -220,9 +203,9 @@ export default function ShopManage() {
                         <div className='search-row'>
                             <div className='search-item'>
                                 <span>날짜</span>
-                                <CustomCalendar onChange={handleStartDate} value={startDate} />
+                                <CustomCalendar onChange={(date) => { setStartDate(moment(date).format('YYYY-MM-DD')) }} value={startDate} />
                                 <span>~</span>
-                                <CustomCalendar onChange={handleEndDate} value={endDate} />
+                                <CustomCalendar onChange={(date) => { setEndDate(moment(date).format('YYYY-MM-DD')) }} value={endDate} />
                             </div>
                             <BtnDark text={'검색'} onClick={handleSearchBtn} />
                         </div>
@@ -234,19 +217,24 @@ export default function ShopManage() {
             </div>
             {showModal && <div className='modal'>
                 <div className='modal-box'>
-                    <div className='modal-title'>
-                        <span>{date.current} {time.current}를 {state === 'add' ? '추가' : '삭제'}하시겠습니까?</span>
-                        {hasReserv.current && <span>예약된 일정이 있습니다. 예약을 취소하는 사유를 작성해주세요.</span>}
-                    </div>
-                    {hasReserv.current && <textarea type='text' className='modal-text' rows='10' />}
-                    <div className='modal-btn'>
-                        <div className={classNames('btn', 'left')} onClick={handleConfirm}>
-                            <span>확인</span>
-                        </div>
-                        <div className={classNames('btn', 'right')} onClick={handleCancel}>
-                            <span>취소</span>
-                        </div>
-                    </div>
+                    {isChecked &&
+                        <>
+                            <div className='modal-title'>
+                                <span>{date.current} {time.current}를 {state === 'add' ? '추가' : '삭제'}하시겠습니까?</span>
+                                {hasReserv.current && <span>예약된 일정이 있습니다. 예약을 취소하는 사유를 작성해주세요.</span>}
+                            </div>
+                            {hasReserv.current && <textarea type='text' className='modal-text' rows='10' onChange={e => setMessage(e.target.value)} />}
+                            <div className='modal-btn'>
+                                <div className={classNames('btn', 'left')} onClick={handleConfirm}>
+                                    <span>확인</span>
+                                </div>
+                                <div className={classNames('btn', 'right')} onClick={resetState}>
+                                    <span>취소</span>
+                                </div>
+                            </div>
+                        </>
+                    }
+
                 </div>
             </div>}
         </div>

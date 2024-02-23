@@ -46,3 +46,20 @@ export async function removeAvailableTime(shopName, businessDay) {
         console.error(error);
     }
 }
+
+export async function removeAvailableTimeWithReserv(shopName, businessDay, message) {
+    try {
+        const response = await axios.delete(`/v2/admin/shop/cancel`,
+            {
+                params: {
+                    shopName: shopName,
+                    businessDay: businessDay,
+                    message: message
+                }
+            });
+
+        return response.data.data;
+    } catch (error) {
+        console.error(error);
+    }
+}

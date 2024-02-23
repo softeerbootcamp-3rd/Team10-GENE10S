@@ -107,7 +107,7 @@ public class AShopService {
             List<Reservation> reservations = reservationRepository.findReservationsBy(repairShop.getId(), datetime);
 
             for (Reservation reservation : reservations) {
-                AdminRequest.StageInfo stageInfo = new AdminRequest.StageInfo(reservation.getId(), ProgressStage.CANCEL, message);
+                AdminRequest.StageInfo stageInfo = new AdminRequest.StageInfo(reservation.getId(), ProgressStage.CANCELED, message);
                 aReservationService.saveStage(stageInfo);
             }
         } catch (Exception e) {
