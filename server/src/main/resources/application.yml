@@ -28,9 +28,11 @@ spring:
       host: 43.203.119.163
       port: 6379
       password: ${REDIS_PASSWORD}
+      repositories:
+        enabled: false
 
 server:
-  url: http://api.reservation.genesis-airport.com
+  url: https://api.reservation.genesis-airport.com
   servlet:
     session:
       cookie:
@@ -38,4 +40,4 @@ server:
         domain: genesis-airport.com
         path: /
         http-only: true
-        secure: false
+        secure: true
