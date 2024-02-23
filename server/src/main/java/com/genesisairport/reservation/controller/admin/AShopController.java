@@ -61,4 +61,22 @@ public class AShopController {
 
         return new ResponseEntity<>(ResponseDto.of(true, aShopService.deleteAvailableTime(shopName, businessDay)), HttpStatus.OK);
     }
+
+    @DeleteMapping("/cancel")
+    public ResponseEntity<ResponseDto> deleteAvailableDateWithReservation(@RequestParam(value = "shopName") String shopName,
+                                                                          @RequestParam(value = "businessDay") String businessDay,
+                                                                          @RequestParam(value = "message") String message) {
+        log.debug("예약되어있는 시간 삭제");
+        if (Strings.isEmpty(shopName)) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "지점명을 선택해주세요.");
+        }
+        if (Strings.isEmpty(businessDay)) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "시간 정보가 없습니다.");
+        }
+        if (Strings.isEmpty(message)) {
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "메시지가 없습니다.");
+        }
+
+        return new ResponseEntity<>(ResponseDto.of(true, aShopService.deleteAvailableTimeWithReservation(shopName, businessDay, message)), HttpStatus.OK);
+    }
 }

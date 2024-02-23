@@ -78,7 +78,7 @@ export default function ShopManage() {
     }
 
     async function handleConfirm(date, time, message = '') {
-        const businessDay = `${date.current} ${time.current}:00`;
+        const businessDay = `${date} ${time}:00`;
         if (state === 'add') {
             await addAvailableTime(shopName, businessDay)
                 .then(() => {
@@ -146,8 +146,9 @@ export default function ShopManage() {
     };
 
     function ContentRow() {
+        const hours = Array.from({length: 16}, (_, i) => i + 6);
+
         const content = availableList.map((timeData, index) => (
-            // <div id={timeData.date} className={classNames('content-row')} key={index}>
             <div id={timeData.date} className={classNames('content-row', { 'opened': openedRow.includes(timeData.date) })} key={index}>
                 <div className='content-date' onClick={handleAccordianClick}>
                     <div className='date'>
@@ -158,54 +159,11 @@ export default function ShopManage() {
                     </div>
                 </div>
                 <div className='content-time'>
-                    <div id={`${timeData.date}-06:00`} className={classNames('time', { 'active': timeData.availableTime.includes('06:00'), })} onClick={handleTimeClick}>
-                        <span> 06 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-07:00`} className={classNames('time', { 'active': timeData.availableTime.includes('07:00') })} onClick={handleTimeClick}>
-                        <span> 07 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-08:00`} className={classNames('time', { 'active': timeData.availableTime.includes('08:00') })} onClick={handleTimeClick}>
-                        <span> 08 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-09:00`} className={classNames('time', { 'active': timeData.availableTime.includes('09:00') })} onClick={handleTimeClick}>
-                        <span> 09 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-10:00`} className={classNames('time', { 'active': timeData.availableTime.includes('10:00') })} onClick={handleTimeClick}>
-                        <span> 10 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-11:00`} className={classNames('time', { 'active': timeData.availableTime.includes('11:00') })} onClick={handleTimeClick}>
-                        <span> 11 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-12:00`} className={classNames('time', { 'active': timeData.availableTime.includes('12:00') })} onClick={handleTimeClick}>
-                        <span> 12 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-13:00`} className={classNames('time', { 'active': timeData.availableTime.includes('13:00') })} onClick={handleTimeClick}>
-                        <span> 13 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-14:00`} className={classNames('time', { 'active': timeData.availableTime.includes('14:00') })} onClick={handleTimeClick}>
-                        <span> 14 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-15:00`} className={classNames('time', { 'active': timeData.availableTime.includes('15:00') })} onClick={handleTimeClick}>
-                        <span> 15 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-16:00`} className={classNames('time', { 'active': timeData.availableTime.includes('16:00') })} onClick={handleTimeClick}>
-                        <span> 16 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-17:00`} className={classNames('time', { 'active': timeData.availableTime.includes('17:00') })} onClick={handleTimeClick}>
-                        <span> 17 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-18:00`} className={classNames('time', { 'active': timeData.availableTime.includes('18:00') })} onClick={handleTimeClick}>
-                        <span> 18 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-19:00`} className={classNames('time', { 'active': timeData.availableTime.includes('19:00') })} onClick={handleTimeClick}>
-                        <span> 19 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-20:00`} className={classNames('time', { 'active': timeData.availableTime.includes('20:00') })} onClick={handleTimeClick}>
-                        <span> 20 : 00</span>
-                    </div>
-                    <div id={`${timeData.date}-21:00`} className={classNames('time', { 'active': timeData.availableTime.includes('21:00') })} onClick={handleTimeClick}>
-                        <span> 21 : 00</span>
-                    </div>
+                    {hours.map((hour) => (
+                        <div id={`${timeData.date}-${hour}:00`} className={classNames('time', { 'active': timeData.availableTime.includes(`${hour < 10 ? '0' + hour : hour}:00`) })} onClick={handleTimeClick} key={`${timeData.date}-${hour}`}>
+                            <span>{hour < 10 ? '0' + hour : hour} : 00</span>
+                        </div>
+                    ))}
                 </div>
             </div>
         ));
