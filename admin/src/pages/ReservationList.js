@@ -64,7 +64,6 @@ export default function ReservationList() {
       setSortDirection("desc");
     }
 
-    handleSearchReservations();
   };
 
   const renderArrow = (columnName) => {
