@@ -7,15 +7,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class SessionUtil {
 
     public static Long getUserIdFromSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        if (session != null) {
-            return (Long) session.getAttribute("userId");
-        }
-        return null;
+
+        return Optional.ofNullable(session)
+                .map(s -> (Long) s.getAttribute("userId"))
+                .orElse(null);
     }
 
     public static Long getAdminIdFromSession(HttpServletRequest request) {
