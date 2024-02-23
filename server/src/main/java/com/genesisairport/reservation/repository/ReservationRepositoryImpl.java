@@ -94,7 +94,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
         BooleanBuilder builderForWhereClause = new BooleanBuilder();
 
         if (!Strings.isEmpty(shopName)) { // null 이거나 "" 가 아니면
-            builderForWhereClause.and(repairShop.shopName.eq(shopName));
+            builderForWhereClause.and(repairShop.shopName.contains(shopName));
         }
         if (!Strings.isEmpty(startPickupDate) && !Strings.isEmpty(endPickupDate)) {
             builderForWhereClause.and(reservation.departureTime.between(CommonDateFormat.localDatetime(startPickupDate), CommonDateFormat.localDatetime(endPickupDate)));
@@ -103,13 +103,13 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
             builderForWhereClause.and(reservation.arrivalTime.between(CommonDateFormat.localDatetime(startReturnDate), CommonDateFormat.localDatetime(endReturnDate)));
         }
         if (!Strings.isEmpty(customerName)) {
-            builderForWhereClause.and(customer.name.eq(customerName));
+            builderForWhereClause.and(customer.name.contains(customerName));
         }
         if (!Strings.isEmpty(sellName)) {
-            builderForWhereClause.and(reservation.sellName.eq(sellName));
+            builderForWhereClause.and(reservation.sellName.contains(sellName));
         }
         if (!Strings.isEmpty(stage)) {
-            builderForWhereClause.and(reservation.progressStage.eq(stage));
+            builderForWhereClause.and(reservation.progressStage.contains(stage));
         }
 
         return builderForWhereClause;
