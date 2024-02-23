@@ -98,13 +98,13 @@ public class ReservationService {
                 .build();
 
         checkConcurrency(repairShop.get(), fromDateTime, toDateTime);
-        saveReservation(reservation);
+        Reservation result = saveReservation(reservation);
         coupon.get().setIsUsed(true);
         couponRepository.save(coupon.get());
 
         // 초기 진행 단계 설정
         Step step = Step.builder()
-                .reservation(reservation)
+                .reservation(result)
                 .stage(ProgressStage.RESERVATION_APPROVED.getName())
                 .date(LocalDateTime.now())
                 .detail("")
@@ -157,7 +157,7 @@ public class ReservationService {
         }
     }
 
-    protected Reservation saveReservation(Reservation reservation) {
+    private Reservation saveReservation(Reservation reservation) {
         Reservation result = reservationRepository.save(reservation);
         availableTimeRepository.increaseReservationCount(
                 reservation.getRepairShop().getId(),
