@@ -1,14 +1,14 @@
-name: Deploy Frontend to S3
+name: Deploy Frontend-admin to S3
 
 on:
   push:
     branches: [ "main", "develop" ]
     paths:
-      - 'client/**' 
+      - 'admin/**' 
 
 env:
   AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: reservation.genesis-airport.com
+  S3_BUCKET_NAME: admin.genesis-airport.com
 
 permissions:
   contents: read
@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./client
+        working-directory: ./admin
 
       - name: .env setting
         run: |
@@ -36,11 +36,11 @@ jobs:
           echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> .env
           echo "REACT_APP_CLIENT_SECRET=${{ secrets.REACT_APP_CLIENT_SECRET }}" >> .env
           echo "REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}" >> .env
-        working-directory: ./client
+        working-directory: ./admin
 
       - name: Build React app
         run: npm run build
-        working-directory: ./client
+        working-directory: ./admin
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -50,4 +50,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Upload to AWS S3
-        run: aws s3 sync ./client/build/ s3://$S3_BUCKET_NAME/ --delete
+        run: aws s3 sync ./admin/build/ s3://$S3_BUCKET_NAME/ --delete
