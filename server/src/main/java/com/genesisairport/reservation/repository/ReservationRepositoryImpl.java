@@ -6,28 +6,33 @@ import com.genesisairport.reservation.response.AdminResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAQuery;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.genesisairport.reservation.entity.QCustomer.customer;
 import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
 import static com.genesisairport.reservation.entity.QReservation.reservation;
-import static com.genesisairport.reservation.entity.QCustomer.customer;
 
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
 
-    private final JPAQueryFactory jpaQueryFactory;
+    private final EntityManager entityManager;
 
     @Override
-    public List<AdminResponse.ReservationDetail> findReservations(
-            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
+    public Page<AdminResponse.ReservationDetail> findReservations(
+            AdminRequest.ReservationDetail reservationDetail, Pageable pageable
     ) {
 
         BooleanBuilder builderForWhereClause = getBuilderForWhereClause(
@@ -41,8 +46,9 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 reservationDetail.getSortColumn(), reservationDetail.getSortDirection()
         );
 
-        List<Tuple> tuples = jpaQueryFactory
-                .select(
+        JPAQuery<AdminResponse.ReservationDetail> query = new JPAQuery<>(entityManager);
+
+        List<Tuple> tuples = query.select(
                         reservation.id,
                         repairShop.shopName,
                         customer.name,
@@ -56,8 +62,15 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 .innerJoin(repairShop).on(reservation.repairShop.eq(repairShop))
                 .where(builderForWhereClause)
                 .orderBy(orderBySpecifier)
+                .offset(pageable.getOffset()) // 페이지네이션 오프셋 설정
+                .limit(pageable.getPageSize()) // 페이지 크기 설정
                 .fetch();
-        return convertToReservationDetailAdmin(tuples);
+
+        long totalCount = query.fetchCount(); // 총 개수 가져오기
+
+        List<AdminResponse.ReservationDetail> reservationDetailList = convertToReservationDetailAdmin(tuples);
+
+        return new PageImpl<>(reservationDetailList, pageable, totalCount);
     }
 
     private List<AdminResponse.ReservationDetail> convertToReservationDetailAdmin(List<Tuple> tuples) {
@@ -68,8 +81,8 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                     .shopName(t.get(1, String.class))
                     .customerName(t.get(2, String.class))
                     .sellName(t.get(3, String.class))
-                    .departureTime(CommonDateFormat.datetime(t.get(4, LocalDateTime.class)))
-                    .arrivalTime(CommonDateFormat.datetime(t.get(5, LocalDateTime.class)))
+                    .departureTime(CommonDateFormat.localDatetime(t.get(4, LocalDateTime.class)))
+                    .arrivalTime(CommonDateFormat.localDatetime(t.get(5, LocalDateTime.class)))
                     .stage(t.get(6, String.class))
                     .build();
             reservationDetailAdmins.add(reservationDetailAdmin);
@@ -84,10 +97,10 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
             builderForWhereClause.and(repairShop.shopName.eq(shopName));
         }
         if (!Strings.isEmpty(startPickupDate) && !Strings.isEmpty(endPickupDate)) {
-            builderForWhereClause.and(reservation.departureTime.between(CommonDateFormat.datetime(startPickupDate), CommonDateFormat.datetime(endPickupDate)));
+            builderForWhereClause.and(reservation.departureTime.between(CommonDateFormat.localDatetime(startPickupDate), CommonDateFormat.localDatetime(endPickupDate)));
         }
         if (!Strings.isEmpty(startReturnDate) && !Strings.isEmpty(endReturnDate)) {
-            builderForWhereClause.and(reservation.arrivalTime.between(CommonDateFormat.datetime(startReturnDate), CommonDateFormat.datetime(endReturnDate)));
+            builderForWhereClause.and(reservation.arrivalTime.between(CommonDateFormat.localDatetime(startReturnDate), CommonDateFormat.localDatetime(endReturnDate)));
         }
         if (!Strings.isEmpty(customerName)) {
             builderForWhereClause.and(customer.name.eq(customerName));

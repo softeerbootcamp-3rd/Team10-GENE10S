@@ -1,15 +1,12 @@
 package com.genesisairport.reservation.repository;
 
 import com.genesisairport.reservation.common.util.CommonDateFormat;
-import com.genesisairport.reservation.entity.Admin;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -17,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,10 +21,10 @@ import java.util.List;
 
 import static com.genesisairport.reservation.entity.QAdmin.admin;
 
+@RequiredArgsConstructor
 public class AdminRepositoryImpl implements AdminRepositoryCustom {
 
-    @Autowired
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public Page<AdminResponse.AccountDetail> findAccounts(Pageable pageable, AdminRequest.AccountDetail accountDetail) {
@@ -75,7 +71,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
                     .adminId(t.get(1, String.class))
                     .adminName(t.get(2, String.class))
                     .phoneNumber(t.get(3, String.class))
-                    .createDateTime(CommonDateFormat.datetime(t.get(4, LocalDateTime.class)))
+                    .createDateTime(CommonDateFormat.localDatetime(t.get(4, LocalDateTime.class)))
                     .build();
             accountDetailList.add(accountDetail);
         }

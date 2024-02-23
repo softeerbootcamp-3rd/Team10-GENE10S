@@ -24,7 +24,7 @@ public class S3Service {
     @Value("${S3_BUCKET}")
     private String bucket;
 
-    private final String folderName = "maintenance/";
+    private final String FOLDER_NAME = "maintenance/";
 
     @Getter
     @Builder
@@ -46,9 +46,9 @@ public class S3Service {
 
         // 중복되지 않은 파일 이름 생성
         String uniqueFilename = originalFilename;
-        if (doesFileExist(folderName + uniqueFilename)) {
+        if (doesFileExist(FOLDER_NAME + uniqueFilename)) {
             int count = 1;
-            while (doesFileExist(folderName + uniqueFilename)) {
+            while (doesFileExist(FOLDER_NAME + uniqueFilename)) {
                 uniqueFilename = originalFilename.substring(0, lastDotIndex) + "(" + count + ")" + fileExtension;
                 count++;
             }
@@ -59,11 +59,11 @@ public class S3Service {
         metadata.setContentType(file.getContentType());
 
         s3Client.putObject(
-                new PutObjectRequest(bucket, folderName + uniqueFilename, file.getInputStream(), metadata)
+                new PutObjectRequest(bucket, FOLDER_NAME + uniqueFilename, file.getInputStream(), metadata)
         );
         return S3Result.builder()
-                .url(s3Client.getUrl(bucket, folderName + uniqueFilename).toString())
-                .objectKey(folderName + uniqueFilename)
+                .url(s3Client.getUrl(bucket, FOLDER_NAME + uniqueFilename).toString())
+                .objectKey(FOLDER_NAME + uniqueFilename)
                 .build();
     }
 
@@ -71,7 +71,6 @@ public class S3Service {
         try {
             s3Client.deleteObject(bucket, objectKey);
         } catch (AmazonS3Exception e) {
-            e.printStackTrace();
             if (e.getStatusCode() != HttpStatus.NOT_FOUND.value()) {
                 throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "S3 파일 삭제 중 오류가 발생했습니다.");
             }
