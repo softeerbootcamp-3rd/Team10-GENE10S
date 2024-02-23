@@ -15,6 +15,8 @@ import com.genesisairport.reservation.repository.ReservationRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +33,8 @@ public class AReservationService {
     private final MaintenanceImageRepository maintenanceImageRepository;
     private final StepRepository stepRepository;
 
-    public List<AdminResponse.ReservationDetail> getAllReservations(
-            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
-    ) {
-        return reservationRepository.findReservations(
-                reservationDetail, pageSize, pageNumber
-        );
+    public Page<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail reservationDetail, Pageable pageable) {
+        return reservationRepository.findReservations(reservationDetail, pageable);
     }
 
     public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {
