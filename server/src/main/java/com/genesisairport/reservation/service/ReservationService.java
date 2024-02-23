@@ -1,9 +1,11 @@
 package com.genesisairport.reservation.service;
 
 import com.genesisairport.reservation.common.enums.ProgressStage;
+import com.genesisairport.reservation.common.enums.RedisKey;
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.util.CommonDateFormat;
+import com.genesisairport.reservation.common.util.ConcurrencyManager;
 import com.genesisairport.reservation.entity.*;
 import com.genesisairport.reservation.repository.*;
 import com.genesisairport.reservation.request.ReservationRequest;
@@ -11,7 +13,10 @@ import com.genesisairport.reservation.response.ReservationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,7 +27,10 @@ import java.util.*;
 @Slf4j
 public class ReservationService {
 
+    private final ConcurrencyManager concurrencyManager;
+
     private final ReservationRepository reservationRepository;
+    private final AvailableTimeRepository availableTimeRepository;
     private final CustomerRepository customerRepository;
     private final RepairShopRepository repairShopRepository;
     private final CarRepository carRepository;
@@ -89,21 +97,20 @@ public class ReservationService {
                 .updateDateTime(LocalDateTime.now())
                 .build();
 
-
-        reservationRepository.save(reservation);
+        checkConcurrency(repairShop.get(), fromDateTime, toDateTime);
+        Reservation result = saveReservation(reservation);
         coupon.get().setIsUsed(true);
         couponRepository.save(coupon.get());
 
         // 초기 진행 단계 설정
         Step step = Step.builder()
-                .reservation(reservation)
+                .reservation(result)
                 .stage(ProgressStage.RESERVATION_APPROVED.getName())
                 .date(LocalDateTime.now())
                 .detail("")
                 .createDatetime(LocalDateTime.now())
                 .updateDatetime(LocalDateTime.now())
                 .build();
-
         stepRepository.save(step);
 
         return ReservationResponse.ReservationPostResponse.builder()
@@ -111,6 +118,56 @@ public class ReservationService {
                 .repairShopAddress(repairShop.get().getAddress())
                 .customerName(customer.get().getName())
                 .build();
+    }
+
+    private void checkConcurrency(RepairShop repairShop, LocalDateTime fromDateTime, LocalDateTime toDateTime) {
+        String fromDateTimeKey = concurrencyManager.createDateTimeKey(repairShop, fromDateTime);
+        String toDateTimeKey = concurrencyManager.createDateTimeKey(repairShop, toDateTime);
+
+        synchronizeCache(repairShop, fromDateTime, fromDateTimeKey);
+        Integer fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
+        // 예약 가능 인원 수(5)를 넘으면 다시 줄이고 return false
+        if (fromCount > repairShop.getCapacityPerTime()) {
+            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
+            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
+        }
+
+        synchronizeCache(repairShop, toDateTime, toDateTimeKey);
+        Integer toCount = concurrencyManager.increase(RedisKey.RESERVATION, toDateTimeKey);
+        // 5가 넘으면 (변수에서 갖고와서) 다시 줄이고 return false
+        if (toCount > repairShop.getCapacityPerTime()) {
+            concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
+            concurrencyManager.decrease(RedisKey.RESERVATION, toDateTimeKey);
+            throw new GeneralException(ResponseCode.CONFLICT, "예약 가능 인원을 초과하였습니다.");
+        }
+    }
+
+    public void synchronizeCache(RepairShop repairShop, LocalDateTime dateTime, String fromDateTimeKey) {
+        Optional<Integer> existFromCache = concurrencyManager.get(RedisKey.RESERVATION, fromDateTimeKey);
+        Date date = Date.valueOf(dateTime.toLocalDate());
+        Time time = Time.valueOf(dateTime.toLocalTime());
+        if (existFromCache.isEmpty()) {
+            Optional<AvailableTime> availableTime = availableTimeRepository.findExactAvailableTime(
+                    repairShop.getId(), date, time);
+            if (availableTime.isEmpty()) {
+                concurrencyManager.setNx(RedisKey.RESERVATION, fromDateTimeKey, 0);
+            } else {
+                concurrencyManager.setNx(RedisKey.RESERVATION, fromDateTimeKey, availableTime.get().getReservationCount());
+            }
+        }
+    }
+
+    private Reservation saveReservation(Reservation reservation) {
+        Reservation result = reservationRepository.save(reservation);
+        availableTimeRepository.increaseReservationCount(
+                reservation.getRepairShop().getId(),
+                Date.valueOf(reservation.getDepartureTime().toLocalDate()),
+                Time.valueOf(reservation.getDepartureTime().toLocalTime()));
+        availableTimeRepository.increaseReservationCount(
+                reservation.getRepairShop().getId(),
+                Date.valueOf(reservation.getArrivalTime().toLocalDate()),
+                Time.valueOf(reservation.getArrivalTime().toLocalTime()));
+        return result;
     }
 
     public List<ReservationResponse.ReservationInfoAbstract> getReservationList(Long customerId) {

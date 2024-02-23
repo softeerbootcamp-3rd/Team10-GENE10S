@@ -18,6 +18,10 @@ public class CommonDateFormat {
         return Date.valueOf(LocalDate.parse(localDate, formatter));
     }
 
+    public static Date date(LocalDateTime localDateTime) {
+        return Date.valueOf(localDateTime.toLocalDate());
+    }
+
     public static LocalDate localDate(String localDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(localDate, formatter);
