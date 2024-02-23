@@ -26,3 +26,4 @@ root.render(
     </BrowserRouter>
   </RecoilRoot>
 );
+// Github Action 배포 자동화 테스트를 위한 변경
