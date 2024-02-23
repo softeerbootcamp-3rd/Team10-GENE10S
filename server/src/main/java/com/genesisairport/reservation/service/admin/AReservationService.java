@@ -131,7 +131,7 @@ public class AReservationService {
     public boolean checkReservation(String shopName, String businessTime) {
         Optional<RepairShop> repairShop = repairShopRepository.findByShopName(shopName);
         if (repairShop.isEmpty()) {
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 지점명입니다.");
+            throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 지점명입니다.");
         }
 
         LocalDateTime datetime = CommonDateFormat.localDateTime(businessTime);

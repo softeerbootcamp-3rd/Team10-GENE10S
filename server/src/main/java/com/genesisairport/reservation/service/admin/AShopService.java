@@ -56,12 +56,9 @@ public class AShopService {
         return ResponseCode.OK;
     }
 
-    public ResponseCode deleteAvailableTime(AdminRequest.ReservationTime requestBody) {
-        String shopName = requestBody.getShopName();
-        String businessDay = requestBody.getBusinessDay();
-
-        Date date = Date.valueOf(LocalDate.parse(businessDay.split(" ")[0]));
-        Time time = Time.valueOf(LocalTime.parse(businessDay.split(" ")[1]));
+    public ResponseCode deleteAvailableTime(String shopName, String businessDay) {
+        Date date = CommonDateFormat.date(businessDay);
+        Time time = CommonDateFormat.time(businessDay);
 
         Optional<RepairShop> repairShop = repairShopRepository.findByShopName(shopName);
         if (repairShop.isEmpty()) {
@@ -76,10 +73,10 @@ public class AShopService {
         return ResponseCode.OK;
     }
 
-    public List<AdminResponse.AvailableTime> getAvailableTime(AdminRequest.ReservationTimeRange requestBody) {
-        LocalDate dateFrom = LocalDate.parse(requestBody.getBusinessDayFrom());
-        LocalDate dateTo = LocalDate.parse(requestBody.getBusinessDayTo());
+    public List<AdminResponse.AvailableTime> getAvailableTime(String shopName, String businessDayFrom, String businessDayTo) {
+        LocalDate dateFrom = CommonDateFormat.localDate(businessDayFrom);
+        LocalDate dateTo = CommonDateFormat.localDate(businessDayTo);
 
-        return availableTimeRepository.findAvailableTimeList(requestBody.getShopName(), dateFrom, dateTo);
+        return availableTimeRepository.findAvailableTimeList(shopName, dateFrom, dateTo);
     }
 }
