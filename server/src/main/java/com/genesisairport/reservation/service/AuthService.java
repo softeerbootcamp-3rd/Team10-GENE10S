@@ -2,9 +2,9 @@ package com.genesisairport.reservation.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.genesisairport.reservation.request.UserRequest;
 import com.genesisairport.reservation.entity.Customer;
 import com.genesisairport.reservation.repository.CustomerRepository;
+import com.genesisairport.reservation.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -25,13 +25,13 @@ import java.util.Optional;
 @Slf4j
 public class AuthService {
 
+    private final String GENESIS_ENDPOINT = "https://accounts.genesis.com/api/account/ccsp/user/oauth2/token";
     private final CustomerRepository customerRepository;
 
     private final ObjectMapper objectMapper;
 
     // 토큰 요청
     public String tokenRequest(UserRequest.Login requestBody) {
-        final String tokenEndpoint = "https://accounts.genesis.com/api/account/ccsp/user/oauth2/token";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 
@@ -45,7 +45,7 @@ public class AuthService {
         String parameters = getParameters(requestBody);
         HttpEntity<String> request = new HttpEntity<>(parameters, headers); // 요청 헤더와 바디 설정
 
-        ResponseEntity<String> response = restTemplate.postForEntity(tokenEndpoint, request, String.class); // POST 요청
+        ResponseEntity<String> response = restTemplate.postForEntity(GENESIS_ENDPOINT, request, String.class); // POST 요청
 
         return extractStringValue(response.getBody(), "access_token");
     }
@@ -98,17 +98,15 @@ public class AuthService {
         LocalDate birthdate = LocalDate.parse(birthdateStr, formatter);
 
         Optional<Customer> existCustomer = customerRepository.findByEmail(email);
-        if (existCustomer.isPresent())
-            return existCustomer.get();
-
-        return Customer.builder()
+        return existCustomer.orElseGet(() -> Customer.builder()
                 .email(email)
                 .name(name)
                 .phoneNumber(phoneNumber)
                 .birthdate(birthdate)
                 .createDateTime(LocalDateTime.now())
                 .updateDateTime(LocalDateTime.now())
-                .build();
+                .build());
+
     }
 
     private String extractStringValue(String response, String attributeName) {

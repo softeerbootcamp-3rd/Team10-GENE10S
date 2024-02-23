@@ -1,9 +1,11 @@
 package com.genesisairport.reservation.controller.admin;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
+import com.genesisairport.reservation.common.exception.GeneralException;
 import com.genesisairport.reservation.common.model.PageInfo;
 import com.genesisairport.reservation.common.model.PageResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
+import com.genesisairport.reservation.common.util.RedisUtil;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.genesisairport.reservation.service.admin.AAccountService;
@@ -27,6 +29,8 @@ public class AAccountController {
 
     private final AAccountService adminAccountService;
 
+    private final RedisUtil redisUtil;
+
     @PostMapping("/login")
     public ResponseEntity adminLogin(@RequestBody AdminRequest.Login loginDto, HttpServletRequest request) {
 
@@ -34,7 +38,7 @@ public class AAccountController {
 
         HttpSession session = request.getSession(true);
         session.setAttribute("adminId", adminId);
-        session.setMaxInactiveInterval(3600); // 1시간
+        session.setMaxInactiveInterval(3600);
 
         return new ResponseEntity(
                 ResponseDto.of(true, ResponseCode.OK),
@@ -91,6 +95,27 @@ public class AAccountController {
 
         return new ResponseEntity<>(
                 PageResponseDto.of(accountDetailList, pageInfo),
+                HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/session-validation")
+    public ResponseEntity<ResponseDto> isValidSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        Boolean valid = false;
+        if (session != null) {
+            valid = redisUtil.isValid(session.getId());
+
+        }
+
+        // 유효하지 않은 세션인 경우
+        if (!valid) {
+            throw new GeneralException(ResponseCode.UNAUTHORIZED, "유효하지 않은 세션입니다.");
+        }
+
+        return new ResponseEntity<>(
+                ResponseDto.of(true, ResponseCode.OK),
                 HttpStatus.OK
         );
     }

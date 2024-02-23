@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import SideBar from "../components/SideBar";
-import { BtnDark } from "../components/BtnDark";
+import BtnDark from "../components/BtnDark";
 import { BtnLight } from "../components/BtnLight";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";

@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 import { RecoilRoot } from "recoil";
 import ReservationList from "./pages/ReservationList";
 import ReservationDetail from "./pages/ReservationDetail";
+import Account from "./pages/Account";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
