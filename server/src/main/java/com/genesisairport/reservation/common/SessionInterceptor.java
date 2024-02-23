@@ -13,9 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @RequiredArgsConstructor
 public class SessionInterceptor implements HandlerInterceptor {
-
-
-//    private final RedisTemplate<String, Object> redisTemplate;
+    
     private final SessionUtil sessionUtil;
 
     @Override
