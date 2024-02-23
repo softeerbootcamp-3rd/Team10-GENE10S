@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import BtnDark from "../BtnDark";
-import { BtnLight } from "../BtnLight";
+import BtnLight from "../BtnLight";
 
 export default function AvailableTimeModal({
     status,
