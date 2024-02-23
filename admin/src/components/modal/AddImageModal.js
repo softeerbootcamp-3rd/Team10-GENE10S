@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import BtnDark, { BtnLight } from '../Button';
+import BtnDark from '../BtnDark';
+import BtnLight from '../BtnLight';
 import { useEffect, useRef, useState } from 'react';
 import { postMaintenanceImage } from '../../api/ReservationApi';
 
