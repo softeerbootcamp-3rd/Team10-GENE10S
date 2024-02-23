@@ -1,7 +1,18 @@
 import axios from "./Settings";
 
-export async function getReservationList( shopName, startPickUpDateTime, endPickUpDateTime, startReturnDateTime, 
-    endReturnDateTime, customerName, sellName, stage, sortColumn, sortDirection, pageSize, pageNumber) {
+export async function getReservationList({ 
+  shopName, 
+  startPickUpDateTime, 
+  endPickUpDateTime, 
+  startReturnDateTime, 
+  endReturnDateTime, 
+  customerName, 
+  sellName, 
+  stage, 
+  sortColumn, 
+  sortDirection, 
+  page = 1, 
+  size = 10}) {
         
         try {
             const response = await axios.get('/v2/admin/reservation/all', {
@@ -16,8 +27,8 @@ export async function getReservationList( shopName, startPickUpDateTime, endPick
                     stage: stage,
                     sortColumn: sortColumn,
                     sortDirection: sortDirection,
-                    pageSize: pageSize,
-                    pageNumber: pageNumber 
+                    page : page,
+                    size : size
                 }
             });
 

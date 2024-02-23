@@ -4,6 +4,7 @@ import CustomCalendar from "../components/CustomCalendar";
 import React, { useState, useEffect } from "react";
 import { getReservationList } from "../api/ReservationApi";
 import BtnDark from "../components/BtnDark";
+import Pagination from "../components/Pagination";
 
 export default function ReservationList() {
   const [shopName, setShopName] = useState("");
@@ -18,11 +19,10 @@ export default function ReservationList() {
   const [sortColumn, setSortColumn] = useState("");
   const [sortDirection, setSortDirection] = useState("");
 
-  const [pageSize, setPageSize] = useState(20);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [page, setPage] = useState(1); 
+  const [totalPages, setTotalPages] = useState(1); 
 
   const [responseData, setResponseData] = useState([]);
-  const [pageInfo, setPageInfo] = useState({});
 
   const handleShopNameChange = (event) => {
     setShopName(event.target.value);
@@ -105,28 +105,53 @@ export default function ReservationList() {
   };
 
   function handleSearchReservations() {
-    getReservationList(
-      shopName,
-      startPickUpDateTime,
-      endPickUpDateTime,
-      startReturnDateTime,
-      endReturnDateTime,
-      customerName,
-      sellName,
-      stage,
-      sortColumn,
-      sortDirection,
-      pageSize,
-      pageNumber
+    getReservationList( {
+        shopName: shopName,
+        startPickUpDateTime: startPickUpDateTime,
+        endPickUpDateTime: endPickUpDateTime,
+        startReturnDateTime: startReturnDateTime,
+        endReturnDateTime: endReturnDateTime,
+        customerName: customerName,
+        sellName: sellName,
+        stage: stage,
+        sortColumn: sortColumn,
+        sortDirection: sortDirection,
+      }
     ).then((response) => {
       setResponseData(response.data.data);
-      setPageInfo(response.data.pageInfo);
+      setPage(response.data.pageInfo.page + 1);
+      setTotalPages(response.data.pageInfo.totalPages);
     });
   }
 
+
+  const search = (pageNumber = 1) => {
+
+    getReservationList( {
+        shopName: shopName,
+        startPickUpDateTime: startPickUpDateTime,
+        endPickUpDateTime: endPickUpDateTime,
+        startReturnDateTime: startReturnDateTime,
+        endReturnDateTime: endReturnDateTime,
+        customerName: customerName,
+        sellName: sellName,
+        stage: stage,
+        sortColumn: sortColumn,
+        sortDirection: sortDirection,
+        page: pageNumber - 1
+      }
+    ).then((response) => {
+      setResponseData(response.data.data);
+      setPage(response.data.pageInfo.page + 1);
+      setTotalPages(response.data.pageInfo.totalPages);
+    });
+
+  };
+
+
   useEffect(() => {
-    handleSearchReservations();
-  }, []);
+    search(page);
+  }, [sortDirection, sortColumn]);
 
   return (
     <div className={classNames("page")}>
@@ -196,7 +221,7 @@ export default function ReservationList() {
               </div>
               <div className={classNames("search-item")}>
                 <div>진행 단계</div>
-                <select value={shopName} onChange={handleStageChange}>
+                <select value={stage} onChange={handleStageChange}>
                   <option value="">진행 단계를 선택해주세요.</option>
                   <option value="예약완료">예약 완료</option>
                   <option value="차량인수">차량 인수</option>
@@ -267,15 +292,14 @@ export default function ReservationList() {
                   </div>
                 </div>
               ))}
-          </div>
-          <div className={classNames("paginate")}>
-            <div>&lt;</div>
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div>&gt;</div>
+            <div className={classNames("paginate")}>
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                paginationSize={5}
+                onChange={search}
+              />
+            </div>
           </div>
         </div>
       </div>
