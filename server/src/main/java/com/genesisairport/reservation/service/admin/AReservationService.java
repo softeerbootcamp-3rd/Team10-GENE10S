@@ -18,6 +18,8 @@ import com.genesisairport.reservation.repository.ReservationRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,18 +37,14 @@ public class AReservationService {
     private final StepRepository stepRepository;
     private final RepairShopRepository repairShopRepository;
 
-    public List<AdminResponse.ReservationDetail> getAllReservations(
-            AdminRequest.ReservationDetail reservationDetail, Integer pageSize, Integer pageNumber
-    ) {
-        return reservationRepository.findReservations(
-                reservationDetail, pageSize, pageNumber
-        );
+    public Page<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail reservationDetail, Pageable pageable) {
+        return reservationRepository.findReservations(reservationDetail, pageable);
     }
 
     public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {
         Optional<Reservation> reservation = reservationRepository.findById(reservationId);
         if (reservation.isEmpty())
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 예약 id입니다.");
+            throw new GeneralException(ResponseCode.NOT_FOUND, "예약 id를 찾을 수 없습니다.");
 
         MaintenanceImage entity = MaintenanceImage.builder()
                 .reservation(reservation.get())
@@ -65,33 +63,34 @@ public class AReservationService {
     public MaintenanceImage getMaintenanceImage(Long imageId) {
         Optional<MaintenanceImage> image = maintenanceImageRepository.findById(imageId);
         if (image.isEmpty())
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 이미지 id입니다.");
+            throw new GeneralException(ResponseCode.NOT_FOUND, "이미지 id를 찾을 수 없습니다.");
         return image.get();
     }
 
     public void deleteMaintenanceImage(Long imageId) {
         Optional<MaintenanceImage> image = maintenanceImageRepository.findById(imageId);
         if (image.isEmpty())
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 이미지 id입니다.");
+            throw new GeneralException(ResponseCode.NOT_FOUND, "이미지 id를 찾을 수 없습니다.");
         maintenanceImageRepository.deleteById(imageId);
     }
 
+    @Transactional
     public Long saveStage(AdminRequest.StageInfo requestBody) {
+        Optional<Reservation> reservation = reservationRepository.findById(requestBody.getReservationId());
+        if (reservation.isEmpty())
+            throw new GeneralException(ResponseCode.NOT_FOUND, "예약 id를 찾을 수 없습니다.");
+
         Step newStep = Step.builder()
                 .stage(requestBody.getProgress().getName())
                 .date(LocalDateTime.now())
                 .detail(requestBody.getDetail())
                 .createDatetime(LocalDateTime.now())
                 .updateDatetime(LocalDateTime.now())
-                .reservation(reservationRepository.findReservationById(requestBody.getReservationId()))
+                .reservation(reservation.get())
                 .build();
-        try {
-            Step insertResult = stepRepository.save(newStep);
-            setLatestStage(requestBody.getReservationId());
-            return insertResult.getId();
-        } catch (Exception e) {
-            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "이미 추가된 진행 단계입니다.");
-        }
+        Step insertResult = stepRepository.save(newStep);
+        setLatestStage(requestBody.getReservationId());
+        return insertResult.getId();
     }
 
     @Transactional
@@ -104,46 +103,40 @@ public class AReservationService {
 
     private void setLatestStage(long reservationId) {
         // 예약 현황 갱신
-        Reservation reservation = reservationRepository.findReservationById(reservationId);
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        if (reservation.isEmpty())
+            throw new GeneralException(ResponseCode.NOT_FOUND, "예약 id를 찾을 수 없습니다.");
 
         List<ProgressStage> stages = stepRepository.findStagesByReservationId(reservationId).stream()
                 .map(ProgressStage::fromName)
                 .toList();
 
-        reservation.setProgressStage(Objects.requireNonNull(stages.stream()
+        reservation.get().setProgressStage(Objects.requireNonNull(stages.stream()
                         .max(Enum::compareTo)
                         .orElse(null))
                 .getName()
         );
 
-        reservationRepository.save(reservation);
+        reservationRepository.save(reservation.get());
     }
 
     public void updateComment(AdminRequest.CommentInfo requestBody) {
-        try {
-            Reservation reservation = reservationRepository.findReservationById(requestBody.getReservationId());
-            try {
-                reservation.setInspectionResult(requestBody.getComment());
-                reservationRepository.save(reservation);
-            } catch (Exception e) {
-                throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "코멘트를 저장하는 데 실패했습니다.");
-            }
-        } catch (Exception e) {
-            throw new GeneralException(ResponseCode.INTERNAL_SERVER_ERROR, "예약 정보를 불러오는 데 실패했습니다.");
-        }
+        Optional<Reservation> reservation = reservationRepository.findById(requestBody.getReservationId());
+        if (reservation.isEmpty())
+            throw new GeneralException(ResponseCode.NOT_FOUND, "예약 id를 찾을 수 없습니다.");
+        reservation.get().setInspectionResult(requestBody.getComment());
+        reservationRepository.save(reservation.get());
     }
 
     public boolean checkReservation(String shopName, String businessTime) {
-        RepairShop repairShop;
-        try {
-            repairShop = repairShopRepository.findRepairShopByShopName(shopName);
-        } catch (Exception e) {
+        Optional<RepairShop> repairShop = repairShopRepository.findByShopName(shopName);
+        if (repairShop.isEmpty()) {
             throw new GeneralException(ResponseCode.BAD_REQUEST, "존재하지 않는 지점명입니다.");
         }
 
-        LocalDateTime datetime = CommonDateFormat.datetime(businessTime);
+        LocalDateTime datetime = CommonDateFormat.localDateTime(businessTime);
 
-        List<Reservation> reservations = reservationRepository.findReservationsBy(repairShop.getId(), datetime);
+        List<Reservation> reservations = reservationRepository.findReservationsBy(repairShop.get().getId(), datetime);
 
         return !reservations.isEmpty();
     }

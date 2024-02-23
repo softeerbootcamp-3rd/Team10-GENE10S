@@ -14,8 +14,8 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
 import static com.genesisairport.reservation.entity.QAvailableTime.availableTime;
+import static com.genesisairport.reservation.entity.QRepairShop.repairShop;
 
 @RequiredArgsConstructor
 public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
@@ -36,10 +36,8 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
                     repairShop.capacityPerTime
                 )
                 .from(repairShop)
-                .innerJoin(availableTime).on(availableTime.repairShop.eq(repairShop))
-                .where(repairShop.shopName.eq(shopName)
-                        .and(availableTime.reservationDate
-                                .between(Date.valueOf(twoWeeksLater), Date.valueOf(twoMonthsLater))))
+                .innerJoin(availableTime).on(availableTime.repairShop.id.eq(repairShop.id))
+                .where(repairShop.shopName.eq(shopName))
                 .orderBy(availableTime.reservationTime.asc())
                 .fetch();
 

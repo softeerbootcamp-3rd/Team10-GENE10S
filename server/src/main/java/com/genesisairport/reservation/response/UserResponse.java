@@ -1,7 +1,8 @@
 package com.genesisairport.reservation.response;
 
-import com.genesisairport.reservation.entity.Car;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
