@@ -72,10 +72,6 @@ export default function AccountList() {
     console.log("deleteAccount", id);
   };
 
-  useEffect(() => {
-    search();
-  }, []);
-
   return (
     <AdminPage pageName='관리자 계정 관리'>
       <SearchArea>

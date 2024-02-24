@@ -34,12 +34,12 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new SessionInterceptor(sessionUtil))
-//                .order(2)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/v1/login", "/",
-//                        "/v2/admin/account/login", "/v2/admin/account/session-validation");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SessionInterceptor(sessionUtil))
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/v1/login", "/",
+                        "/v2/admin/account/login", "/v2/admin/account/session-validation");
+    }
 }

@@ -3,8 +3,13 @@ import BtnDark from "../components/button/BtnDark";
 import axios from "../api/Settings";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userNameState } from "../util/states";
+import { callLogin } from "../api/Common";
 
 export default function Login() {
+  const [userName, setUserName] = useRecoilState(userNameState);
+
   const [adminId, setAdminId] = useState("");
   const [adminPwd, setAdminPwd] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
@@ -15,11 +20,11 @@ export default function Login() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const checkSession = async () => {
+  const checkSession = () => {
     axios
       .get("/v2/admin/account/session-validation")
       .then((response) => {
-        if (response.data && response.data.success) {
+        if (response.data && response.data.data) {
           navigate("/reservation");
         }
       })
@@ -37,18 +42,14 @@ export default function Login() {
   };
 
   const handleLoginClick = () => {
-    axios
-      .post("/v2/admin/account/login", { adminId, adminPwd })
-      .then((response) => {
-        if (response.data.success) {
-          navigate("/reservation");
-        } else {
-          setLoginFailed(true);
-        }
-      })
-      .catch((error) => {
-        console.error("로그인 오류: ", error);
-      });
+    callLogin(adminId, adminPwd).then((response) => {
+      if (response.success) {
+        setUserName(response.data.adminName);
+        navigate("/reservation");
+      } else {
+        setLoginFailed(true);
+      }
+    });
   };
 
   return (

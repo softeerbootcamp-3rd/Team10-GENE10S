@@ -3,22 +3,20 @@ import ProfileImage from "../svg/ProfileImage";
 import MenuImage from "../svg/MenuImage";
 import { userNameState } from "../../util/states";
 import { useRecoilState } from "recoil";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import LogoutImage from "../svg/LogoutImage";
 import axios from "../../api/Settings";
 
 // currentPage: 'reservation', 'shop', 'account' 중 한 개로 설정해야 함
 export default function SideBar({ currentPage }) {
+  const navigate = useNavigate();
   const [userName, setUserName] = useRecoilState(userNameState);
-
-  useEffect(() => {
-    setUserName("test");
-  }, [setUserName]);
 
   const handleLogoutClick = async () => {
     try {
-      await axios.post("/v2/admin/account/logout");
+      await axios.post("/v2/admin/account/logout").then(() => {
+        navigate("/");
+      });
     } catch (error) {
       console.error("Error calling logout API:", error);
     }

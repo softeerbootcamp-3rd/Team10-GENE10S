@@ -36,6 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> handleExceptionInternal(Exception e, ResponseCode responseCode,
                                                            HttpHeaders headers, WebRequest webRequest){
+        e.printStackTrace();
         ResponseDto body = ResponseDto.of(false, responseCode, e.getMessage());
 
         return super.handleExceptionInternal(

@@ -65,7 +65,6 @@ export default function ReservationList() {
       setSortColumn(columnName);
       setSortDirection("desc");
     }
-    search();
   };
 
   function handleSearchReservations() {
@@ -93,9 +92,8 @@ export default function ReservationList() {
   };
 
   useEffect(() => {
-    search();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    search(page);
+  }, [sortDirection, sortColumn]);
 
   return (
     <AdminPage pageName='예약 관리'>
