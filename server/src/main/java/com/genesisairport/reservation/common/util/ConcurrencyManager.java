@@ -45,6 +45,6 @@ public class ConcurrencyManager {
 
     public void setNx(RedisKey redisKey, String fromDateTimeKey, Integer existCount) {
         String key = redisKey.getKey() + ":" + fromDateTimeKey;
-        redisUtil.setNx(key, Integer.toString(existCount));
+        redisUtil.setNx(key, existCount);
     }
 }

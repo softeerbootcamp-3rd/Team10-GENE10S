@@ -236,7 +236,7 @@ export default function ReservationModal() {
       <div className={classNames('modal-page')}>
         <ModalHeader shopName={shopName} currentStep={currentStep} changeShop={changeShop} />
         <div className={classNames('modal-content', { 'fade-in': fadeIn })}>
-          {currentStep === 'date' ? <ModalDate props={dateProps} nextStep={dateToInfo} /> : null}
+          {currentStep === 'date' ? <ModalDate props={dateProps} nextStep={dateToInfo} shopName={shopName} /> : null}
           {currentStep === 'info' ? (
             <ModalInfo props={infoProps} prevStep={infoToDate} nextStep={infoToService} />
           ) : null}

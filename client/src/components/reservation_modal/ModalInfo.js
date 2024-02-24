@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { BtnBlack } from '../Button';
 import { getCarList } from '../../api/ReservationApi';
+import { getUserInfo } from '../../api/UserApi';
+import SellNameSelector from '../SellNameSelector';
 
 export default function ModalInfo({ prevStep, nextStep, props }) {
   const [phone1, setPhone1] = useState(props.phone1);
@@ -53,6 +55,13 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
 
     getCarList().then(result => {
       setCarListData(result);
+    });
+
+    getUserInfo().then(response => {
+      const phone = response.phoneNumber;
+      setPhone1(`0${phone.substring(3, 5)}`);
+      setPhone2(phone.substring(5, 9));
+      setPhone3(phone.substring(9, 13));
     });
   }, []);
 
@@ -122,13 +131,10 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
             <span className={classNames('title')}>4. 차량 정보</span>
             <div className={classNames('content')}>
               <span className={classNames('input-hint')}>차종</span>
-              <input
-                type="text"
+              <SellNameSelector
                 value={sellName}
+                onchange={e => setSellName(e.target.value)}
                 className={classNames('input-area', 'w-200', 'input-text')}
-                onChange={e => {
-                  setSellName(e.target.value);
-                }}
               />
             </div>
             <div className={classNames('content')}>

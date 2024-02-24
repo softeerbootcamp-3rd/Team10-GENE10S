@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import { registerCar } from '../api/CarApi';
+import SellNameSelector from './SellNameSelector';
 
 export default function Modal({ onClose, visible }) {
   const [sellName, setSellName] = useState('');
@@ -18,7 +19,7 @@ export default function Modal({ onClose, visible }) {
     setSellName('');
     setPlateNumber('');
     onClose();
-  }
+  };
 
   const handleRegisterClick = () => {
     const requestBody = {
@@ -38,7 +39,7 @@ export default function Modal({ onClose, visible }) {
   };
 
   return (
-    <div className={classNames('modal-frame', {'visible': visible})}>
+    <div className={classNames('modal-frame', { visible: visible })}>
       <div className={classNames('modal')}>
         <div className={classNames('modal-header')}>
           <span>차량 등록하기</span>
@@ -46,7 +47,7 @@ export default function Modal({ onClose, visible }) {
         <div className={classNames('body')}>
           <div className={classNames('info-row')}>
             <span className={classNames('key')}>차종</span>
-            <input className={classNames('input')} value={sellName} onChange={handleSellNameChange} />
+            <SellNameSelector value={sellName} className={classNames('input')} onchange={handleSellNameChange} />
           </div>
           <div className={classNames('info-row')}>
             <span className={classNames('key')}>차량 번호</span>
