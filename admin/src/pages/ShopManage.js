@@ -1,164 +1,164 @@
-import classNames from 'classnames'
-import moment from 'moment'
-import BtnDark from '../components/button/BtnDark'
-import SideBar from '../components/SideBar'
-import { useRef, useState } from 'react'
-import Arrow500 from '../components/svg/Arrow'
-import CustomCalendar from '../components/CustomCalendar'
+import classNames from "classnames";
+import moment from "moment";
+import BtnDark from "../components/button/BtnDark";
+import SideBar from "../components/SideBar";
+import { useRef, useState } from "react";
+import Arrow500 from "../components/svg/Arrow";
+import CustomCalendar from "../components/CustomCalendar";
 import {
   getAvailableTime,
   addAvailableTime,
   removeAvailableTime,
-  removeAvailableTimeWithReserv
-} from '../api/ShopApi'
-import { checkReservation } from '../api/ReservationApi'
-import AvailableTimeModal from '../components/modal/AvailableTimeModal'
+  removeAvailableTimeWithReserv,
+} from "../api/ShopApi";
+import { checkReservation } from "../api/ReservationApi";
+import AvailableTimeModal from "../components/modal/AvailableTimeModal";
 
-export default function ShopManage () {
-  const [availableList, setAvailableList] = useState(null)
-  const [openedRow, setOpenedRow] = useState([])
-  const [shopName, setShopName] = useState('블루핸즈 인천공항점')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+export default function ShopManage() {
+  const [availableList, setAvailableList] = useState(null);
+  const [openedRow, setOpenedRow] = useState([]);
+  const [shopName, setShopName] = useState("블루핸즈 인천공항점");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-  const [showModal, setShowModal] = useState(false)
-  const [state, setState] = useState('')
-  const hasReserv = useRef(false)
-  const date = useRef('')
-  const time = useRef('')
+  const [showModal, setShowModal] = useState(false);
+  const [state, setState] = useState("");
+  const hasReserv = useRef(false);
+  const date = useRef("");
+  const time = useRef("");
 
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
 
-  function resetState () {
-    setShowModal(false)
-    setVisible(false)
+  function resetState() {
+    setShowModal(false);
+    setVisible(false);
   }
 
-  function handleAccordianClick (event) {
-    const target = event.currentTarget
-    if (!target.classList.value.includes('content-date')) return
+  function handleAccordianClick(event) {
+    const target = event.currentTarget;
+    if (!target.classList.value.includes("content-date")) return;
 
-    const parent = target.closest('.content-row')
+    const parent = target.closest(".content-row");
     if (openedRow.includes(parent.id)) {
-      openedRow.pop(parent.id)
-      setOpenedRow([...openedRow])
+      openedRow.pop(parent.id);
+      setOpenedRow([...openedRow]);
     } else {
-      openedRow.push(parent.id)
-      setOpenedRow([...openedRow])
+      openedRow.push(parent.id);
+      setOpenedRow([...openedRow]);
     }
   }
 
-  async function handleTimeClick (event) {
-    setShowModal(true)
-    const target = event.currentTarget
-    const timeText = target.innerText.split(' : ')
-    const timeValue = `${timeText[0]}:${timeText[1]}`
+  async function handleTimeClick(event) {
+    setShowModal(true);
+    const target = event.currentTarget;
+    const timeText = target.innerText.split(" : ");
+    const timeValue = `${timeText[0]}:${timeText[1]}`;
     const dateValue = target
-      .closest('.content-row')
-      .querySelector('.date').innerText
-    time.current = timeValue
-    date.current = dateValue
-    const businessDay = `${date.current} ${time.current}:00`
+      .closest(".content-row")
+      .querySelector(".date").innerText;
+    time.current = timeValue;
+    date.current = dateValue;
+    const businessDay = `${date.current} ${time.current}:00`;
 
-    if (target.classList.value.includes('active')) {
-      setState('delete')
+    if (target.classList.value.includes("active")) {
+      setState("delete");
 
-      await checkReservation(shopName, businessDay).then(response => {
-        hasReserv.current = response.hasReservation
-      })
+      await checkReservation(shopName, businessDay).then((response) => {
+        hasReserv.current = response.hasReservation;
+      });
     } else {
-      hasReserv.current = false
-      setState('add')
+      hasReserv.current = false;
+      setState("add");
     }
 
-    setVisible(true)
+    setVisible(true);
   }
 
-  async function handleSearchBtn () {
-    await getAvailableTime(shopName, startDate, endDate).then(response => {
-      if (response === undefined) return
-      setAvailableList(response)
-    })
+  async function handleSearchBtn() {
+    await getAvailableTime(shopName, startDate, endDate).then((response) => {
+      if (response === undefined) return;
+      setAvailableList(response);
+    });
   }
 
-  async function handleConfirm (date, time, message = '') {
-    const businessDay = `${date} ${time}:00`
-    if (state === 'add') {
+  async function handleConfirm(date, time, message = "") {
+    const businessDay = `${date} ${time}:00`;
+    if (state === "add") {
       await addAvailableTime(shopName, businessDay)
         .then(() => {
-          addTimeToData(date, time)
+          addTimeToData(date, time);
         })
-        .catch(error => {
-          console.error(error)
-        })
-    } else if (state === 'delete') {
+        .catch((error) => {
+          console.error(error);
+        });
+    } else if (state === "delete") {
       if (hasReserv.current) {
         await removeAvailableTimeWithReserv(shopName, businessDay, message)
           .then(() => {
-            removeTimeFromData(date, time)
-            resetState()
+            removeTimeFromData(date, time);
+            resetState();
           })
-          .catch(error => {
-            console.error(error)
-          })
+          .catch((error) => {
+            console.error(error);
+          });
       } else {
         await removeAvailableTime(shopName, businessDay)
           .then(() => {
-            removeTimeFromData(date, time)
+            removeTimeFromData(date, time);
           })
-          .catch(error => {
-            console.error(error)
-          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
     }
 
-    resetState()
+    resetState();
   }
 
-  function handleCancel () {
-    resetState()
+  function handleCancel() {
+    resetState();
   }
 
-  function removeTimeFromData (targetDate, targetTime) {
-    setAvailableList(prevData => {
-      const newData = prevData.map(item => {
+  function removeTimeFromData(targetDate, targetTime) {
+    setAvailableList((prevData) => {
+      const newData = prevData.map((item) => {
         if (item.date === targetDate) {
           return {
             ...item,
             availableTime: item.availableTime.filter(
-              time => time !== targetTime
-            )
-          }
+              (time) => time !== targetTime
+            ),
+          };
         }
-        return item
-      })
-      return newData
-    })
+        return item;
+      });
+      return newData;
+    });
   }
 
-  function addTimeToData (targetDate, targetTime) {
-    setAvailableList(prevData => {
-      const newData = prevData.map(item => {
+  function addTimeToData(targetDate, targetTime) {
+    setAvailableList((prevData) => {
+      const newData = prevData.map((item) => {
         if (item.date === targetDate) {
           return {
             ...item,
-            availableTime: [...item.availableTime, targetTime]
-          }
+            availableTime: [...item.availableTime, targetTime],
+          };
         }
-        return item
-      })
-      return newData
-    })
+        return item;
+      });
+      return newData;
+    });
   }
 
-  function ContentRow () {
-    const hours = Array.from({ length: 16 }, (_, i) => i + 6)
+  function ContentRow() {
+    const hours = Array.from({ length: 16 }, (_, i) => i + 6);
 
     const content = availableList.map((timeData, index) => (
       <div
         id={timeData.date}
-        className={classNames('content-row', {
-          opened: openedRow.includes(timeData.date)
+        className={classNames("content-row", {
+          opened: openedRow.includes(timeData.date),
         })}
         key={index}
       >
@@ -171,29 +171,29 @@ export default function ShopManage () {
           </div>
         </div>
         <div className='content-time'>
-          {hours.map(hour => (
+          {hours.map((hour) => (
             <div
               id={`${timeData.date}-${hour}:00`}
-              className={classNames('time', {
+              className={classNames("time", {
                 active: timeData.availableTime.includes(
-                  `${hour < 10 ? '0' + hour : hour}:00`
-                )
+                  `${hour < 10 ? "0" + hour : hour}:00`
+                ),
               })}
               onClick={handleTimeClick}
               key={`${timeData.date}-${hour}`}
             >
-              <span>{hour < 10 ? '0' + hour : hour} : 00</span>
+              <span>{hour < 10 ? "0" + hour : hour} : 00</span>
             </div>
           ))}
         </div>
       </div>
-    ))
-    return content
+    ));
+    return content;
   }
 
   return (
-    <div className={classNames('page', 'shop-manage')}>
-      <SideBar currentPage={'shop'} />
+    <div className={classNames("page", "shop-manage")}>
+      <SideBar currentPage={"shop"} />
       <div className='body'>
         <div className='title'>
           <span>정비소 관리</span>
@@ -208,8 +208,8 @@ export default function ShopManage () {
                   id='lang'
                   className='select'
                   value={shopName}
-                  onChange={e => {
-                    setShopName(e.target.value)
+                  onChange={(e) => {
+                    setShopName(e.target.value);
                   }}
                 >
                   <option value='블루핸즈 인천공항점'>
@@ -225,20 +225,20 @@ export default function ShopManage () {
               <div className='search-item'>
                 <span>날짜</span>
                 <CustomCalendar
-                  onChange={date => {
-                    setStartDate(moment(date).format('YYYY-MM-DD'))
+                  onChange={(date) => {
+                    setStartDate(moment(date).format("YYYY-MM-DD"));
                   }}
                   value={startDate}
                 />
                 <span>~</span>
                 <CustomCalendar
-                  onChange={date => {
-                    setEndDate(moment(date).format('YYYY-MM-DD'))
+                  onChange={(date) => {
+                    setEndDate(moment(date).format("YYYY-MM-DD"));
                   }}
                   value={endDate}
                 />
               </div>
-              <BtnDark text={'검색'} onClick={handleSearchBtn} />
+              <BtnDark onClick={handleSearchBtn}>검색</BtnDark>
             </div>
           </div>
           <div className='column-content'>
@@ -254,8 +254,8 @@ export default function ShopManage () {
         hasReserv: hasReserv.current,
         onConfirm: handleConfirm,
         onCancel: handleCancel,
-        visible: visible
+        visible: visible,
       })}
     </div>
-  )
+  );
 }
