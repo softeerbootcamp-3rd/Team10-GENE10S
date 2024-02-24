@@ -1,10 +1,10 @@
 import axios from '../api/Settings';
 import { formatDate } from '../utils/dateUtils';
 
-export async function getAvailableDate() {
+export async function getAvailableDate(shopName) {
   try {
     const response = await axios.get('/v1/reservation/date', {
-      params: { repairShop: '블루핸즈 인천공항점' },
+      params: { repairShop: shopName },
     });
 
     return response.data.data;
@@ -13,10 +13,10 @@ export async function getAvailableDate() {
   }
 }
 
-export async function getAvailableTime(year, month, day) {
+export async function getAvailableTime(year, month, day, shopName) {
   try {
     const response = await axios.get('/v1/reservation/time', {
-      params: { repairShop: '블루핸즈 인천공항점', date: formatDate(new Date(year, month, day)) },
+      params: { repairShop: shopName, date: formatDate(new Date(year, month, day)) },
     });
 
     return response.data.data;
