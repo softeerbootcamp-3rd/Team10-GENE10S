@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { BtnBlack } from '../Button';
 import { getCarList } from '../../api/ReservationApi';
+import { getUserInfo } from '../../api/UserApi';
 
 export default function ModalInfo({ prevStep, nextStep, props }) {
   const [phone1, setPhone1] = useState(props.phone1);
@@ -53,6 +54,13 @@ export default function ModalInfo({ prevStep, nextStep, props }) {
 
     getCarList().then(result => {
       setCarListData(result);
+    });
+
+    getUserInfo().then(response => {
+      const phone = response.phoneNumber;
+      setPhone1(`0${phone.substring(3, 5)}`);
+      setPhone2(phone.substring(5, 9));
+      setPhone3(phone.substring(9, 13));
     });
   }, []);
 
