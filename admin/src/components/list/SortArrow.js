@@ -1,5 +1,3 @@
-import classNames from "classnames";
-
 const SortArrow = ({ active, direction }) => {
   if (!active)
     return (

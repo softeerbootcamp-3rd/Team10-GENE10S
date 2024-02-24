@@ -10,7 +10,7 @@ import axios from "../../api/Settings";
 // currentPage: 'reservation', 'shop', 'account' 중 한 개로 설정해야 함
 export default function SideBar({ currentPage }) {
   const navigate = useNavigate();
-  const [userName, setUserName] = useRecoilState(userNameState);
+  const [userName] = useRecoilState(userNameState);
 
   const handleLogoutClick = async () => {
     try {

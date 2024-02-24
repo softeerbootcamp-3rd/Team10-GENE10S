@@ -8,7 +8,7 @@ import { userNameState } from "../util/states";
 import { callLogin } from "../api/Common";
 
 export default function Login() {
-  const [userName, setUserName] = useRecoilState(userNameState);
+  const [, setUserName] = useRecoilState(userNameState);
 
   const [adminId, setAdminId] = useState("");
   const [adminPwd, setAdminPwd] = useState("");
