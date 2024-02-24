@@ -39,7 +39,7 @@ export default function ReservationDetail() {
   }, [reservationId]);
 
   return (
-    <div className={classNames('reservation-detail-page', { 'fadein': fadeIn })}>
+    <div className={classNames('reservation-detail-page', { fadein: fadeIn })}>
       <Header />
       <div className={classNames('title')}>
         <div className={classNames('text')}>마이페이지 {'>'} 예약 내역</div>
