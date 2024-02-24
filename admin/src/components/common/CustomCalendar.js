@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react'
-import Calendar from 'react-calendar'
-import '../styles/components/customCalendar.scss'
-import moment from 'moment'
-import styled from 'styled-components'
-import selectArrow from '../assets/arrow.svg'
+import React, { useState, useEffect, useRef } from "react";
+import Calendar from "react-calendar";
+import "../../styles/components/customCalendar.scss";
+import moment from "moment";
+import styled from "styled-components";
+import selectArrow from "../../assets/arrow.svg";
 
 const CalendarContainer = styled.div`
   position: relative;
-`
+`;
 
 const DropdownButton = styled.button`
   width: 200px;
@@ -27,44 +27,44 @@ const DropdownButton = styled.button`
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 12px;
-`
+`;
 
 const CalendarWrapper = styled.div`
   z-index: 11;
   position: absolute;
   top: 100%;
   left: 0;
-  display: ${props => (props.$isOpen ? 'block' : 'none')};
-`
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
+`;
 
 const CustomCalendar = ({ onChange, value }) => {
-  const [nowDate, setNowDate] = useState('날짜')
-  const [isOpen, setIsOpen] = useState(false)
+  const [nowDate, setNowDate] = useState("날짜");
+  const [isOpen, setIsOpen] = useState(false);
 
-  const calendarRef = useRef(null)
+  const calendarRef = useRef(null);
 
-  const handleOutsideClick = e => {
+  const handleOutsideClick = (e) => {
     if (calendarRef.current && !calendarRef.current.contains(e.target)) {
-      setIsOpen(false)
+      setIsOpen(false);
     }
-  }
+  };
 
   useEffect(() => {
-    document.addEventListener('click', handleOutsideClick)
+    document.addEventListener("click", handleOutsideClick);
     return () => {
-      document.removeEventListener('click', handleOutsideClick)
-    }
-  }, [])
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   const handleToggleCalendar = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
-  const handleDateChange = selectedDate => {
-    onChange(selectedDate)
-    setIsOpen(false)
-    setNowDate(moment(selectedDate).format('YYYY-MM-DD'))
-  }
+  const handleDateChange = (selectedDate) => {
+    onChange(selectedDate);
+    setIsOpen(false);
+    setNowDate(moment(selectedDate).format("YYYY-MM-DD"));
+  };
 
   return (
     <div ref={calendarRef}>
@@ -76,9 +76,9 @@ const CustomCalendar = ({ onChange, value }) => {
           <Calendar
             onChange={handleDateChange}
             value={value}
-            formatDay={(locale, date) => moment(date).format('D')}
-            formatYear={(locale, date) => moment(date).format('YYYY')}
-            formatMonthYear={(locale, date) => moment(date).format('YYYY. MM')}
+            formatDay={(locale, date) => moment(date).format("D")}
+            formatYear={(locale, date) => moment(date).format("YYYY")}
+            formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")}
             calendarType='gregory'
             showNeighboringMonth={false}
             next2Label={null}
@@ -88,7 +88,7 @@ const CustomCalendar = ({ onChange, value }) => {
         </CalendarWrapper>
       </CalendarContainer>
     </div>
-  )
-}
+  );
+};
 
-export default CustomCalendar
+export default CustomCalendar;
