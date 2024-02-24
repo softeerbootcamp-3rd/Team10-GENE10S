@@ -8,7 +8,7 @@ export default function Header() {
   const [isLogin, setIsLogin] = useState(false);
   const [uuid, setUuid] = useState('');
   const clientId = process.env.REACT_APP_CLIENT_ID;
-  const host = process.env.REACT_APP_REDIRECT_URI;
+  const host = process.env.REACT_APP_REDIRECT_URI_CLIENT;
 
   const checkSession = async () => {
     try {
