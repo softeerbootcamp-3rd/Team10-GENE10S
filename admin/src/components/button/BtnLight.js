@@ -1,11 +1,11 @@
-import classNames from 'classnames'
+import classNames from "classnames";
 
-const BtnLight = ({ text, onClick }) => {
+const BtnLight = ({ onClick, children }) => {
   return (
-    <div className={classNames('btn-light')} onClick={onClick}>
-      <span>{text}</span>
+    <div className={classNames("btn-light")} onClick={onClick}>
+      <span>{children}</span>
     </div>
-  )
-}
+  );
+};
 
-export default BtnLight
+export default BtnLight;

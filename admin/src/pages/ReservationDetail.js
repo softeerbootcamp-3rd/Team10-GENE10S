@@ -1,39 +1,39 @@
-import classNames from 'classnames'
-import BtnDark from '../components/button/BtnDark'
-import BtnLight from '../components/button/BtnLight'
-import AdminPage from '../components/common/AdminPage'
-import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
-import AddImageModal from '../components/modal/AddImageModal'
+import classNames from "classnames";
+import BtnDark from "../components/button/BtnDark";
+import BtnLight from "../components/button/BtnLight";
+import AdminPage from "../components/common/AdminPage";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import AddImageModal from "../components/modal/AddImageModal";
 import {
   deleteMaintenanceImage,
   deleteProgress,
   getReservationDetail,
-  postProgress
-} from '../api/ReservationApi'
-import BtnGroup from '../components/button/BtnGroup'
-import InfoTable from '../components/table/InfoTable'
-import InfoRow from '../components/table/InfoRow'
-import InfoItem from '../components/table/InfoItem'
-import InfoGrid from '../components/table/InfoGrid'
-import InfoSteps from '../components/table/InfoSteps'
-import serviceTypes from '../constants/serviceTypes'
-import ReservationSteps from '../components/common/ReservationSteps'
-import InfoImage from '../components/table/InfoImage'
+  postProgress,
+} from "../api/ReservationApi";
+import BtnGroup from "../components/button/BtnGroup";
+import InfoTable from "../components/infotable/InfoTable";
+import InfoItem from "../components/infotable/InfoItem";
+import InfoGrid from "../components/infotable/InfoGrid";
+import InfoSteps from "../components/infotable/InfoSteps";
+import serviceTypes from "../constants/serviceTypes";
+import ReservationSteps from "../components/common/ReservationSteps";
+import InfoImage from "../components/infotable/InfoImage";
+import InfoRow from "../components/infotable/InfoRow";
 
-export default function ReservationDetail () {
-  const navigate = useNavigate()
-  const { reservationId } = useParams()
+export const ReservationDetail = () => {
+  const navigate = useNavigate();
+  const { reservationId } = useParams();
 
-  const [isAdding, setIsAdding] = useState(false)
-  const [modalVisible, setModalVisible] = useState(false)
-  const [modalStatus, setModalStatus] = useState(0)
+  const [isAdding, setIsAdding] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalStatus, setModalStatus] = useState(0);
 
-  const [shopName, setShopName] = useState(null)
-  const [customerName, setCustomerName] = useState(null)
-  const [carInfo, setCarInfo] = useState(null)
-  const [departureDate, setDepartureDate] = useState(null)
-  const [pickupDate, setPickupDate] = useState(null)
+  const [shopName, setShopName] = useState(null);
+  const [customerName, setCustomerName] = useState(null);
+  const [carInfo, setCarInfo] = useState(null);
+  const [departureDate, setDepartureDate] = useState(null);
+  const [pickupDate, setPickupDate] = useState(null);
   const [services, setServices] = useState({
     oil: false,
     battery: false,
@@ -49,104 +49,106 @@ export default function ReservationDetail () {
     scanner: false,
     heater: false,
     tire: false,
-    filter: false
-  })
-  const [customerRequest, setCustomerRequest] = useState(null)
-  const [coupon, setCoupon] = useState(null)
-  const [reservationSteps, setReservationSteps] = useState([])
-  const [beforeImages, setBeforeImages] = useState([])
-  const [afterImages, setAfterImages] = useState([])
+    filter: false,
+  });
+  const [customerRequest, setCustomerRequest] = useState(null);
+  const [coupon, setCoupon] = useState(null);
+  const [reservationSteps, setReservationSteps] = useState([]);
+  const [beforeImages, setBeforeImages] = useState([]);
+  const [afterImages, setAfterImages] = useState([]);
 
-  const stepTitleRef = useRef()
-  const stepContentRef = useRef()
+  const stepTitleRef = useRef();
+  const stepContentRef = useRef();
 
-  const [selectedStep, setSelectedStep] = useState('예약완료')
-  const [stepContent, setStepContent] = useState(null)
+  const [selectedStep, setSelectedStep] = useState("예약완료");
+  const [stepContent, setStepContent] = useState(null);
 
   useEffect(() => {
     getReservationDetail(reservationId)
-      .then(response => {
-        setShopName(response.repairShop)
-        setCustomerName(response.customerName)
-        setCarInfo(`${response.carSellName} (${response.carPlateNumber})`)
-        setDepartureDate(response.from)
-        setPickupDate(response.to)
-        setServices(response.serviceType)
-        setCustomerRequest(response.customerRequest)
-        setCoupon(response.couponSerialNumber)
-        setReservationSteps(response.progressStage)
-        setBeforeImages(response.beforeImages)
-        setAfterImages(response.afterImages)
+      .then((response) => {
+        setShopName(response.repairShop);
+        setCustomerName(response.customerName);
+        setCarInfo(`${response.carSellName} (${response.carPlateNumber})`);
+        setDepartureDate(response.from);
+        setPickupDate(response.to);
+        setServices(response.serviceType);
+        setCustomerRequest(response.customerRequest);
+        setCoupon(response.couponSerialNumber);
+        setReservationSteps(response.progressStage);
+        setBeforeImages(response.beforeImages);
+        setAfterImages(response.afterImages);
       })
-      .catch(error => {
-        console.error('Error registering car:', error)
-      })
-  }, [reservationId])
+      .catch((error) => {
+        console.error("Error registering car:", error);
+      });
+  }, [reservationId]);
 
-  function deleteStep (stepId) {
+  function deleteStep(stepId) {
     deleteProgress(stepId).then(() => {
-      setReservationSteps(reservationSteps.filter(item => item.id !== stepId))
-    })
+      setReservationSteps(
+        reservationSteps.filter((item) => item.id !== stepId)
+      );
+    });
   }
 
-  function addStep () {
-    setSelectedStep('예약완료')
-    setIsAdding(true)
+  function addStep() {
+    setSelectedStep("예약완료");
+    setIsAdding(true);
   }
 
-  function onChangeStepTitle (event) {
-    setSelectedStep(event.target.value)
+  function onChangeStepTitle(event) {
+    setSelectedStep(event.target.value);
   }
 
-  function onChangeStepContent (event) {
-    setStepContent(event.target.value)
+  function onChangeStepContent(event) {
+    setStepContent(event.target.value);
   }
 
-  function submitStep () {
-    postProgress(reservationId, selectedStep, stepContent).then(response => {
+  function submitStep() {
+    postProgress(reservationId, selectedStep, stepContent).then((response) => {
       setReservationSteps([
         ...reservationSteps,
         {
           id: response.stepId,
           step: selectedStep,
-          detail: stepContent
-        }
-      ])
-    })
-    setIsAdding(false)
+          detail: stepContent,
+        },
+      ]);
+    });
+    setIsAdding(false);
   }
 
-  function cancelStep () {
-    setIsAdding(false)
+  function cancelStep() {
+    setIsAdding(false);
   }
 
-  function deleteImage (imageId) {
+  function deleteImage(imageId) {
     deleteMaintenanceImage(imageId).then(() => {
-      setBeforeImages(beforeImages.filter(item => item.id !== imageId))
-      setAfterImages(afterImages.filter(item => item.id !== imageId))
-    })
+      setBeforeImages(beforeImages.filter((item) => item.id !== imageId));
+      setAfterImages(afterImages.filter((item) => item.id !== imageId));
+    });
   }
 
-  function showImageModal (status) {
-    setModalVisible(true)
-    setModalStatus(status)
+  function showImageModal(status) {
+    setModalVisible(true);
+    setModalStatus(status);
   }
 
-  function showAddedImage (imageId, status, imageUrl) {
+  function showAddedImage(imageId, status, imageUrl) {
     if (status === 0) {
-      setBeforeImages([...beforeImages, { id: imageId, url: imageUrl }])
+      setBeforeImages([...beforeImages, { id: imageId, url: imageUrl }]);
     } else {
-      setAfterImages([...afterImages, { id: imageId, url: imageUrl }])
+      setAfterImages([...afterImages, { id: imageId, url: imageUrl }]);
     }
   }
 
-  function closeModal () {
-    setModalVisible(false)
+  function closeModal() {
+    setModalVisible(false);
   }
 
   return (
     <>
-      <AdminPage pageName='예약관리'>
+      <AdminPage pageName='예약 관리'>
         <InfoTable>
           <InfoRow>
             <InfoItem label='No'>
@@ -177,12 +179,12 @@ export default function ReservationDetail () {
           <InfoRow>
             <InfoGrid label='서비스'>
               {Object.keys(services).map((key, index) => {
-                if (!services[key]) return null
+                if (!services[key]) return null;
                 return (
-                  <span key={index} className={classNames('service')}>
+                  <span key={index} className={classNames("service")}>
                     {serviceTypes[key]}
                   </span>
-                )
+                );
               })}
             </InfoGrid>
           </InfoRow>
@@ -198,19 +200,19 @@ export default function ReservationDetail () {
           </InfoRow>
           <InfoRow>
             <InfoSteps label='진행 단계'>
-              {reservationSteps.map(step => (
-                <div key={step.id} className={classNames('step')}>
-                  <span className={classNames('step-title')}>{step.step}</span>
-                  <span className={classNames('step-content')}>
+              {reservationSteps.map((step) => (
+                <div key={step.id} className={classNames("step")}>
+                  <span className={classNames("step-title")}>{step.step}</span>
+                  <span className={classNames("step-content")}>
                     {step.detail}
                   </span>
-                  <BtnLight text={'삭제'} onClick={() => deleteStep(step.id)} />
+                  <BtnLight onClick={() => deleteStep(step.id)}>삭제</BtnLight>
                 </div>
               ))}
               {isAdding ? (
-                <div className={classNames('step')}>
+                <div className={classNames("step")}>
                   <select
-                    className={classNames('input-title')}
+                    className={classNames("input-title")}
                     value={selectedStep}
                     onChange={onChangeStepTitle}
                     ref={stepTitleRef}
@@ -218,16 +220,16 @@ export default function ReservationDetail () {
                     <ReservationSteps />
                   </select>
                   <input
-                    className={classNames('input-content')}
+                    className={classNames("input-content")}
                     onChange={onChangeStepContent}
                     ref={stepContentRef}
                   ></input>
-                  <BtnLight text={'적용'} onClick={submitStep} />
-                  <BtnLight text={'취소'} onClick={cancelStep} />
+                  <BtnLight onClick={submitStep}>적용</BtnLight>
+                  <BtnLight onClick={cancelStep}>취소</BtnLight>
                 </div>
               ) : (
-                <div className={classNames('step')}>
-                  <div className={classNames('btn-add')} onClick={addStep}>
+                <div className={classNames("step")}>
+                  <div className={classNames("btn-add")} onClick={addStep}>
                     <span>추가</span>
                   </div>
                 </div>
@@ -236,39 +238,41 @@ export default function ReservationDetail () {
           </InfoRow>
           <InfoRow>
             <InfoItem label='정비 전 사진'>
-              {beforeImages.map(image => (
+              {beforeImages.map((image) => (
                 <InfoImage
                   image={image}
                   onDelete={() => deleteImage(image.id)}
                 />
               ))}
               <BtnLight
-                text={'추가'}
                 onClick={() => {
-                  showImageModal(0)
+                  showImageModal(0);
                 }}
-              />
+              >
+                추가
+              </BtnLight>
             </InfoItem>
           </InfoRow>
           <InfoRow>
             <InfoItem label='정비 후 사진'>
-              {afterImages.map(image => (
+              {afterImages.map((image) => (
                 <InfoImage
                   image={image}
                   onDelete={() => deleteImage(image.id)}
                 />
               ))}
               <BtnLight
-                text={'추가'}
                 onClick={() => {
-                  showImageModal(1)
+                  showImageModal(1);
                 }}
-              />
+              >
+                추가
+              </BtnLight>
             </InfoItem>
           </InfoRow>
         </InfoTable>
         <BtnGroup>
-          <BtnDark text={'목록'} onClick={() => navigate('/reservation')} />
+          <BtnDark onClick={() => navigate("/reservation")}>목록</BtnDark>
         </BtnGroup>
       </AdminPage>
       <AddImageModal
@@ -279,5 +283,7 @@ export default function ReservationDetail () {
         visible={modalVisible}
       />
     </>
-  )
-}
+  );
+};
+
+export default ReservationDetail;

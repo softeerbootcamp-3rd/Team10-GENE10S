@@ -1,11 +1,11 @@
-import classNames from 'classnames'
+import classNames from "classnames";
 
-const BtnDark = ({ text, onClick }) => {
+const BtnDark = ({ onClick, children }) => {
   return (
-    <div className={classNames('btn-dark')} onClick={onClick}>
-      <span>{text}</span>
+    <div className={classNames("btn-dark")} onClick={onClick}>
+      <span>{children}</span>
     </div>
-  )
-}
+  );
+};
 
-export default BtnDark
+export default BtnDark;

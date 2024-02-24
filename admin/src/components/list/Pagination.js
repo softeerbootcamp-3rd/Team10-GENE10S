@@ -1,24 +1,24 @@
-import classNames from 'classnames'
-import { Link } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import classNames from "classnames";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-export default function Pagination ({
+export default function Pagination({
   page,
   totalPages,
   paginationSize,
-  onChange
+  onChange,
 }) {
-  let pageNumber = page
+  let pageNumber = page;
   let startPage =
-    Math.floor((pageNumber - 1) / paginationSize) * paginationSize + 1
-  let endPage = startPage + paginationSize - 1
+    Math.floor((pageNumber - 1) / paginationSize) * paginationSize + 1;
+  let endPage = startPage + paginationSize - 1;
 
-  const location = useLocation()
-  const searchParams = new URLSearchParams(location.search)
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
   return (
-    <>
-      <div className={classNames('left-arrow')}>
+    <div className={classNames("paginate")}>
+      <div className={classNames("left-arrow")}>
         {startPage > 1 && (
           <Link
             to={`${location.pathname}?${searchParams.toString()}`}
@@ -28,7 +28,7 @@ export default function Pagination ({
           </Link>
         )}
       </div>
-      <div className={classNames('page-number')}>
+      <div className={classNames("page-number")}>
         {Array.from(
           { length: Math.min(totalPages, endPage) - startPage + 1 },
           (_, index) => startPage + index
@@ -37,22 +37,22 @@ export default function Pagination ({
             <Link
               to={`?page=${pageNumber}`}
               state={{ page: pageNumber }}
-              className={classNames('page-item')}
+              className={classNames("page-item")}
               key={index}
               onClick={() => onChange(pageNumber)}
             >
               {pageNumber}
             </Link>
-          )
+          );
         })}
       </div>
-      <div className={classNames('right-arrow')}>
+      <div className={classNames("right-arrow")}>
         {endPage < totalPages && (
           <Link to={`?page=${endPage + 1}`} state={{ page: endPage + 1 }}>
             &gt;
           </Link>
         )}
       </div>
-    </>
-  )
+    </div>
+  );
 }

@@ -1,68 +1,71 @@
-import { useEffect, useRef, useState } from 'react'
-import BtnDark from '../button/BtnDark'
-import BtnLight from '../button/BtnLight'
-import ModalFrame from './ModalFrame'
-import BtnGroup from '../button/BtnGroup'
+import { useEffect, useRef, useState } from "react";
+import BtnDark from "../button/BtnDark";
+import BtnLight from "../button/BtnLight";
+import ModalFrame from "./ModalFrame";
+import BtnGroup from "../button/BtnGroup";
 
-export default function AvailableTimeModal ({
+export default function AvailableTimeModal({
   status,
   date,
   time,
   hasReserv,
   onConfirm,
   onCancel,
-  visible
+  visible,
 }) {
-  const inputRef = useRef()
+  const inputRef = useRef();
 
-  const [year, setYear] = useState('')
-  const [month, setMonth] = useState('')
-  const [day, setDay] = useState('')
-  const [state, setState] = useState('')
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+  const [state, setState] = useState("");
 
   useEffect(() => {
-    if (date === undefined || date === '') return
-    const split = date.split('-')
-    setYear(split[0])
-    if (split[1].indexOf(0) === '0') {
-      setMonth(split[1].indexOf(1))
+    if (date === undefined || date === "") return;
+    const split = date.split("-");
+    setYear(split[0]);
+    if (split[1].indexOf(0) === "0") {
+      setMonth(split[1].indexOf(1));
     } else {
-      setMonth(split[1])
+      setMonth(split[1]);
     }
-    setDay(split[2])
-  }, [date])
+    setDay(split[2]);
+  }, [date]);
 
   useEffect(() => {
-    inputRef.current.value = ''
-  }, [visible])
+    inputRef.current.value = "";
+  }, [visible]);
 
   useEffect(() => {
-    setState(status)
-  }, [status])
+    setState(status);
+  }, [status]);
 
-  function handleConfirm () {
-    if (status === 'add') {
-      onConfirm(date, time)
+  function handleConfirm() {
+    if (status === "add") {
+      onConfirm(date, time);
     } else {
       if (hasReserv) {
-        onConfirm(date, time, inputRef.current.value)
+        onConfirm(date, time, inputRef.current.value);
       } else {
-        onConfirm(date, time)
+        onConfirm(date, time);
       }
     }
-    inputRef.current.value = ''
+    inputRef.current.value = "";
   }
 
-  function handleCancel () {
-    inputRef.current.value = ''
-    onCancel()
+  function handleCancel() {
+    inputRef.current.value = "";
+    onCancel();
   }
 
   return (
-    <ModalFrame visible={visible} title={`예약 가능 시간 ${state === 'add' ? '추가' : '삭제'}`}>
+    <ModalFrame
+      visible={visible}
+      title={`예약 가능 시간 ${state === "add" ? "추가" : "삭제"}`}
+    >
       <div className='message'>
         <span>{`${year}년 ${month}월 ${day}일 ${time} 예약 가능 시간을 ${
-          state === 'add' ? '추가' : '삭제'
+          state === "add" ? "추가" : "삭제"
         }하시겠습니까?`}</span>
         {hasReserv && (
           <span>
@@ -72,17 +75,12 @@ export default function AvailableTimeModal ({
         )}
       </div>
       {hasReserv && (
-        <textarea
-          type='text'
-          className='input-text'
-          rows='10'
-          ref={inputRef}
-        />
+        <textarea type='text' className='input-text' rows='10' ref={inputRef} />
       )}
       <BtnGroup>
-        <BtnDark text={'완료'} onClick={handleConfirm} />
-        <BtnLight text={'취소'} onClick={handleCancel} />
+        <BtnDark onClick={handleConfirm}>완료</BtnDark>
+        <BtnLight onClick={handleCancel}>취소</BtnLight>
       </BtnGroup>
     </ModalFrame>
-  )
+  );
 }
