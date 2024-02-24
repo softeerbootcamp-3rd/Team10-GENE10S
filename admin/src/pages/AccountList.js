@@ -57,6 +57,7 @@ export default function AccountList() {
 
   useEffect(() => {
     search(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortDirection, sortColumn]);
 
   const handleSort = (columnName) => {
