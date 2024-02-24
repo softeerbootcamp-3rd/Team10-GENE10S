@@ -4,9 +4,9 @@ const axios = Axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_URL}`,
   withCredentials: true,
   headers: {
-    'Access-Control-Allow-Origin': `${process.env.REACT_APP_REDIRECT_URI}`
-  }
-})
+    "Access-Control-Allow-Origin": `${process.env.REACT_APP_REDIRECT_URI_ADMIN}`,
+  },
+});
 
 // TODO: 에러 메시지 띄우고 홈으로 redirect
 // axios.interceptors.response.use(
