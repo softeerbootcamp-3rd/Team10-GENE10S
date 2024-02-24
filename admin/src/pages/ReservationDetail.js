@@ -148,7 +148,7 @@ export const ReservationDetail = () => {
 
   return (
     <>
-      <AdminPage pageName='예약 관리'>
+      <AdminPage pageName='reservation'>
         <InfoTable>
           <InfoRow>
             <InfoItem label='No'>
@@ -238,10 +238,11 @@ export const ReservationDetail = () => {
           </InfoRow>
           <InfoRow>
             <InfoItem label='정비 전 사진'>
-              {beforeImages.map((image) => (
+              {beforeImages.map((image, index) => (
                 <InfoImage
                   image={image}
                   onDelete={() => deleteImage(image.id)}
+                  key={index}
                 />
               ))}
               <BtnLight
@@ -255,10 +256,11 @@ export const ReservationDetail = () => {
           </InfoRow>
           <InfoRow>
             <InfoItem label='정비 후 사진'>
-              {afterImages.map((image) => (
+              {afterImages.map((image, index) => (
                 <InfoImage
                   image={image}
                   onDelete={() => deleteImage(image.id)}
+                  key={index}
                 />
               ))}
               <BtnLight
