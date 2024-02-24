@@ -17,7 +17,7 @@ export default function Pagination({
   const searchParams = new URLSearchParams(location.search);
 
   return (
-    <>
+    <div className={classNames("paginate")}>
       <div className={classNames("left-arrow")}>
         {startPage > 1 && (
           <Link
@@ -53,6 +53,6 @@ export default function Pagination({
           </Link>
         )}
       </div>
-    </>
+    </div>
   );
 }

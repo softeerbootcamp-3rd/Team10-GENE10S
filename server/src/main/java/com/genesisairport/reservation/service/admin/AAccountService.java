@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,22 +23,22 @@ public class AAccountService {
 
     private final AdminRepository adminRepository;
 
-    public Long adminLogin(AdminRequest.Login loginDto) {
+    public Admin adminLogin(AdminRequest.Login loginDto) {
         String adminId = loginDto.getAdminId();
         String adminPwd = loginDto.getAdminPwd();
 
-        Admin admin = adminRepository.findByAdminId(adminId).orElse(null);
+        Optional<Admin> admin = adminRepository.findByAdminId(adminId);
 
         // 아이디 존재 x
-        if (admin == null)
+        if (admin.isEmpty())
             throw new GeneralException(ResponseCode.NOT_FOUND, "존재하지 않는 아이디입니다.");
 
         // 비밀번호 일치 x
         String encryptedPwd = encryptPassword(adminPwd);
-        if (!admin.getAdminPassword().equals(encryptedPwd))
+        if (!admin.get().getAdminPassword().equals(encryptedPwd))
             throw new GeneralException(ResponseCode.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
 
-        return admin.getId();
+        return admin.get();
     }
 
     private String encryptPassword(String password) {

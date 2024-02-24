@@ -1,9 +1,11 @@
 import classNames from "classnames";
 
-export default function BtnDark({ text, onClick }) {
+const BtnDark = ({ onClick, children }) => {
   return (
     <div className={classNames("btn-dark")} onClick={onClick}>
-      <span>{text}</span>
+      <span>{children}</span>
     </div>
   );
-}
+};
+
+export default BtnDark;

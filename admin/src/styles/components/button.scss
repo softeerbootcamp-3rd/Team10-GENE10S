@@ -1,108 +1,107 @@
-@import '../variables.scss';
+@import "../variables.scss";
 
 .btn-dark {
-    display: flex;
-    padding: 8px 48px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    background: $blue_800;
+  display: flex;
+  padding: 8px 48px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: $blue_800;
 
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 
-    user-select: none;
+  user-select: none;
 
-    > span {
-        color: $blue_50;
-        text-align: center;
-        @extend %B_20;
-    }
+  > span {
+    color: $blue_50;
+    text-align: center;
+    @extend %B_18;
+  }
 
-    &:hover {
-        cursor: pointer;
-        background: $blue_900;
-    }
+  &:hover {
+    cursor: pointer;
+    background: $blue_900;
+  }
 }
 
 .btn-light {
-    display: flex;
-    padding: 8px 48px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    border: 1px solid $blue_600;
-    background: $blue_50;
+  display: flex;
+  padding: 8px 48px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid $blue_600;
+  background: $blue_50;
 
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 
-    user-select: none;
+  user-select: none;
 
-    > span {
-        color: $black;
-        text-align: center;
-        @extend %B_20;
-    }
+  > span {
+    color: $black;
+    text-align: center;
+    @extend %B_18;
+  }
 
-    &:hover {
-        cursor: pointer;
-        background: $blue_600;
-    }
+  &:hover {
+    cursor: pointer;
+    background: $blue_600;
+  }
 }
 
-
 .btn-delete {
-    display: flex;
-    padding: 8px 12px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
 
-    position: absolute;
-    right: 12px;
-    top: 12px;
+  position: absolute;
+  right: 12px;
+  top: 12px;
 
-    border-radius: 5px;
-    border: 1px solid $blue_600;
-    background: $blue_50;
+  border-radius: 5px;
+  border: 1px solid $blue_600;
+  background: $blue_50;
 
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 
-    user-select: none;
+  user-select: none;
 
-    > span {
-        color: $black;
-        text-align: center;
-        @extend %B_16;
-    }
+  > span {
+    color: $black;
+    text-align: center;
+    @extend %B_16;
+  }
 
-    &:hover {
-        cursor: pointer;
-        background: $blue_600;
-    }
+  &:hover {
+    cursor: pointer;
+    background: $blue_600;
+  }
 }
 
 .btn-add {
-    display: flex;
-    padding: 8px 48px;
-    justify-content: center;
-    align-items: center;
-    flex: 1 0 0;
+  display: flex;
+  padding: 8px 48px;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
 
-    border-radius: 5px;
-    border: 1px solid $blue_600;
-    background: $blue_50;
+  border-radius: 5px;
+  border: 1px solid $blue_600;
+  background: $blue_50;
 
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 
-    user-select: none;
+  user-select: none;
 
-    > span {
-        color: $black;
-        text-align: center;
-        @extend %B_20;
-    }
+  > span {
+    color: $black;
+    text-align: center;
+    @extend %B_18;
+  }
 
-    &:hover {
-        cursor: pointer;
-        background: $blue_600;
-    }
+  &:hover {
+    cursor: pointer;
+    background: $blue_600;
+  }
 }

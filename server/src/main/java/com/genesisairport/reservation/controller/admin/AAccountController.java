@@ -2,10 +2,12 @@ package com.genesisairport.reservation.controller.admin;
 
 import com.genesisairport.reservation.common.enums.ResponseCode;
 import com.genesisairport.reservation.common.exception.GeneralException;
+import com.genesisairport.reservation.common.model.DataResponseDto;
 import com.genesisairport.reservation.common.model.PageInfo;
 import com.genesisairport.reservation.common.model.PageResponseDto;
 import com.genesisairport.reservation.common.model.ResponseDto;
 import com.genesisairport.reservation.common.util.RedisUtil;
+import com.genesisairport.reservation.entity.Admin;
 import com.genesisairport.reservation.request.AdminRequest;
 import com.genesisairport.reservation.response.AdminResponse;
 import com.genesisairport.reservation.service.admin.AAccountService;
@@ -19,13 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,40 +34,37 @@ public class AAccountController {
     private final RedisUtil redisUtil;
 
     @PostMapping("/login")
-    public ResponseEntity adminLogin(@RequestBody AdminRequest.Login loginDto, HttpServletRequest request) {
-
-        Long adminId = adminAccountService.adminLogin(loginDto);
+    public ResponseEntity<DataResponseDto<AdminResponse.AdminInfo>> adminLogin(@RequestBody AdminRequest.Login loginDto, HttpServletRequest request) {
+        Admin admin = adminAccountService.adminLogin(loginDto);
 
         HttpSession session = request.getSession(true);
-        session.setAttribute("admin", adminId);
         session.setMaxInactiveInterval(24 * 60 * 60); // TODO 개발 끝나면 값 변경
 
-        return new ResponseEntity(
-                ResponseDto.of(true, ResponseCode.OK),
+        System.out.println("admin id: " + admin.getAdminName());
+        return new ResponseEntity<>(
+                DataResponseDto.of(AdminResponse.AdminInfo.builder()
+                        .adminName(admin.getAdminName())
+                        .build()),
                 HttpStatus.OK
         );
     }
 
     @PostMapping("/logout")
-    public ResponseEntity adminLogout(HttpServletRequest request) {
+    public ResponseEntity<ResponseDto> adminLogout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
-        if (session != null) {
-            session.invalidate();
-            return new ResponseEntity(
-                    ResponseDto.of(true, ResponseCode.OK),
-                    HttpStatus.OK
-            );
-        }
+        if (session == null)
+            throw new GeneralException(ResponseCode.UNAUTHORIZED, "로그인 되어있지 않습니다.");
 
-        return new ResponseEntity(
-                ResponseDto.of(true, ResponseCode.UNAUTHORIZED),
+        session.invalidate();
+        return new ResponseEntity<>(
+                ResponseDto.of(true, ResponseCode.OK),
                 HttpStatus.OK
         );
     }
 
     @GetMapping
-    public ResponseEntity<PageResponseDto> searchAllAccounts(
+    public ResponseEntity<PageResponseDto<List<AdminResponse.AccountDetail>>> searchAllAccounts(
             Pageable pageable,
             @RequestParam String adminId,
             @RequestParam String adminName,
@@ -106,22 +99,17 @@ public class AAccountController {
     }
 
     @GetMapping("/session-validation")
-    public ResponseEntity<ResponseDto> isValidSession(HttpServletRequest request) {
+    public ResponseEntity<DataResponseDto<Boolean>> isValidSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
-        Boolean valid = false;
-        if (session != null) {
-            valid = redisUtil.isValid(session.getId());
-
-        }
-
-        // 유효하지 않은 세션인 경우
-        if (!valid) {
-            throw new GeneralException(ResponseCode.UNAUTHORIZED, "유효하지 않은 세션입니다.");
-        }
+        if (session == null || redisUtil.isValid(session.getId()))
+            return new ResponseEntity<>(
+                    DataResponseDto.of(Boolean.FALSE)
+                    , HttpStatus.OK
+            );
 
         return new ResponseEntity<>(
-                ResponseDto.of(true, ResponseCode.OK),
+                DataResponseDto.of(Boolean.TRUE),
                 HttpStatus.OK
         );
     }

@@ -1,8 +1,12 @@
-import classNames from 'classnames';
-import BtnDark from '../BtnDark';
-import BtnLight from '../BtnLight';
-import { useEffect, useRef, useState } from 'react';
-import { postMaintenanceImage } from '../../api/ReservationApi';
+import BtnDark from "../button/BtnDark";
+import BtnLight from "../button/BtnLight";
+import { useEffect, useRef, useState } from "react";
+import { postMaintenanceImage } from "../../api/ReservationApi";
+import ModalFrame from "./ModalFrame";
+import BtnGroup from "../button/BtnGroup";
+import InfoTable from "../infotable/InfoTable";
+import InfoItem from "../infotable/InfoItem";
+import InfoRow from "../infotable/InfoRow";
 
 export default function AddImageModal({
   reservationId,
@@ -38,41 +42,26 @@ export default function AddImageModal({
   }
 
   return (
-    <div className={classNames("modal-frame", { visible: visible })}>
-      <div className={classNames("modal")}>
-        <div className={classNames("title")}>
-          <span>정비 사진 추가</span>
-        </div>
-        <div className={classNames("content")}>
-          <div className={classNames("info-table")}>
-            <div className={classNames("tbody")}>
-              <div className={classNames("tr")}>
-                <div className={classNames("td", "header")}>
-                  <span>구분</span>
-                </div>
-                <div className={classNames("td")}>
-                  <select value={selectedStatus} onChange={onStatusChange}>
-                    <option value="0">정비 전</option>
-                    <option value="1">정비 후</option>
-                  </select>
-                </div>
-              </div>
-              <div className={classNames("tr")}>
-                <div className={classNames("td", "header")}>
-                  <span>파일 첨부</span>
-                </div>
-                <div className={classNames("td")}>
-                  <input type="file" onChange={onFileChange} ref={ref}></input>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classNames("btn-bottom")}>
-            <BtnDark text={"등록"} onClick={() => submitImage(reservationId)} />
-            <BtnLight text={"취소"} onClick={onClose} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <ModalFrame visible={visible} title={"정비 사진 추가"}>
+      <InfoTable>
+        <InfoRow>
+          <InfoItem label={"구분"}>
+            <select value={selectedStatus} onChange={onStatusChange}>
+              <option value='0'>정비 전</option>
+              <option value='1'>정비 후</option>
+            </select>
+          </InfoItem>
+        </InfoRow>
+        <InfoRow>
+          <InfoItem label={"파일 첨부"}>
+            <input type='file' onChange={onFileChange} ref={ref}></input>
+          </InfoItem>
+        </InfoRow>
+      </InfoTable>
+      <BtnGroup>
+        <BtnDark onClick={() => submitImage(reservationId)}>등록</BtnDark>
+        <BtnLight onClick={onClose}>취소</BtnLight>
+      </BtnGroup>
+    </ModalFrame>
   );
 }

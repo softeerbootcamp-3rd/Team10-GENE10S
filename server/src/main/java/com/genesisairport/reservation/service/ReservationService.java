@@ -258,6 +258,7 @@ public class ReservationService {
         return Optional.of(ReservationResponse.ReservationDetail.builder()
                 .reservationId(reservation.get().getId())
                 .customerId(customer.getId())
+                .customerName(customer.getName())
                 .couponSerialNumber(coupon.getSerialNumber())
                 .repairShop(repairShop.getShopName())
                 .repairShopAddress(repairShop.getAddress())

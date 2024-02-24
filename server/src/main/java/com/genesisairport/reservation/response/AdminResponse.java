@@ -10,6 +10,12 @@ public class AdminResponse {
 
     @Getter
     @Builder
+    public static class AdminInfo {
+        private String adminName;
+    }
+
+    @Getter
+    @Builder
     public static class ReservationDetail {
         private long reservationId;
         private String shopName;

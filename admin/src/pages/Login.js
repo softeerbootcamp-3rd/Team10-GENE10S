@@ -1,10 +1,15 @@
 import classNames from "classnames";
-import BtnDark from "../components/BtnDark";
+import BtnDark from "../components/button/BtnDark";
 import axios from "../api/Settings";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userNameState } from "../util/states";
+import { callLogin } from "../api/Common";
 
-export default function Main() {
+export default function Login() {
+  const [userName, setUserName] = useRecoilState(userNameState);
+
   const [adminId, setAdminId] = useState("");
   const [adminPwd, setAdminPwd] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
@@ -15,11 +20,11 @@ export default function Main() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const checkSession = async () => {
+  const checkSession = () => {
     axios
       .get("/v2/admin/account/session-validation")
       .then((response) => {
-        if (response.data && response.data.success) {
+        if (response.data && response.data.data) {
           navigate("/reservation");
         }
       })
@@ -37,22 +42,18 @@ export default function Main() {
   };
 
   const handleLoginClick = () => {
-    axios
-      .post("/v2/admin/account/login", { adminId, adminPwd })
-      .then((response) => {
-        if (response.data.success) {
-          navigate("/reservation");
-        } else {
-          setLoginFailed(true);
-        }
-      })
-      .catch((error) => {
-        console.error("로그인 오류: ", error);
-      });
+    callLogin(adminId, adminPwd).then((response) => {
+      if (response.success) {
+        setUserName(response.data.adminName);
+        navigate("/reservation");
+      } else {
+        setLoginFailed(true);
+      }
+    });
   };
 
   return (
-    <div className={classNames("login-page")}>
+    <div className={classNames("page")}>
       <div className={classNames("login-frame")}>
         <div className={classNames("title")}>
           <div className={classNames("text")}>Genesis Airport</div>
@@ -64,7 +65,7 @@ export default function Main() {
             <div className={classNames("input-container")}>
               <div className={classNames("text")}>아이디</div>
               <input
-                type="text"
+                type='text'
                 className={classNames("input-area")}
                 onChange={handleAdminIdChange}
               />
@@ -72,12 +73,12 @@ export default function Main() {
             <div className={classNames("input-container")}>
               <div className={classNames("text")}>비밀번호</div>
               <input
-                type="password"
+                type='password'
                 className={classNames("input-area")}
                 onChange={handleAdminPasswordChange}
               />
             </div>
-            <BtnDark text="로그인" onClick={handleLoginClick} />
+            <BtnDark onClick={handleLoginClick}>로그인</BtnDark>
             {loginFailed && (
               <div style={{ color: "red" }}>로그인에 실패했습니다.</div>
             )}{" "}

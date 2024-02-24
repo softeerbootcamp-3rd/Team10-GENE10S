@@ -82,6 +82,7 @@ public class ReservationResponse {
     public static class ReservationDetail {
         private long reservationId;
         private long customerId;
+        private String customerName;
         private String couponSerialNumber;
         private String repairShop;
         private String repairShopAddress;
