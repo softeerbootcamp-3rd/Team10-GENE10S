@@ -32,7 +32,7 @@ jobs:
 
       - name: .env setting
         run: |
-          echo "REACT_APP_REDIRECT_URI=${{ secrets.REACT_APP_REDIRECT_URI }}" >> .env
+          echo "REACT_APP_REDIRECT_URI_ADMIN=${{ secrets.REACT_APP_REDIRECT_URI_ADMIN }}" >> .env
           echo "REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }}" >> .env
           echo "REACT_APP_CLIENT_SECRET=${{ secrets.REACT_APP_CLIENT_SECRET }}" >> .env
           echo "REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}" >> .env
