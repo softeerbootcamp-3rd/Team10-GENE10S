@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import moment from "moment";
 import BtnDark from "../components/button/BtnDark";
-import SideBar from "../components/SideBar";
+import SideBar from "../components/common/SideBar";
 import { useRef, useState } from "react";
 import Arrow500 from "../components/svg/Arrow";
-import CustomCalendar from "../components/CustomCalendar";
+import CustomCalendar from "../components/common/CustomCalendar";
 import {
   getAvailableTime,
   addAvailableTime,

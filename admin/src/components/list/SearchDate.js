@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import CustomCalendar from "../CustomCalendar";
+import CustomCalendar from "../common/CustomCalendar";
 
 const SearchDate = ({
   label,
