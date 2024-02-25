@@ -52,11 +52,10 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 count, startDateTime, endDateTime
         );
 
-
         List<Tuple> tuples = query.select(
                         reservation.id,
-                        repairShop.shopName,
-                        customer.name,
+                        reservation.repairShop.shopName,
+                        reservation.customer.name,
                         reservation.sellName,
                         reservation.departureTime,
                         reservation.arrivalTime,
