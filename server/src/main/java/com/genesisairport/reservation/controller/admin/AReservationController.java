@@ -58,6 +58,7 @@ public class AReservationController {
 
     @GetMapping("/all")
     public ResponseEntity<ResponseDto> searchAllReservations(
+            Pageable pageable,
             HttpServletRequest request,
             @RequestParam(value = "shopName", required = false) String shopName,
             @RequestParam(value = "startPickUpDateTime", required = false) String startPickUpDateTime,
@@ -68,9 +69,7 @@ public class AReservationController {
             @RequestParam(value = "sellName", required = false) String sellName,
             @RequestParam(value = "stage", required = false) String stage,
             @RequestParam(value = "sortColumn", required = false) String sortColumn,
-            @RequestParam(value = "sortDirection", required = false) String sortDirection,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
-            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber)
+            @RequestParam(value = "sortDirection", required = false) String sortDirection)
             {
 
         Long userId = SessionUtil.getAdminIdFromSession(request);
@@ -92,9 +91,6 @@ public class AReservationController {
                 .sortColumn(sortColumn)
                 .sortDirection(sortDirection)
                 .build();
-
-        Pageable pageable = PageRequest.of(pageNumber - 1,
-                pageSize, Sort.by("createdDatetime").descending());
 
         Page<AdminResponse.ReservationDetail> reservationDetailPage = aReservationService.getAllReservations(
                 requestBody, pageable
