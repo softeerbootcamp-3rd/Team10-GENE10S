@@ -49,8 +49,8 @@ public class AShopService {
 
         AvailableTime availableTime = AvailableTime.builder()
                 .repairShop(repairShop.get())
-                .reservationDate(date)
-                .reservationTime(time)
+//                .reservationDate(date)
+//                .reservationTime(time)
                 .reservationCount(repairShop.get().getCapacityPerTime())
                 .createDatetime(LocalDateTime.now())
                 .updateDatetime(LocalDateTime.now())

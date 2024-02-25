@@ -10,7 +10,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
     @Override
     public ReservationResponse.DateInfo findAvailableDates(String shopName) {
         LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+
         LocalDate twoWeeksLater = today.plusWeeks(2);
         LocalDate twoMonthsLater = today.plusMonths(2);
 
@@ -33,11 +36,13 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
                     availableTime.reservationDate,
                     availableTime.reservationTime,
                     availableTime.reservationCount,
-                    repairShop.capacityPerTime
+                    availableTime.repairShop.capacityPerTime
                 )
-                .from(repairShop)
-                .innerJoin(availableTime).on(availableTime.repairShop.id.eq(repairShop.id))
-                .where(repairShop.shopName.eq(shopName))
+                .from(availableTime)
+                .where(availableTime.repairShop.shopName.eq(shopName)
+                        .and(availableTime.reservationDate.between(
+                                twoWeeksLater, twoMonthsLater
+                        )))
                 .orderBy(availableTime.reservationTime.asc())
                 .fetch();
 
@@ -48,8 +53,8 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
         Set<String> set = new HashSet<>();
 
         for (Tuple t : tuples) {
-            Date date = t.get(0, Date.class);
-            String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            LocalDate date = t.get(0, LocalDate.class);
+            String formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
             int cnt = t.get(2, Integer.class);
             int capacity = t.get(3, Integer.class);
 
@@ -77,7 +82,7 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
                 .from(repairShop)
                 .innerJoin(availableTime).on(availableTime.repairShop.eq(repairShop))
                 .where(repairShop.shopName.eq(shopName)
-                        .and(availableTime.reservationDate.eq(Date.valueOf(date))))
+                        .and(availableTime.reservationDate.eq(date)))
                 .orderBy(availableTime.reservationTime.asc())
                 .fetch();
 

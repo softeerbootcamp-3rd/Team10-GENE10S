@@ -27,7 +27,7 @@ public class AvailableTimeRepositoryImpl implements AvailableTimeRepositoryCusto
                         availableTime.reservationTime)
                 .from(availableTime)
                 .innerJoin(availableTime).on(availableTime.repairShop.eq(repairShop))
-                .where(availableTime.reservationDate.between(Date.valueOf(dateFrom), Date.valueOf(dateTo))
+                .where(availableTime.reservationDate.between(dateFrom, dateTo)
                         .and(repairShop.shopName.eq(shopName)))
                 .orderBy(availableTime.reservationTime.asc())
                 .fetch();

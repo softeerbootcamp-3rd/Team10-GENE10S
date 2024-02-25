@@ -9,7 +9,9 @@ import org.hibernate.annotations.DynamicInsert;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "available_time")
@@ -24,10 +26,10 @@ public class AvailableTime {
     private Long id;
 
     @Column(name = "reservation_date", nullable = false)
-    private Date reservationDate;
+    private LocalDate reservationDate;
 
     @Column(name = "reservation_time", nullable = false)
-    private Time reservationTime;
+    private LocalTime reservationTime;
 
     @Column(name = "reservation_count", nullable = false)
     @Getter
