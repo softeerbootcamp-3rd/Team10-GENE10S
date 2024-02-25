@@ -38,7 +38,8 @@ public class AReservationService {
     private final RepairShopRepository repairShopRepository;
 
     public Page<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail reservationDetail, Pageable pageable) {
-        return reservationRepository.findReservations(reservationDetail, pageable);
+        Long count = reservationRepository.countAllBy();
+        return reservationRepository.findReservations(reservationDetail, pageable, count);
     }
 
     public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {

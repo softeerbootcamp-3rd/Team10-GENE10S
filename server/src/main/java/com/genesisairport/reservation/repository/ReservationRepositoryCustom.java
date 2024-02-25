@@ -10,6 +10,6 @@ import java.util.List;
 public interface ReservationRepositoryCustom {
 
     Page<AdminResponse.ReservationDetail> findReservations(
-            AdminRequest.ReservationDetail reservationDetail, Pageable pageable
+            AdminRequest.ReservationDetail reservationDetail, Pageable pageable, Long count
     );
 }

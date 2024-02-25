@@ -6,6 +6,8 @@ import com.genesisairport.reservation.response.AdminResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -31,21 +33,23 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
 
     @Override
     public Page<AdminResponse.ReservationDetail> findReservations(
-            AdminRequest.ReservationDetail reservationDetail, Pageable pageable
+            AdminRequest.ReservationDetail reservationDetail, Pageable pageable, Long count
     ) {
+
+        JPAQuery<AdminResponse.ReservationDetail> query = new JPAQuery<>(entityManager);
 
         BooleanBuilder builderForWhereClause = getBuilderForWhereClause(
                 reservationDetail.getShopName(), reservationDetail.getStartPickupDateTime(),
                 reservationDetail.getEndPickupDateTime(), reservationDetail.getStartReturnDateTime(),
                 reservationDetail.getEndReturnDateTime(), reservationDetail.getCustomerName(),
-                reservationDetail.getSellName(), reservationDetail.getStage()
+                reservationDetail.getSellName(), reservationDetail.getStage(),
+                pageable.getOffset(), pageable.getPageSize(),
+                reservationDetail.getSortColumn(), reservationDetail.getSortDirection(), count
         );
 
         OrderSpecifier<?> orderBySpecifier = getOrderBySpecifier(
                 reservationDetail.getSortColumn(), reservationDetail.getSortDirection()
         );
-
-        JPAQuery<AdminResponse.ReservationDetail> query = new JPAQuery<>(entityManager);
 
         List<Tuple> tuples = query.select(
                         reservation.id,
@@ -59,15 +63,11 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 .from(reservation)
                 .where(builderForWhereClause)
                 .orderBy(orderBySpecifier)
-                .offset(pageable.getOffset()) // 페이지네이션 오프셋 설정
-                .limit(pageable.getPageSize()) // 페이지 크기 설정
                 .fetch();
-
-        long totalCount = query.fetchCount(); // 총 개수 가져오기
 
         List<AdminResponse.ReservationDetail> reservationDetailList = convertToReservationDetailAdmin(tuples);
 
-        return new PageImpl<>(reservationDetailList, pageable, totalCount);
+        return new PageImpl<>(reservationDetailList, pageable, count);
     }
 
     private List<AdminResponse.ReservationDetail> convertToReservationDetailAdmin(List<Tuple> tuples) {
@@ -87,8 +87,32 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
         return reservationDetailAdmins;
     }
 
-    private BooleanBuilder getBuilderForWhereClause(String shopName, String startPickupDate, String endPickupDate, String startReturnDate, String endReturnDate, String customerName, String sellName, String stage) {
+    private BooleanBuilder getBuilderForWhereClause(
+            String shopName, String startPickupDate, String endPickupDate, String startReturnDate,
+            String endReturnDate, String customerName, String sellName, String stage,
+            long offset, int pageSize, String sortColumn, String sortDirection, Long count) {
         BooleanBuilder builderForWhereClause = new BooleanBuilder();
+
+        if (sortColumn == null && sortDirection == null) {
+            builderForWhereClause.and(reservation.id.between(
+                            offset,
+                            offset + pageSize
+                    ));
+        }
+        else if (sortColumn.equals("id")) {
+            if (sortDirection.equals("asc")) {
+                builderForWhereClause.and(reservation.id.between(
+                        offset,
+                        offset + pageSize
+                ));
+            }
+            else {
+                builderForWhereClause.and(reservation.id.between(
+                        count - offset - pageSize,
+                        count - offset
+                ));
+            }
+        }
 
         if (!Strings.isEmpty(shopName)) { // null 이거나 "" 가 아니면
             builderForWhereClause.and(repairShop.shopName.contains(shopName));
