@@ -52,9 +52,6 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 count, startDateTime, endDateTime
         );
 
-        OrderSpecifier<?> orderBySpecifier = getOrderBySpecifier(
-                reservationDetail.getSortColumn(), reservationDetail.getSortDirection()
-        );
 
         List<Tuple> tuples = query.select(
                         reservation.id,
@@ -67,7 +64,6 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 )
                 .from(reservation)
                 .where(builderForWhereClause)
-                .orderBy(orderBySpecifier)
                 .limit(pageable.getPageSize())
                 .fetch();
 
@@ -152,29 +148,6 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
         return builderForWhereClause;
     }
 
-    private OrderSpecifier<?> getOrderBySpecifier(String sortColumn, String sortDirection) {
-        if (Strings.isEmpty(sortColumn)) {
-            return reservation.id.asc();
-        }
-
-        OrderSpecifier<?> orderBySpecifier;
-
-        switch (sortColumn) {
-            case "id":
-                orderBySpecifier = sortDirection.equals("asc") ? reservation.id.asc() : reservation.id.desc();
-                break;
-            case "departureTime":
-                orderBySpecifier = sortDirection.equals("asc") ? reservation.departureTime.asc() : reservation.departureTime.desc();
-                break;
-            case "arrivalTime":
-                orderBySpecifier = sortDirection.equals("asc") ? reservation.arrivalTime.asc() : reservation.arrivalTime.desc();
-                break;
-            default:
-                orderBySpecifier = reservation.id.asc();
-                break;
-        }
-        return orderBySpecifier;
-    }
 
     @Override
     public LocalDateTime findNthByTime(boolean fastest, boolean byDepartureTime, long n) {
