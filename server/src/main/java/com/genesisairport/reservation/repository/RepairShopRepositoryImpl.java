@@ -43,7 +43,7 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
                         .and(availableTime.reservationDate.between(
                                 twoWeeksLater, twoMonthsLater
                         )))
-                .orderBy(availableTime.reservationTime.asc())
+                .orderBy(availableTime.reservationDate.asc())
                 .fetch();
 
         return convertToDateInfo(tuples);
@@ -64,7 +64,7 @@ public class RepairShopRepositoryImpl implements RepairShopRepositoryCustom {
         }
 
         List<String> availableDates = new ArrayList<>(set);
-        Collections.reverse(availableDates);
+        Collections.sort(availableDates);
         return ReservationResponse.DateInfo.builder()
                 .availableDates(availableDates)
                 .build();
