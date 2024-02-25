@@ -9,6 +9,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,12 @@ import static com.genesisairport.reservation.entity.QReservation.reservation;
 public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
 
     private final EntityManager entityManager;
+    private final JPAQueryFactory jpaQueryFactory;
 
     @Override
     public Page<AdminResponse.ReservationDetail> findReservations(
-            AdminRequest.ReservationDetail reservationDetail, Pageable pageable, Long count
+            AdminRequest.ReservationDetail reservationDetail, Pageable pageable,
+            Long count, LocalDateTime startDateTime, LocalDateTime endDateTime
     ) {
 
         JPAQuery<AdminResponse.ReservationDetail> query = new JPAQuery<>(entityManager);
@@ -44,7 +47,8 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 reservationDetail.getEndReturnDateTime(), reservationDetail.getCustomerName(),
                 reservationDetail.getSellName(), reservationDetail.getStage(),
                 pageable.getOffset(), pageable.getPageSize(),
-                reservationDetail.getSortColumn(), reservationDetail.getSortDirection(), count
+                reservationDetail.getSortColumn(), reservationDetail.getSortDirection(),
+                count, startDateTime, endDateTime
         );
 
         OrderSpecifier<?> orderBySpecifier = getOrderBySpecifier(
@@ -63,6 +67,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 .from(reservation)
                 .where(builderForWhereClause)
                 .orderBy(orderBySpecifier)
+                .limit(pageable.getPageSize())
                 .fetch();
 
         List<AdminResponse.ReservationDetail> reservationDetailList = convertToReservationDetailAdmin(tuples);
@@ -90,7 +95,8 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
     private BooleanBuilder getBuilderForWhereClause(
             String shopName, String startPickupDate, String endPickupDate, String startReturnDate,
             String endReturnDate, String customerName, String sellName, String stage,
-            long offset, int pageSize, String sortColumn, String sortDirection, Long count) {
+            long offset, int pageSize, String sortColumn, String sortDirection,
+            Long count, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         BooleanBuilder builderForWhereClause = new BooleanBuilder();
 
         if (sortColumn == null && sortDirection == null) {
@@ -98,8 +104,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                             offset,
                             offset + pageSize
                     ));
-        }
-        else if (sortColumn.equals("id")) {
+        } else if (sortColumn.equals("id")) {
             if (sortDirection.equals("asc")) {
                 builderForWhereClause.and(reservation.id.between(
                         offset,
@@ -112,6 +117,11 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                         count - offset
                 ));
             }
+        } else if (sortColumn.equals("departureTime")) {
+            builderForWhereClause.and(reservation.departureTime.between(
+                    startDateTime,
+                    endDateTime
+            ));
         }
 
         if (!Strings.isEmpty(shopName)) { // null 이거나 "" 가 아니면
@@ -158,5 +168,29 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 break;
         }
         return orderBySpecifier;
+    }
+
+    @Override
+    public LocalDateTime findNthFastestByDepartureTime(long n) {
+        return jpaQueryFactory
+                .select(
+                    reservation.departureTime
+                )
+                .from(reservation)
+                .orderBy(reservation.departureTime.asc())
+                .offset(n)
+                .fetchFirst();
+    }
+
+    @Override
+    public LocalDateTime findNthSlowestByDepartureTime(long n) {
+        return jpaQueryFactory
+                .select(
+                        reservation.departureTime
+                )
+                .from(reservation)
+                .orderBy(reservation.departureTime.desc())
+                .offset(n)
+                .fetchFirst();
     }
 }

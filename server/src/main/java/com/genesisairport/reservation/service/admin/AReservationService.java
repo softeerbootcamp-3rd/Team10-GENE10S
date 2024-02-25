@@ -39,7 +39,25 @@ public class AReservationService {
 
     public Page<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail reservationDetail, Pageable pageable) {
         Long count = reservationRepository.countAllBy();
-        return reservationRepository.findReservations(reservationDetail, pageable, count);
+
+        LocalDateTime startDateTime = null;
+        LocalDateTime endDateTime = null;
+        if (reservationDetail.getSortColumn().equals("departureTime")) {
+            if (reservationDetail.getSortDirection().equals("asc")) {
+                startDateTime = reservationRepository.findNthFastestByDepartureTime(pageable.getOffset());
+                endDateTime = reservationRepository.findNthFastestByDepartureTime(
+                        pageable.getOffset() + pageable.getPageSize()
+                );
+            } else {
+                startDateTime = reservationRepository.findNthSlowestByDepartureTime(pageable.getOffset());
+                endDateTime = reservationRepository.findNthSlowestByDepartureTime(
+                        pageable.getOffset() + pageable.getPageSize()
+                );
+            }
+        }
+
+        return reservationRepository.findReservations(reservationDetail, pageable, count,
+                startDateTime, endDateTime);
     }
 
     public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {
