@@ -122,6 +122,11 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                     startDateTime,
                     endDateTime
             ));
+        } else if (sortColumn.equals("arrivalTime")) {
+            builderForWhereClause.and(reservation.arrivalTime.between(
+                    startDateTime,
+                    endDateTime
+            ));
         }
 
         if (!Strings.isEmpty(shopName)) { // null 이거나 "" 가 아니면
@@ -190,6 +195,30 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 )
                 .from(reservation)
                 .orderBy(reservation.departureTime.desc())
+                .offset(n)
+                .fetchFirst();
+    }
+
+    @Override
+    public LocalDateTime findNthFastestByArrivalTime(long n) {
+        return jpaQueryFactory
+                .select(
+                        reservation.arrivalTime
+                )
+                .from(reservation)
+                .orderBy(reservation.arrivalTime.asc())
+                .offset(n)
+                .fetchFirst();
+    }
+
+    @Override
+    public LocalDateTime findNthSlowestByArrivalTime(long n) {
+        return jpaQueryFactory
+                .select(
+                        reservation.arrivalTime
+                )
+                .from(reservation)
+                .orderBy(reservation.arrivalTime.desc())
                 .offset(n)
                 .fetchFirst();
     }

@@ -54,6 +54,18 @@ public class AReservationService {
                         pageable.getOffset() + pageable.getPageSize()
                 );
             }
+        } else if (reservationDetail.getSortColumn().equals("arrivalTime")) {
+            if (reservationDetail.getSortDirection().equals("asc")) {
+                startDateTime = reservationRepository.findNthFastestByArrivalTime(pageable.getOffset());
+                endDateTime = reservationRepository.findNthFastestByArrivalTime(
+                        pageable.getOffset() + pageable.getPageSize()
+                );
+            } else {
+                startDateTime = reservationRepository.findNthSlowestByArrivalTime(pageable.getOffset());
+                endDateTime = reservationRepository.findNthSlowestByArrivalTime(
+                        pageable.getOffset() + pageable.getPageSize()
+                );
+            }
         }
 
         return reservationRepository.findReservations(reservationDetail, pageable, count,

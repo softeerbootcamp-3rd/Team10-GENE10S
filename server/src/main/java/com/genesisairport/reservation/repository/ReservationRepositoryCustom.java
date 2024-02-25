@@ -17,4 +17,6 @@ public interface ReservationRepositoryCustom {
 
     LocalDateTime findNthFastestByDepartureTime(long n);
     LocalDateTime findNthSlowestByDepartureTime(long n);
+    LocalDateTime findNthFastestByArrivalTime(long n);
+    LocalDateTime findNthSlowestByArrivalTime(long n);
 }
