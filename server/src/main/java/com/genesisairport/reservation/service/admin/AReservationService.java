@@ -44,26 +44,34 @@ public class AReservationService {
         LocalDateTime endDateTime = null;
         if (reservationDetail.getSortColumn().equals("departureTime")) {
             if (reservationDetail.getSortDirection().equals("asc")) {
-                startDateTime = reservationRepository.findNthFastestByDepartureTime(pageable.getOffset());
-                endDateTime = reservationRepository.findNthFastestByDepartureTime(
-                        pageable.getOffset() + pageable.getPageSize()
+                startDateTime = reservationRepository.findNthByTime(
+                        true, true, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        true, true, pageable.getOffset() + pageable.getPageSize()
                 );
             } else {
-                startDateTime = reservationRepository.findNthSlowestByDepartureTime(pageable.getOffset());
-                endDateTime = reservationRepository.findNthSlowestByDepartureTime(
-                        pageable.getOffset() + pageable.getPageSize()
+                startDateTime = reservationRepository.findNthByTime(
+                        false, true, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        false, true, pageable.getOffset() + pageable.getPageSize()
                 );
             }
         } else if (reservationDetail.getSortColumn().equals("arrivalTime")) {
             if (reservationDetail.getSortDirection().equals("asc")) {
-                startDateTime = reservationRepository.findNthFastestByArrivalTime(pageable.getOffset());
-                endDateTime = reservationRepository.findNthFastestByArrivalTime(
-                        pageable.getOffset() + pageable.getPageSize()
+                startDateTime = reservationRepository.findNthByTime(
+                        true, false, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        true, false, pageable.getOffset() + pageable.getPageSize()
                 );
             } else {
-                startDateTime = reservationRepository.findNthSlowestByArrivalTime(pageable.getOffset());
-                endDateTime = reservationRepository.findNthSlowestByArrivalTime(
-                        pageable.getOffset() + pageable.getPageSize()
+                startDateTime = reservationRepository.findNthByTime(
+                        false, false, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        false, false, pageable.getOffset() + pageable.getPageSize()
                 );
             }
         }

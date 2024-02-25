@@ -7,6 +7,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.ComparableExpression;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -176,50 +177,18 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
     }
 
     @Override
-    public LocalDateTime findNthFastestByDepartureTime(long n) {
+    public LocalDateTime findNthByTime(boolean fastest, boolean byDepartureTime, long n) {
+        ComparableExpression<LocalDateTime> timeExpression = byDepartureTime ? reservation.departureTime : reservation.arrivalTime;
+
         return jpaQueryFactory
-                .select(
-                    reservation.departureTime
-                )
+                .select(timeExpression)
                 .from(reservation)
-                .orderBy(reservation.departureTime.asc())
+                .orderBy(fastest ? timeExpression.asc() : timeExpression.desc())
                 .offset(n)
+                .limit(1)
                 .fetchFirst();
+
     }
 
-    @Override
-    public LocalDateTime findNthSlowestByDepartureTime(long n) {
-        return jpaQueryFactory
-                .select(
-                        reservation.departureTime
-                )
-                .from(reservation)
-                .orderBy(reservation.departureTime.desc())
-                .offset(n)
-                .fetchFirst();
-    }
 
-    @Override
-    public LocalDateTime findNthFastestByArrivalTime(long n) {
-        return jpaQueryFactory
-                .select(
-                        reservation.arrivalTime
-                )
-                .from(reservation)
-                .orderBy(reservation.arrivalTime.asc())
-                .offset(n)
-                .fetchFirst();
-    }
-
-    @Override
-    public LocalDateTime findNthSlowestByArrivalTime(long n) {
-        return jpaQueryFactory
-                .select(
-                        reservation.arrivalTime
-                )
-                .from(reservation)
-                .orderBy(reservation.arrivalTime.desc())
-                .offset(n)
-                .fetchFirst();
-    }
 }
