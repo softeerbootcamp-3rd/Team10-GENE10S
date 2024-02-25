@@ -5,7 +5,7 @@ import Calendar from '../Calendar';
 import TimeSlots from '../TimeSlots';
 import { getAvailableDate, getAvailableTime } from '../../api/ReservationApi';
 
-export default function ModalDate({ nextStep, props, fadeIn }) {
+export default function ModalDate({ nextStep, props, fadeIn, shopName }) {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
@@ -31,10 +31,10 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
   const [calendarDay, setCalendarDay] = useState(null);
 
   useEffect(() => {
-    getAvailableDate().then(result => {
+    getAvailableDate(shopName).then(result => {
       setAvailableDates(result.availableDates);
     });
-  }, []);
+  }, [shopName]);
 
   const handleNext = () => {
     if (departureTime === '' || pickupTime === '') return;
@@ -121,7 +121,7 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
       setPickupTime(null);
     }
 
-    getAvailableTime(year, month, day).then(result => {
+    getAvailableTime(year, month, day, shopName).then(result => {
       setTimeData(result.timeSlots);
       setShowTimes(true);
     });
@@ -146,7 +146,7 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
     setCalendarMonth(departureMonth != null ? departureMonth : currentMonth);
     setCalendarDay(departureDay);
     if (departureDay != null) {
-      getAvailableTime(departureYear, departureMonth, departureDay).then(result => {
+      getAvailableTime(departureYear, departureMonth, departureDay, shopName).then(result => {
         setTimeData(result.timeSlots);
         setShowTimes(true);
       });
@@ -161,7 +161,7 @@ export default function ModalDate({ nextStep, props, fadeIn }) {
     setCalendarMonth(pickupMonth != null ? pickupMonth : currentMonth);
     setCalendarDay(pickupDay);
     if (pickupDay != null) {
-      getAvailableTime(pickupYear, pickupMonth, pickupDay).then(result => {
+      getAvailableTime(pickupYear, pickupMonth, pickupDay, shopName).then(result => {
         setTimeData(result.timeSlots);
         setShowTimes(true);
       });

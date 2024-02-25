@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import BtnDark from "../button/BtnDark";
 import BtnLight from "../button/BtnLight";
 import ModalFrame from "./ModalFrame";
@@ -13,12 +13,11 @@ export default function AvailableTimeModal({
   onCancel,
   visible,
 }) {
-  const inputRef = useRef();
-
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [state, setState] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (date === undefined || date === "") return;
@@ -33,28 +32,28 @@ export default function AvailableTimeModal({
   }, [date]);
 
   useEffect(() => {
-    inputRef.current.value = "";
+    setMessage("");
   }, [visible]);
 
   useEffect(() => {
     setState(status);
   }, [status]);
 
-  function handleConfirm() {
+  async function handleConfirm() {
     if (status === "add") {
       onConfirm(date, time);
     } else {
       if (hasReserv) {
-        onConfirm(date, time, inputRef.current.value);
+        await onConfirm(date, time, message);
       } else {
-        onConfirm(date, time);
+        await onConfirm(date, time);
       }
     }
-    inputRef.current.value = "";
+    setMessage("");
   }
 
   function handleCancel() {
-    inputRef.current.value = "";
+    setMessage("");
     onCancel();
   }
 
@@ -74,9 +73,7 @@ export default function AvailableTimeModal({
           </span>
         )}
       </div>
-      {hasReserv && (
-        <textarea type='text' className='input-text' rows='10' ref={inputRef} />
-      )}
+      {hasReserv && <textarea type='text' className='input-text' rows='10' onChange={e => setMessage(e.target.value)} value={message} />}
       <BtnGroup>
         <BtnDark onClick={handleConfirm}>완료</BtnDark>
         <BtnLight onClick={handleCancel}>취소</BtnLight>

@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import BtnLight from "../button/BtnLight";
+import { Link } from "react-router-dom";
 
 const TableRow = ({ data, headerInfo }) => {
   return (
-    <div className={classNames("tr")}>
+    <Link to={`${data.key}/detail`} className={classNames("tr")}>
       {headerInfo.map((info) => {
         if (data[info.name] === undefined) return null;
         return (
@@ -22,7 +23,7 @@ const TableRow = ({ data, headerInfo }) => {
           </div>
         );
       })}
-    </div>
+    </Link>
   );
 };
 

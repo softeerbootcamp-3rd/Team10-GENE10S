@@ -64,7 +64,11 @@ public class UserService {
         if (!Strings.isEmpty(userInfo.getName()))
             customer.get().setName(userInfo.getName());
         if (!Strings.isEmpty(userInfo.getBirthdate()))
-            customer.get().setBirthdate(LocalDate.parse(userInfo.getBirthdate()));
+            try {
+                customer.get().setBirthdate(LocalDate.parse(userInfo.getBirthdate()));
+            } catch (Exception e) {
+                throw new GeneralException(ResponseCode.BAD_REQUEST, "올바른 날짜 형식이 아닙니다.");
+            }
         if (!Strings.isEmpty(userInfo.getPhoneNumber()))
             customer.get().setPhoneNumber(userInfo.getPhoneNumber());
 

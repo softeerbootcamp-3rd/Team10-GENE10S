@@ -74,7 +74,7 @@ export default function AccountList() {
   };
 
   return (
-    <AdminPage pageName='관리자 계정 관리'>
+    <AdminPage pageName='account'>
       <SearchArea>
         <SearchRow>
           <SearchInput label='아이디' inputRef={userIdRef} />

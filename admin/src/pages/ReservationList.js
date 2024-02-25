@@ -97,7 +97,7 @@ export default function ReservationList() {
   }, [sortDirection, sortColumn]);
 
   return (
-    <AdminPage pageName='예약 관리'>
+    <AdminPage pageName='reservation'>
       <SearchArea>
         <SearchRow>
           <SearchSelect
