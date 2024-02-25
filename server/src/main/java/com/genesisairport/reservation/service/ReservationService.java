@@ -18,6 +18,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -143,8 +144,8 @@ public class ReservationService {
 
     public void synchronizeCache(RepairShop repairShop, LocalDateTime dateTime, String fromDateTimeKey) {
         Optional<Integer> existFromCache = concurrencyManager.get(RedisKey.RESERVATION, fromDateTimeKey);
-        Date date = Date.valueOf(dateTime.toLocalDate());
-        Time time = Time.valueOf(dateTime.toLocalTime());
+        LocalDate date = dateTime.toLocalDate();
+        LocalTime time = dateTime.toLocalTime();
         if (existFromCache.isEmpty()) {
             Optional<AvailableTime> availableTime = availableTimeRepository.findExactAvailableTime(
                     repairShop.getId(), date, time);

@@ -21,6 +21,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,12 @@ public class AShopService {
     private final AReservationService aReservationService;
 
     public ResponseCode addAvailableTime(AdminRequest.ReservationTime requestBody) {
-        Date date = CommonDateFormat.date(requestBody.getBusinessDay());
-        Time time = CommonDateFormat.time(requestBody.getBusinessDay());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(requestBody.getBusinessDay(), formatter);
+
+        LocalDate date = localDateTime.toLocalDate();
+        LocalTime time = localDateTime.toLocalTime();
 
         Optional<RepairShop> repairShop = repairShopRepository.findByShopName(requestBody.getShopName());
         if (repairShop.isEmpty()) {
@@ -49,8 +54,8 @@ public class AShopService {
 
         AvailableTime availableTime = AvailableTime.builder()
                 .repairShop(repairShop.get())
-//                .reservationDate(date)
-//                .reservationTime(time)
+                .reservationDate(date)
+                .reservationTime(time)
                 .reservationCount(repairShop.get().getCapacityPerTime())
                 .createDatetime(LocalDateTime.now())
                 .updateDatetime(LocalDateTime.now())
@@ -62,8 +67,11 @@ public class AShopService {
     }
 
     public ResponseCode deleteAvailableTime(String shopName, String businessDay) {
-        Date date = CommonDateFormat.date(businessDay);
-        Time time = CommonDateFormat.time(businessDay);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(businessDay, formatter);
+
+        LocalDate date = localDateTime.toLocalDate();
+        LocalTime time = localDateTime.toLocalTime();
 
         Optional<RepairShop> repairShop = repairShopRepository.findByShopName(shopName);
         if (repairShop.isEmpty()) {
@@ -92,8 +100,8 @@ public class AShopService {
         }
 
         LocalDateTime datetime = CommonDateFormat.localDateTime(businessTime);
-        Date date = Date.valueOf(LocalDate.parse(businessTime.split(" ")[0]));
-        Time time = Time.valueOf(LocalTime.parse(businessTime.split(" ")[1]));
+        LocalDate date = LocalDate.parse(businessTime.split(" ")[0]);
+        LocalTime time = LocalTime.parse(businessTime.split(" ")[1]);
 
         try {
             List<Reservation> reservations = reservationRepository.findReservationsBy(repairShop.get().getId(), datetime);
