@@ -57,8 +57,6 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                         reservation.progressStage
                 )
                 .from(reservation)
-                .innerJoin(customer).on(reservation.customer.eq(customer))
-                .innerJoin(repairShop).on(reservation.repairShop.eq(repairShop))
                 .where(builderForWhereClause)
                 .orderBy(orderBySpecifier)
                 .offset(pageable.getOffset()) // 페이지네이션 오프셋 설정
