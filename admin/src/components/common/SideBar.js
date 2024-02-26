@@ -61,7 +61,7 @@ export default function SideBar({ currentPage }) {
           className={classNames("menu", { active: currentPage === "account" })}
         >
           <MenuImage />
-          <span>관리자 계정관리</span>
+          <span>관리자 계정 관리</span>
         </Link>
       </div>
     </div>
