@@ -10,6 +10,7 @@ import {
   deleteProgress,
   getReservationDetail,
   postProgress,
+  saveComment,
 } from "../api/ReservationApi";
 import BtnGroup from "../components/button/BtnGroup";
 import InfoTable from "../components/infotable/InfoTable";
@@ -20,6 +21,7 @@ import serviceTypes from "../constants/serviceTypes";
 import ReservationSteps from "../components/common/ReservationSteps";
 import InfoImage from "../components/infotable/InfoImage";
 import InfoRow from "../components/infotable/InfoRow";
+import SimpleModal from "../components/modal/SimpleModal";
 
 export const ReservationDetail = () => {
   const navigate = useNavigate();
@@ -27,6 +29,8 @@ export const ReservationDetail = () => {
 
   const [isAdding, setIsAdding] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [commentModalVisible, setCommentModalVisible] = useState(false);
+  const [commentModalText, setCommentModalText] = useState("");
   const [modalStatus, setModalStatus] = useState(0);
 
   const [shopName, setShopName] = useState(null);
@@ -59,6 +63,7 @@ export const ReservationDetail = () => {
 
   const stepTitleRef = useRef();
   const stepContentRef = useRef();
+  const commentRef = useRef();
 
   const [selectedStep, setSelectedStep] = useState("예약완료");
   const [stepContent, setStepContent] = useState(null);
@@ -77,6 +82,8 @@ export const ReservationDetail = () => {
         setReservationSteps(response.progressStage);
         setBeforeImages(response.beforeImages);
         setAfterImages(response.afterImages);
+        if (response.inspectionResult)
+          commentRef.current.value = response.inspectionResult;
       })
       .catch((error) => {
         console.error("Error registering car:", error);
@@ -129,6 +136,13 @@ export const ReservationDetail = () => {
     });
   }
 
+  function handleSaveComment() {
+    saveComment(reservationId, commentRef.current.value).then((response) => {
+      setCommentModalVisible(true);
+      setCommentModalText(response.data.message);
+    });
+  }
+
   function showImageModal(status) {
     setModalVisible(true);
     setModalStatus(status);
@@ -144,6 +158,7 @@ export const ReservationDetail = () => {
 
   function closeModal() {
     setModalVisible(false);
+    setCommentModalVisible(false);
   }
 
   return (
@@ -272,6 +287,12 @@ export const ReservationDetail = () => {
               </BtnLight>
             </InfoItem>
           </InfoRow>
+          <InfoRow>
+            <InfoItem label='정비 코멘트'>
+              <textarea ref={commentRef}></textarea>
+              <BtnLight onClick={handleSaveComment}>저장</BtnLight>
+            </InfoItem>
+          </InfoRow>
         </InfoTable>
         <BtnGroup>
           <BtnDark onClick={() => navigate("/reservation")}>목록</BtnDark>
@@ -283,6 +304,11 @@ export const ReservationDetail = () => {
         onPost={showAddedImage}
         onClose={closeModal}
         visible={modalVisible}
+      />
+      <SimpleModal
+        text={commentModalText}
+        onClose={closeModal}
+        visible={commentModalVisible}
       />
     </>
   );

@@ -1,12 +1,14 @@
-import classNames from 'classnames'
+import classNames from "classnames";
 
 const InfoGrid = ({ label, children }) => {
   return (
     <>
-      <div className={classNames('td', 'header')}>{label}</div>
-      <div className={classNames('td', 'grid')}>{children}</div>
+      <div className={classNames("td", "header")}>
+        <span>{label}</span>
+      </div>
+      <div className={classNames("td", "grid")}>{children}</div>
     </>
-  )
-}
+  );
+};
 
-export default InfoGrid
+export default InfoGrid;

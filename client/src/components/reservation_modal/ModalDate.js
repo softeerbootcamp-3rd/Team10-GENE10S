@@ -150,6 +150,8 @@ export default function ModalDate({ nextStep, props, fadeIn, shopName }) {
         setTimeData(result.timeSlots);
         setShowTimes(true);
       });
+    } else {
+      setShowTimes(false);
     }
     setSelectedTime(departureTime);
   };
@@ -165,6 +167,8 @@ export default function ModalDate({ nextStep, props, fadeIn, shopName }) {
         setTimeData(result.timeSlots);
         setShowTimes(true);
       });
+    } else {
+      setShowTimes(false);
     }
     setSelectedTime(pickupTime);
   };

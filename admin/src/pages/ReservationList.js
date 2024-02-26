@@ -147,6 +147,7 @@ export default function ReservationList() {
           responseData.map((reservation) => (
             <TableRow
               key={`row_${reservation.reservationId}`}
+              link={`${reservation.reservationId}/detail`}
               headerInfo={headerInfo}
               data={{
                 key: reservation.reservationId,

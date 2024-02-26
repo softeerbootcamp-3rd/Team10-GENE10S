@@ -1,16 +1,15 @@
 import classNames from "classnames";
 import ProfileImage from "../svg/ProfileImage";
 import MenuImage from "../svg/MenuImage";
-import { userNameState } from "../../util/states";
-import { useRecoilState } from "recoil";
 import { Link, useNavigate } from "react-router-dom";
 import LogoutImage from "../svg/LogoutImage";
 import axios from "../../api/Settings";
+import { useState } from "react";
 
 // currentPage: 'reservation', 'shop', 'account' 중 한 개로 설정해야 함
 export default function SideBar({ currentPage }) {
   const navigate = useNavigate();
-  const [userName] = useRecoilState(userNameState);
+  const [userName] = useState(localStorage.getItem("userName") || "");
 
   const handleLogoutClick = async () => {
     try {

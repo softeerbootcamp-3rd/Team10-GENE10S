@@ -130,17 +130,16 @@ public class AReservationController {
         return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
     }
 
-    @PutMapping("/comment")
+    @PostMapping("/comment")
     public ResponseEntity<ResponseDto> updateComment(@RequestBody AdminRequest.CommentInfo requestBody) {
-
         if (requestBody.getReservationId() == null)
             throw new GeneralException(ResponseCode.BAD_REQUEST, "예약 아이디를 입력해주세요.");
 
         if (requestBody.getComment() == null)
-            throw new GeneralException(ResponseCode.BAD_REQUEST, "댓글을 입력해주세요.");
+            throw new GeneralException(ResponseCode.BAD_REQUEST, "코멘트를 입력해주세요.");
 
         aReservationService.updateComment(requestBody);
-        return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseDto.of(true, ResponseCode.OK, "코멘트가 저장되었습니다."), HttpStatus.OK);
     }
 
     @GetMapping("/check")

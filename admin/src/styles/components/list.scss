@@ -98,6 +98,11 @@
 
     border-bottom: 1px solid $blue_600;
 
+    &.link:hover {
+      background: $gray_50;
+      cursor: pointer;
+    }
+
     .td {
       display: flex;
       padding: 12px 0px;
