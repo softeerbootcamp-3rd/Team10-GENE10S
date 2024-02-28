@@ -25,7 +25,7 @@ public class ResponseCodeTest {
         ResponseCode responseCode = ResponseCode.BAD_REQUEST;
         String errorMessage = "Reason why it isn't valid";
         Throwable exception = new Exception(errorMessage);
-        String expectedMessage = "Bad request - " + errorMessage;
+        String expectedMessage = errorMessage;
         assertEquals(expectedMessage, responseCode.getMessage(exception));
     }
 

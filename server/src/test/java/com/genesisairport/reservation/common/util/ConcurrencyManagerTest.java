@@ -56,7 +56,6 @@ public class ConcurrencyManagerTest {
 
         concurrencyManager.decrease(redisKey, id);
 
-        // Verify that RedisUtil.decreaseValue() is called with the correct key
         verify(redisUtil).decreaseValue(redisKeyName);
     }
 
@@ -66,7 +65,6 @@ public class ConcurrencyManagerTest {
         String fromDateTimeKey = "202202281015";
         String redisKeyName = redisKey.getKey() + ":" + fromDateTimeKey;
 
-        // Mock RedisUtil behavior
         when(redisUtil.getValues(redisKeyName)).thenReturn("2");
 
         Optional<Integer> result = concurrencyManager.get(redisKey, fromDateTimeKey);
@@ -83,7 +81,6 @@ public class ConcurrencyManagerTest {
 
         concurrencyManager.setNx(redisKey, fromDateTimeKey, existCount);
 
-        // Verify that RedisUtil.setNx() is called with the correct key and value
         verify(redisUtil).setNx(redisKeyName, existCount);
     }
 }

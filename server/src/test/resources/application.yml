@@ -1,7 +1,9 @@
 spring:
+  config:
+    activate:
+      on-profile: test
   main:
     allow-bean-definition-overriding: true
-
   datasource: # MySQL DB 설정
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://13.125.127.80:3306/GENE10S
@@ -11,7 +13,7 @@ spring:
     init:
       platform: mysql
   jpa: # JPA 설정
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
