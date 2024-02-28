@@ -1,10 +1,7 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
@@ -15,23 +12,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @DynamicInsert
+@Getter
+@Setter
 public class MaintenanceImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
     @Column(nullable = false)
-    @Getter
     private Integer status;
 
     @Column(name = "image_url", nullable = false, length = 2048)
-    @Getter
     private String imageUrl;
 
     @Column(name = "object_key", nullable = false, length = 2048)
-    @Getter
     private String objectKey;
 
     @Column(name = "create_datetime")

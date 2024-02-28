@@ -14,24 +14,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 @DynamicInsert
 public class Step {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
     @Column(nullable = false, length = 20)
-    @Getter
     private String stage;
 
     @Column(nullable = false)
-    @Getter
     private LocalDateTime date;
 
     @Column(length = 2000)
-    @Getter
     private String detail;
 
     @Column(name = "create_datetime")
@@ -42,6 +39,5 @@ public class Step {
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
-    @Getter
     private Reservation reservation;
 }
