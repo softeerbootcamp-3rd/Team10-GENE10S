@@ -38,7 +38,46 @@ public class AReservationService {
     private final RepairShopRepository repairShopRepository;
 
     public Page<AdminResponse.ReservationDetail> getAllReservations(AdminRequest.ReservationDetail reservationDetail, Pageable pageable) {
-        return reservationRepository.findReservations(reservationDetail, pageable);
+        Long count = reservationRepository.countAllBy();
+
+        LocalDateTime startDateTime = null;
+        LocalDateTime endDateTime = null;
+        if (reservationDetail.getSortColumn().equals("departureTime")) {
+            if (reservationDetail.getSortDirection().equals("asc")) {
+                startDateTime = reservationRepository.findNthByTime(
+                        true, true, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        true, true, pageable.getOffset() + pageable.getPageSize()
+                );
+            } else {
+                startDateTime = reservationRepository.findNthByTime(
+                        false, true, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        false, true, pageable.getOffset() + pageable.getPageSize()
+                );
+            }
+        } else if (reservationDetail.getSortColumn().equals("arrivalTime")) {
+            if (reservationDetail.getSortDirection().equals("asc")) {
+                startDateTime = reservationRepository.findNthByTime(
+                        true, false, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        true, false, pageable.getOffset() + pageable.getPageSize()
+                );
+            } else {
+                startDateTime = reservationRepository.findNthByTime(
+                        false, false, pageable.getOffset()
+                );
+                endDateTime = reservationRepository.findNthByTime(
+                        false, false, pageable.getOffset() + pageable.getPageSize()
+                );
+            }
+        }
+
+        return reservationRepository.findReservations(reservationDetail, pageable, count,
+                startDateTime, endDateTime);
     }
 
     public AdminResponse.UploadImage addMaintenanceImage(Long reservationId, Integer status, String imageUrl, String objectKey) {

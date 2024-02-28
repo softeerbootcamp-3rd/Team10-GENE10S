@@ -8,11 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Optional;
 
 public interface AvailableTimeRepository extends JpaRepository<AvailableTime, Long>, AvailableTimeRepositoryCustom {
     @Query("SELECT a FROM AvailableTime a WHERE a.repairShop.id = :repairShopId AND a.reservationDate = :reservationDate AND a.reservationTime = :reservationTime")
-    Optional<AvailableTime> findExactAvailableTime(Long repairShopId, Date reservationDate, Time reservationTime);
+    Optional<AvailableTime> findExactAvailableTime(Long repairShopId, LocalDate reservationDate, LocalTime reservationTime);
 
     @Query(value = """
             UPDATE available_time a

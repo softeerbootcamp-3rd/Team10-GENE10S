@@ -17,7 +17,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,9 +69,8 @@ public class AReservationController {
             @RequestParam(value = "sellName", required = false) String sellName,
             @RequestParam(value = "stage", required = false) String stage,
             @RequestParam(value = "sortColumn", required = false) String sortColumn,
-            @RequestParam(value = "sortDirection", required = false) String sortDirection,
-            @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @RequestParam(value = "pageNumber", required = false) Integer pageNumber) {
+            @RequestParam(value = "sortDirection", required = false) String sortDirection)
+            {
 
         Long userId = SessionUtil.getAdminIdFromSession(request);
 

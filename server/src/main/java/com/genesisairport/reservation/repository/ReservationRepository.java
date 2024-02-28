@@ -28,4 +28,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
             "AND r.repairShop.id = :repairShopId " +
             "AND r.progressStage NOT IN ('완료', '취소')")
     List<Reservation> findReservationsBy(Long repairShopId, LocalDateTime businessTime);
+
+    Long countAllBy();
 }
