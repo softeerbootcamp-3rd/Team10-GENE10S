@@ -79,7 +79,10 @@ public class ReservationController {
         log.debug("예약 정보 저장");
 
         Long userId = SessionUtil.getUserIdFromSession(request);
-        return new ResponseEntity<>(DataResponseDto.of(reservationService.reserve(userId, requestBody)), HttpStatus.OK);
+        return new ResponseEntity<>(
+                DataResponseDto.of(reservationService.reserve(userId, requestBody), "예약되었습니다."),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/list")

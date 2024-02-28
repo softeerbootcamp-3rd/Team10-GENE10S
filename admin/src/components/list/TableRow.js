@@ -1,10 +1,19 @@
 import classNames from "classnames";
 import BtnLight from "../button/BtnLight";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const TableRow = ({ data, headerInfo }) => {
+const TableRow = ({ data, headerInfo, link }) => {
+  const navigate = useNavigate();
+
+  const handleOnClick = (link) => {
+    navigate(link);
+  };
+
   return (
-    <Link to={`${data.key}/detail`} className={classNames("tr")}>
+    <div
+      className={classNames("tr", { link: link != null })}
+      onClick={link != null ? () => handleOnClick(link) : null}
+    >
       {headerInfo.map((info) => {
         if (data[info.name] === undefined) return null;
         return (
@@ -23,7 +32,7 @@ const TableRow = ({ data, headerInfo }) => {
           </div>
         );
       })}
-    </Link>
+    </div>
   );
 };
 

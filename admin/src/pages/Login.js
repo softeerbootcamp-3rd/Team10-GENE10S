@@ -3,13 +3,9 @@ import BtnDark from "../components/button/BtnDark";
 import axios from "../api/Settings";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { userNameState } from "../util/states";
 import { callLogin } from "../api/Common";
 
 export default function Login() {
-  const [, setUserName] = useRecoilState(userNameState);
-
   const [adminId, setAdminId] = useState("");
   const [adminPwd, setAdminPwd] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
@@ -44,7 +40,7 @@ export default function Login() {
   const handleLoginClick = () => {
     callLogin(adminId, adminPwd).then((response) => {
       if (response.success) {
-        setUserName(response.data.adminName);
+        localStorage.setItem("userName", response.data.adminName);
         navigate("/reservation");
       } else {
         setLoginFailed(true);

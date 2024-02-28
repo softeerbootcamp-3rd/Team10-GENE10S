@@ -273,6 +273,7 @@ public class ReservationService {
                 .checkupResult(reservation.get().getInspectionResult())
                 .beforeImages(beforeImages)
                 .afterImages(afterImages)
+                .inspectionResult(reservation.get().getInspectionResult())
                 .managerPhoneNumber(reservation.get().getContactNumber())
                 .imageUrl(imageUrl)
                 .build());

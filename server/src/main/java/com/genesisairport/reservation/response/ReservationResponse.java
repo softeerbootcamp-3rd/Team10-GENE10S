@@ -97,6 +97,7 @@ public class ReservationResponse {
         private String checkupResult;
         private List<ImageContainer> beforeImages;
         private List<ImageContainer> afterImages;
+        private String inspectionResult;
         private String managerPhoneNumber;
         private String imageUrl;
 

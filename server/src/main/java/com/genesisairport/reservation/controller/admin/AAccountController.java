@@ -38,9 +38,8 @@ public class AAccountController {
         Admin admin = adminAccountService.adminLogin(loginDto);
 
         HttpSession session = request.getSession(true);
-        session.setMaxInactiveInterval(24 * 60 * 60); // TODO 개발 끝나면 값 변경
+        session.setMaxInactiveInterval(24 * 60 * 60);
 
-        System.out.println("admin id: " + admin.getAdminName());
         return new ResponseEntity<>(
                 DataResponseDto.of(AdminResponse.AdminInfo.builder()
                         .adminName(admin.getAdminName())

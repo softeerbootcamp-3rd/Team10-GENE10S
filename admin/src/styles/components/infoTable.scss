@@ -71,6 +71,20 @@
             max-height: 240px;
           }
         }
+
+        > textarea {
+          display: flex;
+          height: 240px;
+          padding: 4px 12px;
+          align-items: center;
+          gap: 10px;
+          flex: 1 0 0;
+
+          border-radius: 5px;
+          border: 1px solid var(--blue_600, #9ec5dd);
+          background: var(--white, #fff);
+          @extend %B_18;
+        }
       }
 
       > .td.header {
