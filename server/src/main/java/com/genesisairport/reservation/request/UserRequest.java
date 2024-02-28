@@ -19,6 +19,9 @@ public class UserRequest {
     }
 
     @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class UserInfo {
         private String name;
         private String birthdate;
