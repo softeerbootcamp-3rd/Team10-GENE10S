@@ -124,7 +124,7 @@ public class ReservationService {
         String toDateTimeKey = concurrencyManager.createDateTimeKey(repairShop, toDateTime);
 
         synchronizeCache(repairShop, fromDateTime, fromDateTimeKey);
-        Integer fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
+        Long fromCount = concurrencyManager.increase(RedisKey.RESERVATION, fromDateTimeKey);
         // 예약 가능 인원 수(5)를 넘으면 다시 줄이고 return false
         if (fromCount > repairShop.getCapacityPerTime()) {
             concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);
@@ -132,7 +132,7 @@ public class ReservationService {
         }
 
         synchronizeCache(repairShop, toDateTime, toDateTimeKey);
-        Integer toCount = concurrencyManager.increase(RedisKey.RESERVATION, toDateTimeKey);
+        Long toCount = concurrencyManager.increase(RedisKey.RESERVATION, toDateTimeKey);
         // 5가 넘으면 (변수에서 갖고와서) 다시 줄이고 return false
         if (toCount > repairShop.getCapacityPerTime()) {
             concurrencyManager.decrease(RedisKey.RESERVATION, fromDateTimeKey);

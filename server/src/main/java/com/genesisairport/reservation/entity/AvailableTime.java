@@ -1,10 +1,7 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.sql.Date;
@@ -16,6 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 @DynamicInsert
 public class AvailableTime {
 
@@ -30,7 +29,6 @@ public class AvailableTime {
     private Time reservationTime;
 
     @Column(name = "reservation_count", nullable = false)
-    @Getter
     private Integer reservationCount;
 
     @Column(name = "create_datetime")

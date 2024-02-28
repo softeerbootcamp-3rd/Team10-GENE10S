@@ -3,6 +3,7 @@ package com.genesisairport.reservation.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class ReservationResponse {
 
     @Getter
     @Builder
+    @AllArgsConstructor
     public static class CouponValid {
         public boolean valid;
     }
@@ -44,6 +46,8 @@ public class ReservationResponse {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class ReservationPostResponse {
         private boolean reservationStatus;
         private String repairShopAddress;

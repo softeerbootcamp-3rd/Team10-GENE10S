@@ -1,10 +1,7 @@
 package com.genesisairport.reservation.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
@@ -14,24 +11,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 @DynamicInsert
 public class Step {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
     @Column(nullable = false, length = 20)
-    @Getter
     private String stage;
 
     @Column(nullable = false)
-    @Getter
     private LocalDateTime date;
 
     @Column(length = 2000)
-    @Getter
     private String detail;
 
     @Column(name = "create_datetime")
@@ -42,6 +37,5 @@ public class Step {
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
-    @Getter
     private Reservation reservation;
 }

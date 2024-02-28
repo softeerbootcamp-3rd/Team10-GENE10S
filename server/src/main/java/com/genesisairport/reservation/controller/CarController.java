@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class CarController {
 
     private final CarService carService;
-    private final SessionUtil sessionUtil;
 
     @PostMapping
     public ResponseEntity<ResponseDto> registerVehicle(HttpServletRequest request, @RequestBody CarRequest.CarPost requestBody) {

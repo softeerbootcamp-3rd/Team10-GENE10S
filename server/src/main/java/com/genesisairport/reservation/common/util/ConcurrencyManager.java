@@ -16,13 +16,13 @@ import java.util.Optional;
 public class ConcurrencyManager {
     private final RedisUtil redisUtil;
 
-    public Integer increase(RedisKey key, String id) {
+    public Long increase(RedisKey key, String id) {
         String redisKey = key.getKey() + ":" + id;
         Object value = redisUtil.increaseValue(redisKey);
         if (value == null) {
-            return 0;
+            return 0L;
         }
-        return Integer.valueOf(value.toString());
+        return Long.valueOf(value.toString());
     }
 
     public String createDateTimeKey(RepairShop repairShop, LocalDateTime localDateTime) {

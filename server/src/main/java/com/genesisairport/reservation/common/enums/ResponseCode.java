@@ -27,8 +27,7 @@ public enum ResponseCode {
     private final String message;
 
     public String getMessage(Throwable e) {
-        return this.getMessage(this.getMessage() + " - " + e.getMessage());
-        // 결과 예시 - "Validation error - Reason why it isn't valid"
+        return this.getMessage(e.getMessage());
     }
 
     public String getMessage(String message) {
@@ -44,11 +43,8 @@ public enum ResponseCode {
                 .orElseGet(() -> {
                     if (httpStatus.is4xxClientError()) {
                         return ResponseCode.BAD_REQUEST;
-                    } else if (httpStatus.is5xxServerError()) {
+                    } else
                         return ResponseCode.INTERNAL_SERVER_ERROR;
-                    } else {
-                        return ResponseCode.OK;
-                    }
                 });
     }
 
