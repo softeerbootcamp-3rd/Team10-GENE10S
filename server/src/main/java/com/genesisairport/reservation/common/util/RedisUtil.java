@@ -35,9 +35,9 @@ public class RedisUtil {
 
     public Object increaseValue(String key) {
         ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        values.increment(key);
+        return values.increment(key);
 
-        return values.get(key);
+//        return values.get(key);
     }
 
     public void decreaseValue(String key) {

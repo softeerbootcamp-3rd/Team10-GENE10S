@@ -4,6 +4,7 @@ import com.genesisairport.reservation.entity.AvailableTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
@@ -12,7 +13,10 @@ import java.util.Optional;
 
 public interface AvailableTimeRepository extends JpaRepository<AvailableTime, Long>, AvailableTimeRepositoryCustom {
     @Query("SELECT a FROM AvailableTime a WHERE a.repairShop.id = :repairShopId AND a.reservationDate = :reservationDate AND a.reservationTime = :reservationTime")
-    Optional<AvailableTime> findExactAvailableTime(Long repairShopId, Date reservationDate, Time reservationTime);
+    Optional<AvailableTime> findExactAvailableTime(
+            @Param("repairShopId") Long repairShopId,
+            @Param("reservationDate") Date reservationDate,
+            @Param("reservationTime") Time reservationTime);
 
     @Query(value = """
             UPDATE available_time a
@@ -23,5 +27,8 @@ public interface AvailableTimeRepository extends JpaRepository<AvailableTime, Lo
             """, nativeQuery = true)
     @Modifying
     @Transactional
-    Integer increaseReservationCount(Long repairShopId, Date reservationDate, Time reservationTime);
+    Integer increaseReservationCount(
+            @Param("repairShopId") Long repairShopId,
+            @Param("reservationDate") Date reservationDate,
+            @Param("reservationTime") Time reservationTime);
 }
